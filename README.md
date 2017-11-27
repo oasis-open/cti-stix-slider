@@ -43,8 +43,10 @@ Open source license: BSD-3-Clause License
 <p><b><a id="currentMaintainers">Current Maintainers of this Open Repository</a></b></p>
 
 <ul>
-<li><a href="luc.boutier@fastconnect.fr">Luc Boutier</a>; GitHub ID: <a href="https://github.com/lucboutier/">https://github.com/lucboutier/</a>; WWW: <a href="http://www.fastconnect.fr/">FastConnect SAS</a></li>
+<li><a href="mailto:gback@mitre.org">Greg Back</a>; GitHub ID: <a href="https://github.com/gtback/">https://github.com/gtback/</a>; WWW: <a href="https://www.mitre.org/">MITRE Corporation</a></li>
+<li><a href="mailto:rpiazza@mitre.org">Rich Piazza</a>; GitHub ID: <a href="https://github.com/rpiazza/">https://github.com/rpiazza/</a>; WWW: <a href="https://www.mitre.org/">MITRE Corporation</a></li>
 </ul>
+
 
 </div>
 
