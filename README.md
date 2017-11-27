@@ -19,7 +19,7 @@
 
 <p>Statement of Purpose for this OASIS Open Repository (cti-stix-slider) as <a href="https://lists.oasis-open.org/archives/cti/201711/msg00000.html">proposed</a> and <a href="https://lists.oasis-open.org/archives/cti/201711/msg00002.html">approved</a> [<a href="https://issues.oasis-open.org/browse/TCADMIN-2807">bis</a>] by the TC:</p>
 
-<p>This GitHub public repository is provided to support version-controlled development of a Python "slider" application which will convert STIX 2.0 content to STIX 1.x content.</p>
+<p>This GitHub public repository is provided to support version-controlled development of a Python "slider" application which will convert <a href="http://docs.oasis-open.org/cti/stix/v2.0/">STIX 2.0</a> content to <a href="http://docs.oasis-open.org/cti/stix/v1.2.1/">STIX 1.x</a> content.</p>
 <!--
 Purpose statement: The slider is a Python application which will convert STIX 2.0 content to STIX 1.x content.
 Description: OASIS Open Repository: stix-slider - a Python application to convert STIX 2.0 content to STIX 1.x content
