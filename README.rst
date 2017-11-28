@@ -154,10 +154,8 @@ Governance
 
 This GitHub public repository (
 **https://github.com/oasis-open/cti-stix-slider** ) was
-`proposed <https://lists.oasis-open.org/archives/cti/201610/msg00106.html>`__
-and
-`approved <https://lists.oasis-open.org/archives/cti/201610/msg00126.html>`__
-[`bis <https://issues.oasis-open.org/browse/TCADMIN-2477>`__] by the
+was created at the request of the
+the
 `OASIS Cyber Threat Intelligence (CTI)
 TC <https://www.oasis-open.org/committees/cti/>`__ as an `OASIS Open
 Repository <https://www.oasis-open.org/resources/open-repositories/>`__
@@ -191,6 +189,13 @@ designated for this particular repository, and the requirement for an
 `Individual Contributor License
 Agreement <https://www.oasis-open.org/resources/open-repositories/cla/individual-cla>`__
 that governs intellectual property.
+
+Statement of Purpose
+~~~~~~~~~~~~~~~~~~~~
+
+Statement of Purpose for this OASIS Open Repository (cti-stix-slider) as `proposed <https://lists.oasis-open.org/archives/cti/201711/msg00000.html>`_ and `approved <https://lists.oasis-open.org/archives/cti/201711/msg00002.html>`_ `[bis] <https://issues.oasis-open.org/browse/TCADMIN-2807>`_ by the TC:
+
+This GitHub public repository is provided to support version-controlled development of a Python "slider" application which will convert `STIX 2.0 <http://docs.oasis-open.org/cti/stix/v2.0/>`_ content to `STIX 1.x <http://docs.oasis-open.org/cti/stix/v1.2.1/>`_ content.
 
 Maintainers
 ~~~~~~~~~~~
@@ -243,9 +248,9 @@ general questions about Open Repository participation to OASIS Staff at
 repository-admin@oasis-open.org and any specific CLA-related questions
 to repository-cla@oasis-open.org.
 
-.. |Build_Status| image:: https://travis-ci.org/oasis-open/cti-stix-elevator.svg?branch=master
-   :target: https://travis-ci.org/oasis-open/cti-stix-elevator
-.. |Coverage| image:: https://codecov.io/gh/oasis-open/cti-stix-elevator/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/oasis-open/cti-stix-elevator
-.. |Version| image:: https://img.shields.io/pypi/v/stix2-elevator.svg?maxAge=3600
-   :target: https://pypi.python.org/pypi/stix2-elevator/
+.. |Build_Status| image:: https://travis-ci.org/oasis-open/cti-stix-slider.svg?branch=master
+   :target: https://travis-ci.org/oasis-open/cti-stix-slider
+.. |Coverage| image:: https://codecov.io/gh/oasis-open/cti-stix-slider/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/oasis-open/cti-stix-slider
+.. |Version| image:: https://img.shields.io/pypi/v/stix2-slider.svg?maxAge=3600
+   :target: https://pypi.python.org/pypi/stix2-slider/
