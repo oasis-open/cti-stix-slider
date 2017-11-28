@@ -1,0 +1,305 @@
+<stix:STIX_Package
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+    xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:X509CertificateObj="http://cybox.mitre.org/objects#X509CertificateObject-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:example="http://example.com"
+	 id="example:STIXPackage-63fe3b22-0201-47cf-85d0-97c02164528d" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-53fe3b22-0201-47cf-85d0-97c02164528d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-8c736a37-6031-440e-b306-fefb35e39d5b">
+                <cybox:Object id="example:Address-4368926e-329c-4862-8781-7a3ddccc3081">
+                    <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                        <AddressObj:Address_Value condition="Equals">10.0.0.0</AddressObj:Address_Value>
+                    </cybox:Properties>
+                    <cybox:Related_Objects>
+                        <cybox:Related_Object id="example:Address-0d3d2ebc-5f20-44a3-85c8-7f4fcde3ab0e">
+                            <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="mac">
+                            </cybox:Properties>
+                            <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Resolved_To</cybox:Relationship>
+                        </cybox:Related_Object>
+                    </cybox:Related_Objects>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-e0231edc-1e3c-47c0-a83d-8eea7c979726" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-d933bef1-fe69-408d-8e98-e434d53e981c">
+                <cybox:Object id="example:WinRegistryKey-ec009cba-b315-4e91-8bd8-9efd0f914a7d">
+                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                        <WinRegistryKeyObj:Key condition="Equals">HKEY_CURRENT_USER\\Software\\CryptoLocker\\Files</WinRegistryKeyObj:Key>
+                        <WinRegistryKeyObj:Values>
+                            <WinRegistryKeyObj:Value>
+                                <WinRegistryKeyObj:Data condition="Equals">fred</WinRegistryKeyObj:Data>
+                            </WinRegistryKeyObj:Value>
+                        </WinRegistryKeyObj:Values>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-a51b3719-0094-4444-9100-564be8f0ce16" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-1dc99e65-f6be-4300-a2a4-a222431af412">
+                <cybox:Object id="example:File-52a6aed1-56ba-413f-a2d6-7056f3aaedcb">
+                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value condition="Equals">aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-327ca6de-723b-4c21-b397-ca0660370496" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-e4fcf791-6a72-428c-ad90-18e0edac53ec">
+                <cybox:Object id="example:File-87f0aa60-e8c4-4004-bac1-61707223a5eb">
+                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value condition="Equals">aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-cc0ab183-6de7-4286-940e-bf143398d090" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-523743d1-248b-4976-9061-1e3cfe421545">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-8d2165aa-c753-4e7c-bf76-9b2e3e16efff">
+                        <cybox:Observable_Composition operator="OR">
+                            <cybox:Observable id="example:Observable-3754b29b-2328-425c-869f-382b6e57e335">
+                                <cybox:Object id="example:File-2dec527e-2b6a-4d3b-ac80-e5df843c21d1">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                                <cyboxCommon:Simple_Hash_Value condition="Equals">bf07a7fbb825fc0aae7bf4a1177b2b31fcf8a3feeaf7092761e18c859ee52a9c</cyboxCommon:Simple_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-f0338f66-4b61-4dcc-916a-402f6df10e80">
+                                <cybox:Object id="example:File-5e9e8a28-c8c8-44a5-9ca5-1196e8e1f414">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                                <cyboxCommon:Simple_Hash_Value condition="Equals">cead3f77f6cda6ec00f57d76c9a6879f</cyboxCommon:Simple_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-d975887c-506d-4ca5-b608-5d721aabf7eb">
+                        <cybox:Object id="example:File-69b97688-7ae0-46fd-953f-2a106c53374c">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:Hashes>
+                                    <cyboxCommon:Hash>
+                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f</cyboxCommon:Simple_Hash_Value>
+                                    </cyboxCommon:Hash>
+                                </FileObj:Hashes>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-7f895892-d044-455e-ab93-a5286c3b1f04" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-16f092ee-0296-46c5-9194-a4107d7fba2e">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-0e0ae09a-e67b-4493-a9af-8ddd3e032707">
+                        <cybox:Observable_Composition operator="AND">
+                            <cybox:Observable id="example:Observable-89fdc0f5-3861-49fa-b65a-2782b8ba6943">
+                                <cybox:Object id="example:UserAccount-f4379771-01c6-4d8e-a0a0-8bb23ab87228">
+                                    <cybox:Properties xsi:type="UserAccountObj:UserAccountObjectType">
+                                        <UserAccountObj:Username condition="Equals">Peter</UserAccountObj:Username>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-7868fd4c-ffd4-4546-b5f7-c85d07115eb7">
+                                <cybox:Object id="example:UserAccount-02533144-8a52-4464-98c7-0277b120c76e">
+                                    <cybox:Properties xsi:type="UserAccountObj:UserAccountObjectType">
+                                        <UserAccountObj:Username condition="Equals">Paul</UserAccountObj:Username>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-657ac166-5890-46bd-a07e-422f269702a7">
+                        <cybox:Object id="example:UserAccount-f875a506-9de7-4a58-8397-6feb8b718322">
+                            <cybox:Properties xsi:type="UserAccountObj:UserAccountObjectType">
+                                <UserAccountObj:Username condition="Equals">Mary</UserAccountObj:Username>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-f77ece53-900b-4b78-ac3b-a24828cc2f00" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-8b2d1021-5799-45a4-9053-255a342917c7">
+                <cybox:Object id="example:Artifact-161c9b44-58d2-495b-af00-6c6d2b3a6bdf">
+                    <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="application/vnd.tcpdump.pcap">
+                        <ArtifactObj:Raw_Artifact><![CDATA[\\xd4\\xc3\\xb2\\xa1\\x02\\x00\\x04\\x00]]></ArtifactObj:Raw_Artifact>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-a0bc4b71-8c85-4743-a68d-1608b811d540" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-b4f1bdb0-be36-4ac0-ad5d-1576954c17a1">
+                <cybox:Object id="example:File-6b886ebc-9bdf-4753-a879-b7b61c48301f">
+                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                        <FileObj:File_Name condition="Equals">foo.dll</FileObj:File_Name>
+                        <FileObj:Full_Path>C:\\Windows\\System32/foo.dll</FileObj:Full_Path>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-16ba86a6-e42f-477e-839d-9e6f98aa3410" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-7595fd4f-b973-41ac-922b-abb98de63a88">
+                <cybox:Observable_Composition operator="OR">
+                    <cybox:Observable id="example:Observable-35c4594a-d568-40f7-b7c5-2a80a7bd0c8b">
+                        <cybox:Observable_Composition operator="AND">
+                            <cybox:Observable id="example:Observable-a446aa46-98f1-4a61-99ff-10da2e7ec23c">
+                                <cybox:Object id="example:File-8fe410c1-0345-4ae4-8766-2ce35c4ca949">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:File_Name condition="Equals">foo.dll</FileObj:File_Name>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-11d8704d-3528-4575-9640-f07b6a144ded">
+                                <cybox:Object id="example:WinRegistryKey-2fd3f8ba-e102-4315-aa1e-27924b6b7a47">
+                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                        <WinRegistryKeyObj:Key condition="Equals">HKEY_LOCAL_MACHINE\\foo\\bar</WinRegistryKeyObj:Key>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-7977e7fc-5c6d-4d75-8626-fce4687a9596">
+                        <cybox:Observable_Composition operator="OR">
+                            <cybox:Observable id="example:Observable-1630f6b3-1b82-41a6-94e7-657b6558a7fb">
+                                <cybox:Object id="example:Process-e7c4e7ed-b8b0-4799-9bab-e2007a35adc2">
+                                    <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                        <ProcessObj:Name condition="Equals">fooproc</ProcessObj:Name>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-75cd27ed-d15c-4233-a086-c1be0105c4c8">
+                                <cybox:Object id="example:Process-e2337645-f1bb-4c54-a343-e55d0d49f256">
+                                    <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                        <ProcessObj:Name condition="Equals">procfoo</ProcessObj:Name>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-e6d44ea4-4297-4f9f-8065-1e7a5457b1ad" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-4958919d-c5e0-4be7-be84-ca5d09517b21">
+                <cybox:Object id="example:WinExecutableFile-07b8ce77-a6fd-4b95-b5cc-c2fc45c7778b">
+                    <cybox:Properties xsi:type="WinExecutableFileObj:WindowsExecutableFileObjectType">
+                        <WinExecutableFileObj:Sections>
+                            <WinExecutableFileObj:Section>
+                                <WinExecutableFileObj:Entropy>
+                                    <WinExecutableFileObj:Value condition="GreaterThan">7.0</WinExecutableFileObj:Value>
+                                </WinExecutableFileObj:Entropy>
+                            </WinExecutableFileObj:Section>
+                        </WinExecutableFileObj:Sections>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-ffc69ce6-49b9-421a-aacf-8a5305692d75" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-abae4315-fde2-47a5-a239-31117cb248aa">
+                <cybox:Object id="example:X509Certificate-754c6b69-6cf4-4051-9d2a-532d7438440f">
+                    <cybox:Properties xsi:type="X509CertificateObj:X509CertificateObjectType">
+                        <X509CertificateObj:Certificate>
+                            <X509CertificateObj:Serial_Number condition="Equals">4c:0b:1d:19:74:86:a7:66:b4:1a:bf:40:27:21:76:28</X509CertificateObj:Serial_Number>
+                            <X509CertificateObj:Issuer condition="Equals">CN=WEBMAIL</X509CertificateObj:Issuer>
+                        </X509CertificateObj:Certificate>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>
+

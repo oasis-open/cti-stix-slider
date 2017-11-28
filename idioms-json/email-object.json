@@ -1,0 +1,46 @@
+{
+  "id": "bundle--cc0ca596-70e6-4dac-9bef-603166d17db8",
+  "objects": [
+    {
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--28c92b74-879a-43d3-ab74-f64db0f8fab9",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "object_marking_refs": [
+        "marking-definition--28b1f7ef-75ac-4c00-94a8-badd6a5baf81"
+      ],
+      "objects": {
+        "0": {
+          "body_multipart": [
+            {
+              "body_raw_ref": "2"
+            }
+          ],
+          "from_ref": "1",
+          "is_multipart": true,
+          "subject": "ATTACHED BILL OF LADING INVOICE DOCUMENT",
+          "type": "email-message"
+        },
+        "1": {
+          "type": "email-addr",
+          "value": "ibibo@srv1.ibibojobs.com"
+        },
+        "2": {
+          "name": "BL-Copy1.html",
+          "hashes": {
+            "MD5": "d5cdbf6c69bbde9bec36419bd74cfbb5",
+            "SHA-1": "cbff65ef086f0adb9acc1a217b419d7d9bf06041",
+            "SHA-256": "2c1aa3d24631289b2df5ede075b47b31553d89e85f9219236d7056d504d88a66"
+          },
+          "size": 374,
+          "type": "file"
+        }
+      },
+      "type": "observed-data"
+    }
+  ],
+  "spec_version": "2.0",
+  "type": "bundle"
+}

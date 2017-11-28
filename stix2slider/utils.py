@@ -1,0 +1,48 @@
+import os
+
+import stix2
+
+
+# This is not a final representation of an AIS marking in STIX 2.0
+# Only a match from what stix2-elevator creates.
+@stix2.CustomMarking(type="ais", properties=[
+    ("is_proprietary", stix2.properties.BooleanProperty(required=True)),
+    ("is_cisa_proprietary", stix2.properties.BooleanProperty(required=True)),
+    ("consent", stix2.properties.EnumProperty(required=True,
+                                              allowed=["everyone", "usg", "none"])),
+    ("tlp", stix2.properties.EnumProperty(required=True,
+                                          allowed=["white", "green", "amber"]))
+])
+class AISMarking(object):
+    pass
+
+
+def find_dir(path, directory):
+    """
+    Args:
+        path: str containing path of the script calling this method.
+        directory: str containing directory to find.
+
+    Returns:
+        str: A string containing the absolute path to the directory.
+        None otherwise.
+
+    Note:
+        It only finds directories under the cti-stix-slider package.
+
+    Raises:
+        RuntimeError: If trying to access other directories outside of the
+        cti-stix-slider package.
+    """
+    working_dir = path.split("cti-stix-slider")
+
+    if len(working_dir) <= 1 or not all(x for x in working_dir):
+        msg = "Verify working directory. Only works under cti-stix-slider"
+        raise RuntimeError(msg)
+
+    working_dir = working_dir[0]
+
+    for root, dirs, files in os.walk(working_dir, topdown=True):
+        if directory in dirs and 'stix2slider' in dirs:
+            found_dir = os.path.join(root, directory)
+            return os.path.abspath(found_dir)

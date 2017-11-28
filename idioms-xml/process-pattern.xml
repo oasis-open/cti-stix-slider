@@ -1,0 +1,45 @@
+<stix:STIX_Package 
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:example="http://example.com"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-53fe3b22-0201-47cf-85d0-97c02164528d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-647124bc-c6f1-4f7f-805a-609b0993610d">
+                <cybox:Observable_Composition operator="OR">
+                    <cybox:Observable id="example:Observable-75393dfb-b388-4724-b27a-b73182400f53">
+                        <cybox:Object id="example:Process-7d907470-dc5f-427b-bb4a-c73cbc741610">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Image_Info>
+                                    <ProcessObj:Command_Line pattern_type="Regex" condition="FitsPattern">^.+&gt;-add GlobalSign.cer -c -s -r localMachine Root$</ProcessObj:Command_Line>
+                                </ProcessObj:Image_Info>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-580bc51e-7323-4135-9db6-d424524860e7">
+                        <cybox:Object id="example:Process-a4a97799-30c5-4bc9-8e0f-dd2c2f26b3d0">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Image_Info>
+                                    <ProcessObj:Command_Line pattern_type="Regex" condition="FitsPattern">^.+&gt;-add GlobalSign.cer -c -s -r localMachineTrustedPublisher$</ProcessObj:Command_Line>
+                                </ProcessObj:Image_Info>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

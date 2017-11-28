@@ -1,0 +1,52 @@
+{
+    "id": "bundle--c9567f73-3803-415c-b06e-2b0622830e5d",
+    "objects": [
+        {
+            "created": "2017-01-27T13:49:53.888Z",
+            "id": "identity--733c5838-34d9-4fbf-949c-62aba761184c",
+            "identity_class": "organization",
+            "modified": "2017-01-27T13:49:53.888Z",
+            "name": "Disco Tean",
+            "type": "identity"
+        },
+        {
+            "created": "2017-01-27T13:49:53.888Z",
+            "id": "identity--89e7c57d-0664-4ab4-8866-3f7d92eb26fd",
+            "identity_class": "organization",
+            "modified": "2017-01-27T13:49:53.888Z",
+            "name": "US Gov",
+            "type": "identity"
+        },
+        {
+            "created": "2014-11-19T23:39:03.893Z",
+            "id": "threat-actor--dfaa8d77-07e2-4e28-b2c8-92e9f7b04428",
+            "labels": [
+                "unknown"
+            ],
+            "modified": "2014-11-19T23:39:03.893Z",
+            "name": "Disco Team Threat Actor Group",
+            "sophistication": "unknown",
+            "type": "threat-actor"
+        },
+        {
+            "created": "2014-11-19T23:39:03.893Z",
+            "id": "relationship--733c5838-34d9-4fbf-949c-62aba761184c",
+            "modified": "2014-11-19T23:39:03.893Z",
+            "relationship_type": "attributed-to",
+            "source_ref": "threat-actor--dfaa8d77-07e2-4e28-b2c8-92e9f7b04428",
+            "target_ref": "identity--733c5838-34d9-4fbf-949c-62aba761184c",
+            "type": "relationship"
+        },
+        {
+            "created": "2014-11-19T23:39:03.893Z",
+            "id": "relationship--0f2efb66-ca8d-4786-ba36-1464c2c73196",
+            "modified": "2014-11-19T23:39:03.893Z",
+            "relationship_type": "targets",
+            "source_ref": "threat-actor--dfaa8d77-07e2-4e28-b2c8-92e9f7b04428",
+            "target_ref": "identity--89e7c57d-0664-4ab4-8866-3f7d92eb26fd",
+            "type": "relationship"
+        }
+    ],
+    "spec_version": "2.0",
+    "type": "bundle"
+}
