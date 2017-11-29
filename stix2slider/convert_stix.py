@@ -64,34 +64,51 @@ _TYPE_MAP_FROM_2_0_TO_1_x = {"attack-pattern": "ttp",
                              "vulnerability": "et"}
 
 
-def handle_identity(ta, identity_ref_20, target_obj_ref_1x):
-    identity20_tuple = _IDENTITIES[identity_ref_20]
-    if identity20_tuple[1]:
-        return target_obj_ref_1x
+def handle_identity(identity_ref_20, target_obj_idref_1x):
+    identity1x_tuple = _IDENTITIES[identity_ref_20]
+    if identity1x_tuple[1]:
+        return target_obj_idref_1x, identity1x_tuple
     else:
-        identity20_tuple[1] = True
-        return identity20_tuple[0]
+        return identity1x_tuple[0], identity1x_tuple
 
 
-def set_ta_identity(source, target):
-    source.identity = target
 
+def set_ta_identity(source, target_ref, target_obj_idref_1x):
+    target, identity1x_tuple = handle_identity(target_ref, target_obj_idref_1x)
+    if source.identity:
+        warn("Threat Actor in STIX 2.0 has multiple attributed-to relationships, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+             401,
+             target_ref)
+        for mark_spec in CONTAINER.get_markings(target):
+            mark_struct = mark_spec.marking_structures[0]
+            CONTAINER.remove_marking(target, mark_spec, True)
+    else:
+        source.identity = target
+        identity1x_tuple[1] = True
 
 _VICTIM_TARGET_TTPS = []
 
 
-def create_victim_target(source, target):
+def create_victim_target(source, target_ref, target_obj_ref_1x):
     # TODO: don't embed multiple times
     global _VICTIM_TARGET_TTPS
+    target, identity1x_tuple = handle_identity(target_ref, target_obj_ref_1x)
     ttp = TTP()
     ttp.victim_targeting = VictimTargeting()
     ttp.victim_targeting.identity = target
     _VICTIM_TARGET_TTPS.append(ttp)
     source.observed_ttps.append(ttp)
+    identity1x_tuple[1] = True
+
 
 
 _RELATIONSHIP_MAP = {
     # TODO: self-reference?
+    # ("attack_pattern", "malware", "uses"):
+    #     {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+    #      "reverse": False,
+    #      "stix1x_source_type": TTP,
+    #      "stix1x_target_type": TTP},
     ("campaign", "threat-actor", "attributed-to"):
         {"method": lambda source, target_ref: source.associated_campaigns.append(target_ref),
          "reverse": True,
@@ -408,8 +425,8 @@ def convert_identity(ident20):
             ident1x.roles = ident20["labels"]
         if ("sectors" in ident20 or
                 "contact_information" in ident20 or
-                "identity_class" in ident20 or
-                "description" in ident20):
+                    "identity_class" in ident20 or
+                        "description" in ident20):
             ident1x.specification = STIXCIQIdentity3_0()
             if ident20["identity_class"] == "organization":
                 party_name = PartyName()
@@ -420,7 +437,7 @@ def convert_identity(ident20):
                     for s in ident20["sectors"]:
                         if first:
                             ident1x.specification.organisation_info = \
-                                OrganisationInfo(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP, False)[0])
+                                OrganisationInfo(str(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP, False)[0]))
                             first = False
                         else:
                             warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
@@ -612,7 +629,7 @@ def convert_tool(tool20):
     if "tool_version" in tool20:
         tool1x.version = tool20["tool_version"]
     if "labels" in tool20:
-        warn("[labels not representable in a STIX 1.x ToolInformation.  Found in %s", 502, tool20["id"])
+        warn("labels not representable in a STIX 1.x ToolInformation.  Found in %s", 502, tool20["id"])
         # bug in python_stix prevents using next line of code
         #tool1x.type_ = convert_open_vocabs_to_controlled_vocabs(tool20["labels"], TOOL_LABELS_MAP)
     ttp = TTP(id_=convert_id20(tool20["id"]),
@@ -683,14 +700,13 @@ def process_relationships(rel):
     else:
         target_obj_class = add_method_info["stix1x_target_type"]
         if target_obj:
-            target_obj_ref_1x = target_obj_class(idref=target_obj.id_)
+            target_obj_idref_1x = target_obj_class(idref=target_obj.id_)
         else:
-            target_obj_ref_1x = target_obj_class(idref=convert_id20(rel["target_ref"]))
+            target_obj_idref_1x = target_obj_class(idref=convert_id20(rel["target_ref"]))
         if target_obj_class == Identity:
-            target = handle_identity(source_obj, rel["target_ref"], target_obj_ref_1x)
-            add_method_info["method"](source_obj, target)
+            add_method_info["method"](source_obj, rel["target_ref"], target_obj_idref_1x)
         else:
-            add_method_info["method"](source_obj, target_obj_ref_1x)
+            add_method_info["method"](source_obj, target_obj_idref_1x)
 
 
 _INFORMATION_SOURCES = {}
