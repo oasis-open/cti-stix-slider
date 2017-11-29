@@ -183,13 +183,19 @@ THREAT_ACTOR_SOPHISTICATION_MAP = \
 
 TOOL_LABELS_MAP = \
     {
-        "Malware": "malware",
-        "Penetration Testing": "penetration-testing",
-        "Port Scanner": "port-scanning",
-        "Traffic Scanner": "traffic-scanning",
-        "Vulnerability Scanner": "vulnerability-scanning",
-        "Application Scanner": "application-scanning",
-        "Password Cracking": "password-cracking",
+        # "malware": "Malware",
+        # "penetration-testing": "Penetration Testing",
+        # "port-scanning": "Port Scanner",
+        # "traffic-scanning": "Traffic Scanner",
+        "vulnerability-scanning": "Vulnerability Scanner",
+        # "application-scanning": "Application Scanner",
+        "credential-exploitation": "Password Cracking",
+
+        # denial-of-service
+        # exploitation
+        # information-gathering
+        # network-capture
+        # remote-access
     }
 
 

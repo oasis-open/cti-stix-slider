@@ -35,7 +35,7 @@ from stix.threat_actor import ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
 from stix.ttp.malware_instance import MalwareInstance
-from stix.ttp.resource import ToolInformation
+from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
 import stixmarx
 
@@ -46,7 +46,8 @@ from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         INDICATOR_LABEL_MAP,
                                         MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
                                         SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
-                                        THREAT_ACTOR_SOPHISTICATION_MAP)
+                                        THREAT_ACTOR_SOPHISTICATION_MAP,
+                                        TOOL_LABELS_MAP)
 
 CONTAINER = None
 
@@ -267,7 +268,7 @@ _SQUIRREL_AWAY_MISSING_PROPERTIES = True
 
 def add_missing_property_to_description(obj1x, property_name, property_value):
     if not get_option_value("no_squirrel_gaps"):
-        obj1x.add_description(property_name + ": " + property_value)
+        obj1x.add_description(property_name + ": " + str(property_value))
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
@@ -315,7 +316,7 @@ def convert_attack_pattern(ap20):
     if "external_references" in ap20:
         ap1x.capec_id = extract_external_id("capec", ap20["external_references"])
     ttp = TTP(id_=convert_id20(ap20["id"]),
-              timestamp=ap20["modified"])
+              timestamp=str(ap20["modified"]))
     ttp.behavior = Behavior()
     ttp.behavior.add_attack_pattern(ap1x)
     if "kill_chain_phases" in ap20:
@@ -365,7 +366,7 @@ def convert_campaign(c20):
 
 def convert_coa(coa20):
     coa1x = CourseOfAction(id_=convert_id20(coa20["id"]),
-                           timestamp=coa20["modified"])
+                           timestamp=str(coa20["modified"]))
     if "name" in coa20:
         coa1x.title = coa20["name"]
     if "description" in coa20:
@@ -520,7 +521,7 @@ def convert_observed_data(od20):
 
 def convert_report(r20):
     r1x = Report(id_=convert_id20(r20["id"]),
-                 timestamp=r20["modified"])
+                 timestamp=str(r20["modified"]))
     r1x.header = Header()
     if "name" in r20:
         r1x.header.title = r20["name"]
@@ -530,7 +531,7 @@ def convert_report(r20):
     for i in intents:
         r1x.header.add_intent(i)
     if "published" in r20:
-        add_missing_property_to_description(r1x, "published", r20["published"])
+        add_missing_property_to_description(r1x.header, "published", r20["published"])
     for ref in r20["object_refs"]:
         ref_type = get_type_from_id(ref)
         if ref_type == "attack-pattern":
@@ -610,10 +611,13 @@ def convert_tool(tool20):
         tool1x.description = tool20["description"]
     if "tool_version" in tool20:
         tool1x.version = tool20["tool_version"]
-    tool1x.type_ = convert_open_vocabs_to_controlled_vocabs(tool20["labels"], MALWARE_LABELS_MAP)
+    if "labels" in tool20:
+        warn("[labels not representable in a STIX 1.x ToolInformation.  Found in %s", 502, tool20["id"])
+        # bug in python_stix prevents using next line of code
+        #tool1x.type_ = convert_open_vocabs_to_controlled_vocabs(tool20["labels"], TOOL_LABELS_MAP)
     ttp = TTP(id_=convert_id20(tool20["id"]),
-              timestamp=tool20["modified"])
-    ttp.resource = Resource(tools=[tool1x])
+              timestamp=str(tool20["modified"]))
+    ttp.resource = Resource(tools=Tools([tool1x]))
     if "kill_chain_phases" in tool20:
         process_kill_chain_phases(tool20["kill_chain_phases"], ttp)
     if "object_marking_refs" in tool20:
@@ -637,7 +641,7 @@ def convert_vulnerability(v20):
         add_missing_list_property_to_description(v1x, "labels", v20["labels"])
     v1x.cve_id = extract_external_id("cve", v20["external_references"])
     et = ExploitTarget(id_=convert_id20(v20["id"]),
-                       timestamp=v20["modified"])
+                       timestamp=str(v20["modified"]))
     # TODO: vulnerability in STIX 1.x has a reference property
     et.add_vulnerability(v1x)
     if "kill_chain_phases" in v20:
