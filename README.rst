@@ -41,6 +41,8 @@ Requirements
 Installation
 ------------
 
+**The stix slider is not available on pypi at this time, please access the code from github.**
+
 Install with pip::
 
     $ pip install stix2-slider
@@ -71,7 +73,7 @@ As A Script
 The slider comes with a bundled script which you can use to convert
 STIX 2.0 content to STIX 1.x content::
 
-        usage: cli.py [-h] [--no-squirrel-gaps] [-e ENABLE] [-d DISABLE] [-s]
+        usage: stix2_slider [-h] [--no-squirrel-gaps] [-e ENABLE] [-d DISABLE] [-s]
                       [--message-log-directory MESSAGE_LOG_DIRECTORY]
                       [--log-level {DEBUG,INFO,WARN,ERROR,CRITICAL}]
                       [-p {no_policy,strict_policy}]
@@ -140,8 +142,8 @@ tools. You can slide a STIX 2.0 file::
 
 Additionally, a similar method exists to accept a string as an argument::
 
-      from stix2elevator import elevate_string
-      from stix2elevator.options import initialize_options
+      from stix2slider import elevate_string
+      from stix2slider.options import initialize_options
 
       intialize_options()
       results = slide_string("...")
