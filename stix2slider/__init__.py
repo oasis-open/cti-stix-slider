@@ -10,7 +10,7 @@ import stix2slider.utils  # flake8: noqa
 def slide_file(fn):
     setup_logger(fn)
 
-    with open(fn, "r") as json_data:
+    with open(fn, "rb") as json_data:
         json_content = json.load(json_data)
 
     obj = stix2.parse(json_content)
