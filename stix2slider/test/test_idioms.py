@@ -14,7 +14,7 @@ TESTED_JSON_FILES = []
 JSON_FILENAMES = []
 MASTER_XML_FILES = []
 
-IGNORE = (u"id", u"idref", u"timestamp", u"object_reference")
+IGNORE = (u"id", u"idref", u"timestamp", u"object_reference", u"phase_id", u"kill_chain_id")
 
 
 def text_compare(t1, t2):

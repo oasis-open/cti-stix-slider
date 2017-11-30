@@ -485,7 +485,6 @@ def convert_indicator(indicator20):
     indicator1x.add_observable(create_pattern_object(indicator20["pattern"]).toSTIX1x(id20=indicator20["id"]))
     if "kill_chain_phases" in indicator20:
         process_kill_chain_phases(indicator20["kill_chain_phases"], indicator1x)
-    # TODO: kill chains
     if "object_marking_refs" in indicator20:
         for m_id in indicator20["object_marking_refs"]:
             ms = create_marking_specification(m_id)
