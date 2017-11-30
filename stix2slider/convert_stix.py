@@ -305,6 +305,7 @@ def process_kill_chain_phases(phases, obj1x):
                     phase_id=create_id1x("TTP"),
                     name=phase["phase_name"],
                     ordinality=None)})
+                _KILL_CHAINS[phase["kill_chain_name"]]["kill_chain"].add_kill_chain_phase(kill_chain_phases[phase["phase_name"]])
             kcp = kill_chain_phases[phase["phase_name"]]
             if not obj1x.kill_chain_phases:
                 obj1x.kill_chain_phases = KillChainPhasesReference()
@@ -923,8 +924,8 @@ def convert_bundle(bundle_obj):
     for o in bundle_obj["objects"]:
         if o["type"] == "sighting":
             process_sighting(o)
-    for kc_entry in _KILL_CHAINS.values():
-        pkg.ttps.kill_chains.append(kc_entry["kill_chain"])
+    for k, v in _KILL_CHAINS.items():
+        pkg.ttps.kill_chains.append(v["kill_chain"])
     CONTAINER.flush()
     CONTAINER = None
     return pkg
