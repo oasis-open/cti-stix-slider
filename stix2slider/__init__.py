@@ -1,3 +1,4 @@
+import io
 import json
 
 import stix2
@@ -7,10 +8,10 @@ from stix2slider.options import setup_logger
 import stix2slider.utils  # flake8: noqa
 
 
-def slide_file(fn):
+def slide_file(fn, encoding="utf-8"):
     setup_logger(fn)
 
-    with open(fn, "r") as json_data:
+    with io.open(fn, "r", encoding=encoding) as json_data:
         json_content = json.load(json_data)
 
     obj = stix2.parse(json_content)
