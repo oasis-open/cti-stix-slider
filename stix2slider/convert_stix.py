@@ -282,9 +282,6 @@ def get_type_from_id(id_):
     return parts[0]
 
 
-_SQUIRREL_AWAY_MISSING_PROPERTIES = True
-
-
 def add_missing_property_to_description(obj1x, property_name, property_value):
     if not get_option_value("no_squirrel_gaps"):
         obj1x.add_description(property_name + ": " + text_type(property_value))
@@ -409,7 +406,7 @@ def convert_coa(coa20):
 
 
 def add_missing_property_to_free_text_lines(ident1x, property_name, property_value):
-    if _SQUIRREL_AWAY_MISSING_PROPERTIES:
+    if not get_option_value("no_squirrel_gaps"):
         ident1x.add_free_text_line(property_name + ": " + property_value)
 
 

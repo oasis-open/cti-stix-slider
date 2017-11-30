@@ -1,8 +1,10 @@
 from functools import cmp_to_key
+from six import text_type
 
 from cybox.common.environment_variable import (EnvironmentVariable,
                                                EnvironmentVariableList)
 from cybox.common.hashes import HashList
+from cybox.common.structured_text import StructuredText
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact
@@ -15,11 +17,12 @@ from cybox.objects.file_object import File
 from cybox.objects.image_file_object import ImageFile
 from cybox.objects.mutex_object import Mutex
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
-                                           PDFFile, PDFFileMetadata)
+                                           PDFFile, PDFFileID, PDFFileMetadata, PDFTrailer, PDFTrailerList)
 from cybox.objects.process_object import (ArgumentList, ChildPIDList,
                                           ImageInfo, Process)
 from cybox.objects.product_object import Product
 from cybox.objects.uri_object import URI
+from cybox.objects.unix_user_account_object import UnixUserAccount, UnixGroupList
 from cybox.objects.win_executable_file_object import (Entropy, PEFileHeader,
                                                       PEHeaders,
                                                       PEOptionalHeader,
@@ -52,7 +55,7 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
                                 X509_V3_EXTENSIONS_TYPE_MAP, convert_pe_type)
-from stix2slider.options import error, warn
+from stix2slider.options import error, warn, get_option_value
 
 _EXTENSIONS_MAP = {
     "archive-ext": ArchiveFile,
@@ -99,10 +102,10 @@ def determine_1x_object_type(c_o_object):
         else:
             return Process
     if basic_type in ["user-account"]:
-        if "extensions" in c_o_object:
+        if "extensions" in c_o_object or ("account_type" in c_o_object and c_o_object["account_type"] == "unix"):
             # extensions = list(c_o_object["extensions"].keys())
             # only one extension is defined, for UNIX, which is cover by the basic user account in STIX 1.x
-            return UserAccount
+            return UnixUserAccount
         else:
             if "account_type" in c_o_object:
                 if c_o_object["account_type"] in ["windows-local", "windows-domain"]:
@@ -143,6 +146,22 @@ def convert_obj(obj20, obj1x, mapping_table, obs20_id):
         #    warn("%s property in %s is not not representable in STIX 1.x", 0, key, obs20_id)
 
 
+def add_missing_property_to_description(obj1x, property_name, property_value):
+    if not get_option_value("no_squirrel_gaps"):
+        if not obj1x.parent.description:
+            obj1x.parent.description = StructuredText("")
+        new_text = property_name + ": " + text_type(property_value)
+        obj1x.parent.description.value = obj1x.parent.description.value + "\n" if obj1x.parent.description.value else ""  + new_text
+
+
+def add_missing_list_property_to_description(obj1x, property_name, property_values):
+    if not get_option_value("no_squirrel_gaps"):
+        if not obj1x.parent.description:
+            obj1x.parent.description = StructuredText("")
+        new_text = property_name + ": " + ", ".join(text_type(x) for x in property_values)
+        obj1x.parent.description.value = obj1x.parent.description.value + "\n" + new_text
+
+
 def add_hashes_property(obj, hash_type, value):
     if hash_type == "MD5":
         obj.md5 = value
@@ -163,11 +182,11 @@ def add_hashes_property(obj, hash_type, value):
 def convert_artifact_c_o(art20, art1x, obs20_id):
     if "mime_type" in art20:
         art1x.content_type = art20["mime_type"]
+    # it is illegal in STIX 2.0 to have both a payload_bin and url property - be we don't warn about it here
     if "payload_bin" in art20:
         art1x.packed_data = art20["payload_bin"]
     if "url" in art20:
-        pass
-        # warn - in STIX 1.x, but not python-stix???
+        art1x.raw_artifact_reference = art20["url"]
     if "hashes" in art20:
         art1x.hashes = HashList()
         for k, v in art20["hashes"].items():
@@ -196,7 +215,6 @@ def convert_archive_file_extension(archive_ext, file1x, obs20_id):
 
 
 def convert_pdf_file_extension(pdf_ext, file1x, obs20_id):
-    # TODO: pdfid0, pdfid1
     if "version" in pdf_ext:
         file1x.version = pdf_ext["version"]
     if "is_optimized" in pdf_ext or "document_info_dict" in pdf_ext:
@@ -209,6 +227,16 @@ def convert_pdf_file_extension(pdf_ext, file1x, obs20_id):
                         file1x.metadata.document_information_dictionary,
                         PDF_DOCUMENT_INFORMATION_DICT_MAP,
                         obs20_id)
+    if "pdfid0" in pdf_ext or "pdfid1" in pdf_ext:
+        warn("Order may not be maintained for pdfids in %s", 514, obs20_id)
+        file1x.trailers = PDFTrailerList()
+        trailer = PDFTrailer()
+        file1x.trailers.trailer.append(trailer)
+        trailer.id_ = PDFFileID()
+        if "pdfid0" in pdf_ext:
+            trailer.id_.id_string.append(pdf_ext["pdfid0"])
+        if "pdfid1" in pdf_ext:
+            trailer.id_.id_string.append(pdf_ext["pdfid1"])
 
 
 def convert_image_file_extension(image_ext, file1x, obs20_id):
@@ -224,8 +252,10 @@ def convert_image_file_extension(image_ext, file1x, obs20_id):
 
 
 def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs20_id):
-    # TODO: imphash
-    # TODO: number_of_sections
+    if "imphash" in pe_bin_ext:
+        add_missing_property_to_description(file1x, "imphash", pe_bin_ext["imphash"])
+    if "number_of_sections" in pe_bin_ext:
+        add_missing_property_to_description(file1x, "number_of_sections", pe_bin_ext["number_of_sections"])
     if "pe_type" in pe_bin_ext:
         file1x.type_ = convert_pe_type(pe_bin_ext["pe_type"], obs20_id)
     if not file1x.headers:
@@ -347,13 +377,15 @@ def populate_received_line(rl20, rl1x, obs20_id):
 def populate_other_header_fields(headers20, header1x, obs20_id):
     # keys must match the ones from RFC 2822
     for k, v in headers20.items():
-        if isinstance(v, list):
-            v = v[0]
-            if len(v) > 1:
-                for h in v[1:]:
-                    warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
-                         401,
-                         obs20_id, k, h)
+        # delimiter is used
+
+        # if isinstance(v, list):
+        #     v = v[0]
+        #     if len(v) > 1:
+        #         for h in v[1:]:
+        #             warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+        #                  401,
+        #                  obs20_id, k, h)
         convert_obj(headers20, header1x, OTHER_EMAIL_HEADERS_MAP, obs20_id)
 
 
@@ -543,11 +575,18 @@ def convert_software_c_o(soft20, prod1x, obs20_id):
 
 
 def convert_unix_account_extensions(ua20, ua1x, obs20_id):
+    if "user_id" in ua20:
+        ua1x.user_id = int(ua20["user_id"])
     if "extensions" in ua20:
         # must be unix-account-ext
         unix_account_ext = ua20["extensions"]["unix-account-ext"]
-        # TODO: gid
-        # TODO: groups
+        if "gid" in unix_account_ext:
+            ua1x.group_id = unix_account_ext["gid"]
+        if "groups" in unix_account_ext:
+            for g in unix_account_ext["groups"]:
+                warn("The 'groups' property of unix-account-ext contains strings, but the STIX 1.x property expects integers in %s",
+                     515,
+                     obs20_id)
         if "home_dir" in unix_account_ext:
             ua1x.home_directory = unix_account_ext["home_dir"]
         # TODO: shell
