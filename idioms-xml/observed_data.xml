@@ -1,42 +1,44 @@
 <stix:STIX_Package
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:ImageFileObj="http://cybox.mitre.org/objects#ImageFileObject-1"
+	xmlns:ASObj="http://cybox.mitre.org/objects#ASObject-1"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:ProductObj="http://cybox.mitre.org/objects#ProductObject-2"
+	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
+	xmlns:X509CertificateObj="http://cybox.mitre.org/objects#X509CertificateObject-2"
+	xmlns:example="http://example.com"
+	xmlns:UnixUserAccountObj="http://cybox.mitre.org/objects#UnixUserAccountObject-2"
+	xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:PDFFileObj="http://cybox.mitre.org/objects#PDFFileObject-1"
+	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
 	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
+	xmlns:URIObj="http://cybox.mitre.org/objects#URIObject-2"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
 	xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:cybox="http://cybox.mitre.org/cybox-2"
-	xmlns:ProductObj="http://cybox.mitre.org/objects#ProductObject-2"
-	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
-	xmlns:ImageFileObj="http://cybox.mitre.org/objects#ImageFileObject-1"
-	xmlns:PDFFileObj="http://cybox.mitre.org/objects#PDFFileObject-1"
-	xmlns:stix="http://stix.mitre.org/stix-1"
-	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
-	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
-	xmlns:ASObj="http://cybox.mitre.org/objects#ASObject-1"
-	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
-	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
-	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
-	xmlns:example="http://example.com"
-	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
-	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
-	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:UnixUserAccountObj="http://cybox.mitre.org/objects#UnixUserAccountObject-2"
-	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
-	xmlns:X509CertificateObj="http://cybox.mitre.org/objects#X509CertificateObject-2"
-	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
-            <cybox:Object id="example:Artifact-6745ed8a-a5a5-40ea-9f75-5691967a4aef">
+            <cybox:Object id="example:Artifact-93fad08f-8bac-4d80-b68b-4f36ca99a900">
                 <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="image/jpeg">
                     <ArtifactObj:Raw_Artifact><![CDATA[VBORw0KGgoAAAANSUhEUgAAADI== ...]]></ArtifactObj:Raw_Artifact>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-7ef0f598-8e1d-4ded-9e10-fc2aa8ea2dbd">
-            <cybox:Object id="example:AutonomousSystem-4cafc59c-90e0-4005-9793-363e72ac08c0">
+            <cybox:Object id="example:AutonomousSystem-3b3c0bac-2892-44e8-babc-32e3540d748b">
                 <cybox:Properties xsi:type="ASObj:ASObjectType">
                     <ASObj:Number>15139</ASObj:Number>
                     <ASObj:Name>Slime Industries</ASObj:Name>
@@ -44,15 +46,22 @@
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
+        <cybox:Observable id="example:observable-c2828209-6e7f-43d8-a633-5596be6032b3">
+            <cybox:Object id="example:DomainName-bbe22ea6-10a9-4a4c-a105-2b5ca1b218ef">
+                <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
+                    <DomainNameObj:Value>example.com</DomainNameObj:Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
         <cybox:Observable id="example:observable-b133cf99-0042-47e4-b669-99fba2baff6e">
-            <cybox:Object id="example:EmailAddress-4c6c2f01-5e12-49ac-b2c0-0184f6e8ceb2">
+            <cybox:Object id="example:EmailAddress-8b57aea8-30b0-44fd-b099-d190ec6bf10c">
                 <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="e-mail">
                     <AddressObj:Address_Value>john@example.com</AddressObj:Address_Value>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-02aa2e18-55fc-44dd-be68-cf83c58f87ac">
-            <cybox:Object id="example:EmailMessage-fa87f1c6-bd4c-4007-a20a-ea39a936f783">
+            <cybox:Object id="example:EmailMessage-7d3b911b-70f8-48eb-a6fb-dd7f020a46d6">
                 <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
                     <EmailMessageObj:Header>
                         <EmailMessageObj:To>
@@ -70,7 +79,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-bbce6835-185e-40e8-8b96-8e3e13c97418">
-            <cybox:Object id="example:EmailMessage-b48ada0e-f552-41e9-bfee-2eae46bcd088">
+            <cybox:Object id="example:EmailMessage-2b7db290-2bbf-488e-a1ac-aaf76bad061c">
                 <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
                     <EmailMessageObj:Header>
                         <EmailMessageObj:To>
@@ -91,7 +100,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-9a28189d-2670-4ba6-b968-d3c475b1ec0a">
-            <cybox:Object id="example:EmailMessage-06af50c4-4fe7-48f4-8ccc-377044d183cd">
+            <cybox:Object id="example:EmailMessage-698206d6-b14a-4560-b6ab-3fcd4c480797">
                 <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
                     <EmailMessageObj:Header>
                         <EmailMessageObj:Received_Lines>
@@ -121,11 +130,11 @@
                         </EmailMessageObj:X_Originating_IP>
                     </EmailMessageObj:Header>
                     <EmailMessageObj:Attachments>
-                        <EmailMessageObj:File object_reference="example:File-cba7b49d-b88e-4e06-8316-0765da71e72f"/>
+                        <EmailMessageObj:File object_reference="example:File-909fe8d5-3ebb-4598-9527-3940ebdadff8"/>
                     </EmailMessageObj:Attachments>
                 </cybox:Properties>
                 <cybox:Related_Objects>
-                    <cybox:Related_Object id="example:File-cba7b49d-b88e-4e06-8316-0765da71e72f">
+                    <cybox:Related_Object id="example:File-909fe8d5-3ebb-4598-9527-3940ebdadff8">
                         <cybox:Properties xsi:type="FileObj:FileObjectType">
                             <FileObj:File_Name>tabby_pics.zip</FileObj:File_Name>
                             <FileObj:Magic_Number>504B0304</FileObj:Magic_Number>
@@ -142,7 +151,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-10ee8b81-a999-4d6d-af49-93256aef5152">
-            <cybox:Object id="example:WinFile-f283581b-fa1b-462a-a135-d58f3ce7a601">
+            <cybox:Object id="example:WinFile-43b526f3-4a48-4289-a3b6-bc7c9fccdb9e">
                 <cybox:Properties xsi:type="WinFileObj:WindowsFileObjectType">
                     <FileObj:Hashes>
                         <cyboxCommon:Hash>
@@ -160,7 +169,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-ffeb1a1e-af39-446d-a775-6a4ce022a436">
-            <cybox:Object id="example:ImageFile-ac9b4063-cf5a-410a-ba6a-341690553def">
+            <cybox:Object id="example:ImageFile-81adc98a-b672-4693-b30f-99f0b099cd70">
                 <cybox:Properties xsi:type="ImageFileObj:ImageFileObjectType">
                     <FileObj:File_Name>picture.jpg</FileObj:File_Name>
                     <FileObj:Hashes>
@@ -173,7 +182,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-ffeb1a1e-af39-446d-a775-6a4ce022a436">
-            <cybox:Object id="example:PDFFile-231b9229-3881-4b40-98ef-f1fac8bea6c5">
+            <cybox:Object id="example:PDFFile-5d6f40b7-7ccd-4518-a362-c47907f51582">
                 <cybox:Properties xsi:type="PDFFileObj:PDFFileObjectType">
                     <FileObj:Hashes>
                         <cyboxCommon:Hash>
@@ -202,7 +211,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-1f54eaf6-9f07-4286-bdfa-c7f726c34c19">
-            <cybox:Object id="example:WinExecutableFile-e0c2fe56-0ede-4dbe-8716-d648b9701d0d">
+            <cybox:Object id="example:WinExecutableFile-b33b5d6c-be82-46aa-88b0-9b05ba1baf5c">
                 <cybox:Description>number_of_sections: 4</cybox:Description>
                 <cybox:Properties xsi:type="WinExecutableFileObj:WindowsExecutableFileObjectType">
                     <FileObj:Hashes>
@@ -218,6 +227,7 @@
                             <WinExecutableFileObj:Pointer_To_Symbol_Table>74726144</WinExecutableFileObj:Pointer_To_Symbol_Table>
                             <WinExecutableFileObj:Number_Of_Symbols>4542568</WinExecutableFileObj:Number_Of_Symbols>
                             <WinExecutableFileObj:Size_Of_Optional_Header>224</WinExecutableFileObj:Size_Of_Optional_Header>
+                            <WinExecutableFileObj:Characteristics>818f</WinExecutableFileObj:Characteristics>
                         </WinExecutableFileObj:File_Header>
                         <WinExecutableFileObj:Optional_Header>
                             <WinExecutableFileObj:Magic>010b</WinExecutableFileObj:Magic>
@@ -291,7 +301,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-c554b0f3-1107-4963-8b77-27c518cac165">
-            <cybox:Object id="example:Process-61a71d3a-3042-430a-8def-e46fbca83cb4">
+            <cybox:Object id="example:Process-d8a4f4c5-e518-45e4-bb78-2f96462887a3">
                 <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
                     <ProcessObj:PID>1221</ProcessObj:PID>
                     <ProcessObj:Name>gedit-bin</ProcessObj:Name>
@@ -303,7 +313,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-d879b23b-26a6-490b-b78c-24d074654d33">
-            <cybox:Object id="example:WinProcess-bb595923-fa17-4886-b952-06ab38b3b5e3">
+            <cybox:Object id="example:WinProcess-ae3954a8-f01e-4b14-a165-301149a592bb">
                 <cybox:Properties xsi:type="WinProcessObj:WindowsProcessObjectType" aslr_enabled="true" dep_enabled="true">
                     <ProcessObj:PID>314</ProcessObj:PID>
                     <ProcessObj:Name>foobar.exe</ProcessObj:Name>
@@ -313,7 +323,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-e0715a08-b679-4bf8-b626-0b50991952a2">
-            <cybox:Object id="example:WinService-aef107e6-15bd-445c-acf9-212711dfd14b">
+            <cybox:Object id="example:WinService-00108fe7-03f1-4b7d-8946-e3dc91fc72c7">
                 <cybox:Properties xsi:type="WinServiceObj:WindowsServiceObjectType">
                     <ProcessObj:PID>2217</ProcessObj:PID>
                     <ProcessObj:Name>sirvizio</ProcessObj:Name>
@@ -330,7 +340,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
-            <cybox:Object id="example:Product-8e37cb83-7a2d-4f5d-97b5-89b864503c48">
+            <cybox:Object id="example:Product-ed9d8f3f-a8e3-4862-a382-c4ed3956ca83">
                 <cybox:Properties xsi:type="ProductObj:ProductObjectType">
                     <ProductObj:Product>Word</ProductObj:Product>
                     <ProductObj:Vendor>Microsoft</ProductObj:Vendor>
@@ -338,8 +348,15 @@
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:URI-c7fd5c85-a459-4feb-b1ab-2d08ef6c2254">
+                <cybox:Properties xsi:type="URIObj:URIObjectType" type="URL">
+                    <URIObj:Value>https://example.com/research/index.html</URIObj:Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
         <cybox:Observable id="example:observable-0177c85b-9de0-472a-8e9a-a41cc828672b">
-            <cybox:Object id="example:UnixUserAccount-cc153ff6-13a8-4545-8214-67c7e819cc84">
+            <cybox:Object id="example:UnixUserAccount-c541af11-14a7-46ad-84aa-cc1155e44c4b">
                 <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
                     <AccountObj:Creation_Date>2016-01-20T12:31:12+00:00</AccountObj:Creation_Date>
                     <UserAccountObj:Last_Login>2016-07-22T16:08:28+00:00</UserAccountObj:Last_Login>
@@ -349,7 +366,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-a350d2a1-5cab-4add-98cf-1dfea10db3f6">
-            <cybox:Object id="example:UnixUserAccount-4e3e1727-a5b3-48b0-a244-66337883e543">
+            <cybox:Object id="example:UnixUserAccount-2439c50c-9c8b-4dc3-93fb-d29a08b7ac94">
                 <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
                     <UserAccountObj:Home_Directory>/home/jdoe</UserAccountObj:Home_Directory>
                     <UserAccountObj:Username>jdoe</UserAccountObj:Username>
@@ -359,7 +376,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-59fd4db3-272b-4a33-9729-b6a46dbdd69b">
-            <cybox:Object id="example:WinRegistryKey-d7f6fad9-4268-4997-9280-f26a11806dfe">
+            <cybox:Object id="example:WinRegistryKey-a8cbbee8-425d-4806-9482-9d12257b2bc2">
                 <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
                     <WinRegistryKeyObj:Key>hkey_local_machine\system\bar\foo</WinRegistryKeyObj:Key>
                     <WinRegistryKeyObj:Values>
@@ -378,7 +395,7 @@
             </cybox:Object>
         </cybox:Observable>
         <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
-            <cybox:Object id="example:X509Certificate-9b085cce-13ad-4d6f-9df1-149757addbc5">
+            <cybox:Object id="example:X509Certificate-38f8f7dd-8c0b-4533-9b44-bf12ae79f1f0">
                 <cybox:Properties xsi:type="X509CertificateObj:X509CertificateObjectType">
                     <X509CertificateObj:Certificate>
                         <X509CertificateObj:Issuer>C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com</X509CertificateObj:Issuer>

@@ -55,7 +55,7 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
                                 X509_V3_EXTENSIONS_TYPE_MAP, convert_pe_type)
-from stix2slider.options import error, warn, get_option_value
+from stix2slider.options import error, warn, info, get_option_value
 
 _EXTENSIONS_MAP = {
     "archive-ext": ArchiveFile,
@@ -198,10 +198,11 @@ def convert_autonomous_system_c_o(as20, as1x, obs20_id):
     convert_obj(as20, as1x, AUTONOMOUS_SYSTEM_MAP, obs20_id)
 
 
-def convert_domain_name_c_o(dn20, dn1x):
+def convert_domain_name_c_o(dn20, dn1x, obs20_id):
     dn1x.value = dn20["value"]
     dn1x.type_ = "FQDN"
-    # TODO: warn no resolves_to in STIX 1.x
+    if "resolves_to_refs" in dn20:
+        warn("resolves_to_refs in %s not representable in STIX 1.x", 518, obs20_id)
 
 
 def convert_archive_file_extension(archive_ext, file1x, obs20_id):
@@ -240,15 +241,16 @@ def convert_pdf_file_extension(pdf_ext, file1x, obs20_id):
 
 
 def convert_image_file_extension(image_ext, file1x, obs20_id):
-    # TODO: should file1x.is_compressed be populated if there is a compression algorithm?
-    # TODO: can image_file_format be determined from the exif property??
-    # TODO: exif dictionary
     convert_obj(image_ext, file1x, IMAGE_FILE_EXTENSION_MAP, obs20_id)
     if "exif_tags" in image_ext:
-        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503,
-             "exif_tags",
-             "ImageFile",
-             obs20_id)
+        exif_tags = image_ext["exif_tags"]
+        if "Compression" in exif_tags:
+            file1x.image_is_compressed = (exif_tags["Compression"] != 1)
+        else:
+            warn("%s not representable in a STIX 1.x %s.  Found in %s", 503,
+                 "exif_tags",
+                 "ImageFile",
+                 obs20_id)
 
 
 def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs20_id):
@@ -334,7 +336,6 @@ def convert_file_extensions(file20, file1x, obs20_id):
 
 
 def convert_file_c_o(file20, file1x, obs20_id):
-    # TODO contains_refs
     if "hashes" in file20:
         for k, v in sort_objects_into_processing_order(file20["hashes"]):
             add_hashes_property(file1x, k, v)
@@ -344,9 +345,27 @@ def convert_file_c_o(file20, file1x, obs20_id):
             directory_object = _STIX1X_OBJS[file20["parent_directory_ref"]]
             # TODO separator?
             file1x.full_path = str(directory_object.full_path) + "/" + file20["name"]
-    # TODO: is_encrypted
+    if "is_encrypted" in file20:
+        if file20["is_encrypted"]:
+            if "encryption_algorithm" in file20:
+                file1x.encryption_algorithm = file20["encryption_algorithm"]
+            else:
+                info("is_encrypted in %s is true, but no encryption_algorithm is given", 309, obs20_id)
+            if "decryption_key" in file20:
+                file1x.decryption_key = file20["decryption_key"]
+            else:
+                info("is_encrypted in %s is true, but no decryption_key is given", 311, obs20_id)
+        else:
+            if "encryption_algorithm" in file20:
+                info("is_encrypted in %s is false, but encryption_algorithm is given", 310, obs20_id)
+            if "decryption_key" in file20:
+                info("is_encrypted in %s is false, but decryption_key is given", 312, obs20_id)
     if "extensions" in file20:
         convert_file_extensions(file20, file1x, obs20_id)
+    # in STIX 2.0, there are two contains_ref properties, one in the basic File object, and one on the Archive File extension
+    # the slider does not handle the one in the basic File object
+    if "contains_refs" in file20:
+        warn("contains_refs in %s not handled", 607, obs20_id)
 
 
 def convert_directory_c_o(directory20, file1x, obs20_id):
@@ -534,7 +553,6 @@ def convert_process_c_o(process20, process1x, obs20_id):
             if "account_login" in account_object:
                 process1x.username = account_object.username
     if "binary_ref" in process20:
-        # TODO: should this be a reference to related observable
         if process20["binary_ref"] in _STIX1X_OBJS:
             file_obj = _STIX1X_OBJS[process20["binary_ref"]]
             if file_obj.file_name:
@@ -542,7 +560,10 @@ def convert_process_c_o(process20, process1x, obs20_id):
                     process1x.image_info = ImageInfo()
                 process1x.image_info.file_name = file_obj.file_name
                 # TODO: file_obj.full_path
-            # TODO: other properties - some not representable
+                if file_obj.hashes:
+                    warn("Hashes of the binary_ref of %s process cannot be represented in the STIX 1.x Process object", 517, obs20_id)
+            else:
+                warn("No file name provided for binary_ref of %s, therefore it cannot be represented in the STIX 1.x Process object", 516, obs20_id)
     if "parent_ref" in process20:
         if process20["parent_ref"] in _STIX1X_OBJS:
             process_object = _STIX1X_OBJS[process20["parent_ref"]]
@@ -665,7 +686,7 @@ def convert_cyber_observable(c_o_object, obs20_id):
         convert_autonomous_system_c_o(c_o_object, obj1x, obs20_id)
     elif type_name20 == "directory":
         convert_directory_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "domain_name":
+    elif type_name20 == "domain-name":
         convert_domain_name_c_o(c_o_object, obj1x, obs20_id)
     elif type_name20 == "email-message":
         convert_email_message_c_o(c_o_object, obj1x, obs20_id)

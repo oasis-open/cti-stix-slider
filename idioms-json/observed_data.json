@@ -38,6 +38,28 @@
       "type": "observed-data",
       "created": "2017-05-22T13:03:55.429Z",
       "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--c2828209-6e7f-43d8-a633-5596be6032b3",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+        "0": {
+          "type": "domain-name",
+          "value": "example.com",
+          "resolves_to_refs": [
+            "1"
+          ]
+        },
+        "1": {
+          "type": "ipv4-addr",
+          "value": "198.51.100.2"
+        }
+      }
+    },
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
       "id": "observed-data--b133cf99-0042-47e4-b669-99fba2baff6e",
       "last_observed": "2017-05-22T13:03:55.429Z",
       "modified": "2017-05-22T13:03:55.429Z",

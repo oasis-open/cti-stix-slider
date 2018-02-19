@@ -62,10 +62,7 @@ FILE_MAP = {
     # TODO: mime_type
     "created": File.created_time,
     "modified": File.modified_time,
-    "accessed": File.accessed_time,
-    # TODO: is_encrypted
-    "encrpytion_algorithm": File.encryption_algorithm,
-    "decryption_key": File.decryption_key
+    "accessed": File.accessed_time
 }
 
 
