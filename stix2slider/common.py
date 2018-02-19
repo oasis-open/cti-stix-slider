@@ -95,7 +95,8 @@ PE_BINARY_FILE_HEADER_MAP = {
     "time_date_stamp": PEFileHeader.time_date_stamp,
     "pointer_to_symbol_table_hex": PEFileHeader.pointer_to_symbol_table,
     "number_of_symbols": PEFileHeader.number_of_symbols,
-    "size_of_optional_header": PEFileHeader.size_of_optional_header
+    "size_of_optional_header": PEFileHeader.size_of_optional_header,
+    "characteristics_hex": PEFileHeader.characteristics
 }
 
 
