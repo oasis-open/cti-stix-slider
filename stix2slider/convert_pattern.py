@@ -346,13 +346,6 @@ def convert_artifact_pattern(exp20, obj1x, id20):
         add_scalar_artifact_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
 
 
-# _AUTONOMOUS_SYSTEM_MAP = {
-#     "number": AutonomousSystem.number,
-#     "name": AutonomousSystem.name,
-#     "rir": AutonomousSystem.regional_internet_registry
-# }
-
-
 def convert_autonomous_system_pattern(exp20, obj1x, id20):
     prop_name = exp20.lhs.property_path[0].property_name
     if not convert_pattern(obj1x,
@@ -467,21 +460,6 @@ def convert_email_message_pattern(exp20, obj1x, id20):
         add_scalar_email_message_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
 
 
-# _FILE_MAP = {
-#     "size": File.size_in_bytes,
-#     "name": File.file_name,
-#     # TODO: name_enc
-#     "magic_number_hex": File.magic_number,
-#     # TODO: mime_type
-#     "created": File.created_time,
-#     "modified": File.modified_time,
-#     "accessed": File.accessed_time,
-#     # TODO: is_encrypted
-#     "encrpytion_algorithm": File.encryption_algorithm,
-#     "decryption_key": File.decryption_key
-# }
-
-
 def add_scalar_file_property_pattern(file_obj, properties, rhs, op, id20):
     prop_name = properties[0].property_name
     if convert_pattern(file_obj, prop_name, rhs, op, FILE_MAP, id20):
@@ -534,15 +512,6 @@ def add_hashes_pattern(obj, hash_type, rhs, op, id20):
         convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA512).simple_hash_value, id20)
     else:
         warn("Unknown hash type %s used in %s", 302, hash_type, id20)
-
-
-# _IMAGE_FILE_EXTENSION_MAP = {
-#     "image_height": ImageFile.image_height,
-#     "image_width": ImageFile.image_width,
-#     "bits_per_pixel": ImageFile.bits_per_pixel,
-#     "image_compression_algorithm": ImageFile.compression_algorithm
-# }
-#
 
 
 def add_file_archive_extension_pattern(file_obj, properties, rhs, op, id20):
@@ -727,23 +696,6 @@ def convert_url_pattern(exp20, obj1x, id20):
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
 
 
-# _WINDOWS_PROCESS_EXTENSION_MAP = {
-#     "aslr_enabled": WinProcess.aslr_enabled,
-#     "dep_enabled": WinProcess.dep_enabled,
-#     "priority": WinProcess.priority,
-#     "owner_sid": WinProcess.security_id,
-#     "window_title": WinProcess.window_title
-# }
-#
-#
-# _PROCESS_MAP = {
-#     "is_hidden": Process.is_hidden,
-#     "pid": Process.pid,
-#     "name": Process.name,
-#     "created": Process.creation_time
-# }
-
-
 def add_scalar_process_property_pattern(process_obj, properties, rhs, op, id20):
     prop_name0 = properties[0].property_name
     if convert_pattern(process_obj, prop_name0, rhs, op, PROCESS_MAP, id20):
@@ -818,43 +770,6 @@ def add_list_process_property_pattern(process_obj, properties, rhs, op, id20):
             warn("number indicies in %s not handled, yet", 601, id20)
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
-
-# _WINDOWS_PROCESS_EXTENSION_MAP = {
-#     "aslr_enabled": WinProcess.aslr_enabled,
-#     "dep_enabled": WinProcess.dep_enabled,
-#     "priority": WinProcess.priority,
-#     "owner_sid": WinProcess.security_id,
-#     "window_title": WinProcess.window_title
-# }
-#
-#
-# _STARTUP_INFO_MAP = {
-#     "lpdesktop": StartupInfo.lpdesktop,
-#     "lptitle": StartupInfo.lptitle,
-#     "dwx": StartupInfo.dwx,
-#     "dwy": StartupInfo.dwy,
-#     "dwxsize": StartupInfo.dwxsize,
-#     "dwysize": StartupInfo.dwysize,
-#     "dwxcountchars": StartupInfo.dwxcountchars,
-#     "dwycountchars": StartupInfo.dwycountchars,
-#     "dwfillattribute": StartupInfo.dwfillattribute,
-#     "dwflags": StartupInfo.dwflags,
-#     "wshowwindow": StartupInfo.wshowwindow,
-#     "hstdinput": StartupInfo.hstdinput,
-#     "hstdoutput": StartupInfo.hstdoutput,
-#     "hstderror": StartupInfo.hstderror
-# }
-#
-#
-# _WINDOWS_SERVICE_EXTENSION_MAP = {
-#     "service_name": WinService.service_name,
-#     "display_name": WinService.display_name,
-#     "group_name": WinService.group_name,
-#     "start_type": WinService.startup_type,
-#     "service_type": WinService.service_type,
-#     "service_status": WinService.service_status
-#
-# }
 
 
 def add_process_extension_pattern(process_obj, properties, rhs, op, id20):
@@ -1007,26 +922,6 @@ def convert_registry_key_pattern(exp20, obj1x, id20):
     else:
         add_scalar_registry_key_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
 
-
-# _X509_CERTIFICATE_MAP = {
-#     # "is_self_signed": ,
-#     # "hashes": ,
-#     "version": X509Cert.version,  #
-#     "serial_number": X509Cert.serial_number, #
-#     "signature_algorithm": X509Cert.signature_algorithm, #
-#     "issuer": X509Cert.issuer, #
-#     "validity_not_before": lambda obj, rhs_value: convert_subfield(obj, rhs_value, "validity", Validity, Validity.not_before),
-#     "validity_not_after": lambda obj, rhs_value: convert_subfield(obj, rhs_value, "validity", Validity, Validity.not_after),
-#     "subject": X509Cert.subject
-# }
-#
-#
-# _X509_V3_EXTENSIONS_TYPE_MAP = {
-#     "basic_constraints": X509V3Extensions.basic_constraints,
-#     "name_constraints": X509V3Extensions.name_constraints,
-#     "policy_constraints": X509V3Extensions.policy_constraints
-# }
-#
 
 def convert_x509_certificate_pattern(exp20, obj1x, id20):
     prop_name = exp20.lhs.property_path[0].property_name

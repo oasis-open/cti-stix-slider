@@ -5,6 +5,7 @@ from cybox.common.environment_variable import (EnvironmentVariable,
                                                EnvironmentVariableList)
 from cybox.common.hashes import HashList
 from cybox.common.structured_text import StructuredText
+from cybox.common.vocabs import VocabString
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact
@@ -15,9 +16,16 @@ from cybox.objects.email_message_object import (Attachments, EmailHeader,
                                                 ReceivedLineList)
 from cybox.objects.file_object import File
 from cybox.objects.image_file_object import ImageFile
+from cybox.objects.http_session_object import (HTTPSession, HTTPRequestResponse, HTTPClientRequest, HTTPRequestLine,
+                                               HTTPRequestHeader, HTTPRequestHeaderFields, HTTPMessage)
 from cybox.objects.mutex_object import Mutex
+from cybox.objects.network_connection_object import NetworkConnection, SocketAddress
+from cybox.objects.network_packet_object import (NetworkPacket, TransportLayer, TCP, InternetLayer, ICMPv4Packet,
+                                                 ICMPv4Header)
+from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
                                            PDFFile, PDFFileID, PDFFileMetadata, PDFTrailer, PDFTrailerList)
+from cybox.objects.port_object import Port
 from cybox.objects.process_object import (ArgumentList, ChildPIDList,
                                           ImageInfo, Process)
 from cybox.objects.product_object import Product
@@ -46,15 +54,19 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 EMAIL_MESSAGE_MAP, FILE_MAP,
                                 IMAGE_FILE_EXTENSION_MAP,
                                 OTHER_EMAIL_HEADERS_MAP,
+                                HTTP_REQUEST_HEADERS_MAP,
                                 PDF_DOCUMENT_INFORMATION_DICT_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
                                 PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP,
                                 REGISTRY_KEY_MAP, REGISTRY_VALUE_MAP,
+                                SOCKET_OPTIONS_MAP,
                                 STARTUP_INFO_MAP, USER_ACCOUNT_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
-                                X509_V3_EXTENSIONS_TYPE_MAP, convert_pe_type)
+                                X509_V3_EXTENSIONS_TYPE_MAP,
+                                convert_pe_type,
+                                add_host)
 from stix2slider.options import error, warn, info, get_option_value
 
 _EXTENSIONS_MAP = {
@@ -65,6 +77,10 @@ _EXTENSIONS_MAP = {
     "windows-pebinary-ext": WinExecutableFile,
     "windows-process-ext": WinProcess,
     "windows-service-ext": WinService,
+    "http-request-ext": HTTPSession,
+    "icmp-ext": NetworkPacket,
+    "socket-ext": NetworkSocket,
+    "tcp-ext": NetworkPacket
     # "unix-account_ext": UserAccount
 }
 
@@ -112,6 +128,16 @@ def determine_1x_object_type(c_o_object):
                     return WinUser
         # otherwise
         return UserAccount
+    if basic_type in ["network-traffic"]:
+        if "extensions" in c_o_object:
+            extensions = list(c_o_object["extensions"].keys())
+            if len(extensions) == 1:
+                return _EXTENSIONS_MAP[extensions[0]]
+            else:
+                pass
+                warn("Multiple Network Traffic extensions in %s not supported yet", 502, c_o_object["id"])
+        else:
+            return NetworkConnection
     if basic_type in ["artifact"]:
         return Artifact
     if basic_type in ["autonomous-system"]:
@@ -578,6 +604,142 @@ def convert_process_c_o(process20, process1x, obs20_id):
     if "extensions" in process20:
         convert_process_extensions(process20, process1x, obs20_id)
 
+def convert_address_ref(obj20, direction):
+    # TODO: ref could be to a domain-name
+    sa = None
+    add_property = direction + "_ref"
+    port_property = direction + "_port"
+    if add_property in obj20:
+        if obj20[add_property] in _STIX1X_OBJS:
+            sa = SocketAddress()
+            address_obj = _STIX1X_OBJS[obj20[add_property]]
+            sa.ip_address = address_obj
+    if port_property in obj20:
+        if not sa:
+            sa = SocketAddress()
+        sa.port = Port()
+        sa.port.port_value = obj20[port_property]
+    return sa
+
+
+def convert_network_traffic_to_http_session(obj20, obj1x, obs20_id):
+    http_request_ext = obj20["extensions"]["http-request-ext"]
+    rr = HTTPRequestResponse()
+    obj1x.http_request_response.append(rr)
+    rr.http_client_request = HTTPClientRequest()
+    request_line = HTTPRequestLine()
+    request_line.http_method = http_request_ext["request_method"]
+    request_line.value = http_request_ext["request_value"]
+    if "request_version" in http_request_ext:
+        request_line.version = http_request_ext["request_version"]
+    rr.http_client_request.http_request_line = request_line
+    if "request_header" in http_request_ext:
+        rr.http_client_request.http_request_header = HTTPRequestHeader()
+        rr.http_client_request.http_request_header.parsed_header = HTTPRequestHeaderFields()
+        convert_obj(http_request_ext["request_header"],
+                    rr.http_client_request.http_request_header.parsed_header,
+                    HTTP_REQUEST_HEADERS_MAP,
+                    obs20_id)
+        if "Host" in http_request_ext["request_header"]:
+            rr.http_client_request.http_request_header.parsed_header.host = \
+                add_host(http_request_ext["request_header"]["Host"])
+        if "From" in http_request_ext["request_header"]:
+            rr.http_client_request.http_request_header.parsed_header.from_ = \
+                EmailAddress(http_request_ext["request_header"]["From"])
+        if "Referer" in http_request_ext["request_header"]:
+            rr.http_client_request.http_request_header.parsed_header.referer = \
+                URI(http_request_ext["request_header"]["Referer"])
+        if "X_Wap_Profile" in http_request_ext["request_header"]:
+            rr.http_client_request.http_request_header.parsed_header.x_wap_profile = \
+                URI(http_request_ext["request_header"]["X_Wap_Profile"])
+    if "message_body_length" in http_request_ext or "message_body_data_ref" in http_request_ext:
+        body = HTTPMessage()
+        if "message_body_length" in http_request_ext:
+            body.length = http_request_ext["message_body_length"]
+        # TODO: message_body_data_ref
+        rr.http_client_request.http_message_body = body
+    # TODO: other network-traffic properties?
+    if "src_ref" in obj20 or "dst_ref" in obj20:
+        nc = NetworkConnection()
+        nc.source_socket_address = convert_address_ref(obj20, "src")
+        nc.destination_socket_address = convert_address_ref(obj20, "dst")
+        obj1x.add_related(nc, VocabString("Connection_Used"), inline=True)
+
+
+def convert_network_traffic_to_tcp_packet(obj20, obj1x, obs20_id):
+    warn("tcp-ext in %s not handled, yet", 0, obs20_id)
+
+
+def convert_network_traffic_to_icmp_packet(obj20, obj1x, obs20_id):
+    icmp_ext = obj20["extensions"]["icmp-ext"]
+    obj1x.internet_layer = InternetLayer()
+    # assume its a ICMPv4
+    icmpv4 = ICMPv4Packet()
+    icmpv4.icmpv4_header = ICMPv4Header()
+    icmpv4.icmpv4_header.type_ = icmp_ext["icmp_type_hex"]
+    icmpv4.icmpv4_header.code = icmp_ext["icmp_code_hex"]
+    obj1x.internet_layer.icmpv4 = icmpv4
+    # TODO: other network-traffic properties?
+    if "src_ref" in obj20 or "dst_ref" in obj20:
+        nc = NetworkConnection()
+        nc.source_socket_address = convert_address_ref(obj20, "src")
+        nc.destination_socket_address = convert_address_ref(obj20, "dst")
+        obj1x.add_related(nc, VocabString("Connection_Used"), inline=True)
+
+
+def convert_network_traffic_to_network_packet(obj20, obj1x, obs20_id):
+    extensions = obj20["extensions"]
+    if "tcp-ext" in extensions:
+        convert_network_traffic_to_tcp_packet(obj20, obj1x, obs20_id)
+    elif "icmp-ext" in extensions:
+        convert_network_traffic_to_icmp_packet(obj20, obj1x, obs20_id)
+    else:
+        # TODO: message
+        pass
+
+
+def convert_socket_options(options20, options1x, obs20_id):
+    pass
+
+
+def convert_network_traffic_to_network_socket(obj20, obj1x, obs20_id):
+    socket_ext = obj20["extensions"]["socket-ext"]
+    if "address_family" in socket_ext:
+        obj1x.address_family = socket_ext["address_family"]
+    if "is_blocking" in socket_ext:
+        obj1x.is_blocking = socket_ext["is_blocking"]
+    if "is_listening" in socket_ext:
+        obj1x.is_listening = socket_ext["is_listening"]
+    # TODO: enums are different
+    #if "protocol_family" in socket_ext:
+    #    obj1x.protocol = socket_ext["protocol_family"]
+    if "socket_type" in socket_ext:
+        obj1x.type_ = socket_ext["socket_type"]
+    if "socket_descriptor" in socket_ext:
+        obj1x.socket_descriptor = socket_ext["socket_descriptor"]
+    # TODO: socket_handle
+    if "options" in socket_ext:
+        obj1x.options = SocketOptions()
+        convert_obj(socket_ext["request_header"],
+                    obj1x.options,
+                    SOCKET_OPTIONS_MAP,
+                    obs20_id)
+        convert_socket_options(socket_ext["options"], obj1x.options, obs20_id)
+    obj1x.local_address = convert_address_ref(obj20, "src")
+    obj1x.remote_address = convert_address_ref(obj20, "dst")
+
+
+def convert_network_traffic_c_o(obj20, obj1x, obs20_id):
+    if isinstance(obj1x, NetworkSocket):
+        convert_network_traffic_to_network_socket(obj20, obj1x, obs20_id)
+    elif isinstance(obj1x, NetworkPacket):
+        convert_network_traffic_to_network_packet(obj20, obj1x, obs20_id)
+    elif isinstance(obj1x, HTTPSession):
+        convert_network_traffic_to_http_session(obj20, obj1x, obs20_id)
+    else:
+        obj1x.source_socket_address = convert_address_ref(obj20, "src")
+        obj1x.destination_socket_address = convert_address_ref(obj20, "dst")
+
 
 def convert_software_c_o(soft20, prod1x, obs20_id):
     prod1x.product = soft20["name"]
@@ -699,6 +861,8 @@ def convert_cyber_observable(c_o_object, obs20_id):
     elif type_name20 == "mutex":
         obj1x.name = c_o_object["name"]
         obj1x.named = True
+    elif type_name20 == "network-traffic":
+        convert_network_traffic_c_o(c_o_object, obj1x, obs20_id)
     elif type_name20 == "process":
         convert_process_c_o(c_o_object, obj1x, obs20_id)
     elif type_name20 == 'software':

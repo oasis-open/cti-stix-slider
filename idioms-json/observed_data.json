@@ -589,7 +589,7 @@
       "type": "observed-data",
       "created": "2017-05-22T13:03:55.429Z",
       "first_observed": "2017-05-22T13:03:55.429Z",
-      "id": "observed-data--973b8552-3b78-4122-9b1e-61d69133607c",
+      "id": "observed-data--58f2b278-dbbb-42c1-9189-8ea9f5e5c275",
       "last_observed": "2017-05-22T13:03:55.429Z",
       "modified": "2017-05-22T13:03:55.429Z",
       "number_observed": 1,
@@ -601,6 +601,107 @@
             "validity_not_after": "2016-08-21T12:00:00Z",
             "subject": "C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org"
          }
+      }
+    },
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--973b8552-3b78-4122-9b1e-61d69133607c",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+        "0": {
+          "type": "ipv4-addr",
+          "value": "198.51.100.53"
+        },
+        "1": {
+          "type": "network-traffic",
+          "dst_ref": "0",
+          "protocols": [
+            "tcp",
+            "http"
+          ],
+          "extensions": {
+            "http-request-ext": {
+              "request_method": "get",
+              "request_value": "/download.html",
+              "request_version": "http/1.1",
+              "request_header": {
+                "From": "foo@bar.com",
+                "Accept-Encoding": "gzip,deflate",
+                "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113",
+                "Host": "www.example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--e98d85ac-f848-4d1a-b344-bf3b81dbc91b",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+        "0": {
+          "type": "ipv4-addr",
+          "value": "198.51.100.9"
+        },
+        "1": {
+          "type": "ipv4-addr",
+          "value": "203.0.113.5"
+        },
+        "2": {
+          "type": "network-traffic",
+          "src_ref": "0",
+          "dst_ref": "1",
+          "protocols": [
+            "icmp"
+          ],
+          "extensions": {
+            "icmp-ext": {
+              "icmp_type_hex": "08",
+              "icmp_code_hex": "00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--8647e9be-c8df-44d5-af4a-9dd4ae43c641",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+        "0": {
+          "type": "ipv4-addr",
+          "value": "198.51.100.2"
+        },
+        "1": {
+          "type": "network-traffic",
+          "src_ref": "0",
+          "src_port": 223,
+          "protocols": [
+            "ip",
+            "tcp"
+          ],
+          "extensions": {
+            "socket-ext": {
+              "is_listening": true,
+              "address_family": "AF_INET",
+              "protocol_family": "PF_INET",
+              "socket_type": "SOCK_STREAM"
+            }
+          }
+        }
       }
     }
   ],
