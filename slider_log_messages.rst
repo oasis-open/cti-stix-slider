@@ -5,9 +5,9 @@ Use the following table for reference. You can also enable or disable certain
 messages using the ``-e`` or ``-d`` flags. Refer to the elevator help
 or README for more information on how to handle logging messages.
 
-=================================================================================================================== =========================================================== ====    =====   =================================================================== 
-Message                                                                                                             Category                                                    Code    Level   Location                                                            
-=================================================================================================================== =========================================================== ====    =====   =================================================================== 
+=================================================================================================================== =========================================================== ====    =====   ===================================================================
+Message                                                                                                             Category                                                    Code    Level   Location
+=================================================================================================================== =========================================================== ====    =====   ===================================================================
 Observable Expressions should not contain placeholders                                                              General                                                     201     Error   ObservableExpressionForElevator.contains_placeholder
 Both console and output log have disabled messages                                                                  General                                                     202     Warn    initialize_options
 silent option is not compatible with a policy                                                                       General                                                     203     Warn    initialize_options
@@ -18,7 +18,7 @@ Unknown hash type [hash_type] used in [id]                                      
 Unknown address type [type] used in [id]                                                                            Possible issue in original STIX 2.0 content                 304     Warn    convert_addr_pattern
 No object [id] is found to add the reference to                                                                     Possible issue in original STIX 2.0 content                 305     Warn    create_references
 [cyber_observable_id] is not an index found in [id]                                                                 Possible issue in original STIX 2.0 content                 306     Warn    *many* in convert_cyber_observables.py
-No object [id] is found to add the reference to                                                                     Possible issue in original STIX 2.0 content                 307     Warn    create_references        
+No object [id] is found to add the reference to                                                                     Possible issue in original STIX 2.0 content                 307     Warn    create_references
 [id1] is not in this bundle.  Referenced from [id2]                                                                 Possible issue in original STIX 2.0 content                 308     Warn    process_sighting
 is_encrypted in [id] is true, but no encryption_algorithm is given                                                  Possible issue in original STIX 2.0 content                 309     Info    convert_file_c_o
 is_encrypted in [id] is false, but encryption_algorithm is given                                                    Possible issue in original STIX 2.0 content                 310     Info    convert_file_c_o
