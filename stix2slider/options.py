@@ -183,8 +183,7 @@ def set_option_value(option_name, option_value):
     if ALL_OPTIONS:
         setattr(ALL_OPTIONS, option_name, option_value)
     else:
-        error("options not initialized", 204
-              )
+        error("options not initialized", 204)
 
 
 def msg_id_enabled(msg_id):
@@ -209,5 +208,7 @@ CHECK_CODES = [0,
 
                501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519,
 
-               601, 602, 603, 604, 605, 606, 607
+               601, 602, 603, 604, 605, 606, 607, 608,
+
+               701
                ]

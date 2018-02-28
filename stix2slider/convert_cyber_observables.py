@@ -505,6 +505,8 @@ def convert_email_message_c_o(em20, em1x, obs20_id):
 
 
 def convert_addr_c_o(addr20, addr1x, obs20_id):
+    # TODO: does the slider need to handle CIDR values?
+    addr1x.address_value = addr20["value"]
     if addr20["type"] == 'ipv4-addr':
         addr1x.category = Address.CAT_IPV4
     elif addr20["type"] == 'ipv6-addr':
@@ -604,6 +606,7 @@ def convert_process_c_o(process20, process1x, obs20_id):
     if "extensions" in process20:
         convert_process_extensions(process20, process1x, obs20_id)
 
+
 def convert_address_ref(obj20, direction):
     # TODO: ref could be to a domain-name
     sa = None
@@ -667,19 +670,18 @@ def convert_network_traffic_to_http_session(obj20, obj1x, obs20_id):
 
 
 def convert_network_traffic_to_tcp_packet(obj20, obj1x, obs20_id):
-    warn("tcp-ext in %s not handled, yet", 0, obs20_id)
+    warn("tcp-ext in %s not handled, yet", 690, obs20_id)
 
 
 def convert_network_traffic_to_icmp_packet(obj20, obj1x, obs20_id):
     icmp_ext = obj20["extensions"]["icmp-ext"]
     obj1x.internet_layer = InternetLayer()
-    # assume its a ICMPv4
+    info("Assuming imcp packet in %s is v4", 701, obs20_id)
     icmpv4 = ICMPv4Packet()
     icmpv4.icmpv4_header = ICMPv4Header()
     icmpv4.icmpv4_header.type_ = icmp_ext["icmp_type_hex"]
     icmpv4.icmpv4_header.code = icmp_ext["icmp_code_hex"]
     obj1x.internet_layer.icmpv4 = icmpv4
-    # TODO: other network-traffic properties?
     if "src_ref" in obj20 or "dst_ref" in obj20:
         nc = NetworkConnection()
         nc.source_socket_address = convert_address_ref(obj20, "src")
@@ -706,13 +708,12 @@ def convert_network_traffic_to_network_socket(obj20, obj1x, obs20_id):
     socket_ext = obj20["extensions"]["socket-ext"]
     if "address_family" in socket_ext:
         obj1x.address_family = socket_ext["address_family"]
+    if "protocol_family" in socket_ext:
+        obj1x.domain = socket_ext["protocol_family"]
     if "is_blocking" in socket_ext:
         obj1x.is_blocking = socket_ext["is_blocking"]
     if "is_listening" in socket_ext:
         obj1x.is_listening = socket_ext["is_listening"]
-    # TODO: enums are different
-    #if "protocol_family" in socket_ext:
-    #    obj1x.protocol = socket_ext["protocol_family"]
     if "socket_type" in socket_ext:
         obj1x.type_ = socket_ext["socket_type"]
     if "socket_descriptor" in socket_ext:
@@ -739,6 +740,12 @@ def convert_network_traffic_c_o(obj20, obj1x, obs20_id):
     else:
         obj1x.source_socket_address = convert_address_ref(obj20, "src")
         obj1x.destination_socket_address = convert_address_ref(obj20, "dst")
+    if "protocols" in obj20:
+        warn("%s property in %s not handled, yet", 608, "protocols", obs20_id)
+    # how is is_active related to tcp_state?
+    # TODO: start, end
+    # TODO: src_byte_count, dst_byte_count, src_packets, dst_packets, ipfix, src_payload_ref, dst_payload_ref
+    # TODO: encapsulates_refs, encapsulated_by_ref
 
 
 def convert_software_c_o(soft20, prod1x, obs20_id):
@@ -856,7 +863,6 @@ def convert_cyber_observable(c_o_object, obs20_id):
         convert_file_c_o(c_o_object, obj1x, obs20_id)
     elif type_name20 in ['ipv4-addr', 'ipv6-addr', 'mac-addr', 'email-addr']:
         # TODO: email_address have display_name property
-        obj1x.address_value = c_o_object["value"]
         convert_addr_c_o(c_o_object, obj1x, obs20_id)
     elif type_name20 == "mutex":
         obj1x.name = c_o_object["name"]
