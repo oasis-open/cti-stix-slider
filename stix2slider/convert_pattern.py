@@ -1,3 +1,4 @@
+import stix2
 from cybox.common.environment_variable import (EnvironmentVariable,
                                                EnvironmentVariableList)
 from cybox.common.hashes import Hash, HashList
@@ -14,7 +15,8 @@ from cybox.objects.file_object import File
 from cybox.objects.image_file_object import ImageFile
 from cybox.objects.mutex_object import Mutex
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
-                                           PDFFile, PDFFileMetadata)
+                                           PDFFile, PDFFileID, PDFFileMetadata,
+                                           PDFTrailer, PDFTrailerList)
 from cybox.objects.process_object import (ArgumentList, ChildPIDList,
                                           ImageInfo, Process)
 from cybox.objects.product_object import Product
@@ -38,10 +40,8 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, X509Cert,
                                                    X509Certificate,
                                                    X509V3Extensions)
-import stix2
 from stix2.patterns import (BasicObjectPathComponent, ListObjectPathComponent,
                             ObjectPath, _ComparisonExpression)
-
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
                                 IMAGE_FILE_EXTENSION_MAP,
                                 OTHER_EMAIL_HEADERS_MAP,
@@ -320,13 +320,16 @@ def add_scalar_artifact_property_pattern(obj, properties, rhs, op, id20):
     if prop_name == "mime_type":
         obj.content_type = rhs.value
         # no op because its an XML attribute
-        # TODO: warn if the op is not "equals"
+        if op != "=":
+            warn("%s is an XML attribute of %s in STIX 1.x, so the operator 'equals' is assumed in %s",
+                 0,
+                 "mime_type", "Artifact", id20)
+    # it is illegal in STIX 2.0 to have both a payload_bin and url property - be we don't warn about it here
     elif prop_name == "payload_bin":
         obj.packed_data = rhs.value
         # TODO: op?
     elif prop_name == "url":
-        pass
-        # warn - in STIX 1.x, but not python-stix???
+        obj.raw_artifact_reference = rhs.value
     # art1x.packaging.encoding.algorithm = "Base64"
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
@@ -510,27 +513,21 @@ def add_list_file_property_pattern(file_obj, properties, rhs, op, id20):
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
 
 
+_HASH_NAME_MAP = {
+    "MD5": Hash.TYPE_MD5,
+    "SHA-1": Hash.TYPE_SHA1,
+    "SHA-224": Hash.TYPE_SHA224,
+    "SHA-256": Hash.TYPE_SHA256,
+    "SHA-384": Hash.TYPE_SHA384,
+    "SHA-512": Hash.TYPE_SHA512
+}
+
+
 def add_hashes_pattern(obj, hash_type, rhs, op, id20):
-    if hash_type == "MD5":
-        obj.md5 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_MD5), id20)
-    elif hash_type == "SHA-1":
-        obj.sha1 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA1), id20)
-    elif hash_type == "SHA-224":
-        obj.sha224 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA224), id20)
-    elif hash_type == "SHA-256":
-        obj.sha256 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA256), id20)
-    elif hash_type == "SHA-384":
-        obj.sha384 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA384), id20)
-    elif hash_type == "SHA-512":
-        obj.sha512 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA512), id20)
-    else:
-        warn("Unknown hash type %s used in %s", 302, hash_type, id20)
+    cybox2_hash_type = hash_type.replace('-', '')
+    attr_name = cybox2_hash_type.lower()
+    setattr(obj, attr_name, rhs.value)
+    convert_operator(op, obj.hashes._hash_lookup(_HASH_NAME_MAP[hash_type]).simple_hash_value, id20)
 
 
 # _IMAGE_FILE_EXTENSION_MAP = {
@@ -606,52 +603,19 @@ def add_file_pdf_extension_pattern(file_obj, properties, rhs, op, id20):
                             op,
                             PDF_DOCUMENT_INFORMATION_DICT_MAP,
                             id20)
-        else:
-            warn("%s is not a legal property in the pattern of %s", 303, prop_name1, id20)
-
-
-# _PE_BINARY_FILE_HEADER_MAP = {
-#     "machine_hex": PEFileHeader.machine,
-#     "time_date_stamp": PEFileHeader.time_date_stamp,
-#     "pointer_to_symbol_table": PEFileHeader.pointer_to_symbol_table,
-#     "number_of_symbols": PEFileHeader.number_of_symbols,
-#     "size_of_optional_header": PEFileHeader.size_of_optional_header,
-#     "characteristics": PEFileHeader.characteristics,
-#
-# }
-#
-# _PE_BINARY_OPTIONAL_HEADER_MAP = {
-#     "magic_hex": PEOptionalHeader.magic,
-#     "major_linker_version": PEOptionalHeader.major_linker_version,
-#     "minor_linker_version": PEOptionalHeader.minor_linker_version,
-#     "size_of_code": PEOptionalHeader.size_of_code,
-#     "size_of_initialized_data": PEOptionalHeader.size_of_initialized_data,
-#     "size_of_uninitialized_data": PEOptionalHeader.size_of_uninitialized_data,
-#     "address_of_entry_point": PEOptionalHeader.address_of_entry_point,
-#     "base_of_code": PEOptionalHeader.base_of_code,
-#     "base_of_data": PEOptionalHeader.base_of_data,
-#     "image_base": PEOptionalHeader.image_base,
-#     "section_alignment": PEOptionalHeader.section_alignment,
-#     "file_alignment": PEOptionalHeader.file_alignment,
-#     "major_os_version": PEOptionalHeader.major_os_version,
-#     "minor_os_version": PEOptionalHeader.minor_os_version,
-#     "major_image_version": PEOptionalHeader.major_image_version,
-#     "minor_image_version": PEOptionalHeader.minor_image_version,
-#     "major_subsystem_version": PEOptionalHeader.major_subsystem_version,
-#     "minor_subsystem_version": PEOptionalHeader.minor_subsystem_version,
-#     "win32_version_value_hex": PEOptionalHeader,
-#     "size_of_image": PEOptionalHeader.size_of_image,
-#     "size_of_headers":PEOptionalHeader.size_of_headers,
-#     "checksum_hex": PEOptionalHeader.checksum,
-#     "subsystem_hex": PEOptionalHeader.subsystem,
-#     "dll_characteristics_hex": PEOptionalHeader.dll_characteristics,
-#     "size_of_stack_reserve": PEOptionalHeader.size_of_stack_reserve,
-#     "size_of_stack_commit": PEOptionalHeader.size_of_stack_commit,
-#     "size_of_heap_reserve": PEOptionalHeader.size_of_heap_reserve,
-#     "size_of_heap_commit": PEOptionalHeader.size_of_heap_commit,
-#     "loader_flags_hex": PEOptionalHeader.loader_flags,
-#     "number_of_rva_and_sizes": PEOptionalHeader.number_of_rva_and_sizes
-# }
+    elif prop_name1 == "pdfid0" or prop_name1 == "pdfid1":
+        warn("Order may not be maintained for pdfids in %s", 514, id20)
+        if not file_obj.trailers:
+            file_obj.trailers = PDFTrailerList()
+            trailer = PDFTrailer()
+            file_obj.trailers.trailer.append(trailer)
+            trailer.id_ = PDFFileID()
+        if prop_name1 == "pdfid0":
+            trailer.id_.id_string.append(rhs.value)
+        if prop_name1 == "pdfid1":
+            trailer.id_.id_string.append(rhs.value)
+    else:
+        warn("%s is not a legal property in the pattern of %s", 303, prop_name1, id20)
 
 
 def add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, id20):

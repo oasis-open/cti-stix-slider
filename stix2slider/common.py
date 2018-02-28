@@ -12,7 +12,6 @@ from cybox.objects.win_registry_key_object import RegistryValue, WinRegistryKey
 from cybox.objects.win_service_object import WinService
 from cybox.objects.win_user_object import UserAccount
 from cybox.objects.x509_certificate_object import X509Cert, X509V3Extensions
-
 from stix2slider.options import warn
 
 AUTONOMOUS_SYSTEM_MAP = {
@@ -62,10 +61,7 @@ FILE_MAP = {
     # TODO: mime_type
     "created": File.created_time,
     "modified": File.modified_time,
-    "accessed": File.accessed_time,
-    # TODO: is_encrypted
-    "encrpytion_algorithm": File.encryption_algorithm,
-    "decryption_key": File.decryption_key
+    "accessed": File.accessed_time
 }
 
 
@@ -95,7 +91,8 @@ PE_BINARY_FILE_HEADER_MAP = {
     "time_date_stamp": PEFileHeader.time_date_stamp,
     "pointer_to_symbol_table_hex": PEFileHeader.pointer_to_symbol_table,
     "number_of_symbols": PEFileHeader.number_of_symbols,
-    "size_of_optional_header": PEFileHeader.size_of_optional_header
+    "size_of_optional_header": PEFileHeader.size_of_optional_header,
+    "characteristics_hex": PEFileHeader.characteristics
 }
 
 

@@ -2,8 +2,8 @@
 # encoding: utf-8
 from __future__ import print_function
 
-from io import StringIO
 import sys
+from io import StringIO
 
 from antlr4 import *
 

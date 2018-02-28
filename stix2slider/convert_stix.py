@@ -1,7 +1,16 @@
 import uuid
 
+import stixmarx
 from cybox.core import Observable
 from six import text_type
+from stix2slider.convert_cyber_observables import convert_cyber_observables
+from stix2slider.options import debug, error, get_option_value, warn
+from stix2slider.pattern_grammar import create_pattern_object
+from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
+                                        INDICATOR_LABEL_MAP,
+                                        MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
+                                        SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
+                                        THREAT_ACTOR_SOPHISTICATION_MAP)
 from stix.campaign import Campaign, Names
 from stix.coa import CourseOfAction
 from stix.common.datetimewithprecision import DateTimeWithPrecision
@@ -38,17 +47,6 @@ from stix.ttp.attack_pattern import AttackPattern
 from stix.ttp.malware_instance import MalwareInstance
 from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
-import stixmarx
-
-from stix2slider.convert_cyber_observables import convert_cyber_observables
-from stix2slider.options import debug, error, get_option_value, warn
-from stix2slider.pattern_grammar import create_pattern_object
-from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
-                                        INDICATOR_LABEL_MAP,
-                                        MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
-                                        SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
-                                        THREAT_ACTOR_SOPHISTICATION_MAP,
-                                        TOOL_LABELS_MAP)
 
 CONTAINER = None
 
@@ -101,7 +99,6 @@ def create_victim_target(source, target_ref, target_obj_ref_1x):
     _VICTIM_TARGET_TTPS.append(ttp)
     source.observed_ttps.append(ttp)
     identity1x_tuple[1] = True
-
 
 
 _RELATIONSHIP_MAP = {
@@ -282,9 +279,6 @@ def get_type_from_id(id_):
     return parts[0]
 
 
-_SQUIRREL_AWAY_MISSING_PROPERTIES = True
-
-
 def add_missing_property_to_description(obj1x, property_name, property_value):
     if not get_option_value("no_squirrel_gaps"):
         obj1x.add_description(property_name + ": " + text_type(property_value))
@@ -409,7 +403,7 @@ def convert_coa(coa20):
 
 
 def add_missing_property_to_free_text_lines(ident1x, property_name, property_value):
-    if _SQUIRREL_AWAY_MISSING_PROPERTIES:
+    if not get_option_value("no_squirrel_gaps"):
         ident1x.add_free_text_line(property_name + ": " + property_value)
 
 
@@ -428,8 +422,8 @@ def convert_identity(ident20):
             ident1x.roles = ident20["labels"]
         if ("sectors" in ident20 or
                 "contact_information" in ident20 or
-                    "identity_class" in ident20 or
-                        "description" in ident20):
+                "identity_class" in ident20 or
+                "description" in ident20):
             ident1x.specification = STIXCIQIdentity3_0()
             if ident20["identity_class"] == "organization":
                 party_name = PartyName()
@@ -633,7 +627,7 @@ def convert_tool(tool20):
     if "labels" in tool20:
         warn("labels not representable in a STIX 1.x ToolInformation.  Found in %s", 502, tool20["id"])
         # bug in python_stix prevents using next line of code
-        #tool1x.type_ = convert_open_vocabs_to_controlled_vocabs(tool20["labels"], TOOL_LABELS_MAP)
+        # tool1x.type_ = convert_open_vocabs_to_controlled_vocabs(tool20["labels"], TOOL_LABELS_MAP)
     ttp = TTP(id_=convert_id20(tool20["id"]),
               timestamp=text_type(tool20["modified"]))
     ttp.resource = Resource(tools=Tools([tool1x]))
