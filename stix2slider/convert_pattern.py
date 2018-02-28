@@ -2,6 +2,7 @@ import stix2
 from cybox.common.environment_variable import (EnvironmentVariable,
                                                EnvironmentVariableList)
 from cybox.common.hashes import Hash, HashList
+from cybox.common.vocabs import VocabString
 from cybox.core import Observable
 from cybox.core.observable import ObservableComposition
 from cybox.objects.address_object import Address
@@ -9,14 +10,20 @@ from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
-from cybox.objects.email_message_object import (EmailAddress, EmailHeader,
+from cybox.objects.email_message_object import (Attachments, EmailAddress, EmailHeader,
                                                 EmailMessage, EmailRecipients)
 from cybox.objects.file_object import File
 from cybox.objects.image_file_object import ImageFile
+from cybox.objects.http_session_object import (HTTPSession, HTTPRequestResponse, HTTPClientRequest, HTTPRequestLine,
+                                               HTTPRequestHeader, HTTPRequestHeaderFields, HTTPMessage)
 from cybox.objects.mutex_object import Mutex
+from cybox.objects.network_connection_object import NetworkConnection, SocketAddress
+from cybox.objects.network_packet_object import (NetworkPacket, TransportLayer, TCP, InternetLayer, ICMPv4Packet,
+                                                 ICMPv4Header)
+from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
-                                           PDFFile, PDFFileID, PDFFileMetadata,
-                                           PDFTrailer, PDFTrailerList)
+                                           PDFFile, PDFFileID, PDFFileMetadata, PDFTrailer, PDFTrailerList)
+from cybox.objects.port_object import Port
 from cybox.objects.process_object import (ArgumentList, ChildPIDList,
                                           ImageInfo, Process)
 from cybox.objects.product_object import Product
@@ -47,7 +54,9 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
                                 OTHER_EMAIL_HEADERS_MAP,
                                 PDF_DOCUMENT_INFORMATION_DICT_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
-                                PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP,
+                                PE_BINARY_OPTIONAL_HEADER_MAP,
+                                HTTP_REQUEST_HEADERS_MAP,
+                                PROCESS_MAP,
                                 STARTUP_INFO_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
@@ -55,8 +64,9 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
                                 X509_V3_EXTENSIONS_TYPE_MAP, convert_pe_type)
 from stix2slider.convert_cyber_observables import (convert_addr_c_o,
                                                    convert_artifact_c_o,
-                                                   convert_file_c_o)
-from stix2slider.options import warn
+                                                   convert_file_c_o,
+                                                   add_host)
+from stix2slider.options import warn, info
 
 _CYBOX_OBJECT_MAP = {
     "artifact": Artifact,
@@ -73,6 +83,11 @@ _CYBOX_OBJECT_MAP = {
     "ipv4-addr": Address,
     "ipv6-addr": Address,
     "mutex": Mutex,
+    "network-traffic": NetworkConnection,
+    "http-request-ext": HTTPSession,
+    "icmp-ext": NetworkPacket,
+    "socket-ext": NetworkSocket,
+    "tcp-ext": NetworkPacket,
     "process": Process,
     "software": Product,
     "url": URI,
@@ -116,6 +131,8 @@ class ComparisonExpressionForSlider(_ComparisonExpression):
             convert_email_message_pattern(self, existing_obj, id20)
         elif isinstance(existing_obj, File):
             convert_file_pattern(self, existing_obj, id20)
+        elif isinstance(existing_obj, HTTPSession):
+            convert_http_session_pattern(self, existing_obj, id20)
         elif isinstance(existing_obj, Mutex):
             convert_mutex_pattern(self, existing_obj, id20)
         elif (isinstance(existing_obj, Process) or
@@ -124,6 +141,12 @@ class ComparisonExpressionForSlider(_ComparisonExpression):
             convert_process_pattern(self, existing_obj, id20)
         elif isinstance(existing_obj, Product):
             convert_software_pattern(self, existing_obj, id20)
+        elif isinstance(existing_obj, NetworkConnection):
+            convert_network_connection_pattern(self, existing_obj, id20)
+        elif isinstance(existing_obj, NetworkPacket):
+            convert_network_packet_pattern(self, existing_obj, id20)
+        elif isinstance(existing_obj, NetworkSocket):
+            convert_network_socket_pattern(self, existing_obj, id20)
         elif isinstance(existing_obj, URI):
             convert_url_pattern(self, existing_obj, id20)
         elif (isinstance(existing_obj, UserAccount) or
@@ -267,6 +290,10 @@ def map_extensions_to_cybox_class(types):
             types = types - set(["user-account"])
             stix2_type_name = types.pop()
             return _CYBOX_OBJECT_MAP[stix2_type_name]
+        elif "network-traffic" in types:
+            types = types - set(["network-traffic"])
+            stix2_type_name = types.pop()
+            return _CYBOX_OBJECT_MAP[stix2_type_name]
     else:
         pass
         # warn: don't handle more than one extension yet
@@ -344,13 +371,6 @@ def convert_artifact_pattern(exp20, obj1x, id20):
         add_hashes_pattern(obj1x, exp20.lhs.property_path[1].property_name, exp20.rhs, exp20.operator, id20)
     else:
         add_scalar_artifact_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
-
-
-# _AUTONOMOUS_SYSTEM_MAP = {
-#     "number": AutonomousSystem.number,
-#     "name": AutonomousSystem.name,
-#     "rir": AutonomousSystem.regional_internet_registry
-# }
 
 
 def convert_autonomous_system_pattern(exp20, obj1x, id20):
@@ -450,6 +470,19 @@ def add_list_email_message_property_pattern(obj, properties, rhs, op, id20):
             obj.bcc.append(add_obj)
         else:
             warn("number indicies in %s not handled, yet", 602, id20)
+    elif prop_name == "body_multipart":
+        prop_name1 = properties[1].property_name
+        if properties[0].index == "*":
+            if prop_name1 == "body_raw_ref":
+                prop_name2 = properties[2].property_name
+                if prop_name2 == "name":
+                    # assume its a file name
+                    ref_obj = File()
+                    convert_file_c_o({"name": rhs.value}, ref_obj, id20)
+                    convert_operator(op, ref_obj.file_name, id20)
+                    obj.attachments = Attachments()
+                    obj.add_related(ref_obj, "Contains", inline=True)
+                    obj.attachments.append(ref_obj.parent.id_)
     elif prop_name == "additional_header_fields":
         prop_name1 = properties[1].property_name
         if not convert_pattern(obj, prop_name1, rhs, op, OTHER_EMAIL_HEADERS_MAP, id20):
@@ -465,21 +498,6 @@ def convert_email_message_pattern(exp20, obj1x, id20):
         add_list_email_message_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
     else:
         add_scalar_email_message_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
-
-
-# _FILE_MAP = {
-#     "size": File.size_in_bytes,
-#     "name": File.file_name,
-#     # TODO: name_enc
-#     "magic_number_hex": File.magic_number,
-#     # TODO: mime_type
-#     "created": File.created_time,
-#     "modified": File.modified_time,
-#     "accessed": File.accessed_time,
-#     # TODO: is_encrypted
-#     "encrpytion_algorithm": File.encryption_algorithm,
-#     "decryption_key": File.decryption_key
-# }
 
 
 def add_scalar_file_property_pattern(file_obj, properties, rhs, op, id20):
@@ -530,15 +548,6 @@ def add_hashes_pattern(obj, hash_type, rhs, op, id20):
     convert_operator(op, obj.hashes._hash_lookup(_HASH_NAME_MAP[hash_type]).simple_hash_value, id20)
 
 
-# _IMAGE_FILE_EXTENSION_MAP = {
-#     "image_height": ImageFile.image_height,
-#     "image_width": ImageFile.image_width,
-#     "bits_per_pixel": ImageFile.bits_per_pixel,
-#     "image_compression_algorithm": ImageFile.compression_algorithm
-# }
-#
-
-
 def add_file_archive_extension_pattern(file_obj, properties, rhs, op, id20):
     prop_name1 = properties[1].property_name
     if prop_name1 == "comment":
@@ -552,7 +561,7 @@ def add_file_archive_extension_pattern(file_obj, properties, rhs, op, id20):
         if isinstance(properties[0], ListObjectPathComponent):
             if properties[0].index == "*":
                 ref_obj = File()
-                convert_file_c_o({"name": rhs.value}, ref_obj)
+                convert_file_c_o({"name": rhs.value}, ref_obj, id20)
                 # ref_obj. = convert_operator(op)
                 file_obj.archived_file.append(ref_obj)
             else:
@@ -722,23 +731,6 @@ def convert_url_pattern(exp20, obj1x, id20):
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
 
 
-# _WINDOWS_PROCESS_EXTENSION_MAP = {
-#     "aslr_enabled": WinProcess.aslr_enabled,
-#     "dep_enabled": WinProcess.dep_enabled,
-#     "priority": WinProcess.priority,
-#     "owner_sid": WinProcess.security_id,
-#     "window_title": WinProcess.window_title
-# }
-#
-#
-# _PROCESS_MAP = {
-#     "is_hidden": Process.is_hidden,
-#     "pid": Process.pid,
-#     "name": Process.name,
-#     "created": Process.creation_time
-# }
-
-
 def add_scalar_process_property_pattern(process_obj, properties, rhs, op, id20):
     prop_name0 = properties[0].property_name
     if convert_pattern(process_obj, prop_name0, rhs, op, PROCESS_MAP, id20):
@@ -757,7 +749,7 @@ def add_scalar_process_property_pattern(process_obj, properties, rhs, op, id20):
             warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, prop_name1, "Account", id20)
     elif prop_name0 == "binary_ref":
         # TODO: what if there are mutiple references to the same object?
-        obs = convert_file_c_o({properties[1].property_name: rhs.value}, File())
+        obs = convert_file_c_o({properties[1].property_name: rhs.value}, File(), id20)
         # operator??
         process_obj.add_related(obs, "Contains", inline=True)
     elif prop_name0 == "parent_ref":
@@ -778,6 +770,148 @@ def convert_mutex_pattern(exp20, obj1x, id20):
         # TODO: do we need an operator?
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
+
+
+def fill_network_connection_reference(nc, prop_name0, rhs, op, id20):
+    if prop_name0 == "src_ref":
+        if not nc.source_socket_address:
+            nc.source_socket_address = SocketAddress()
+        nc.source_socket_address.ip_address = Address()
+        # TODO: could be v6
+        convert_addr_c_o({"value": rhs.value, "type": 'ipv4-addr'}, nc.source_socket_address.ip_address, id20)
+        convert_operator(op, nc.source_socket_address.ip_address, id20)
+    elif prop_name0 == "src_port":
+        if not nc.source_socket_address:
+            nc.source_socket_address = SocketAddress()
+        nc.source_socket_address.port = Port()
+        nc.source_socket_address.port.port_value = rhs.value
+        convert_operator(op, nc.source_socket_address.port.port_value, id20)
+    elif prop_name0 == "dst_ref":
+        if not nc.destination_socket_address:
+            nc.destination_socket_address = SocketAddress()
+        nc.destination_socket_address.ip_address = Address()
+        # TODO: could be v6
+        convert_addr_c_o({"value": rhs.value, "type": 'ipv4-addr'}, nc.destination_socket_address.ip_address, id20)
+        convert_operator(op, nc.destination_socket_address.ip_address, id20)
+    elif prop_name0 == "dst_port":
+        if not nc.destination_socket_address:
+            nc.destination_socket_address = SocketAddress()
+        nc.destination_socket_address.port = Port()
+        nc.destination_socket_address.port.port_value = rhs.value
+        convert_operator(op, nc.destination_socket_address.port.port_value, id20)
+
+
+def add_network_connection_reference(session_obj, properties, rhs, op, id20):
+    prop_name0 = properties[0].property_name
+    if prop_name0 == "src_ref" or prop_name0 == "dst_ref" or prop_name0 == "src_port" or prop_name0 == "dst_port":
+        if not session_obj.parent.related_objects:
+            nc = NetworkConnection()
+            session_obj.add_related(nc, VocabString("Connection_Used"), inline=True)
+        else:
+            # will there ever be more than one?
+            # TODO: some error checking
+            nc = session_obj.parent.related_objects[0].get_properties()
+        fill_network_connection_reference(nc, prop_name0, rhs, op, id20)
+
+
+def add_http_session_extension_pattern(session_obj, properties, rhs, op, id20):
+    prop_name = properties[0].property_name
+    if not session_obj.http_request_response:
+        rr = HTTPRequestResponse()
+        session_obj.http_request_response.append(rr)
+        rr.http_client_request = HTTPClientRequest()
+    else:
+        rr = session_obj.http_request_response[0]
+    if prop_name == "request_method":
+        if not rr.http_client_request.http_request_line:
+            rr.http_client_request.http_request_line = HTTPRequestLine()
+        rr.http_client_request.http_request_line.http_method = rhs.value
+        convert_operator(op, rr.http_client_request.http_request_line.http_method, id20)
+    elif prop_name == "request_value":
+        if not rr.http_client_request.http_request_line:
+            rr.http_client_request.http_request_line = HTTPRequestLine()
+        rr.http_client_request.http_request_line.value = rhs.value
+        convert_operator(op, rr.http_client_request.http_request_line.value, id20)
+    elif prop_name == "request_version":
+        if not rr.http_client_request.http_request_line:
+            rr.http_client_request.http_request_line = HTTPRequestLine()
+        rr.http_client_request.http_request_line.version = rhs.value
+        convert_operator(op, rr.http_client_request.http_request_line.version, id20)
+    elif prop_name == "request_header":
+        prop_name1 = properties[1].property_name
+        if not rr.http_client_request.http_request_header:
+            rr.http_client_request.http_request_header = HTTPRequestHeader()
+            rr.http_client_request.http_request_header.parsed_header = HTTPRequestHeaderFields()
+        convert_pattern(rr.http_client_request.http_request_header.parsed_header,
+                               prop_name1,
+                               rhs,
+                               op,
+                               HTTP_REQUEST_HEADERS_MAP,
+                               id20)
+        if prop_name1 == "Host":
+            rr.http_client_request.http_request_header.parsed_header.host = add_host(rhs.value)
+            convert_operator(op, rr.http_client_request.http_request_header.parsed_header.host, id20)
+        elif prop_name1 == "From":
+            rr.http_client_request.http_request_header.parsed_header.from_ = EmailAddress(rhs.value)
+            convert_operator(op, rr.http_client_request.http_request_header.parsed_header.from_, id20)
+        elif prop_name1 == "Referer":
+            rr.http_client_request.http_request_header.parsed_header.referer = URI(rhs.value)
+            convert_operator(op, rr.http_client_request.http_request_header.parsed_header.referer.value, id20)
+        elif prop_name1 == "X_Wap_Profile":
+            rr.http_client_request.http_request_header.parsed_header.x_wap_profile = URI(rhs.value)
+            convert_operator(op, rr.http_client_request.http_request_header.parsed_header.x_wap_profile.value, id20)
+    elif prop_name == "message_body_length" or prop_name == "message_body_data_ref":
+        body = HTTPMessage()
+        if prop_name == "message_body_length":
+            body.length = rhs.value
+        # TODO: message_body_data_ref
+        rr.http_client_request.http_message_body = body
+
+
+def convert_http_session_pattern(exp20, obj1x, id20):
+    if len(exp20.lhs.property_path) > 2 and \
+            isinstance(exp20.lhs.property_path[0], stix2.BasicObjectPathComponent) and \
+            exp20.lhs.property_path[0].property_name == 'extensions':
+        add_http_session_extension_pattern(obj1x, exp20.lhs.property_path[2: ], exp20.rhs, exp20.operator, id20)
+    else:
+        add_network_connection_reference(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
+
+
+def convert_icmp_packet_pattern(packet_obj, properties, rhs, op, id20):
+    prop_name = properties[0].property_name
+    if not packet_obj.internet_layer:
+        info("Assuming imcp packet in %s is v4", 701, id20)
+        packet_obj.internet_layer = InternetLayer()
+        packet_obj.internet_layer.icmpv4 = ICMPv4Packet()
+        packet_obj.internet_layer.icmpv4.icmpv4_header = ICMPv4Header()
+    if prop_name == "icmp_type_hex":
+        packet_obj.internet_layer.icmpv4.icmpv4_header.type_ = rhs.value
+        convert_operator(op, packet_obj.internet_layer.icmpv4.icmpv4_header.type_, id20)
+    elif prop_name == "icmp_code_hex":
+        packet_obj.internet_layer.icmpv4.icmpv4_header.code = rhs.value
+        convert_operator(op, packet_obj.internet_layer.icmpv4.icmpv4_header.code, id20)
+
+
+def convert_network_packet_pattern(exp20, obj1x, id20):
+    if len(exp20.lhs.property_path) > 2 and \
+            isinstance(exp20.lhs.property_path[0], stix2.BasicObjectPathComponent) and \
+                    exp20.lhs.property_path[0].property_name == 'extensions':
+        prop_name = exp20.lhs.property_path[1].property_name
+        if "tcp-ext" == prop_name:
+            warn("tcp-ext in %s not handled, yet", 690, id20)
+        elif "icmp-ext" == prop_name:
+            convert_icmp_packet_pattern(obj1x, exp20.lhs.property_path[2: ], exp20.rhs, exp20.operator, id20)
+    else:
+        # TODO: message
+        pass
+
+
+def convert_network_socket_pattern(exp20, obj1x, id20):
+    pass
+
+
+def convert_network_connection_pattern(exp20, obj1x, id20):
+    fill_network_connection_reference(obj1x, exp20.lhs.property_path[0].property_name, exp20.rhs, exp20.operator, id20)
 
 
 def add_list_process_property_pattern(process_obj, properties, rhs, op, id20):
@@ -814,43 +948,6 @@ def add_list_process_property_pattern(process_obj, properties, rhs, op, id20):
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
 
-# _WINDOWS_PROCESS_EXTENSION_MAP = {
-#     "aslr_enabled": WinProcess.aslr_enabled,
-#     "dep_enabled": WinProcess.dep_enabled,
-#     "priority": WinProcess.priority,
-#     "owner_sid": WinProcess.security_id,
-#     "window_title": WinProcess.window_title
-# }
-#
-#
-# _STARTUP_INFO_MAP = {
-#     "lpdesktop": StartupInfo.lpdesktop,
-#     "lptitle": StartupInfo.lptitle,
-#     "dwx": StartupInfo.dwx,
-#     "dwy": StartupInfo.dwy,
-#     "dwxsize": StartupInfo.dwxsize,
-#     "dwysize": StartupInfo.dwysize,
-#     "dwxcountchars": StartupInfo.dwxcountchars,
-#     "dwycountchars": StartupInfo.dwycountchars,
-#     "dwfillattribute": StartupInfo.dwfillattribute,
-#     "dwflags": StartupInfo.dwflags,
-#     "wshowwindow": StartupInfo.wshowwindow,
-#     "hstdinput": StartupInfo.hstdinput,
-#     "hstdoutput": StartupInfo.hstdoutput,
-#     "hstderror": StartupInfo.hstderror
-# }
-#
-#
-# _WINDOWS_SERVICE_EXTENSION_MAP = {
-#     "service_name": WinService.service_name,
-#     "display_name": WinService.display_name,
-#     "group_name": WinService.group_name,
-#     "start_type": WinService.startup_type,
-#     "service_type": WinService.service_type,
-#     "service_status": WinService.service_status
-#
-# }
-
 
 def add_process_extension_pattern(process_obj, properties, rhs, op, id20):
     prop_name0 = properties[0].property_name
@@ -884,7 +981,7 @@ def convert_process_pattern(exp20, obj1x, id20):
     elif len(exp20.lhs.property_path) > 2 and \
             isinstance(exp20.lhs.property_path[0], stix2.BasicObjectPathComponent) and \
             exp20.lhs.property_path[0].property_name == 'extensions':
-        add_process_extension_pattern(obj1x, exp20.lhs.property_path[1, ], exp20.rhs, exp20.operator, id20)
+        add_process_extension_pattern(obj1x, exp20.lhs.property_path[1: ], exp20.rhs, exp20.operator, id20)
     else:
         add_scalar_process_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
 
@@ -1002,26 +1099,6 @@ def convert_registry_key_pattern(exp20, obj1x, id20):
     else:
         add_scalar_registry_key_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
 
-
-# _X509_CERTIFICATE_MAP = {
-#     # "is_self_signed": ,
-#     # "hashes": ,
-#     "version": X509Cert.version,  #
-#     "serial_number": X509Cert.serial_number, #
-#     "signature_algorithm": X509Cert.signature_algorithm, #
-#     "issuer": X509Cert.issuer, #
-#     "validity_not_before": lambda obj, rhs_value: convert_subfield(obj, rhs_value, "validity", Validity, Validity.not_before),
-#     "validity_not_after": lambda obj, rhs_value: convert_subfield(obj, rhs_value, "validity", Validity, Validity.not_after),
-#     "subject": X509Cert.subject
-# }
-#
-#
-# _X509_V3_EXTENSIONS_TYPE_MAP = {
-#     "basic_constraints": X509V3Extensions.basic_constraints,
-#     "name_constraints": X509V3Extensions.name_constraints,
-#     "policy_constraints": X509V3Extensions.policy_constraints
-# }
-#
 
 def convert_x509_certificate_pattern(exp20, obj1x, id20):
     prop_name = exp20.lhs.property_path[0].property_name

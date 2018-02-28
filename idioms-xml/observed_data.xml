@@ -28,6 +28,12 @@
 	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
 	xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
+    xmlns:NetworkSocketObj="http://cybox.mitre.org/objects#NetworkSocketObject-2"
+    xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+    xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+    xmlns:HTTPSessionObj="http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    xmlns:PacketObj="http://cybox.mitre.org/objects#PacketObject-2"
+    xmlns:PortObj="http://cybox.mitre.org/objects#PortObject-2"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
@@ -405,6 +411,95 @@
                         </X509CertificateObj:Validity>
                         <X509CertificateObj:Subject>C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org</X509CertificateObj:Subject>
                     </X509CertificateObj:Certificate>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:HTTPSession-27f64187-315d-4c6b-8c22-de3cc74c75c7">
+                <cybox:Properties xsi:type="HTTPSessionObj:HTTPSessionObjectType">
+                    <HTTPSessionObj:HTTP_Request_Response>
+                        <HTTPSessionObj:HTTP_Client_Request>
+                            <HTTPSessionObj:HTTP_Request_Line>
+                                <HTTPSessionObj:HTTP_Method>get</HTTPSessionObj:HTTP_Method>
+                                <HTTPSessionObj:Value>/download.html</HTTPSessionObj:Value>
+                                <HTTPSessionObj:Version>http/1.1</HTTPSessionObj:Version>
+                            </HTTPSessionObj:HTTP_Request_Line>
+                            <HTTPSessionObj:HTTP_Request_Header>
+                                <HTTPSessionObj:Parsed_Header>
+                                    <HTTPSessionObj:Accept_Encoding>gzip,deflate</HTTPSessionObj:Accept_Encoding>
+                                    <HTTPSessionObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                        <AddressObj:Address_Value>foo@bar.com</AddressObj:Address_Value>
+                                    </HTTPSessionObj:From>
+                                    <HTTPSessionObj:Host>
+                                        <HTTPSessionObj:Domain_Name xsi:type="URIObj:URIObjectType" type="Domain Name">
+                                            <URIObj:Value>www.example.com</URIObj:Value>
+                                        </HTTPSessionObj:Domain_Name>
+                                    </HTTPSessionObj:Host>
+                                    <HTTPSessionObj:User_Agent>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113</HTTPSessionObj:User_Agent>
+                                </HTTPSessionObj:Parsed_Header>
+                            </HTTPSessionObj:HTTP_Request_Header>
+                        </HTTPSessionObj:HTTP_Client_Request>
+                    </HTTPSessionObj:HTTP_Request_Response>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:NetworkConnection-008c242e-db16-4ece-b7a1-a0d5f39fa1b5">
+                        <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                            <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                                <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                    <AddressObj:Address_Value>198.51.100.53</AddressObj:Address_Value>
+                                </SocketAddressObj:IP_Address>
+                            </NetworkConnectionObj:Destination_Socket_Address>
+                        </cybox:Properties>
+                        <cybox:Relationship>Connection_Used</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-e98d85ac-f848-4d1a-b344-bf3b81dbc91b">
+            <cybox:Object id="example:NetworkPacket-7261220e-6d86-4ced-aabe-1d0b2a8651e0">
+                <cybox:Properties xsi:type="PacketObj:NetworkPacketObjectType">
+                    <PacketObj:Internet_Layer>
+                        <PacketObj:ICMPv4>
+                            <PacketObj:ICMPv4_Header>
+                                <PacketObj:Type>08</PacketObj:Type>
+                                <PacketObj:Code>00</PacketObj:Code>
+                            </PacketObj:ICMPv4_Header>
+                        </PacketObj:ICMPv4>
+                    </PacketObj:Internet_Layer>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:NetworkConnection-4a20181f-7527-46f3-a71b-7c43890f9faa">
+                        <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                            <NetworkConnectionObj:Source_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                                <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                    <AddressObj:Address_Value>198.51.100.9</AddressObj:Address_Value>
+                                </SocketAddressObj:IP_Address>
+                            </NetworkConnectionObj:Source_Socket_Address>
+                            <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                                <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                    <AddressObj:Address_Value>203.0.113.5</AddressObj:Address_Value>
+                                </SocketAddressObj:IP_Address>
+                            </NetworkConnectionObj:Destination_Socket_Address>
+                        </cybox:Properties>
+                        <cybox:Relationship>Connection_Used</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-8647e9be-c8df-44d5-af4a-9dd4ae43c641">
+            <cybox:Object id="example:NetworkSocket-db37a8fe-20d3-4a7b-8996-b830cc477bbd">
+                <cybox:Properties xsi:type="NetworkSocketObj:NetworkSocketObjectType" is_listening="true">
+                    <NetworkSocketObj:Address_Family>AF_INET</NetworkSocketObj:Address_Family>
+                    <NetworkSocketObj:Domain>PF_INET</NetworkSocketObj:Domain>
+                    <NetworkSocketObj:Local_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.2</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                        <SocketAddressObj:Port xsi:type="PortObj:PortObjectType">
+                            <PortObj:Port_Value>223</PortObj:Port_Value>
+                        </SocketAddressObj:Port>
+                    </NetworkSocketObj:Local_Address>
+                    <NetworkSocketObj:Type>SOCK_STREAM</NetworkSocketObj:Type>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

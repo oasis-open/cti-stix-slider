@@ -1,10 +1,15 @@
 from cybox.objects.account_object import Account
+from cybox.objects.address_object import EmailAddress
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.email_message_object import EmailHeader, EmailMessage
 from cybox.objects.file_object import File
 from cybox.objects.image_file_object import ImageFile
+from cybox.objects.network_socket_object import SocketOptions
 from cybox.objects.pdf_file_object import PDFDocumentInformationDictionary
+from cybox.objects.port_object import Port
 from cybox.objects.process_object import Process
+from cybox.objects.http_session_object import HTTPRequestHeaderFields, HostField
+from cybox.objects.uri_object import URI
 from cybox.objects.win_executable_file_object import (PEFileHeader,
                                                       PEOptionalHeader)
 from cybox.objects.win_process_object import StartupInfo, WinProcess
@@ -175,6 +180,87 @@ STARTUP_INFO_MAP = {
     "hstderror": StartupInfo.hstderror
 }
 
+def add_host(host_info):
+    uri_port = host_info.split(":")
+    hf = HostField()
+    if len(uri_port) > 1:
+        port = Port()
+        port.port_value = uri_port[1]
+        hf.port = port
+    hf.domain_name = URI(uri_port[0], URI.TYPE_DOMAIN)
+    return hf
+
+
+# see https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+
+HTTP_REQUEST_HEADERS_MAP = {
+        "Accept": HTTPRequestHeaderFields.accept,
+        "Accept-Charset": HTTPRequestHeaderFields.accept_charset,
+        "Accept-Language": HTTPRequestHeaderFields.accept_language,
+        "Accept-Dateime": HTTPRequestHeaderFields.accept_datetime,
+        "Accept-Encoding": HTTPRequestHeaderFields.accept_encoding,
+        "Authorization": HTTPRequestHeaderFields.authorization,
+        "Cache-Control": HTTPRequestHeaderFields.cache_control,
+        "Connection": HTTPRequestHeaderFields.connection,
+        "Cookie": HTTPRequestHeaderFields.cookie,
+        "Content-Length": HTTPRequestHeaderFields.content_length,
+        "Content-MD5": HTTPRequestHeaderFields.content_md5,
+        "Content-Type": HTTPRequestHeaderFields.content_type ,
+        "Date": HTTPRequestHeaderFields.date,
+        "Expect": HTTPRequestHeaderFields.expect,
+        # From handled elsewhere
+        # Forwarded? - no cybox
+        # Host handled elsewhere
+        "If-Match": HTTPRequestHeaderFields.if_match,
+        "If-Modified-Since":  HTTPRequestHeaderFields.if_modified_since,
+        "If-None-Match": HTTPRequestHeaderFields.if_none_match,
+        "If-Range": HTTPRequestHeaderFields.if_range,
+        "If-Unmodified-Since": HTTPRequestHeaderFields.if_unmodified_since,
+        "Max-Forwards": HTTPRequestHeaderFields.max_forwards,
+        # Origin? - no cybox
+        "Pragma": HTTPRequestHeaderFields.pragma,
+        "Proxy-Authorization": HTTPRequestHeaderFields.proxy_authorization,
+        # Proxy-Connection? - no cybox
+        "Range": HTTPRequestHeaderFields.range_,
+        # Referer handled elsewhere
+        "TE": HTTPRequestHeaderFields.te,
+        # Upgrade? - no cybox
+        "User-Agent": HTTPRequestHeaderFields.user_agent,
+        "Via": HTTPRequestHeaderFields.via,
+        "Warning": HTTPRequestHeaderFields.warning,
+        "DNT": HTTPRequestHeaderFields.dnt,
+        "X-Requested_With": HTTPRequestHeaderFields.x_requested_with,
+        "X-Forward-For": HTTPRequestHeaderFields.x_forwarded_for,
+        "X-Forward-Pronto": HTTPRequestHeaderFields.x_forwarded_proto,
+        "X-ATT-DeviceId": HTTPRequestHeaderFields.x_att_deviceid
+        # X-Request_ID? - no cybox
+        # X_Wap_Profile handled elsewhere
+}
+
+
+SOCKET_OPTIONS_MAP = {
+    "IP_MULTICAST_IF": SocketOptions.ip_multicast_if,
+    "IP_MULTICAST_IF2": SocketOptions.ip_multicast_if2,
+    "IP_MULTICAST_LOOP": SocketOptions.ip_multicast_loop,
+    "IP_TOS": SocketOptions.ip_tos,
+    "SO_BROADCAST": SocketOptions.so_broadcast,
+    "SO_CONDITIONAL_ACCEPT": SocketOptions.so_conditional_accept,
+    "SO_KEEPALIVE": SocketOptions.so_keepalive,
+    "SO_DONTROUTE": SocketOptions.so_dontroute,
+    "SO_LINGER": SocketOptions.so_linger,
+    "SO_DONTLINGER": SocketOptions.so_dontlinger,
+    "SO_OOBINLINE": SocketOptions.so_oobinline,
+    "SO_RCVBUF": SocketOptions.so_rcvbuf,
+    "SO_GROUP_PRIORITY": SocketOptions.so_group_priority,
+    "SO_REUSEADDR": SocketOptions.so_reuseaddr,
+    "SO_DEBUG": SocketOptions.so_debug,
+    "SO_RCVTIMEO": SocketOptions.so_rcvtimeo,
+    "SO_SNDBUF": SocketOptions.so_sndbuf,
+    "SO_SNDTIMEO": SocketOptions.so_sndtimeo,
+    "SO_UPDATE_ACCEPT_CONTEXT": SocketOptions.so_update_accept_context,
+    "SO_TIMEOUT": SocketOptions.so_timeout,
+    "TCP_NODELAY": SocketOptions.tcp_nodelay
+}
 
 USER_ACCOUNT_MAP = {
     # TODO: ua20["user_id"]?

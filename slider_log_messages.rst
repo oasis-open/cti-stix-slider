@@ -46,6 +46,7 @@ The 'groups' property of unix-account-ext contains strings, but the STIX 1.x pro
 No file name provided for binary_ref of [id], therefore it cannot be represented in the STIX 1.x Process object     Content not supported in STIX 1.x - Dropping                516     Warn    convert_process_c_o
 Hashes of the binary_ref of [id] process cannot be represented in the STIX 1.x Process object                       Content not supported in STIX 1.x - Dropping                517     Warn    convert_process_c_o
 resolves_to_refs in %s not representable in STIX 1.x                                                                Content not supported in STIX 1.x - Dropping                518     Warn    convert_domain_name_c_o
+Multiple Network Traffic extensions in [id] not supported yet                                                       Content not supported in STIX 1.x - Dropping                519     Warn    determine_1x_object_type
 The [property] property in [id] can refer to any object, so it is not handled yet.                                  STIX slider currently doesn't process this content          601     Warn    add_list_file_property_pattern
 number indicies in [id] not handled, yet                                                                            STIX slider currently doesn't process this content          602     Warn    *many* in convert_pattern.py
 Unable to determine STIX 1.x type for [id]                                                                          STIX slider currently doesn't process this content          603     Error   convert_cyber_observable
@@ -53,4 +54,9 @@ Granular Markings present in [id] are not supported by stix2slider              
 Source name [name] in external references of [id] not handled, yet                                                  STIX slider currently doesn't process this content          605     Warn    create_references
 [property] property in [id] not handled yet                                                                         STIX slider currently doesn't process this content          606     Warn    convert_add_c_o
 contains_refs in [id] not handled                                                                                   STIX slider currently doesn't process this content          607     Warn    convert_file_c_o
+protocols property in [id] not handled, yet                                                                         STIX slider currently doesn't process this content          608     Warn    convert_network_traffic_c_o
+tcp-ext in [id] not handled, yet                                                                                    STIX slider currently doesn't process this content          609     Warn    convert_network_traffic_to_tcp_packet
+                                                                                                                                                                                                convert_network_packet_pattern
+Assuming imcp packet in [id] is v4                                                                                  Processing based on assumptions                             701     Info    convert_network_traffic_to_icmp_packet
 =================================================================================================================== =========================================================== ====    =====   ===================================================================
+
