@@ -1,3 +1,4 @@
+import stix2
 from cybox.common.environment_variable import (EnvironmentVariable,
                                                EnvironmentVariableList)
 from cybox.common.hashes import Hash, HashList
@@ -46,10 +47,8 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, X509Cert,
                                                    X509Certificate,
                                                    X509V3Extensions)
-import stix2
 from stix2.patterns import (BasicObjectPathComponent, ListObjectPathComponent,
                             ObjectPath, _ComparisonExpression)
-
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
                                 IMAGE_FILE_EXTENSION_MAP,
                                 OTHER_EMAIL_HEADERS_MAP,
@@ -532,27 +531,21 @@ def add_list_file_property_pattern(file_obj, properties, rhs, op, id20):
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
 
 
+_HASH_NAME_MAP = {
+    "MD5": Hash.TYPE_MD5,
+    "SHA-1": Hash.TYPE_SHA1,
+    "SHA-224": Hash.TYPE_SHA224,
+    "SHA-256": Hash.TYPE_SHA256,
+    "SHA-384": Hash.TYPE_SHA384,
+    "SHA-512": Hash.TYPE_SHA512
+}
+
+
 def add_hashes_pattern(obj, hash_type, rhs, op, id20):
-    if hash_type == "MD5":
-        obj.md5 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_MD5).simple_hash_value, id20)
-    elif hash_type == "SHA-1":
-        obj.sha1 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA1).simple_hash_value, id20)
-    elif hash_type == "SHA-224":
-        obj.sha224 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA224).simple_hash_value, id20)
-    elif hash_type == "SHA-256":
-        obj.sha256 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA256).simple_hash_value, id20)
-    elif hash_type == "SHA-384":
-        obj.sha384 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA384).simple_hash_value, id20)
-    elif hash_type == "SHA-512":
-        obj.sha512 = rhs.value
-        convert_operator(op, obj.hashes._hash_lookup(Hash.TYPE_SHA512).simple_hash_value, id20)
-    else:
-        warn("Unknown hash type %s used in %s", 302, hash_type, id20)
+    cybox2_hash_type = hash_type.replace('-', '')
+    attr_name = cybox2_hash_type.lower()
+    setattr(obj, attr_name, rhs.value)
+    convert_operator(op, obj.hashes._hash_lookup(_HASH_NAME_MAP[hash_type]).simple_hash_value, id20)
 
 
 def add_file_archive_extension_pattern(file_obj, properties, rhs, op, id20):
@@ -632,6 +625,7 @@ def add_file_pdf_extension_pattern(file_obj, properties, rhs, op, id20):
             trailer.id_.id_string.append(rhs.value)
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name1, id20)
+
 
 def add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, id20):
     # TODO: imphash

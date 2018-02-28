@@ -1,5 +1,4 @@
 from functools import cmp_to_key
-from six import text_type
 
 from cybox.common.environment_variable import (EnvironmentVariable,
                                                EnvironmentVariableList)
@@ -29,8 +28,8 @@ from cybox.objects.port_object import Port
 from cybox.objects.process_object import (ArgumentList, ChildPIDList,
                                           ImageInfo, Process)
 from cybox.objects.product_object import Product
+from cybox.objects.unix_user_account_object import UnixUserAccount
 from cybox.objects.uri_object import URI
-from cybox.objects.unix_user_account_object import UnixUserAccount, UnixGroupList
 from cybox.objects.win_executable_file_object import (Entropy, PEFileHeader,
                                                       PEHeaders,
                                                       PEOptionalHeader,
@@ -49,7 +48,7 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, Validity,
                                                    X509Cert, X509Certificate,
                                                    X509V3Extensions)
-
+from six import text_type
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 EMAIL_MESSAGE_MAP, FILE_MAP,
                                 IMAGE_FILE_EXTENSION_MAP,
@@ -68,6 +67,7 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 convert_pe_type,
                                 add_host)
 from stix2slider.options import error, warn, info, get_option_value
+
 
 _EXTENSIONS_MAP = {
     "archive-ext": ArchiveFile,
@@ -118,7 +118,7 @@ def determine_1x_object_type(c_o_object):
         else:
             return Process
     if basic_type in ["user-account"]:
-        if "extensions" in c_o_object or ("account_type" in c_o_object and c_o_object["account_type"] == "unix"):
+        if "extensions" in c_o_object or c_o_object.get("account_type") == "unix":
             # extensions = list(c_o_object["extensions"].keys())
             # only one extension is defined, for UNIX, which is cover by the basic user account in STIX 1.x
             return UnixUserAccount
@@ -177,7 +177,7 @@ def add_missing_property_to_description(obj1x, property_name, property_value):
         if not obj1x.parent.description:
             obj1x.parent.description = StructuredText("")
         new_text = property_name + ": " + text_type(property_value)
-        obj1x.parent.description.value = obj1x.parent.description.value + "\n" if obj1x.parent.description.value else ""  + new_text
+        obj1x.parent.description.value = obj1x.parent.description.value + "\n" if obj1x.parent.description.value else "" + new_text
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
