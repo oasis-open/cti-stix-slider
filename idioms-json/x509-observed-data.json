@@ -1,0 +1,25 @@
+{
+  "id": "bundle--ec43e2ea-b3fd-44b5-be3b-60775d18bcdd",
+  "objects": [
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--58f2b278-dbbb-42c1-9189-8ea9f5e5c275",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+         "0": {
+            "type": "x509-certificate",
+            "issuer": "C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com",
+            "validity_not_before": "2016-03-12T12:00:00Z",
+            "validity_not_after": "2016-08-21T12:00:00Z",
+            "subject": "C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org"
+         }
+      }
+    }
+  ],
+  "spec_version": "2.0",
+  "type": "bundle"
+}

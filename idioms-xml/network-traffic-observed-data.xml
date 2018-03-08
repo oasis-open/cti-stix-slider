@@ -1,0 +1,57 @@
+<stix:STIX_Package
+	xmlns:example="http://example.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:HTTPSessionObj="http://cybox.mitre.org/objects#HTTPSessionObject-2"
+	xmlns:URIObj="http://cybox.mitre.org/objects#URIObject-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+	 id="example:STIXPackage-abfc063c-7f43-40d1-8969-647dc6d5077f" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:NetworkConnection-859f1ebb-cdcb-4fe9-b3a0-6cb5d15e6475">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.53</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Destination_Socket_Address>
+                    <NetworkConnectionObj:Layer7_Connections>
+                        <NetworkConnectionObj:HTTP_Session xsi:type="HTTPSessionObj:HTTPSessionObjectType">
+                            <HTTPSessionObj:HTTP_Request_Response>
+                                <HTTPSessionObj:HTTP_Client_Request>
+                                    <HTTPSessionObj:HTTP_Request_Line>
+                                        <HTTPSessionObj:HTTP_Method>get</HTTPSessionObj:HTTP_Method>
+                                        <HTTPSessionObj:Value>/download.html</HTTPSessionObj:Value>
+                                        <HTTPSessionObj:Version>http/1.1</HTTPSessionObj:Version>
+                                    </HTTPSessionObj:HTTP_Request_Line>
+                                    <HTTPSessionObj:HTTP_Request_Header>
+                                        <HTTPSessionObj:Parsed_Header>
+                                            <HTTPSessionObj:Accept_Encoding>gzip,deflate</HTTPSessionObj:Accept_Encoding>
+                                            <HTTPSessionObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                                <AddressObj:Address_Value>foo@bar.com</AddressObj:Address_Value>
+                                            </HTTPSessionObj:From>
+                                            <HTTPSessionObj:Host>
+                                                <HTTPSessionObj:Domain_Name xsi:type="URIObj:URIObjectType" type="Domain Name">
+                                                    <URIObj:Value>www.example.com</URIObj:Value>
+                                                </HTTPSessionObj:Domain_Name>
+                                            </HTTPSessionObj:Host>
+                                            <HTTPSessionObj:User_Agent>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113</HTTPSessionObj:User_Agent>
+                                        </HTTPSessionObj:Parsed_Header>
+                                    </HTTPSessionObj:HTTP_Request_Header>
+                                </HTTPSessionObj:HTTP_Client_Request>
+                            </HTTPSessionObj:HTTP_Request_Response>
+                        </NetworkConnectionObj:HTTP_Session>
+                    </NetworkConnectionObj:Layer7_Connections>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>
+

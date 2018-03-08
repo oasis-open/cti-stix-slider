@@ -1,0 +1,45 @@
+<stix:STIX_Package
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:PDFFileObj="http://cybox.mitre.org/objects#PDFFileObject-1"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:example="http://example.com"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	 id="example:STIXPackage-b8902913-6943-4954-a4e6-c6c5236ebb62" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-ffeb1a1e-af39-446d-a775-6a4ce022a436">
+            <cybox:Object id="example:PDFFile-e6026ac2-0acf-4989-ae92-efc7c3aaeb62">
+                <cybox:Properties xsi:type="PDFFileObj:PDFFileObjectType">
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                    <PDFFileObj:Metadata>
+                        <PDFFileObj:Document_Information_Dictionary>
+                            <PDFFileObj:Title>Sample document</PDFFileObj:Title>
+                            <PDFFileObj:Author>Adobe Systems Incorporated</PDFFileObj:Author>
+                            <PDFFileObj:Creator>Adobe FrameMaker 5.5.3 for Power Macintosh</PDFFileObj:Creator>
+                            <PDFFileObj:Producer>Acrobat Distiller 3.01 for Power Macintosh</PDFFileObj:Producer>
+                        </PDFFileObj:Document_Information_Dictionary>
+                    </PDFFileObj:Metadata>
+                    <PDFFileObj:Version>1.7</PDFFileObj:Version>
+                    <PDFFileObj:Trailers>
+                        <PDFFileObj:Trailer>
+                            <PDFFileObj:ID>
+                                <PDFFileObj:ID_String>DFCE52BD827ECF765649852119D</PDFFileObj:ID_String>
+                                <PDFFileObj:ID_String>57A1E0F9ED2AE523E313C</PDFFileObj:ID_String>
+                            </PDFFileObj:ID>
+                        </PDFFileObj:Trailer>
+                    </PDFFileObj:Trailers>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

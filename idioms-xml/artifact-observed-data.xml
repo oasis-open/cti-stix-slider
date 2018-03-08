@@ -1,0 +1,21 @@
+<stix:STIX_Package
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:example="http://example.com"
+	 id="example:STIXPackage-d5bb42ba-be32-44f1-97c6-17c781a51579" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
+            <cybox:Object id="example:Artifact-5c757ae7-148b-4932-80c6-a3be38b567fe">
+                <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="image/jpeg">
+                    <ArtifactObj:Raw_Artifact><![CDATA[VBORw0KGgoAAAANSUhEUgAAADI== ...]]></ArtifactObj:Raw_Artifact>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

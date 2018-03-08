@@ -18,14 +18,14 @@ from cybox.objects.image_file_object import ImageFile
 from cybox.objects.http_session_object import (HTTPSession, HTTPRequestResponse, HTTPClientRequest, HTTPRequestLine,
                                                HTTPRequestHeader, HTTPRequestHeaderFields, HTTPMessage)
 from cybox.objects.mutex_object import Mutex
-from cybox.objects.network_connection_object import NetworkConnection, SocketAddress
+from cybox.objects.network_connection_object import NetworkConnection, SocketAddress, Layer7Connections
 from cybox.objects.network_packet_object import (NetworkPacket, TransportLayer, TCP, InternetLayer, ICMPv4Packet,
                                                  ICMPv4Header)
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
                                            PDFFile, PDFFileID, PDFFileMetadata, PDFTrailer, PDFTrailerList)
 from cybox.objects.port_object import Port
-from cybox.objects.process_object import (ArgumentList, ChildPIDList,
+from cybox.objects.process_object import (ArgumentList, ChildPIDList, NetworkConnectionList,
                                           ImageInfo, Process)
 from cybox.objects.product_object import Product
 from cybox.objects.unix_user_account_object import UnixUserAccount
@@ -58,6 +58,7 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
                                 PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP,
                                 REGISTRY_KEY_MAP, REGISTRY_VALUE_MAP,
+                                SOCKET_MAP,
                                 SOCKET_OPTIONS_MAP,
                                 STARTUP_INFO_MAP, USER_ACCOUNT_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
@@ -77,10 +78,10 @@ _EXTENSIONS_MAP = {
     "windows-pebinary-ext": WinExecutableFile,
     "windows-process-ext": WinProcess,
     "windows-service-ext": WinService,
-    "http-request-ext": HTTPSession,
-    "icmp-ext": NetworkPacket,
-    "socket-ext": NetworkSocket,
-    "tcp-ext": NetworkPacket
+    # "http-request-ext": NetworkConnection
+    # "icmp-ext": NetworkConnection
+    # "socket-ext": NetworkConnection
+    # "tcp-ext": NetworkConnection
     # "unix-account_ext": UserAccount
 }
 
@@ -128,16 +129,6 @@ def determine_1x_object_type(c_o_object):
                     return WinUser
         # otherwise
         return UserAccount
-    if basic_type in ["network-traffic"]:
-        if "extensions" in c_o_object:
-            extensions = list(c_o_object["extensions"].keys())
-            if len(extensions) == 1:
-                return _EXTENSIONS_MAP[extensions[0]]
-            else:
-                pass
-                warn("Multiple Network Traffic extensions in %s not supported yet", 502, c_o_object["id"])
-        else:
-            return NetworkConnection
     if basic_type in ["artifact"]:
         return Artifact
     if basic_type in ["autonomous-system"]:
@@ -154,6 +145,8 @@ def determine_1x_object_type(c_o_object):
         return EmailAddress
     if basic_type in ['mutex']:
         return Mutex
+    if basic_type in ['network-traffic']:
+        return NetworkConnection
     if basic_type in ['software']:
         return Product
     if basic_type in ['url']:
@@ -228,7 +221,12 @@ def convert_domain_name_c_o(dn20, dn1x, obs20_id):
     dn1x.value = dn20["value"]
     dn1x.type_ = "FQDN"
     if "resolves_to_refs" in dn20:
-        warn("resolves_to_refs in %s not representable in STIX 1.x", 518, obs20_id)
+        for ref in dn20["resolves_to_refs"]:
+            if ref in _STIX1X_OBJS:
+                obj = _STIX1X_OBJS[ref]
+                dn1x.add_related(obj, "Resolved_To", inline=True)
+            else:
+                warn("%s ia not an index found in %s", 306, ref, obs20_id)
 
 
 def convert_archive_file_extension(archive_ext, file1x, obs20_id):
@@ -437,7 +435,7 @@ def populate_other_header_fields(headers20, header1x, obs20_id):
 def convert_email_message_c_o(em20, em1x, obs20_id):
     em1x.header = EmailHeader()
     convert_obj(em20, em1x, EMAIL_MESSAGE_MAP, obs20_id)
-    # TODO: is_multipart
+
     if "from_ref" in em20:
         if em20["from_ref"] in _STIX1X_OBJS:
             em1x.header.from_ = _STIX1X_OBJS[em20["from_ref"]]
@@ -482,8 +480,9 @@ def convert_email_message_c_o(em20, em1x, obs20_id):
             populate_received_line(rl20, rl1x, obs20_id)
     if "additional_header_fields" in em20:
         populate_other_header_fields(em20["additional_header_fields"], em1x.header, obs20_id)
-    # TODO: additional_header_fields  (in_reply_to, message_id, reply_to, errors_to, ...?
     if "body_multipart" in em20:
+        if not em20["is_multipart"]:
+            warn("The is_multipart property in %s should be 'true' if the body_multipart property is present", 313,  obs20_id)
         attachments = []
         for part in em20["body_multipart"]:
             # TODO: content_disposition is optional, so we can't depend upon it
@@ -501,6 +500,9 @@ def convert_email_message_c_o(em20, em1x, obs20_id):
             for a in attachments:
                 em1x.add_related(a, "Contains", inline=True)
                 em1x.attachments.append(a.parent.id_)
+    else:
+        if em20["is_multipart"]:
+            warn("The is_multipart property in %s should be 'false' if the body_multipart property is not present", 314,  obs20_id)
     # TODO raw_email_refs
 
 
@@ -572,9 +574,11 @@ def convert_process_c_o(process20, process1x, obs20_id):
             process1x.environment_variable_list.append(ev)
             ev.name = k
             ev.value = v
-    if "opened_connection_ref" in process20:
-        # TODO
-        pass
+    if "opened_connection_refs" in process20:
+        process1x.network_connection_list = NetworkConnectionList()
+        for conn_ref in process20["opened_connection_refs"]:
+            if conn_ref in _STIX1X_OBJS:
+                process1x.network_connection_list.append(_STIX1X_OBJS[conn_ref])
     if "creator_user_ref" in process20:
         if process20["creator_user_ref"] in _STIX1X_OBJS:
             account_object = _STIX1X_OBJS[process20["creator_user_ref"]]
@@ -625,8 +629,10 @@ def convert_address_ref(obj20, direction):
     return sa
 
 
-def convert_network_traffic_to_http_session(obj20, obj1x, obs20_id):
-    http_request_ext = obj20["extensions"]["http-request-ext"]
+def convert_network_traffic_to_http_session(http_request_ext, nc, obs20_id):
+    obj1x = HTTPSession()
+    nc.layer7_connections = Layer7Connections()
+    nc.layer7_connections.http_session = obj1x
     rr = HTTPRequestResponse()
     obj1x.http_request_response.append(rr)
     rr.http_client_request = HTTPClientRequest()
@@ -661,20 +667,10 @@ def convert_network_traffic_to_http_session(obj20, obj1x, obs20_id):
             body.length = http_request_ext["message_body_length"]
         # TODO: message_body_data_ref
         rr.http_client_request.http_message_body = body
-    # TODO: other network-traffic properties?
-    if "src_ref" in obj20 or "dst_ref" in obj20:
-        nc = NetworkConnection()
-        nc.source_socket_address = convert_address_ref(obj20, "src")
-        nc.destination_socket_address = convert_address_ref(obj20, "dst")
-        obj1x.add_related(nc, VocabString("Connection_Used"), inline=True)
 
 
-def convert_network_traffic_to_tcp_packet(obj20, obj1x, obs20_id):
-    warn("tcp-ext in %s not handled, yet", 690, obs20_id)
-
-
-def convert_network_traffic_to_icmp_packet(obj20, obj1x, obs20_id):
-    icmp_ext = obj20["extensions"]["icmp-ext"]
+def convert_network_traffic_to_network_icmp_packet(icmp_ext, nc, obs20_id):
+    obj1x = NetworkPacket()
     obj1x.internet_layer = InternetLayer()
     info("Assuming imcp packet in %s is v4", 701, obs20_id)
     icmpv4 = ICMPv4Packet()
@@ -682,64 +678,38 @@ def convert_network_traffic_to_icmp_packet(obj20, obj1x, obs20_id):
     icmpv4.icmpv4_header.type_ = icmp_ext["icmp_type_hex"]
     icmpv4.icmpv4_header.code = icmp_ext["icmp_code_hex"]
     obj1x.internet_layer.icmpv4 = icmpv4
-    if "src_ref" in obj20 or "dst_ref" in obj20:
-        nc = NetworkConnection()
-        nc.source_socket_address = convert_address_ref(obj20, "src")
-        nc.destination_socket_address = convert_address_ref(obj20, "dst")
-        obj1x.add_related(nc, VocabString("Connection_Used"), inline=True)
+    nc.add_related(obj1x, VocabString("ICMP_Packet"), inline=True)
 
 
-def convert_network_traffic_to_network_packet(obj20, obj1x, obs20_id):
-    extensions = obj20["extensions"]
-    if "tcp-ext" in extensions:
-        convert_network_traffic_to_tcp_packet(obj20, obj1x, obs20_id)
-    elif "icmp-ext" in extensions:
-        convert_network_traffic_to_icmp_packet(obj20, obj1x, obs20_id)
-    else:
-        # TODO: message
-        pass
-
-
-def convert_socket_options(options20, options1x, obs20_id):
-    pass
-
-
-def convert_network_traffic_to_network_socket(obj20, obj1x, obs20_id):
-    socket_ext = obj20["extensions"]["socket-ext"]
-    if "address_family" in socket_ext:
-        obj1x.address_family = socket_ext["address_family"]
-    if "protocol_family" in socket_ext:
-        obj1x.domain = socket_ext["protocol_family"]
-    if "is_blocking" in socket_ext:
-        obj1x.is_blocking = socket_ext["is_blocking"]
-    if "is_listening" in socket_ext:
-        obj1x.is_listening = socket_ext["is_listening"]
-    if "socket_type" in socket_ext:
-        obj1x.type_ = socket_ext["socket_type"]
-    if "socket_descriptor" in socket_ext:
-        obj1x.socket_descriptor = socket_ext["socket_descriptor"]
-    # TODO: socket_handle
+def convert_network_traffic_to_network_socket(socket_ext, nc, obs20_id):
+    obj1x = NetworkSocket()
+    convert_obj(socket_ext, obj1x, SOCKET_MAP, obs20_id)
     if "options" in socket_ext:
         obj1x.options = SocketOptions()
-        convert_obj(socket_ext["request_header"],
+        convert_obj(socket_ext["options"],
                     obj1x.options,
                     SOCKET_OPTIONS_MAP,
                     obs20_id)
-        convert_socket_options(socket_ext["options"], obj1x.options, obs20_id)
-    obj1x.local_address = convert_address_ref(obj20, "src")
-    obj1x.remote_address = convert_address_ref(obj20, "dst")
+    if "socket_handle" in socket_ext:
+        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, "socket_handle", "NetworkSocket", obs20_id)
+    nc.add_related(obj1x, VocabString("Related_Socket"), inline=True)
+    # obj1x.local_address = convert_address_ref(obj20, "src")
+    # obj1x.remote_address = convert_address_ref(obj20, "dst")
 
 
 def convert_network_traffic_c_o(obj20, obj1x, obs20_id):
-    if isinstance(obj1x, NetworkSocket):
-        convert_network_traffic_to_network_socket(obj20, obj1x, obs20_id)
-    elif isinstance(obj1x, NetworkPacket):
-        convert_network_traffic_to_network_packet(obj20, obj1x, obs20_id)
-    elif isinstance(obj1x, HTTPSession):
-        convert_network_traffic_to_http_session(obj20, obj1x, obs20_id)
-    else:
-        obj1x.source_socket_address = convert_address_ref(obj20, "src")
-        obj1x.destination_socket_address = convert_address_ref(obj20, "dst")
+    obj1x.source_socket_address = convert_address_ref(obj20, "src")
+    obj1x.destination_socket_address = convert_address_ref(obj20, "dst")
+    if "extensions" in obj20:
+        extensions = obj20["extensions"]
+        if "socket-ext" in extensions:
+            convert_network_traffic_to_network_socket(extensions["socket-ext"], obj1x, obs20_id)
+        elif "icmp-ext" in extensions:
+            convert_network_traffic_to_network_icmp_packet(extensions["icmp-ext"], obj1x, obs20_id)
+        elif "http-request-ext" in extensions:
+            convert_network_traffic_to_http_session(extensions["http-request-ext"], obj1x, obs20_id)
+        elif "tcp-ext" in extensions:
+            warn("tcp-ext in %s not handled, yet", 609, obs20_id)
     if "protocols" in obj20:
         warn("%s property in %s not handled, yet", 608, "protocols", obs20_id)
     # how is is_active related to tcp_state?
@@ -765,10 +735,10 @@ def convert_software_c_o(soft20, prod1x, obs20_id):
 
 
 def convert_unix_account_extensions(ua20, ua1x, obs20_id):
-    if "user_id" in ua20:
-        ua1x.user_id = int(ua20["user_id"])
     if "extensions" in ua20:
         # must be unix-account-ext
+        if "user_id" in ua20:
+            ua1x.user_id = int(ua20["user_id"])
         unix_account_ext = ua20["extensions"]["unix-account-ext"]
         if "gid" in unix_account_ext:
             ua1x.group_id = unix_account_ext["gid"]

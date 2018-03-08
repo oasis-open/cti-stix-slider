@@ -1,0 +1,49 @@
+<stix:STIX_Package
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:example="http://example.com"
+	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:PacketObj="http://cybox.mitre.org/objects#PacketObject-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	 id="example:STIXPackage-1d38c0ef-da4f-4670-9ba1-11317314c90b" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-e98d85ac-f848-4d1a-b344-bf3b81dbc91b">
+            <cybox:Object id="example:NetworkConnection-6bc9cea6-c36f-4c5a-b3e4-8030b043e91f">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Source_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.9</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Source_Socket_Address>
+                    <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>203.0.113.5</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Destination_Socket_Address>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:NetworkPacket-cbea742a-410c-4694-a384-a5ae95603f2f">
+                        <cybox:Properties xsi:type="PacketObj:NetworkPacketObjectType">
+                            <PacketObj:Internet_Layer>
+                                <PacketObj:ICMPv4>
+                                    <PacketObj:ICMPv4_Header>
+                                        <PacketObj:Type>08</PacketObj:Type>
+                                        <PacketObj:Code>00</PacketObj:Code>
+                                    </PacketObj:ICMPv4_Header>
+                                </PacketObj:ICMPv4>
+                            </PacketObj:Internet_Layer>
+                        </cybox:Properties>
+                        <cybox:Relationship>ICMP_Packet</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

@@ -1,0 +1,31 @@
+<stix:STIX_Package
+	xmlns:example="http://example.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-f77ece53-900b-4b78-ac3b-a24828cc2f00" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-b9839092-9e31-4b7a-b6bd-75c5cbed9ec7">
+                <cybox:Object id="example:Artifact-95543380-30e9-430a-bcec-2516e37c7c59">
+                    <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="application/vnd.tcpdump.pcap">
+                        <ArtifactObj:Raw_Artifact><![CDATA[\\xd4\\xc3\\xb2\\xa1\\x02\\x00\\x04\\x00]]></ArtifactObj:Raw_Artifact>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

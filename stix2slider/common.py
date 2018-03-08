@@ -4,7 +4,7 @@ from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.email_message_object import EmailHeader, EmailMessage
 from cybox.objects.file_object import File
 from cybox.objects.image_file_object import ImageFile
-from cybox.objects.network_socket_object import SocketOptions
+from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import PDFDocumentInformationDictionary
 from cybox.objects.port_object import Port
 from cybox.objects.process_object import Process
@@ -260,6 +260,16 @@ SOCKET_OPTIONS_MAP = {
     "SO_UPDATE_ACCEPT_CONTEXT": SocketOptions.so_update_accept_context,
     "SO_TIMEOUT": SocketOptions.so_timeout,
     "TCP_NODELAY": SocketOptions.tcp_nodelay
+}
+
+
+SOCKET_MAP = {
+    "address_family": NetworkSocket.address_family,
+    "protocol_family": NetworkSocket.domain,
+    "is_blocking": NetworkSocket.is_blocking,
+    "is_listening": NetworkSocket.is_listening,
+    "socket_type": NetworkSocket.type_,
+    "socket_descriptor": NetworkSocket.socket_descriptor
 }
 
 USER_ACCOUNT_MAP = {

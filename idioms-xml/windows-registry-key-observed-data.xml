@@ -1,0 +1,33 @@
+<stix:STIX_Package
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:example="http://example.com"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	 id="example:STIXPackage-a43455ec-ed2f-420b-8d89-f0a45b547c08" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-59fd4db3-272b-4a33-9729-b6a46dbdd69b">
+            <cybox:Object id="example:WinRegistryKey-73d16ae6-b49c-4023-a8e9-34322bbff495">
+                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                    <WinRegistryKeyObj:Key>hkey_local_machine\system\bar\foo</WinRegistryKeyObj:Key>
+                    <WinRegistryKeyObj:Values>
+                        <WinRegistryKeyObj:Value>
+                            <WinRegistryKeyObj:Name>Foo</WinRegistryKeyObj:Name>
+                            <WinRegistryKeyObj:Data>qwerty</WinRegistryKeyObj:Data>
+                            <WinRegistryKeyObj:Datatype>REG_SZ</WinRegistryKeyObj:Datatype>
+                        </WinRegistryKeyObj:Value>
+                        <WinRegistryKeyObj:Value>
+                            <WinRegistryKeyObj:Name>Bar</WinRegistryKeyObj:Name>
+                            <WinRegistryKeyObj:Data>42</WinRegistryKeyObj:Data>
+                            <WinRegistryKeyObj:Datatype>REG_DWORD</WinRegistryKeyObj:Datatype>
+                        </WinRegistryKeyObj:Value>
+                    </WinRegistryKeyObj:Values>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>
