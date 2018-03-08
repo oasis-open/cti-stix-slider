@@ -10,26 +10,34 @@ from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
-from cybox.objects.email_message_object import (Attachments, EmailAddress, EmailHeader,
-                                                EmailMessage, EmailRecipients)
+from cybox.objects.email_message_object import (Attachments, EmailAddress,
+                                                EmailHeader, EmailMessage,
+                                                EmailRecipients)
 from cybox.objects.file_object import File
+from cybox.objects.http_session_object import (HTTPClientRequest, HTTPMessage,
+                                               HTTPRequestHeader,
+                                               HTTPRequestHeaderFields,
+                                               HTTPRequestLine,
+                                               HTTPRequestResponse,
+                                               HTTPSession)
 from cybox.objects.image_file_object import ImageFile
-from cybox.objects.http_session_object import (HTTPSession, HTTPRequestResponse, HTTPClientRequest, HTTPRequestLine,
-                                               HTTPRequestHeader, HTTPRequestHeaderFields, HTTPMessage)
 from cybox.objects.mutex_object import Mutex
-from cybox.objects.network_connection_object import NetworkConnection, SocketAddress, Layer7Connections
-from cybox.objects.network_packet_object import (NetworkPacket, TransportLayer, TCP, InternetLayer, ICMPv4Packet,
-                                                 ICMPv4Header)
+from cybox.objects.network_connection_object import (Layer7Connections,
+                                                     NetworkConnection,
+                                                     SocketAddress)
+from cybox.objects.network_packet_object import (ICMPv4Header, ICMPv4Packet,
+                                                 InternetLayer, NetworkPacket)
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
-                                           PDFFile, PDFFileID, PDFFileMetadata, PDFTrailer, PDFTrailerList)
+                                           PDFFile, PDFFileID, PDFFileMetadata,
+                                           PDFTrailer, PDFTrailerList)
 from cybox.objects.port_object import Port
 from cybox.objects.process_object import (ArgumentList, ChildPIDList,
                                           ImageInfo, Process)
 from cybox.objects.product_object import Product
+from cybox.objects.unix_user_account_object import UnixUserAccount
 from cybox.objects.uri_object import URI
 from cybox.objects.user_account_object import UserAccount
-from cybox.objects.unix_user_account_object import UnixUserAccount
 from cybox.objects.win_executable_file_object import (Entropy, PEFileHeader,
                                                       PEHeaders,
                                                       PEOptionalHeader,
@@ -51,25 +59,22 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
 from stix2.patterns import (BasicObjectPathComponent, ListObjectPathComponent,
                             ObjectPath, _ComparisonExpression)
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
+                                HTTP_REQUEST_HEADERS_MAP,
                                 IMAGE_FILE_EXTENSION_MAP,
                                 OTHER_EMAIL_HEADERS_MAP,
                                 PDF_DOCUMENT_INFORMATION_DICT_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
-                                PE_BINARY_OPTIONAL_HEADER_MAP,
-                                HTTP_REQUEST_HEADERS_MAP,
-                                PROCESS_MAP,
-                                SOCKET_MAP,
-                                SOCKET_OPTIONS_MAP,
+                                PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP,
+                                SOCKET_MAP, SOCKET_OPTIONS_MAP,
                                 STARTUP_INFO_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
                                 X509_V3_EXTENSIONS_TYPE_MAP, convert_pe_type)
-from stix2slider.convert_cyber_observables import (convert_addr_c_o,
+from stix2slider.convert_cyber_observables import (add_host, convert_addr_c_o,
                                                    convert_artifact_c_o,
-                                                   convert_file_c_o,
-                                                   add_host)
-from stix2slider.options import warn, info
+                                                   convert_file_c_o)
+from stix2slider.options import info, warn
 
 _CYBOX_OBJECT_MAP = {
     "artifact": Artifact,
@@ -849,7 +854,7 @@ def convert_icmp_packet_pattern(nc, properties, rhs, op, id20):
 
 
 def convert_network_socket_pattern(exp20, nc, id20):
-    properties = exp20.lhs.property_path[2: ]
+    properties = exp20.lhs.property_path[2:]
     rhs = exp20.rhs
     op = exp20.operator
     prop_name = properties[0].property_name
@@ -982,7 +987,7 @@ def convert_process_pattern(exp20, obj1x, id20):
     elif len(exp20.lhs.property_path) > 2 and \
             isinstance(exp20.lhs.property_path[0], stix2.BasicObjectPathComponent) and \
             exp20.lhs.property_path[0].property_name == 'extensions':
-        add_process_extension_pattern(obj1x, exp20.lhs.property_path[1: ], exp20.rhs, exp20.operator, id20)
+        add_process_extension_pattern(obj1x, exp20.lhs.property_path[1:], exp20.rhs, exp20.operator, id20)
     else:
         add_scalar_process_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
 

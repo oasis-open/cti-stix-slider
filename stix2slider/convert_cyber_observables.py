@@ -14,19 +14,27 @@ from cybox.objects.email_message_object import (Attachments, EmailHeader,
                                                 EmailMessage, ReceivedLine,
                                                 ReceivedLineList)
 from cybox.objects.file_object import File
+from cybox.objects.http_session_object import (HTTPClientRequest, HTTPMessage,
+                                               HTTPRequestHeader,
+                                               HTTPRequestHeaderFields,
+                                               HTTPRequestLine,
+                                               HTTPRequestResponse,
+                                               HTTPSession)
 from cybox.objects.image_file_object import ImageFile
-from cybox.objects.http_session_object import (HTTPSession, HTTPRequestResponse, HTTPClientRequest, HTTPRequestLine,
-                                               HTTPRequestHeader, HTTPRequestHeaderFields, HTTPMessage)
 from cybox.objects.mutex_object import Mutex
-from cybox.objects.network_connection_object import NetworkConnection, SocketAddress, Layer7Connections
-from cybox.objects.network_packet_object import (NetworkPacket, TransportLayer, TCP, InternetLayer, ICMPv4Packet,
-                                                 ICMPv4Header)
+from cybox.objects.network_connection_object import (Layer7Connections,
+                                                     NetworkConnection,
+                                                     SocketAddress)
+from cybox.objects.network_packet_object import (ICMPv4Header, ICMPv4Packet,
+                                                 InternetLayer, NetworkPacket)
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
-                                           PDFFile, PDFFileID, PDFFileMetadata, PDFTrailer, PDFTrailerList)
+                                           PDFFile, PDFFileID, PDFFileMetadata,
+                                           PDFTrailer, PDFTrailerList)
 from cybox.objects.port_object import Port
-from cybox.objects.process_object import (ArgumentList, ChildPIDList, NetworkConnectionList,
-                                          ImageInfo, Process)
+from cybox.objects.process_object import (ArgumentList, ChildPIDList,
+                                          ImageInfo, NetworkConnectionList,
+                                          Process)
 from cybox.objects.product_object import Product
 from cybox.objects.unix_user_account_object import UnixUserAccount
 from cybox.objects.uri_object import URI
@@ -51,24 +59,21 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
 from six import text_type
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 EMAIL_MESSAGE_MAP, FILE_MAP,
+                                HTTP_REQUEST_HEADERS_MAP,
                                 IMAGE_FILE_EXTENSION_MAP,
                                 OTHER_EMAIL_HEADERS_MAP,
-                                HTTP_REQUEST_HEADERS_MAP,
                                 PDF_DOCUMENT_INFORMATION_DICT_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
                                 PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP,
                                 REGISTRY_KEY_MAP, REGISTRY_VALUE_MAP,
-                                SOCKET_MAP,
-                                SOCKET_OPTIONS_MAP,
+                                SOCKET_MAP, SOCKET_OPTIONS_MAP,
                                 STARTUP_INFO_MAP, USER_ACCOUNT_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
-                                X509_V3_EXTENSIONS_TYPE_MAP,
-                                convert_pe_type,
-                                add_host)
-from stix2slider.options import error, warn, info, get_option_value
-
+                                X509_V3_EXTENSIONS_TYPE_MAP, add_host,
+                                convert_pe_type)
+from stix2slider.options import error, get_option_value, info, warn
 
 _EXTENSIONS_MAP = {
     "archive-ext": ArchiveFile,
@@ -482,7 +487,9 @@ def convert_email_message_c_o(em20, em1x, obs20_id):
         populate_other_header_fields(em20["additional_header_fields"], em1x.header, obs20_id)
     if "body_multipart" in em20:
         if not em20["is_multipart"]:
-            warn("The is_multipart property in %s should be 'true' if the body_multipart property is present", 313,  obs20_id)
+            warn("The is_multipart property in %s should be 'true' if the body_multipart property is present",
+                 313,
+                 obs20_id)
         attachments = []
         for part in em20["body_multipart"]:
             # TODO: content_disposition is optional, so we can't depend upon it
@@ -502,7 +509,9 @@ def convert_email_message_c_o(em20, em1x, obs20_id):
                 em1x.attachments.append(a.parent.id_)
     else:
         if em20["is_multipart"]:
-            warn("The is_multipart property in %s should be 'false' if the body_multipart property is not present", 314,  obs20_id)
+            warn("The is_multipart property in %s should be 'false' if the body_multipart property is not present",
+                 314,
+                 obs20_id)
     # TODO raw_email_refs
 
 
