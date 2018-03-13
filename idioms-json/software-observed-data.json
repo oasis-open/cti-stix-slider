@@ -1,0 +1,25 @@
+{
+  "id": "bundle--04ef571c-198a-44ed-b89b-961466611bf5",
+  "objects": [
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--973b8552-3b78-4122-9b1e-61d69133607c",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+        "0": {
+            "type": "software",
+            "name": "Word",
+            "cpe": "cpe:2.3:a:microsoft:word:2000:*:*:*:*:*:*:*",
+            "version": "2002",
+            "vendor": "Microsoft"
+          }
+      }
+    }
+  ],
+  "spec_version": "2.0",
+  "type": "bundle"
+}

@@ -1,0 +1,34 @@
+<stix:STIX_Package
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:example="http://example.com"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	 id="example:STIXPackage-f68d008b-4602-4d47-a9f6-fe8563107764" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-10ee8b81-a999-4d6d-af49-93256aef5152">
+            <cybox:Object id="example:WinFile-cd93effa-0c03-481d-b829-ec02a0b73020">
+                <cybox:Properties xsi:type="WinFileObj:WindowsFileObjectType">
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                    <WinFileObj:Stream_List>
+                        <WinFileObj:Stream>
+                            <WinFileObj:Name>second.stream</WinFileObj:Name>
+                            <WinFileObj:Size_In_Bytes>25536</WinFileObj:Size_In_Bytes>
+                        </WinFileObj:Stream>
+                    </WinFileObj:Stream_List>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

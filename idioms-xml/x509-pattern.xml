@@ -1,0 +1,34 @@
+<stix:STIX_Package
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:X509CertificateObj="http://cybox.mitre.org/objects#X509CertificateObject-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:example="http://example.com"
+	 id="example:STIXPackage-e3a77729-d9f9-4e0e-bcb2-54f13c540bb7" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-ffc69ce6-49b9-421a-aacf-8a5305692d75" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-c919bbac-d7c8-41c9-b2fa-8c58f9324f96">
+                <cybox:Object id="example:X509Certificate-c0e88f84-dab3-4755-a7d3-0da9ea0e2364">
+                    <cybox:Properties xsi:type="X509CertificateObj:X509CertificateObjectType">
+                        <X509CertificateObj:Certificate>
+                            <X509CertificateObj:Serial_Number condition="Equals">4c:0b:1d:19:74:86:a7:66:b4:1a:bf:40:27:21:76:28</X509CertificateObj:Serial_Number>
+                            <X509CertificateObj:Issuer condition="Equals">CN=WEBMAIL</X509CertificateObj:Issuer>
+                        </X509CertificateObj:Certificate>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

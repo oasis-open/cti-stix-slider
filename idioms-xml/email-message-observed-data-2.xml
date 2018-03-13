@@ -1,0 +1,36 @@
+<stix:STIX_Package
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:example="http://example.com"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	 id="example:STIXPackage-7b448809-d490-4577-bea2-b6b9a13cdaca" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-bbce6835-185e-40e8-8b96-8e3e13c97418">
+            <cybox:Object id="example:EmailMessage-99978186-5615-40a2-a7d6-5f4598de9054">
+                <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                    <EmailMessageObj:Header>
+                        <EmailMessageObj:To>
+                            <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value>bob@example.com</AddressObj:Address_Value>
+                            </EmailMessageObj:Recipient>
+                        </EmailMessageObj:To>
+                        <EmailMessageObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <AddressObj:Address_Value>joe@example.com</AddressObj:Address_Value>
+                        </EmailMessageObj:From>
+                        <EmailMessageObj:Subject>Did you see this?</EmailMessageObj:Subject>
+                        <EmailMessageObj:Date>2004-04-19T12:22:23+00:00</EmailMessageObj:Date>
+                        <EmailMessageObj:Reply_To xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <AddressObj:Address_Value>steve@example.com##comma##jane@example.com</AddressObj:Address_Value>
+                        </EmailMessageObj:Reply_To>
+                    </EmailMessageObj:Header>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

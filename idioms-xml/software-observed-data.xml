@@ -1,0 +1,23 @@
+<stix:STIX_Package
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:example="http://example.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ProductObj="http://cybox.mitre.org/objects#ProductObject-2"
+	 id="example:STIXPackage-04ef571c-198a-44ed-b89b-961466611bf5" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:Product-577c70de-7d0f-451d-bae6-93ca345fa623">
+                <cybox:Properties xsi:type="ProductObj:ProductObjectType">
+                    <ProductObj:Product>Word</ProductObj:Product>
+                    <ProductObj:Vendor>Microsoft</ProductObj:Vendor>
+                    <ProductObj:Version>2002</ProductObj:Version>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

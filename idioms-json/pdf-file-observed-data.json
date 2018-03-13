@@ -1,0 +1,37 @@
+{
+  "id": "bundle--b8902913-6943-4954-a4e6-c6c5236ebb62",
+  "objects": [
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--ffeb1a1e-af39-446d-a775-6a4ce022a436",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+        "0": {
+          "type": "file",
+          "hashes": {
+            "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+          },
+          "extensions": {
+            "pdf-ext": {
+              "version": "1.7",
+              "document_info_dict": {
+                "Title": "Sample document",
+                "Author": "Adobe Systems Incorporated",
+                "Creator": "Adobe FrameMaker 5.5.3 for Power Macintosh",
+                "Producer": "Acrobat Distiller 3.01 for Power Macintosh",
+                "CreationDate": "20070412090123-02"
+              },
+              "pdfid0": "DFCE52BD827ECF765649852119D",
+              "pdfid1": "57A1E0F9ED2AE523E313C"
+            }
+          }
+        }
+      }
+    }],
+  "spec_version": "2.0",
+  "type": "bundle"
+}

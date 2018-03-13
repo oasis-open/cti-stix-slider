@@ -1,0 +1,32 @@
+{
+  "id": "bundle--cb818110-9468-4182-b86d-f8724e0fb2e7",
+  "objects": [
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--0177c85b-9de0-472a-8e9a-a41cc828672b",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+        "0": {
+            "type": "user-account",
+            "user_id": "1001",
+            "account_login": "jdoe",
+            "account_type": "unix",
+            "display_name": "John Doe",
+            "is_service_account": false,
+            "is_privileged": false,
+            "can_escalate_privs": true,
+            "account_created": "2016-01-20T12:31:12Z",
+            "password_last_changed": "2016-01-20T14:27:43Z",
+            "account_first_login": "2016-01-20T14:26:07Z",
+            "account_last_login": "2016-07-22T16:08:28Z"
+          }
+      }
+    }
+  ],
+  "spec_version": "2.0",
+  "type": "bundle"
+}

@@ -1,0 +1,30 @@
+<stix:STIX_Package
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:X509CertificateObj="http://cybox.mitre.org/objects#X509CertificateObject-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-ec43e2ea-b3fd-44b5-be3b-60775d18bcdd" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-58f2b278-dbbb-42c1-9189-8ea9f5e5c275">
+            <cybox:Object id="example:X509Certificate-237e5d1e-aa10-40d8-9875-dcf4f50829e8">
+                <cybox:Properties xsi:type="X509CertificateObj:X509CertificateObjectType">
+                    <X509CertificateObj:Certificate>
+                        <X509CertificateObj:Issuer>C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com</X509CertificateObj:Issuer>
+                        <X509CertificateObj:Validity>
+                            <X509CertificateObj:Not_Before>2016-03-12T12:00:00+00:00</X509CertificateObj:Not_Before>
+                            <X509CertificateObj:Not_After>2016-08-21T12:00:00+00:00</X509CertificateObj:Not_After>
+                        </X509CertificateObj:Validity>
+                        <X509CertificateObj:Subject>C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org</X509CertificateObj:Subject>
+                    </X509CertificateObj:Certificate>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>
+
+

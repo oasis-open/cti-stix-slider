@@ -1,0 +1,39 @@
+{
+  "id": "bundle--1d38c0ef-da4f-4670-9ba1-11317314c90b",
+  "objects": [
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--e98d85ac-f848-4d1a-b344-bf3b81dbc91b",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "objects": {
+        "0": {
+          "type": "ipv4-addr",
+          "value": "198.51.100.9"
+        },
+        "1": {
+          "type": "ipv4-addr",
+          "value": "203.0.113.5"
+        },
+        "2": {
+          "type": "network-traffic",
+          "src_ref": "0",
+          "dst_ref": "1",
+          "protocols": [
+            "icmp"
+          ],
+          "extensions": {
+            "icmp-ext": {
+              "icmp_type_hex": "08",
+              "icmp_code_hex": "00"
+            }
+          }
+        }
+      }
+    }],
+    "spec_version": "2.0",
+    "type": "bundle"
+}
