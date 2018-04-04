@@ -31,8 +31,7 @@ Requirements
 ------------
 
 - Python 2.7, or 3.3+
-- `python-stix <https://stix.readthedocs.io/en/stable/>`_ and its
-dependencies
+- `python-stix <https://stix.readthedocs.io/en/stable/>`_ and its dependencies
 
   .. note::
 
@@ -41,8 +40,7 @@ dependencies
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.python.org/pypi/python-stix2>`_ >=
-0.3.0
+-  `python-stix2 <https://pypi.python.org/pypi/python-stix2>`_ >= 0.3.0
 -  `stixmarx <https://pypi.python.org/pypi/stixmarx>`_ >= 1.0.2
 
 Installation
@@ -56,8 +54,7 @@ Install with pip::
     $ pip install stix2-slider
 
 This will install all necessary dependencies, including the latest
-version of
-python-stix.
+version of python-stix.
 
 If you need to support older STIX 1.1.1 content, install python-stix
 1.1.1.x
@@ -67,11 +64,9 @@ first::
     $ pip install stix2-slider
 
 You can also install the stix-slider from GitHub to get the latest
-(unstable)
-version::
+(unstable) version::
 
-    $ pip install git+https://github.com/oasis-open/cti-stix-
-    slider.git
+    $ pip install git+https://github.com/oasis-open/cti-stix-slider.git
 
 Usage
 -----
@@ -87,8 +82,7 @@ As A Script
 The slider comes with a bundled script which you can use to convert
 STIX 2.0 content to STIX 1.x content::
 
-        usage: stix2_slider [-h] [--no-squirrel-gaps] [-e ENABLE] [-d
-        DISABLE] [-s]
+        usage: stix2_slider [-h] [--no-squirrel-gaps] [-e ENABLE] [-d DISABLE] [-s]
                       [--message-log-directory MESSAGE_LOG_DIRECTORY]
                       [--log-level {DEBUG,INFO,WARN,ERROR,CRITICAL}]
                       [-p {no_policy,strict_policy}]
@@ -96,73 +90,51 @@ STIX 2.0 content to STIX 1.x content::
 
         stix2-slider v0.1.0
 
-        The stix2-slider is a work-in-progress. It should be used to
-        explore how
-        existing STIX 2.0 would potentially be represented in STIX
-        1.x. Using the
-        current version of the stix2-slider will provide insight to
-        issues that might need
-        to be mitigated so you can use an application that supports
-        only STIX 1.x content.
+        The stix2-slider is a work-in-progress. It should be used to explore how
+        existing STIX 2.0 would potentially be represented in STIX 1.x. Using the
+        current version of the stix2-slider will provide insight to issues that might need
+        to be mitigated so you can use an application that supports only STIX 1.x content.
 
-        positional arguments:   The input STIX 2.0 document to be
-        'slid' to STIX 1.x..
+        positional arguments:   The input STIX 2.0 document to be 'slid' to STIX 1.x..
 
         optional arguments:
           -h, --help            show this help message and exit
 
-          --no-squirrel-gaps    Do not include STIX 2.0 content that
-          cannot be
-                                represented directly in STIX 1.x using
-                                the description
+          --no-squirrel-gaps    Do not include STIX 2.0 content that cannot be
+                                represented directly in STIX 1.x using the description
                                 property.
 
           -e ENABLE, --enable ENABLE
-                                A comma-separated list of the stix2-
-                                slider messages to
-                                enable. If the --disable option is not
-                                used, no other
-                                messages will be shown. Example:
-                                stix2_slider.py
+                                A comma-separated list of the stix2-slider messages to
+                                enable. If the --disable option is not used, no other
+                                messages will be shown. Example: stix2_slider.py
                                 <file> --enable 250
 
           -d DISABLE, --disable DISABLE
-                                A comma-separated list of the stix2-
-                                slider messages to
-                                disable. Example: stix2_slider.py
-                                <file> --disable
+                                A comma-separated list of the stix2-slider messages to
+                                disable. Example: stix2_slider.py <file> --disable
                                 212,220
 
-          -s, --silent          If this flag is set. All stix2-slider
-          messages will be
+          -s, --silent          If this flag is set. All stix2-slider messages will be
                                 disabled.
 
           --message-log-directory MESSAGE_LOG_DIRECTORY
-                                If this flag is set. All stix2-slider
-                                messages will be
-                                saved to file. The name of the file
-                                will be the input
-                                file with extension .log in the
-                                specified directory.
-                                Note, make surethe directory already
-                                exists. Example:
-                                stix2_slider.py <file> --message-log-
-                                directory
+                                If this flag is set. All stix2-slider messages will be
+                                saved to file. The name of the file will be the input
+                                file with extension .log in the specified directory.
+                                Note, make surethe directory already exists. Example:
+                                stix2_slider.py <file> --message-log-directory
                                 "..\logs"
 
           --log-level {DEBUG,INFO,WARN,ERROR,CRITICAL}
                                 The logging output level.
 
-          -p {no_policy,strict_policy}, --policy
-          {no_policy,strict_policy}
+          -p {no_policy,strict_policy}, --policy {no_policy,strict_policy}
                                 The policy to dealt with errors
 
-        Refer to slider_log_messages.rst for all stix2-slider
-        messages. Use the associated code number
-        to --enable or --disable a message. By default, the stix2-
-        slider displays all
-        messages. Note: disabling the message does not disable the
-        functionality.
+        Refer to slider_log_messages.rst for all stix2-slider messages. Use the associated code number
+        to --enable or --disable a message. By default, the stix2-slider displays all
+        messages. Note: disabling the message does not disable the functionality.
 
 As A Library
 ~~~~~~~~~~~~
@@ -188,7 +160,7 @@ argument::
       results = slide_string("...")
       print(results)
 
-To set options, use set_option_value, found in options.py
+To set options, use set_option_value, found in options.py.
 
 Governance
 ----------
@@ -327,13 +299,10 @@ Staff at
 repository-admin@oasis-open.org and any specific CLA-related questions
 to repository-cla@oasis-open.org.
 
-.. |Build_Status| image:: https://travis-ci.org/oasis-open/cti-stix-
-slider.svg?branch=master
+.. |Build_Status| image:: https://travis-ci.org/oasis-open/cti-stix-slider.svg?branch=master
    :target: https://travis-ci.org/oasis-open/cti-stix-slider
-.. |Coverage| image:: https://codecov.io/gh/oasis-open/cti-stix-
-slider/branch/master/graph/badge.svg
+.. |Coverage| image:: https://codecov.io/gh/oasis-open/cti-stix-slider/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/oasis-open/cti-stix-slider
-.. |Version| image:: https://img.shields.io/pypi/v/stix2-
-slider.svg?maxAge=3600
+.. |Version| image:: https://img.shields.io/pypi/v/stix2-slider.svg?maxAge=3600
    :target: https://pypi.python.org/pypi/stix2-slider/
 
