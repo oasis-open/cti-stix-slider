@@ -1,19 +1,19 @@
 <stix:STIX_Package
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-	xmlns:cybox="http://cybox.mitre.org/cybox-2"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
-	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:stix="http://stix.mitre.org/stix-1"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:example="http://example.com"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
 	 id="example:STIXPackage-d613eac2-af0e-4348-92ed-81f2431132da" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-e0715a08-b679-4bf8-b626-0b50991952a2">
-            <cybox:Object id="example:WinService-c61a1e2f-b3c2-4855-b5dd-8fa7ac4a6ae1">
+            <cybox:Object id="example:WinService-186c3b1e-9c91-4fc1-961d-2cd786ef2d6e">
                 <cybox:Properties xsi:type="WinServiceObj:WindowsServiceObjectType">
                     <ProcessObj:PID>2217</ProcessObj:PID>
                     <ProcessObj:Name>sirvizio</ProcessObj:Name>
@@ -21,6 +21,9 @@
                         <ProcessObj:File_Name>sirvizio.exe</ProcessObj:File_Name>
                         <ProcessObj:Command_Line>C:\Windows\System32\sirvizio.exe /s</ProcessObj:Command_Line>
                     </ProcessObj:Image_Info>
+                    <WinServiceObj:Description_List>
+                        <WinServiceObj:Description>a service</WinServiceObj:Description>
+                    </WinServiceObj:Description_List>
                     <WinServiceObj:Display_Name>Sirvizio</WinServiceObj:Display_Name>
                     <WinServiceObj:Service_Name>sirvizio</WinServiceObj:Service_Name>
                     <WinServiceObj:Startup_Type>SERVICE_AUTO_START</WinServiceObj:Startup_Type>

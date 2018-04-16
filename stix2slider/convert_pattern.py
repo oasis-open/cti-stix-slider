@@ -33,7 +33,8 @@ from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
                                            PDFTrailer, PDFTrailerList)
 from cybox.objects.port_object import Port
 from cybox.objects.process_object import (ArgumentList, ChildPIDList,
-                                          ImageInfo, Process)
+                                          ImageInfo, NetworkConnectionList,
+                                          Process)
 from cybox.objects.product_object import Product
 from cybox.objects.unix_user_account_object import UnixUserAccount
 from cybox.objects.uri_object import URI
@@ -70,9 +71,12 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
-                                X509_V3_EXTENSIONS_TYPE_MAP, convert_pe_type)
+                                X509_V3_EXTENSIONS_TYPE_MAP, convert_pe_type,
+                                determine_20_address_type,
+                                is_domain_name_address, is_windows_directory)
 from stix2slider.convert_cyber_observables import (add_host, convert_addr_c_o,
                                                    convert_artifact_c_o,
+                                                   convert_domain_name_c_o,
                                                    convert_file_c_o)
 from stix2slider.options import info, warn
 
@@ -354,12 +358,12 @@ def add_scalar_artifact_property_pattern(obj, properties, rhs, op, id20):
         # no op because its an XML attribute
         if op != "=":
             warn("%s is an XML attribute of %s in STIX 1.x, so the operator 'equals' is assumed in %s",
-                 0,
+                 513,
                  "mime_type", "Artifact", id20)
     # it is illegal in STIX 2.0 to have both a payload_bin and url property - be we don't warn about it here
     elif prop_name == "payload_bin":
         obj.packed_data = rhs.value
-        # TODO: op?
+        warn("Operator for Artifact.Raw_Artifact in %s not handled yet", 610, id20)
     elif prop_name == "url":
         obj.raw_artifact_reference = rhs.value
     # art1x.packaging.encoding.algorithm = "Base64"
@@ -397,7 +401,6 @@ def convert_addr_pattern(exp20, obj1x, id20):
     if prop_name == "value":
         obj1x.address_value = rhs_value
         convert_operator(op, obj1x, id20)
-        # TODO: handle cidrs
         ip_add_type = exp20.root_type
         if ip_add_type == 'ipv4-addr':
             obj1x.category = Address.CAT_IPV4
@@ -411,17 +414,38 @@ def convert_addr_pattern(exp20, obj1x, id20):
             warn("Unknown address type %s used in %s", 304, ip_add_type, id20)
     elif prop_name == "resolves_to_refs":
         if properties[0].index == "*":
-            ref_obj = Address()
-            convert_addr_c_o({"value": rhs_value, "type": 'mac-addr'}, ref_obj, id20)
+            if is_domain_name_address(rhs_value):
+                ref_obj = DomainName()
+                convert_domain_name_c_o({"value": rhs_value,
+                                         "type": "domain-name"},
+                                        ref_obj, id20)
+            else:
+                ref_obj = Address()
+                address_type = determine_20_address_type(rhs_value)
+                convert_addr_c_o({"value": rhs_value,
+                                  "type": address_type},
+                                 ref_obj, id20)
+            convert_operator(op, ref_obj.address_value, id20)
             obj1x.add_related(ref_obj, "Resolved_To", inline=True)
-    # TODO: belongs_to_refs
+    elif prop_name == "belongs_to_refs":
+        warn("%s property in %s not handled yet", 606, "belongs_to_refs", id20)
 
 
 def convert_domain_name_pattern(exp20, obj1x, id20):
-    obj1x.value = exp20.rhs.value
-    convert_operator(exp20.operator, obj1x, id20)
+    properties = exp20.lhs.property_path[2:]
+    rhs = exp20.rhs
+    op = exp20.operator
+    prop_name = properties[0].property_name
+    if prop_name == "value":
+        obj1x.value = rhs.value
+        convert_operator(exp20.operator, obj1x, id20)
+    elif prop_name == "resolves_to_refs":
+        if properties[0].index == "*":
+            ref_obj = Address()
+            convert_addr_c_o({"value": rhs.value, "type": 'ipv4-addr'}, ref_obj, id20)
+            convert_operator(op, ref_obj.address_value, id20)
+            obj1x.add_related(ref_obj, "Resolved_To", inline=True)
     obj1x.type_ = "FQDN"
-    # TODO: warn no resolves_to in STIX 1.x
 
 
 def add_scalar_email_message_property_pattern(obj, properties, rhs, op, id20):
@@ -512,17 +536,16 @@ def add_scalar_file_property_pattern(file_obj, properties, rhs, op, id20):
     elif prop_name == 'parent_directory_ref':
         if properties[1].property_name == 'path':
             # TODO: what if name isn't available
-            # TODO: determine correct separator
-            file_obj.full_path = rhs.value + "/" + str(file_obj.file_name)
-            # condition?
+            directory_string = str(rhs.value)
+            file_obj.full_path = rhs.value + ("\\\\" if is_windows_directory(directory_string) else "/") + str(file_obj.file_name)
+            convert_operator(op, file_obj.full_path, id20)
         else:
-            pass
-            # TODO: path is the only directory property supportable in STIX 1.x
+            warn("The path property in %s is the only directory property supportable in STIX 1.x. %s is ignored", 0, id20, properties[1].property_name)
     elif prop_name == 'content_ref':
         # TODO: what if there are mutiple references to the same object?
         obs = Artifact()
         convert_artifact_c_o({properties[1].property_name: rhs.value}, obs)
-        # operator??
+        # TODO: determine which property needs the operator
         file_obj.add_related(obs, "Contains", inline=True)
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
@@ -542,7 +565,8 @@ _HASH_NAME_MAP = {
     "SHA-224": Hash.TYPE_SHA224,
     "SHA-256": Hash.TYPE_SHA256,
     "SHA-384": Hash.TYPE_SHA384,
-    "SHA-512": Hash.TYPE_SHA512
+    "SHA-512": Hash.TYPE_SHA512,
+    "ssdeep": Hash.TYPE_SSDEEP
 }
 
 
@@ -550,7 +574,11 @@ def add_hashes_pattern(obj, hash_type, rhs, op, id20):
     cybox2_hash_type = hash_type.replace('-', '')
     attr_name = cybox2_hash_type.lower()
     setattr(obj, attr_name, rhs.value)
-    convert_operator(op, obj.hashes._hash_lookup(_HASH_NAME_MAP[hash_type]).simple_hash_value, id20)
+    hash_enum_value = _HASH_NAME_MAP[hash_type]
+    if hash_enum_value == Hash.TYPE_SSDEEP:
+        convert_operator(op, obj.hashes._hash_lookup(hash_enum_value).fuzzy_hash_value, id20)
+    else:
+        convert_operator(op, obj.hashes._hash_lookup(hash_enum_value).simple_hash_value, id20)
 
 
 def add_file_archive_extension_pattern(file_obj, properties, rhs, op, id20):
@@ -563,12 +591,15 @@ def add_file_archive_extension_pattern(file_obj, properties, rhs, op, id20):
         convert_operator(op, file_obj.version, id20)
     elif prop_name1 == "contains_refs":
         # TODO:  what if the referenced file is also an extension - should it be a File class?
-        if isinstance(properties[0], ListObjectPathComponent):
-            if properties[0].index == "*":
-                ref_obj = File()
-                convert_file_c_o({"name": rhs.value}, ref_obj, id20)
-                # ref_obj. = convert_operator(op)
-                file_obj.archived_file.append(ref_obj)
+        if isinstance(properties[1], ListObjectPathComponent):
+            if properties[1].index == "*":
+                if properties[2].property_name != "extensions":
+                    ref_obj = File()
+                    convert_file_c_o({properties[2].property_name: rhs.value}, ref_obj, id20)
+                    # TODO: determine which property needs the operator
+                    file_obj.archived_file.append(ref_obj)
+                else:
+                    warn("Nested File extensions in %s not handled yet", 522, id20)
             else:
                 warn("number indicies in %s not handled, yet", 602, id20)
     else:
@@ -598,7 +629,6 @@ def add_file_ntfs_extension_pattern(file_obj, properties, rhs, op, id20):
 
 def add_file_pdf_extension_pattern(file_obj, properties, rhs, op, id20):
     prop_name1 = properties[1].property_name
-    # TODO: pdfid0, pdfid1
     if prop_name1 == "version":
         file_obj.version = rhs.value
         convert_operator(op, file_obj.version, id20)
@@ -633,8 +663,6 @@ def add_file_pdf_extension_pattern(file_obj, properties, rhs, op, id20):
 
 
 def add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, id20):
-    # TODO: imphash
-    # TODO: number_of_sections
     prop_name1 = properties[1].property_name
     if prop_name1 == "pe_type":
         file_obj.type_ = convert_pe_type(rhs.value, id20)
@@ -643,12 +671,18 @@ def add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, i
             prop_name1 == "pointer_to_symbol_table_hex" or
             prop_name1 == "number_of_symbols" or
             prop_name1 == "size_of_optional_header" or
+            prop_name1 == "imphash" or
             prop_name1 == "characteristics_hex"):
         if not file_obj.headers:
             file_obj.headers = PEHeaders()
         if not file_obj.headers.file_header:
             file_obj.headers.file_header = PEFileHeader()
-        if convert_pattern(file_obj.headers.file_header, prop_name1, rhs, op, PE_BINARY_FILE_HEADER_MAP, id20):
+        if prop_name1 == "imphash":
+            if not file_obj.headers.hashes:
+                file_obj.headers.hashes = HashList()
+            # imphash appears to be an MD5 hash
+            add_hashes_pattern(file_obj.headers.hashes, "MD5", rhs, op, id20)
+        elif convert_pattern(file_obj.headers.file_header, prop_name1, rhs, op, PE_BINARY_FILE_HEADER_MAP, id20):
             return
     elif prop_name1 == "file_header_hashes":
         if not file_obj.headers:
@@ -694,6 +728,8 @@ def add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, i
                 add_hashes_pattern(section.data_hashes, properties[3].property_name, rhs, op, id20)
         else:
             warn("number indicies in %s not handled, yet", 601, id20)
+    else:
+        warn("%s is not a legal property in the pattern of %s", 303, prop_name1, id20)
 
 
 def add_file_extension_pattern(file_obj, properties, rhs, op, id20):
@@ -736,43 +772,12 @@ def convert_url_pattern(exp20, obj1x, id20):
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
 
 
-def add_scalar_process_property_pattern(process_obj, properties, rhs, op, id20):
-    prop_name0 = properties[0].property_name
-    if convert_pattern(process_obj, prop_name0, rhs, op, PROCESS_MAP, id20):
-        return
-    elif prop_name0 == "command_line":
-        process_obj.image_info = ImageInfo()
-        process_obj.image_info.command_line = rhs.value
-        convert_operator(op, process_obj.image_info.command_line, id20)
-    # TODO: opened_connection_ref
-    elif prop_name0 == "creator_user_ref":
-        prop_name1 = properties[1].property_name
-        if prop_name1 == 'account_login':
-            process_obj.username = rhs.value
-            convert_operator(op, process_obj.username, id20)
-        else:
-            warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, prop_name1, "Account", id20)
-    elif prop_name0 == "binary_ref":
-        # TODO: what if there are mutiple references to the same object?
-        obs = convert_file_c_o({properties[1].property_name: rhs.value}, File(), id20)
-        # operator??
-        process_obj.add_related(obs, "Contains", inline=True)
-    elif prop_name0 == "parent_ref":
-        prop_name1 = properties[1].property_name
-        if prop_name1 == 'pid':
-            process_obj.parent_pid = rhs.value
-            convert_operator(op, process_obj.parent_pid, id20)
-        else:
-            warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, prop_name1, "Process", id20)
-
-
 def convert_mutex_pattern(exp20, obj1x, id20):
     prop_name = exp20.lhs.properties[0].property_name
     if prop_name == "name":
         obj1x.name = exp20.rhs.value
         convert_operator(exp20.operator, obj1x.name, id20)
         obj1x.named = True
-        # TODO: do we need an operator?
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
 
@@ -853,10 +858,7 @@ def convert_icmp_packet_pattern(nc, properties, rhs, op, id20):
         convert_operator(op, packet_obj.internet_layer.icmpv4.icmpv4_header.code, id20)
 
 
-def convert_network_socket_pattern(exp20, nc, id20):
-    properties = exp20.lhs.property_path[2:]
-    rhs = exp20.rhs
-    op = exp20.operator
+def convert_network_socket_pattern(nc, properties, rhs, op, id20):
     prop_name = properties[0].property_name
     if not nc.parent.related_objects:
         obj1x = NetworkSocket()
@@ -877,17 +879,14 @@ def convert_network_socket_pattern(exp20, nc, id20):
         warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, "socket_handle", "NetworkSocket", id20)
 
 
-def convert_network_connection_pattern(exp20, nc, id20):
-    rhs = exp20.rhs
-    op = exp20.operator
-    properties = exp20.lhs.property_path
+def convert_network_connection_pattern_1(rhs, op, properties, nc, id20):
     prop_name0 = properties[0].property_name
     if prop_name0 == "src_ref":
         if not nc.source_socket_address:
             nc.source_socket_address = SocketAddress()
         nc.source_socket_address.ip_address = Address()
-        # TODO: could be v6
-        convert_addr_c_o({"value": rhs.value, "type": 'ipv4-addr'}, nc.source_socket_address.ip_address, id20)
+        address_type = determine_20_address_type(rhs.value)
+        convert_addr_c_o({"value": rhs.value, "type": address_type}, nc.source_socket_address.ip_address, id20)
         convert_operator(op, nc.source_socket_address.ip_address, id20)
     elif prop_name0 == "src_port":
         if not nc.source_socket_address:
@@ -899,8 +898,8 @@ def convert_network_connection_pattern(exp20, nc, id20):
         if not nc.destination_socket_address:
             nc.destination_socket_address = SocketAddress()
         nc.destination_socket_address.ip_address = Address()
-        # TODO: could be v6
-        convert_addr_c_o({"value": rhs.value, "type": 'ipv4-addr'}, nc.destination_socket_address.ip_address, id20)
+        address_type = determine_20_address_type(rhs.value)
+        convert_addr_c_o({"value": rhs.value, "type": address_type}, nc.destination_socket_address.ip_address, id20)
         convert_operator(op, nc.destination_socket_address.ip_address, id20)
     elif prop_name0 == "dst_port":
         if not nc.destination_socket_address:
@@ -911,16 +910,67 @@ def convert_network_connection_pattern(exp20, nc, id20):
     elif prop_name0 == "extensions":
         extension = properties[1].property_name
         if extension == "socket-ext":
-            convert_network_socket_pattern(exp20, nc, id20)
+            convert_network_socket_pattern(nc, properties[2:], rhs, op, id20)
         elif extension == "icmp-ext":
-            convert_icmp_packet_pattern(nc, exp20.lhs.property_path[2:], exp20.rhs, exp20.operator, id20)
+            convert_icmp_packet_pattern(nc, properties[2:], rhs, op, id20)
         elif extension == "http-request-ext":
-            convert_http_session_extension_pattern(nc, exp20.lhs.property_path[2:], exp20.rhs, exp20.operator, id20)
+            convert_http_session_extension_pattern(nc, properties[2:], rhs, op, id20)
         elif extension == "tcp-ext":
             warn("tcp-ext in %s not handled, yet", 609, id20)
+    elif prop_name0 in ("start", "end", "src_byte_count", "dst_byte_count", "src_packets", "dst_packets", "ipfix",
+                        "src_payload_ref", "dst_payload_ref", "encapsulates_refs", "encapsulated_by_ref"):
+            warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s",
+                 504,
+                 prop_name0, "NetworkConnection", id20)
 
 
-def add_list_process_property_pattern(process_obj, properties, rhs, op, id20):
+def convert_network_connection_pattern(exp20, nc, id20):
+    convert_network_connection_pattern_1(exp20.rhs, exp20.operator, exp20.lhs.property_path, nc, id20)
+
+
+def add_scalar_process_property_pattern(process_obj, properties, rhs, op, id20):
+    prop_name0 = properties[0].property_name
+    if convert_pattern(process_obj, prop_name0, rhs, op, PROCESS_MAP, id20):
+        return
+    elif prop_name0 == "command_line":
+        process_obj.image_info = ImageInfo()
+        process_obj.image_info.command_line = rhs.value
+        convert_operator(op, process_obj.image_info.command_line, id20)
+    elif prop_name0 == "creator_user_ref":
+        prop_name1 = properties[1].property_name
+        if prop_name1 == 'account_login':
+            process_obj.username = rhs.value
+            convert_operator(op, process_obj.username, id20)
+        else:
+            warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, prop_name1,
+                 "Account",
+                 id20)
+    elif prop_name0 == "binary_ref":
+        # TODO: what if there are mutiple references to the same object?
+        prop_name1 = properties[1].property_name
+        if prop_name1 == "extensions" or prop_name1.find("_ref") > 0:
+            warn("Nested extensions and references in patterns are not handled, yet.  Found in pattern of %s",
+                 611,
+                 id20)
+        else:
+            obs = convert_file_c_o({properties[1].property_name: rhs.value}, File(), id20)
+            # TODO: determine which property needs the operator
+            process_obj.add_related(obs, "Contains", inline=True)
+    elif prop_name0 == "parent_ref":
+        prop_name1 = properties[1].property_name
+        if prop_name1 == 'pid':
+            process_obj.parent_pid = rhs.value
+            convert_operator(op, process_obj.parent_pid, id20)
+        else:
+            warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, prop_name1,
+                 "Process",
+                 id20)
+
+
+def add_list_process_property_pattern(process_obj, exp20, id20):
+    rhs = exp20.rhs
+    op = exp20.operator
+    properties = exp20.lhs.property_path
     prop_name = properties[0].property_name
     if prop_name == "arguments":
         if properties[0].index == "*":
@@ -938,7 +988,16 @@ def add_list_process_property_pattern(process_obj, properties, rhs, op, id20):
         process_obj.environment_variable_list.append(ev)
         ev.name = prop_name1
         ev.value = rhs.value
-    # TODO: opened_connection_ref
+    elif prop_name == "opened_connection_refs":
+        if properties[0].index == "*":
+            if not process_obj.network_connection_list:
+                process_obj.network_connection_list = NetworkConnectionList()
+            nc = NetworkConnection()
+            convert_network_connection_pattern_1(rhs, op, properties[1:], nc, id20)
+            process_obj.network_connection_list.network_connection.append(nc)
+            # obs = convert_network_traffic_c_o({prop_name1: rhs.value}, nc, id20)
+        else:
+            warn("number indicies in %s not handled, yet", 601, id20)
     elif prop_name == "child_refs":
         if properties[0].index == "*":
             prop_name1 = properties[1].property_name
@@ -948,7 +1007,9 @@ def add_list_process_property_pattern(process_obj, properties, rhs, op, id20):
                 process_obj.child_pid_list.append(rhs.value)
                 # condition??
             else:
-                warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, "Process", prop_name1, id20)
+                warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, "Process",
+                     prop_name1,
+                     id20)
         else:
             warn("number indicies in %s not handled, yet", 601, id20)
     else:
@@ -977,13 +1038,12 @@ def add_process_extension_pattern(process_obj, properties, rhs, op, id20):
             if prop_name1 == "descriptions":
                 if not process_obj.descriptions:
                     process_obj.descriptions = ServiceDescriptionList()
-                # TODO:  is this they way to make this assignment?
-                process_obj.descriptions.description = rhs.value
+                process_obj.description_list.append(rhs.value)
 
 
 def convert_process_pattern(exp20, obj1x, id20):
     if isinstance(exp20.lhs.property_path[0], stix2.ListObjectPathComponent):
-        add_list_process_property_pattern(obj1x, exp20.lhs.property_path, exp20.rhs, exp20.operator, id20)
+        add_list_process_property_pattern(obj1x, exp20, id20)
     elif len(exp20.lhs.property_path) > 2 and \
             isinstance(exp20.lhs.property_path[0], stix2.BasicObjectPathComponent) and \
             exp20.lhs.property_path[0].property_name == 'extensions':
@@ -1008,13 +1068,17 @@ def add_scalar_software_property_pattern(software_obj, properties, rhs, op, id20
     software_obj.product = rhs.value
     prop_name = properties[0].property_name
     convert_operator(op, software_obj.product, id20)
-    # TODO cpe
+
     if prop_name == "vendor":
         software_obj.vendor = rhs.value
         convert_operator(op, software_obj.vendor, id20)
     elif prop_name == "version":
         software_obj.version = rhs.value
         convert_operator(op, software_obj.version, id20)
+    elif prop_name == "cpe":
+        warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, "Product",
+             prop_name,
+             id20)
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id20)
 
@@ -1039,7 +1103,9 @@ def convert_unix_account_extensions_pattern(ua1x, properties, rhs_value, op, id2
     elif "home_dir" == ext_prop:
         ua1x.home_directory = rhs_value
         convert_operator(op, ua1x.home_directory, id20)
-    # TODO: shell
+    elif "shell" == ext_prop:
+        ua1x.login_shell = rhs_value
+        convert_operator(op, ua1x.ua1x.login_shell, id20)
 
 
 def convert_user_account_pattern(exp20, obj1x, id20):

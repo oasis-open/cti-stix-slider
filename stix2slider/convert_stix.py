@@ -90,7 +90,6 @@ _VICTIM_TARGET_TTPS = []
 
 
 def create_victim_target(source, target_ref, target_obj_ref_1x):
-    # TODO: don't embed multiple times
     global _VICTIM_TARGET_TTPS
     target, identity1x_tuple = handle_identity(target_ref, target_obj_ref_1x)
     ttp = TTP()
@@ -99,6 +98,9 @@ def create_victim_target(source, target_ref, target_obj_ref_1x):
     _VICTIM_TARGET_TTPS.append(ttp)
     source.observed_ttps.append(ttp)
     identity1x_tuple[1] = True
+
+
+# most of the TODOs in this map represent relationships not explicitly called out in STIX 1.x
 
 
 _RELATIONSHIP_MAP = {
@@ -326,7 +328,9 @@ def convert_attack_pattern(ap20):
         ap1x.title = ap20["name"]
     if "description" in ap20:
         ap1x.add_description(ap20["description"])
-    # TODO: labels
+    if "labels" in ap20:
+        for l in ap20["labels"]:
+            add_missing_property_to_description(ap1x, "label", l)
     if "external_references" in ap20:
         ap1x.capec_id = extract_external_id("capec", ap20["external_references"])
     ttp = TTP(id_=convert_id20(ap20["id"]),
@@ -655,7 +659,6 @@ def convert_vulnerability(v20):
     v1x.cve_id = extract_external_id("cve", v20["external_references"])
     et = ExploitTarget(id_=convert_id20(v20["id"]),
                        timestamp=text_type(v20["modified"]))
-    # TODO: vulnerability in STIX 1.x has a reference property
     et.add_vulnerability(v1x)
     if "kill_chain_phases" in v20:
         process_kill_chain_phases(v20["kill_chain_phases"], et)
@@ -687,7 +690,6 @@ def process_relationships(rel):
         warn("The '%s' relationship of %s between %s and %s is not supported in STIX 1.x",
              501,
              type_of_relationship, rel["id"], type_of_source, type_of_target)
-
         return
     if add_method_info["reverse"] and target_obj:
         source_obj_class = add_method_info["stix1x_source_type"]
@@ -708,36 +710,67 @@ def process_relationships(rel):
 _INFORMATION_SOURCES = {}
 
 
-def identity_ref(ref):
-    return ref.startswith("identity")
+def id_of_type(ref, type):
+    return ref.startswith(type)
+
+
+def create_references_for_vulnerability(obj):
+    if obj["id"] in _ID_OBJECT_MAPPING:
+        obj1x = _ID_OBJECT_MAPPING[obj["id"]]
+        v = obj1x.vulnerabilities[0]
+    for er in obj["external_references"]:
+        if er["source_name"] != 'cve' and ("url" in er or "external_id" in er):
+            if "url" in er:
+                v.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
+            if "external_id" in er:
+                v.add_reference("SOURCE: " + er["source_name"] + " - " + er["external_id"])
+        if er["source_name"] == 'cve' and "url" in er:
+            v.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
+
+
+def get_info_source(ob1x, obj):
+    if ob1x.information_source:
+        return ob1x.information_source
+    else:
+        if obj["id"] in _INFORMATION_SOURCES:
+            info_source = _INFORMATION_SOURCES[obj["id"]]
+            ob1x.information_source = info_source
+        else:
+            info_source = InformationSource(references=References())
+            _INFORMATION_SOURCES[obj["id"]] = info_source
+            ob1x.information_source = info_source
+        return info_source
 
 
 def create_references(obj):
-    if identity_ref(obj["id"]):
+    if id_of_type(obj["id"], "identity"):
         warn("Identity has no property to store external-references from %s", 510, obj["id"])
         return
-    info_source = None
+    elif id_of_type(obj["id"], "vulnerability"):
+        create_references_for_vulnerability(obj)
+        return
+    if obj["id"] in _ID_OBJECT_MAPPING:
+        ob1x = _ID_OBJECT_MAPPING[obj["id"]]
+    else:
+        warn("No object %s is found to add the reference to", 307, obj["id"])
+        return
     for er in obj["external_references"]:
-        if (er["source_name"] != 'capec' and er["source_name"] != 'cve') and "url" in er:
-            # TODO: description, hashes, external_id
-            if not info_source:
-                if obj["id"] in _ID_OBJECT_MAPPING:
-                    ob1x = _ID_OBJECT_MAPPING[obj["id"]]
-                    if ob1x.information_source:
-                        info_source = ob1x.information_source
-                    else:
-                        if obj["id"] in _INFORMATION_SOURCES:
-                            info_source = _INFORMATION_SOURCES[obj["id"]]
-                            ob1x.information_source = info_source
-                        else:
-                            info_source = InformationSource(references=References())
-                            _INFORMATION_SOURCES[obj["id"]] = info_source
-                            ob1x.information_source = info_source
-                else:
-                    warn("No object %s is found to add the reference to", 307, obj["id"])
-            info_source.add_reference(er["url"])
+        # capec and cve handled elsewhere
+        if (er["source_name"] != 'capec' and er["source_name"] != 'cve') and ("url" in er or "external_id" in er):
+            info_source = get_info_source(ob1x, obj)
+            if "url" in er:
+                info_source.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
+            if "external_id" in er:
+                info_source.add_reference("SOURCE: " + er["source_name"] + " - " + "EXTERNAL ID: " + er["external_id"])
+            if "hashes" in er:
+                warn("hashes not representable in a STIX 1.x %s.  Found in %s", 503, "InformationSource", obj["id"])
+            if "description" in er:
+                info_source.add_description(er["description"])
         elif (er["source_name"] != 'capec' and er["source_name"] != 'cve'):
             warn("Source name %s in external references of %s not handled, yet", 605, er["source_name"], obj["id"])
+        if (er["source_name"] == 'capec' or er["source_name"] == 'cve') and "url" in er:
+            info_source = get_info_source(ob1x, obj)
+            info_source.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
 
 
 def create_information_source(identity20_tuple):
@@ -770,13 +803,15 @@ def process_sighting(o):
             return
         if not indicator_of_sighting.sightings:
             indicator_of_sighting.sightings = Sightings()
+        if "count" in o:
+            indicator_of_sighting.sightings.sightings_count = o["count"]
         if "where_sighted_refs" in o:
             for ref in o["where_sighted_refs"]:
-                s = Sighting()
+                s = Sighting(timestamp=text_type(o["modified"]))
                 indicator_of_sighting.sightings.append(s)
                 if ref in _IDENTITIES:
                     identity20_tuple = _IDENTITIES[ref]
-                    s.information_source = create_information_source(identity20_tuple)
+                    s.source = create_information_source(identity20_tuple)
                 if "observed_data_refs" in o:
                     # reference, regardless of whether its in the bundle or not
                     s.related_observables = RelatedObservables()
@@ -784,8 +819,11 @@ def process_sighting(o):
                         ro = RelatedObservable()
                         s.related_observables.append(ro)
                         ro.item = Observable(idref=convert_id20(od_ref))
-                        # TODO: first_seen
-                        # TODO: last_seen
+
+        if "first_seen" in o:
+            warn("first_seen not representable in a STIX 1.x Sightings.  Found in %s", 503, o["id"])
+        if "last_seen" in o:
+            warn("last_seen not representable in a STIX 1.x Sightings.  Found in %s", 503, o["id"])
     else:
         warn("Unable to convert STIX 2.0 sighting %s because it doesn't refer to an indicator", 508, o["sighings_of_ref"])
 
@@ -893,7 +931,7 @@ def convert_bundle(bundle_obj):
         elif o["type"] == "indicator":
             pkg.add_indicator(convert_indicator(o))
         elif o["type"] == "intrusion-set":
-            error("Cannot convert STIX 2.0 content that contains intrusion-sets", 0)
+            error("Cannot convert STIX 2.0 content that contains intrusion-sets", 524)
             return None
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))

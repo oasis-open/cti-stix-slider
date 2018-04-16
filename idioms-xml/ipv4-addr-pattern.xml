@@ -28,7 +28,7 @@
                     <cybox:Related_Objects>
                         <cybox:Related_Object id="example:Address-9c0e3b31-38c2-4dd2-a173-b93b23dbe5ae">
                             <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="mac">
-                                <AddressObj:Address_Value>6a:00:02:5c:e3:c0</AddressObj:Address_Value>
+                                <AddressObj:Address_Value condition="Equals">6a:00:02:5c:e3:c0</AddressObj:Address_Value>
                             </cybox:Properties>
                             <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Resolved_To</cybox:Relationship>
                         </cybox:Related_Object>

@@ -1,10 +1,6 @@
 STIX Slider Log Messages
 ==========================
 
-Use the following table for reference. You can also enable or disable certain
-messages using the ``-e`` or ``-d`` flags. Refer to the elevator help
-or README for more information on how to handle logging messages.
-
 =================================================================================================================== =========================================================== ====    =====   ===================================================================
 Message                                                                                                             Category                                                    Code    Level   Location
 =================================================================================================================== =========================================================== ====    =====   ===================================================================
@@ -24,16 +20,18 @@ is_encrypted in [id] is true, but no encryption_algorithm is given              
 is_encrypted in [id] is false, but encryption_algorithm is given                                                    Possible issue in original STIX 2.0 content                 310     Info    convert_file_c_o
 is_encrypted in %s is true, but no decryption_key is given                                                          Possible issue in original STIX 2.0 content                 311     Info    convert_file_c_o
 is_encrypted in %s is false, but decryption_key is given                                                            Possible issue in original STIX 2.0 content                 312     Info    convert_file_c_o
-The is_multipart property in [id] should be 'true' if the body_multipart property is present                        Possible issue in original STIX 2.0 content                 313     Warn    convert_email_message_c_o
-The is_multipart property in [id] should be 'false' if the body_multipart property is not present                   Possible issue in original STIX 2.0 content                 314     Warn    convert_email_message_c_o
+The [property1] property in [id] should be '[boolean' if the [property2] property is [not]present                   Possible issue in original STIX 2.0 content                 313     Warn    convert_email_message_c_o
 [type] in STIX 2.0 has multiple [property], only one is allowed in STIX 1.x. Using first in list - [value] omitted  Multiple values are not supported in STIX 1.x               401     Warn    convert_coa, convert_identity, populate_other_header_fields
 Only one dll can be represented in STIX 1.x for [id], using first one - ignoring [value]                            Multiple values are not supported in STIX 1.x               402     Warn    add_process_extension_pattern
 The [relationship] relationship between [id1] and [id2] is not supported in STIX 1.x"                               Content not supported in STIX 1.x - Dropping                501     Warn    get_relationship_adder
 Multiple File Extensions in [id] not supported yet                                                                  Content not supported in STIX 1.x - Dropping                502     Warn    determine_1x_object_type
 [property] not representable in a STIX 1.x [type].  Found in [id]                                                   Content not supported in STIX 1.x - Dropping                503     Warn    convert_image_file_extension
+                                                                                                                                                                                                convert_network_traffic_c_o
+                                                                                                                                                                                                convert_software_c_o
 [property] not representable in a STIX 1.x [type].  Found in the pattern of [id]                                    Content not supported in STIX 1.x - Dropping                504     Warn    add_scalar_process_property_pattern,
                                                                                                                                                                                                 add_list_process_property_pattern,
                                                                                                                                                                                                 add_scalar_registry_key_property_pattern
+                                                                                                                                                                                                add_scalar_software_property_pattern
 [op] cannot be converted to a STIX 1.x operator in the pattern of [id]                                              Content not supported in STIX 1.x - Dropping                505     Warn    convert_operator
 account_type property of [id] in STIX 2.0 is not directly represented as a property in STIX 1.x                     Content not supported in STIX 1.x - Dropping                506     Warn    convert_user_account_pattern
 Received Line [line] in [id] has a prefix that is not representable in STIX 1.x                                     Content not supported in STIX 1.x - Dropping                507     Warn    populate_received_line
@@ -50,6 +48,10 @@ Hashes of the binary_ref of [id] process cannot be represented in the STIX 1.x P
 resolves_to_refs in [id] not representable in STIX 1.x                                                              Content not supported in STIX 1.x - Dropping                518     Warn    convert_domain_name_c_o
 Multiple Network Traffic extensions in [id] not supported yet                                                       Content not supported in STIX 1.x - Dropping                519     Warn    determine_1x_object_type
 The user_id property of [id] in STIX 2.0 is only represented as a property in STIX 1.x on UnixUserAccount objects   Content not supported in STIX 1.x - Dropping                520     Warn    convert_user_account_pattern
+The path property in [id] is the only directory property supportable in STIX 1.x. [property] is ignored             Content not supported in STIX 1.x - Dropping                521     Warn    add_scalar_file_property_pattern
+Nested Archive Files in [id] not handled yet                                                                        Content not supported in STIX 1.x - Dropping                522     Warn    add_file_archive_extension_pattern
+STIX 1.x can only store the body and headers of an email message in [id] independently                              Content not supported in STIX 1.x - Dropping                523     Warn    convert_email_message_c_o
+Cannot convert STIX 2.0 content that contains intrusion-sets                                                        Content not supported in STIX 1.x - Dropping                524     Error   convert_bundle
 The [property] property in [id] can refer to any object, so it is not handled yet.                                  STIX slider currently doesn't process this content          601     Warn    add_list_file_property_pattern
 number indicies in [id] not handled, yet                                                                            STIX slider currently doesn't process this content          602     Warn    *many* in convert_pattern.py
 Unable to determine STIX 1.x type for [id]                                                                          STIX slider currently doesn't process this content          603     Error   convert_cyber_observable
@@ -60,6 +62,9 @@ contains_refs in [id] not handled                                               
 protocols property in [id] not handled, yet                                                                         STIX slider currently doesn't process this content          608     Warn    convert_network_traffic_c_o
 tcp-ext in [id] not handled, yet                                                                                    STIX slider currently doesn't process this content          609     Warn    convert_network_traffic_to_tcp_packet
                                                                                                                                                                                                 convert_network_packet_pattern
+Operator for Artifact.Raw_Artifact in [id] not handled yet                                                          STIX slider currently doesn't process this content          610     Warn    add_scalar_artifact_property_pattern
+Nested extensions and references in patterns are not handled, yet.  Found in pattern of [id]                        STIX slider currently doesn't process this content          611     Warn    add_list_process_property_pattern
 Assuming imcp packet in [id] is v4                                                                                  Processing based on assumptions                             701     Info    convert_network_traffic_to_icmp_packet
+InformationSource descriptions order or content in may not correspond to the references in [id]                     Processing based on assumptions                             702     Info    create_references
 =================================================================================================================== =========================================================== ====    =====   ===================================================================
 

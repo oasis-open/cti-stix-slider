@@ -1,17 +1,17 @@
 <stix:STIX_Package
-	xmlns:indicator="http://stix.mitre.org/Indicator-2"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
-	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:stixCommon="http://stix.mitre.org/common-1"
-	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
-	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:example="http://example.com"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Indicators>
         <stix:Indicator id="example:indicator-53fe3b22-0201-47cf-85d0-97c02164528d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
@@ -19,11 +19,11 @@
             <indicator:Valid_Time_Position>
                 <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
             </indicator:Valid_Time_Position>
-            <indicator:Observable id="example:Observable-4f769d48-3fcc-475d-afec-680e9b06b549">
-                <cybox:Object id="example:File-09274c91-f421-429b-81eb-599b629c9268">
+            <indicator:Observable id="example:Observable-b4ab161c-a9e3-49d0-ba06-9b1698a94a0a">
+                <cybox:Object id="example:File-1f12d2e8-deae-45b4-9cdf-41dc9a82859d">
                     <cybox:Properties xsi:type="FileObj:FileObjectType">
                         <FileObj:File_Name condition="Equals">iprip32.dll</FileObj:File_Name>
-                        <FileObj:Full_Path>/usr/local/iprip32.dll</FileObj:Full_Path>
+                        <FileObj:Full_Path condition="Equals">/usr/local/iprip32.dll</FileObj:Full_Path>
                         <FileObj:Hashes>
                             <cyboxCommon:Hash>
                                 <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>

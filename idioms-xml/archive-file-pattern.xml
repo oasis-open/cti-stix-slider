@@ -1,0 +1,34 @@
+<stix:STIX_Package
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:ArchiveFileObj="http://cybox.mitre.org/objects#ArchiveFileObject-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:example="http://example.com"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-f77ece53-900b-4b78-ac3b-a24828cc2f00" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-a2d74789-648e-4c5a-9210-c0d9d059189b">
+                <cybox:Object id="example:ArchiveFile-dba6c3a9-816d-4357-9b73-67d61451d190">
+                    <cybox:Properties xsi:type="ArchiveFileObj:ArchiveFileObjectType">
+                        <ArchiveFileObj:Archived_File xsi:type="FileObj:FileObjectType">
+                            <FileObj:File_Name>foo.exe</FileObj:File_Name>
+                        </ArchiveFileObj:Archived_File>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

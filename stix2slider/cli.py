@@ -12,7 +12,6 @@ from stix2slider import slide_file
 from stix2slider.options import initialize_options
 from stix2slider.version import __version__
 
-
 CODE_TABLE = """
 Refer to slider_log_messages.rst for all stix2-slider messages. Use the associate code number
 to --enable or --disable a message. By default, the stix2-slider displays all

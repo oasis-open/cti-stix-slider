@@ -1,20 +1,21 @@
 <stix:STIX_Package
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:example="http://example.com"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:example="http://example.com"
-	xmlns:stix="http://stix.mitre.org/stix-1"
-	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
-	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
-	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:cybox="http://cybox.mitre.org/cybox-2"
-	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
 	 id="example:STIXPackage-a50ebeb7-0fa1-4eb0-b2ff-7d36d5d82369" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-9a28189d-2670-4ba6-b968-d3c475b1ec0a">
-            <cybox:Object id="example:EmailMessage-8f1c82e0-0518-4706-ba98-d3c801b19df2">
+            <cybox:Object id="example:EmailMessage-294bd89a-3ce0-4422-bf77-620ce9197021">
                 <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
                     <EmailMessageObj:Header>
                         <EmailMessageObj:Received_Lines>
@@ -43,12 +44,26 @@
                             <AddressObj:Address_Value>198.51.100.3</AddressObj:Address_Value>
                         </EmailMessageObj:X_Originating_IP>
                     </EmailMessageObj:Header>
+                    <EmailMessageObj:Raw_Body><![CDATA[Cats are funny!]]></EmailMessageObj:Raw_Body>
                     <EmailMessageObj:Attachments>
-                        <EmailMessageObj:File object_reference="example:File-00ad1c4a-54d7-4ca4-98af-df1a83ea3f6c"/>
+                        <EmailMessageObj:File object_reference="example:Artifact-0abf9af2-0993-4d28-b239-58a6a6907229"/>
+                        <EmailMessageObj:File object_reference="example:File-5ea0062a-cbca-4db0-94e3-3bc9d1364658"/>
                     </EmailMessageObj:Attachments>
                 </cybox:Properties>
                 <cybox:Related_Objects>
-                    <cybox:Related_Object id="example:File-00ad1c4a-54d7-4ca4-98af-df1a83ea3f6c">
+                    <cybox:Related_Object id="example:Artifact-0abf9af2-0993-4d28-b239-58a6a6907229">
+                        <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="image/jpeg">
+                            <ArtifactObj:Hashes>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>effb46bba03f6c8aea5c653f9cf984f170dcdd3bbbe2ff6843c3e5da0e698766</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                            </ArtifactObj:Hashes>
+                            <ArtifactObj:Raw_Artifact><![CDATA[VBORw0KGgoAAAANSUhEUgAAADI== ...]]></ArtifactObj:Raw_Artifact>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                    </cybox:Related_Object>
+                    <cybox:Related_Object id="example:File-5ea0062a-cbca-4db0-94e3-3bc9d1364658">
                         <cybox:Properties xsi:type="FileObj:FileObjectType">
                             <FileObj:File_Name>tabby_pics.zip</FileObj:File_Name>
                             <FileObj:Magic_Number>504B0304</FileObj:Magic_Number>
@@ -66,3 +81,4 @@
         </cybox:Observable>
     </stix:Observables>
 </stix:STIX_Package>
+

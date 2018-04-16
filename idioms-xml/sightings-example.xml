@@ -1,20 +1,23 @@
 <stix:STIX_Package
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
-	xmlns:stixCommon="http://stix.mitre.org/common-1"
 	xmlns:indicator="http://stix.mitre.org/Indicator-2"
-	xmlns:cybox="http://cybox.mitre.org/cybox-2"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
-	xmlns:example="http://example.com"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:example="http://example.com"
+	xmlns:xnl="urn:oasis:names:tc:ciq:xnl:3"
 	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3"
+	xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
 	 id="example:STIXPackage-65a88926-8e2e-43d7-84e8-bc9ca0437e72" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-b67d30ff-02ac-498a-92f9-32f845f448cf">
-            <cybox:Object id="example:File-5e04f621-fbb7-43ba-84d0-248bcda53f79">
+            <cybox:Object id="example:File-dae0986f-7cec-4065-a8cc-e7b084d81eaa">
                 <cybox:Properties xsi:type="FileObj:FileObjectType">
                     <FileObj:Hashes>
                         <cyboxCommon:Hash>
@@ -34,8 +37,8 @@
             <indicator:Valid_Time_Position>
                 <indicator:Start_Time precision="second">2016-01-01T00:00:00+00:00</indicator:Start_Time>
             </indicator:Valid_Time_Position>
-            <indicator:Observable id="example:Observable-f8f4634f-4bd0-407e-abff-138ba9356269">
-                <cybox:Object id="example:File-df17e561-1dfb-465e-bd23-1f4bc4398d90">
+            <indicator:Observable id="example:Observable-cbda2a2f-19e0-4b24-9e7e-ef474106e2e1">
+                <cybox:Object id="example:File-716cecd8-5997-4a92-baad-807c0301fc7d">
                     <cybox:Properties xsi:type="FileObj:FileObjectType">
                         <FileObj:Hashes>
                             <cyboxCommon:Hash>
@@ -46,8 +49,22 @@
                     </cybox:Properties>
                 </cybox:Object>
             </indicator:Observable>
-            <indicator:Sightings>
-                <indicator:Sighting timestamp="2017-11-14T15:36:55.321148+00:00">
+            <indicator:Sightings sightings_count="50">
+                <indicator:Sighting timestamp="2016-04-06T20:08:31+00:00">
+                    <indicator:Source>
+                        <stixCommon:Identity id="example:identity-b67d30ff-02ac-498a-92f9-32f845f448ff" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
+                            <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
+  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xpil:FreeTextLine>identity_class: organization</xpil:FreeTextLine>
+  </xpil:FreeTextLines>
+  <xpil:PartyName xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xnl:OrganisationName xmlns:xnl="urn:oasis:names:tc:ciq:xnl:3">
+      <xnl:NameElement>ACME Inc.</xnl:NameElement>
+    </xnl:OrganisationName>
+  </xpil:PartyName>
+</stix-ciqidentity:Specification>
+                        </stixCommon:Identity>
+                    </indicator:Source>
                     <indicator:Related_Observables>
                         <indicator:Related_Observable>
                             <stixCommon:Observable idref="example:observable-b67d30ff-02ac-498a-92f9-32f845f448cf">

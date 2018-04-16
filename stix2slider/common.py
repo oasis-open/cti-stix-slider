@@ -333,3 +333,31 @@ def convert_pe_type(pe_type20, obs20_id):
     else:
         warn("pe_type %s in %s is allowed in STIX 2.0, but not in STIX 1.x", 512, pe_type20, obs20_id)
         return "Invalid"
+
+
+def determine_20_address_type(address):
+    if "." in address:
+        return "ipv4-addr"
+    elif ":" in address:
+        parts = address.split(":")
+        if len(parts[0]) == 2:
+            return "mac-addr"
+        else:
+            return "ipv6-addr"
+
+
+def is_windows_directory(directory_string):
+    # TODO: is there a more definitive way to determine this?
+    return '\\' in directory_string
+
+
+def id_to_print(obj):
+    return obj.parent.id_
+
+
+def is_domain_name_address(s):
+    if "." in s:
+        parts = s.split(".")
+        return not s.isdigit(parts[0])
+    else:
+        return False
