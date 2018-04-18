@@ -25,6 +25,7 @@
           "binary_ref": "0",
           "extensions": {
             "windows-service-ext": {
+              "descriptions": ["a service"],
               "service_name": "sirvizio",
               "display_name": "Sirvizio",
               "start_type": "SERVICE_AUTO_START",

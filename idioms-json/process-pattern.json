@@ -8,7 +8,7 @@
                 "ip-watchlist"
             ],
             "modified": "2014-05-08T09:00:00.000Z",
-            "pattern": "[process:command_line MATCHES '^.+>-add GlobalSign.cer -c -s -r localMachine Root$'] OR [process:command_line MATCHES'^.+>-add GlobalSign.cer -c -s -r localMachineTrustedPublisher$']",
+            "pattern": "[process:command_line MATCHES '^.+>-add GlobalSign.cer -c -s -r localMachine Root$'] OR [process:command_line MATCHES'^.+>-add GlobalSign.cer -c -s -r localMachineTrustedPublisher$'] OR [process:opened_connection_refs[*].src_port = '25'] OR [process:opened_connection_refs[*].src_ref.value = '0.0.0.0']",
             "type": "indicator",
             "valid_from": "2014-05-08T09:00:00.000000Z"
         }

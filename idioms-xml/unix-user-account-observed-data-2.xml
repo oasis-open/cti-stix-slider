@@ -19,6 +19,7 @@
                     <UserAccountObj:Username>jdoe</UserAccountObj:Username>
                     <UnixUserAccountObj:Group_ID>1001</UnixUserAccountObj:Group_ID>
                     <UnixUserAccountObj:User_ID>1001</UnixUserAccountObj:User_ID>
+                    <UnixUserAccountObj:Login_Shell>/bin/bash</UnixUserAccountObj:Login_Shell>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

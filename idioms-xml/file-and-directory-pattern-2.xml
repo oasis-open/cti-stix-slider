@@ -23,7 +23,7 @@
                 <cybox:Object id="example:File-ad33586d-5fbb-4085-83e8-319d6d97cc20">
                     <cybox:Properties xsi:type="FileObj:FileObjectType">
                         <FileObj:File_Name condition="Equals">foo.dll</FileObj:File_Name>
-                        <FileObj:Full_Path>C:\\Windows\\System32/foo.dll</FileObj:Full_Path>
+                        <FileObj:Full_Path condition="Equals">C:\\Windows\\System32\\foo.dll</FileObj:Full_Path>
                     </cybox:Properties>
                 </cybox:Object>
             </indicator:Observable>

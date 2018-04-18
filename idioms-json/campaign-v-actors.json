@@ -19,6 +19,15 @@
                 {
                     "source_name": "ACME",
                     "url": "http://foo.com/bar"
+                },
+                {
+                    "source_name": "wikipedia",
+                    "url": "https://en.wikipedia.org/wiki/Automated_teller_machine"
+                },
+                {
+                    "source_name": "ACME Bugzilla",
+                    "external_id": "1370",
+                    "url": "https://www.example.com/bugs/1370"
                 }
             ],
             "id": "campaign--e5268b6e-4931-42f1-b379-87f48eb41b1e",

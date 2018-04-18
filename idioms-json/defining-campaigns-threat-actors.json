@@ -81,7 +81,8 @@
       "external_references": [
         {
           "external_id": "CAPEC-148",
-          "source_name": "capec"
+          "source_name": "capec",
+          "url": "https://capec.mitre.org/data/definitions/148.html"
         }
       ],
       "name": "Content Spoofing"

@@ -1,0 +1,29 @@
+<stix:STIX_Package
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:example="http://example.com"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-c8c32b6e-2ea8-51c4-6446-7f5218072f27">
+            <cybox:Object id="example:File-0f93fc83-eb6b-4fb0-9368-932cc26b7ebb">
+                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                    <FileObj:File_Name>iprip32.dll</FileObj:File_Name>
+                    <FileObj:Full_Path>c:\system32\iprip32.dll</FileObj:Full_Path>
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

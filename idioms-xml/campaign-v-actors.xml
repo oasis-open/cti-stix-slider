@@ -1,13 +1,13 @@
 <stix:STIX_Package
-	xmlns:stix="http://stix.mitre.org/stix-1"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:campaign="http://stix.mitre.org/Campaign-1"
-	xmlns:example="http://example.com"
 	xmlns:ta="http://stix.mitre.org/ThreatActor-1"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:campaign="http://stix.mitre.org/Campaign-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:example="http://example.com"
+	xmlns:stix="http://stix.mitre.org/stix-1"
 	 id="example:STIXPackage-81810123-b298-40f6-a4e7-186efcd07670" version="1.2">
     <stix:Campaigns>
         <stix:Campaign id="example:campaign-e5268b6e-4931-42f1-b379-87f48eb41b1e" timestamp="2014-08-08T15:50:10.983000+00:00" xsi:type='campaign:CampaignType'>
@@ -19,7 +19,10 @@ INFORMATION SOURCE ROLE: Aggregator
 INFORMATION SOURCE ROLE: Initial Author</campaign:Description>
             <campaign:Information_Source>
                 <stixCommon:References>
-                    <stixCommon:Reference>http://foo.com/bar</stixCommon:Reference>
+                    <stixCommon:Reference>SOURCE: ACME - http://foo.com/bar</stixCommon:Reference>
+                    <stixCommon:Reference>SOURCE: wikipedia - https://en.wikipedia.org/wiki/Automated_teller_machine</stixCommon:Reference>
+                    <stixCommon:Reference>SOURCE: ACME Bugzilla - https://www.example.com/bugs/1370</stixCommon:Reference>
+                    <stixCommon:Reference>SOURCE: ACME Bugzilla - EXTERNAL ID: 1370</stixCommon:Reference>
                 </stixCommon:References>
             </campaign:Information_Source>
         </stix:Campaign>
@@ -27,10 +30,10 @@ INFORMATION SOURCE ROLE: Initial Author</campaign:Description>
     <stix:Threat_Actors>
         <stix:Threat_Actor id="example:threat-actor-56f3f0db-b5d5-431c-ae56-c18f02caf500" timestamp="2014-08-08T15:50:10.983000+00:00" xsi:type='ta:ThreatActorType'>
             <ta:Title>People behind the intrusion</ta:Title>
-            <ta:Type timestamp="2017-09-30T19:27:57.929167+00:00">
+            <ta:Type timestamp="2018-04-16T16:20:18.063358+00:00">
                 <stixCommon:Value>unknown</stixCommon:Value>
             </ta:Type>
-            <ta:Sophistication timestamp="2017-09-30T19:27:57.929290+00:00">
+            <ta:Sophistication timestamp="2018-04-16T16:20:18.063444+00:00">
                 <stixCommon:Value>unknown</stixCommon:Value>
             </ta:Sophistication>
             <ta:Associated_Campaigns>
