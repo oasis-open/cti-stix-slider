@@ -1,7 +1,7 @@
 |Build_Status| |Coverage| |Version|
 
 cti-stix-slider
-=================
+===============
 
 NOTE: This is an `OASIS TC Open
 Repository <https://www.oasis-open.org/resources/open-
@@ -267,7 +267,7 @@ repositories/maintainers-guide#additionalMaintainers>`__.
    <https://www.mitre.org/>`__
 
 About OASIS TC Open Repositories
------------------------------
+--------------------------------
 
 -  `TC Open Repositories: Overview and
    Resources <https://www.oasis-open.org/resources/open-

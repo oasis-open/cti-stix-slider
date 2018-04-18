@@ -88,9 +88,9 @@ def _get_arg_parser(is_script=True):
 
     parser.add_argument(
         "--message-log-directory",
-        help="If this flag is set. All stix2-slider messages will be saved to "
+        help="If this flag is set, all stix2-slider messages will be saved to "
              "file. The name of the file will be the input file with "
-             "extension .log in the specified directory. Note, make sure"
+             "extension .log in the specified directory. Note, make sure "
              "the directory already exists.\n\n"
              "Example: stix2_slider.py <file> --message-log-directory \"..\logs\"",
         dest="message_log_directory",
