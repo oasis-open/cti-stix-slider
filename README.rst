@@ -88,7 +88,7 @@ STIX 2.0 content to STIX 1.x content::
                       [-p {no_policy,strict_policy}]
                       file
 
-        stix2-slider v0.1.0
+        stix2-slider v1.0.0
 
         The stix2-slider is a work-in-progress. It should be used to explore how
         existing STIX 2.0 would potentially be represented in STIX 1.x. Using the
@@ -128,9 +128,6 @@ STIX 2.0 content to STIX 1.x content::
 
           --log-level {DEBUG,INFO,WARN,ERROR,CRITICAL}
                                 The logging output level.
-
-          -p {no_policy,strict_policy}, --policy {no_policy,strict_policy}
-                                The policy to dealt with errors
 
         Refer to slider_log_messages.rst for all stix2-slider messages. Use the associated code number
         to --enable or --disable a message. By default, the stix2-slider displays all

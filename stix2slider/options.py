@@ -113,7 +113,7 @@ class SliderOptions(object):
                  no_squirrel_gaps=False,
                  enable="", disable="",
                  silent=False, message_log_directory=None,
-                 policy="no_policy", output_directory=None, log_level="INFO"):
+                 output_directory=None, log_level="INFO"):
 
         if cmd_args is not None:
             if hasattr(cmd_args, "file_"):
@@ -123,7 +123,6 @@ class SliderOptions(object):
             self.enable = cmd_args.enable
             self.disable = cmd_args.disable
             self.silent = cmd_args.silent
-            self.policy = cmd_args.policy
             self.message_log_directory = cmd_args.message_log_directory
             self.log_level = cmd_args.log_level
             if hasattr(cmd_args, "output_directory"):
@@ -135,7 +134,6 @@ class SliderOptions(object):
             self.enable = enable
             self.disable = disable
             self.silent = silent
-            self.policy = policy
             self.message_log_directory = message_log_directory
             self.log_level = log_level
             self.output_directory = output_directory
@@ -167,9 +165,6 @@ def initialize_options(slider_args=None):
 
         if ALL_OPTIONS.silent and ALL_OPTIONS.message_log_directory:
             warn("Both console and output log have disabled messages.", 202)
-
-        if ALL_OPTIONS.silent and ALL_OPTIONS.policy != "no_policy":
-            warn("silent option is not compatible with a policy", 203)
 
 
 def get_option_value(option_name):

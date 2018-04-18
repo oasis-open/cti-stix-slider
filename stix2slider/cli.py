@@ -92,7 +92,7 @@ def _get_arg_parser(is_script=True):
              "file. The name of the file will be the input file with "
              "extension .log in the specified directory. Note, make sure "
              "the directory already exists.\n\n"
-             "Example: stix2_slider.py <file> --message-log-directory \"..\logs\"",
+             "Example: stix2_slider.py <file> --message-log-directory '..\logs'",
         dest="message_log_directory",
         action="store",
         default=None
@@ -103,16 +103,6 @@ def _get_arg_parser(is_script=True):
         default="INFO",
         help="The logging output level.",
         choices=["DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"]
-    )
-
-    parser.add_argument(
-        "-p",
-        "--policy",
-        help="The policy to dealt with errors",
-        dest="policy",
-        choices=["no_policy", "strict_policy"],
-        action="store",
-        default="no_policy"
     )
 
     return parser

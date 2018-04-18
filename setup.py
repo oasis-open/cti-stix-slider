@@ -28,6 +28,10 @@ setup(
     description="Utilities to downgrade STIX and CybOX content to 1.X",
     long_description=readme,
     url="http://stixproject.github.io/",
+    author='OASIS Cyber Threat Intelligence Technical Committee',
+    author_email='cti-users@lists.oasis-open.org',
+    maintainer='Rich Piazza',
+    maintainer_email='rpiazza@mitre.org',
     packages=find_packages(),
     install_requires=[
         'stix>=1.1.1.9,<1.2.1.0',
