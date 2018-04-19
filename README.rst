@@ -16,11 +16,10 @@ valid STIX
 1.x XML, and what information was not able to be converted.
 
 The stix-slider is a work-in-progress. It should be used to explore
-how existing STIX 2.0 would potentially be represented in STIX 1.x.
+how STIX 2.0 content could potentially be represented in STIX 1.x.
 Using the current version of the slider will provide insight to issues
 that might need to be mitigated to convert your STIX 2.0 content for
-use
-in application that accept on STIX 1.x content.
+use in application that accept only STIX 1.x content.
 
 **It should not be used in a production environment, and should not be
 considered final.**
@@ -40,14 +39,11 @@ Requirements
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.python.org/pypi/python-stix2>`_ >= 0.3.0
--  `stixmarx <https://pypi.python.org/pypi/stixmarx>`_ >= 1.0.2
+-  `python-stix2 <https://pypi.python.org/pypi/python-stix2>`_ >= 1.0.0
+-  `stixmarx <https://pypi.python.org/pypi/stixmarx>`_ >= 1.0.3
 
 Installation
 ------------
-
-**The stix slider is not available on pypi at this time, please access
-the code from github.**
 
 Install with pip::
 
@@ -85,7 +81,6 @@ STIX 2.0 content to STIX 1.x content::
         usage: stix2_slider [-h] [--no-squirrel-gaps] [-e ENABLE] [-d DISABLE] [-s]
                       [--message-log-directory MESSAGE_LOG_DIRECTORY]
                       [--log-level {DEBUG,INFO,WARN,ERROR,CRITICAL}]
-                      [-p {no_policy,strict_policy}]
                       file
 
         stix2-slider v1.0.0
