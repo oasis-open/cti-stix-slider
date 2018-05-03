@@ -145,7 +145,7 @@ tools. You can slide a STIX 2.0 file::
 Additionally, a similar method exists to accept a string as an
 argument::
 
-      from stix2slider import elevate_string
+      from stix2slider import slide_string
       from stix2slider.options import initialize_options
 
       intialize_options()
