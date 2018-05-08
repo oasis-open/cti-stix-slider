@@ -850,9 +850,10 @@ def create_information_source(identity20_tuple):
 def process_created_by_ref(o):
     if o["id"] in _ID_OBJECT_MAPPING:
         obj1x = _ID_OBJECT_MAPPING[o["id"]]
-        if o["created_by_ref"] in _IDENTITIES:
-            identity20_tuple = _IDENTITIES[o["created_by_ref"]]
-            obj1x.information_source = create_information_source(identity20_tuple)
+        if hasattr(obj1x, "information_source"):
+            if o["created_by_ref"] in _IDENTITIES:
+                identity20_tuple = _IDENTITIES[o["created_by_ref"]]
+                obj1x.information_source = create_information_source(identity20_tuple)
 
 
 def indicator_ref(ref):
