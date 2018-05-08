@@ -14,7 +14,7 @@ from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
 from stix.campaign import Campaign, Names
 from stix.coa import CourseOfAction
 from stix.common.datetimewithprecision import DateTimeWithPrecision
-from stix.common.identity import Identity
+from stix.common.identity import Identity, RelatedIdentities
 from stix.common.information_source import InformationSource
 from stix.common.kill_chains import (KillChain, KillChainPhase,
                                      KillChainPhaseReference,
@@ -94,6 +94,12 @@ def set_ta_identity(source, target_ref, target_obj_idref_1x):
         source.identity = target
         identity1x_tuple[1] = True
 
+def set_related_identity(source, target_ref, target_obj_idref_1x):
+    target, identity1x_tuple = handle_identity(target_ref, target_obj_idref_1x)
+    if not source.related_identities:
+        source.related_identities = RelatedIdentities()
+    source.related_identities.append(target)
+    identity1x_tuple[1] = True
 
 # TODO: use _VICTIM_TARGET_TTPS
 _VICTIM_TARGET_TTPS = []
@@ -180,6 +186,11 @@ _RELATIONSHIP_MAP = {
          "stix1x_source_type": CourseOfAction,
          "stix1x_target_type": ExploitTarget},
     # TODO: identity relationships?
+    ("identity", "identity", "related-to"):
+        {"method": set_related_identity,
+         "reverse": False,
+         "stix1x_source_type": Identity,
+         "stix1x_target_type": Identity},
     ("indicator", "attack_pattern", "indicates"):
         {"method": Indicator.add_indicated_ttp,
          "reverse": False,
