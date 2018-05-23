@@ -825,7 +825,7 @@ def process_sighting(o):
         if "last_seen" in o:
             warn("last_seen not representable in a STIX 1.x Sightings.  Found in %s", 503, o["id"])
     else:
-        warn("Unable to convert STIX 2.0 sighting %s because it doesn't refer to an indicator", 508, o["sighings_of_ref"])
+        warn("Unable to convert STIX 2.0 sighting %s because it doesn't refer to an indicator", 508, o["sighting_of_ref"])
 
 
 def convert_marking_definition(marking20):
