@@ -152,6 +152,3 @@ texinfo_documents = [
      author, 'stix2-slider', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-

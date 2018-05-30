@@ -11,7 +11,7 @@ from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
                                         SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
                                         THREAT_ACTOR_SOPHISTICATION_MAP)
-from stix.campaign import Campaign, Names, AssociatedCampaigns
+from stix.campaign import AssociatedCampaigns, Campaign, Names
 from stix.coa import CourseOfAction, RelatedCOAs
 from stix.common.datetimewithprecision import DateTimeWithPrecision
 from stix.common.identity import Identity, RelatedIdentities
@@ -36,12 +36,12 @@ from stix.extensions.marking.ais import (AISConsentType, AISMarkingStructure,
 from stix.extensions.marking.terms_of_use_marking import \
     TermsOfUseMarkingStructure
 from stix.extensions.marking.tlp import TLPMarkingStructure
-from stix.indicator import Indicator, ValidTime, RelatedIndicators
+from stix.indicator import Indicator, RelatedIndicators, ValidTime
 from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
                                       Sighting, Sightings)
 from stix.report import Report
 from stix.report.header import Header
-from stix.threat_actor import ThreatActor, AssociatedActors
+from stix.threat_actor import AssociatedActors, ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
 from stix.ttp.malware_instance import MalwareInstance
@@ -118,7 +118,6 @@ def set_related_coas(source, target_ref, target_obj_idref_1x):
     ta1x_tuple[1] = True
 
 
-
 def set_related_indicators(source, target_ref, target_obj_idref_1x):
     target, ta1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
     if not source.related_indicators:
@@ -161,21 +160,21 @@ def create_exploit_target_to_ttps(ttp, target_ref, target_obj_ref_1x):
 
 _RELATIONSHIP_MAP = {
     # TODO: self-reference?
-     ("attack-pattern", "malware", "uses"):
-         {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
-          "reverse": False,
-          "stix1x_source_type": TTP,
-          "stix1x_target_type": TTP},
+    ("attack-pattern", "malware", "uses"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
     ("attack-pattern", "identity", "targets"):
         {"method": create_victim_target_for_attack_pattern,
          "reverse": False,
          "stix1x_source_type": TTP,
          "stix1x_target_type": Identity},
     ("attack-pattern", "tool", "uses"):
-         {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
-          "reverse": False,
-          "stix1x_source_type": TTP,
-          "stix1x_target_type": TTP},
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
     ("attack-pattern", "vulnerability", "targets"):
         {"method": create_exploit_target_to_ttps,
          "reverse": False,
