@@ -668,9 +668,11 @@ def convert_report(r20):
         elif ref_type == "vulnerability":
             r1x.add_exploit_target(ExploitTarget(idref=ref1x))
         elif ref_type == "identity" or ref_type == "relationship":
-            warn("%s is not explicitly a member of a STIX 1.x report", 0, ref)
+            warn("%s in %s is not explicitly a member of a STIX 1.x report", 703, ref, r20["id"])
         elif ref_type == "intrusion-set":
-            warn("%s cannot be represented in STIX 1.x", 0, ref)
+            warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r20["id"])
+        else:
+            warn("ref type %s in %s is not known", 0, ref_type, r20["id"])
     if "object_marking_refs" in r20:
         for m_id in r20["object_marking_refs"]:
             ms = create_marking_specification(m_id)

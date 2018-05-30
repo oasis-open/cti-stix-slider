@@ -67,8 +67,8 @@ optional arguments:
                 The logging output level.
 
 
-        Refer to the :ref:`warning_messages` section for all stix2-slider messages. Use the associated code number
-        to --enable or --disable a message. By default, the stix2-slider displays all
-        messages.
+Refer to the :ref:`warning_messages` section for all stix2-slider messages. Use the associated code number
+to ``--enable`` or ``--disable`` a message. By default, the stix2-slider displays all
+messages.
 
-        Note: disabling the message does not disable any functionality.
+Note: disabling the message does not disable any functionality.

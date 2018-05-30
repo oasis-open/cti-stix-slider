@@ -14,7 +14,7 @@ Requirements
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.python.org/pypi/python-stix2>`_ >= 1.0.0
+-  `python-stix2 <https://pypi.python.org/pypi/python-stix2>`_ >= 1.0.2
 -  `stixmarx <https://pypi.python.org/pypi/stixmarx>`_ >= 1.0.3
 
 Installation Steps

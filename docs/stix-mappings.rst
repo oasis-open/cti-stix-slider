@@ -1,7 +1,7 @@
 Mappings from STIX 1.x to STIX 2.0
 =======================================
 
-This section outlines the disposition of each property for the top-level objects when converted.
+This section outlines the disposition of each property of the top-level objects when converted.
 
 For each STIX 2.0 object that was converted the following options are possible:
 
@@ -12,7 +12,9 @@ For each STIX 2.0 object that was converted the following options are possible:
    If the STIX 2.0 ``relationship-type`` is not listed below, then that relationship will not be converted to an embedded STIX 1.x relationship.
    The "reverse" notation indicates the the STIX 1.x property is found on target object.
  - **STIX 2.0 property recorded in the STIX 1.x description property.**  This 2.0 property has no corresponding property in STIX 1.x, but its value
-   can be (optionally) included in the description property of the 1.x object as text.  If the STIX 2.0 content was created using the elevator
+   can be (optionally) included in the description property of the 1.x object as text.
+
+   If the STIX 2.0 content was created using the elevator
    it might be the case that it recorded some 1.x properties in the description.  However, the slider makes no attempt to examine the content of
    the 2.0 descriptor property to determine if it can use information found within it to populate the original 1.x properties.
  - **STIX 2.0 property not mapped.**  This property will not be included in the converted 1.x object.
@@ -63,8 +65,6 @@ Common Properties
 +-------------------------+------------------------------------+
 | ``description``         | ``Description``                    |
 +-------------------------+------------------------------------+
-| ``id``                  | ``id``                             |
-+-------------------------+------------------------------------+
 | ``modified``            | ``timestamp``                      |
 +-------------------------+------------------------------------+
 | ``name``                | ``Title``                          |
@@ -76,6 +76,8 @@ Common Properties
 | **STIX 2.0 property**   | **STIX 1.x property**                                                                |
 +=========================+======================================================================================+
 | ``type``                | *implicitly defined by its element name or explicitly using xsi:type*                |
++-------------------------+--------------------------------------------------------------------------------------+
+| ``id``                  | ``id``                                                                               |
 +-------------------------+--------------------------------------------------------------------------------------+
 | ``created_by_ref``      | ``Information_Source``                                                               |
 +-------------------------+--------------------------------------------------------------------------------------+
@@ -213,7 +215,7 @@ Campaigns
 
 -  ``first_seen``
 -  ``last_seen``
--  ``label``
+-  ``labels``
 
 **STIX 2.0 Properties Not Mapped**
 
@@ -338,6 +340,8 @@ STIX 1.x in XML
                 </coa:Description>
     </stix:Course_Of_Action>
 
+Notice that although there is information in the STIX 2.0 description property (from a previous use of the elevator) that
+could be used to populate STIX 1.x properties, the description property is transferred directly, with no additional processing.
 
 Indicator
 ------------------
@@ -362,7 +366,7 @@ Indicator
 +-------------------------+---------------------------------------------+
 | ``pattern``             | ``IndicatorExpression``                     |
 +-------------------------+---------------------------------------------+
-| ``labels```             | ``Type``                                    |
+| ``labels``              | ``Type``                                    |
 +-------------------------+---------------------------------------------+
 
 **STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
@@ -521,7 +525,8 @@ Report
 The Report object in 2.0 does not contain objects, but only object references
 to STIX objects that are specified elsewhere (the location of the actual
 objects may not be contained in the same bundle that contains the report
-object).  1.x objects with the ``idref`` property only are created.
+object).  1.x objects with only the ``idref`` property are created for each
+object reference in the STIX 2.0 report.
 
 **STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
 
@@ -586,7 +591,8 @@ STIX 2.0 in JSON
             "modified": "2015-05-07T14:22:14.760Z",
             "name": "Report on Adversary Alpha's Campaign against the Industrial Control Sector",
             "object_refs": [
-                "campaign--1855cb8a-d96c-4859-a450-abb1e7c061f2"
+                "campaign--1855cb8a-d96c-4859-a450-abb1e7c061f2",
+                "indciator--66647c79-5766-4ca7-ab8a-a579056e3c83"
             ],
             "published": "2015-05-31T00:00:00.000Z",
             "type": "report"
@@ -606,6 +612,9 @@ STIX 1.x in XML
             <report:Campaigns>
                 <report:Campaign idref="example:campaign-1855cb8a-d96c-4859-a450-abb1e7c061f2" xsi:type='campaign:CampaignType'/>
             </report:Campaigns>
+            <report:Indicators>
+                <report:Indicator idref="example:indicator-66647c79-5766-4ca7-ab8a-a579056e3c83" xsi:type='indicator:IndicatorType'/>
+            </report:Indicators>
         </stix:Report>
 
 Threat Actor

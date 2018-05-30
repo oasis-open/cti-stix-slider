@@ -25,7 +25,7 @@ No source object exists for *[id]* to add the relationship *[relationship]*     
 Unknown hash type *[hash_type]* used in *[id]*                                                                 302     Warn
 *[property]* is not a legal property in the pattern of *[id]*                                                  303     Warn
 Unknown address type *[type]* used in *[id]*                                                                   304     Warn
-``NO MESSAGE ASSIGNED``                                                                                        305
+ref type *[type]* in *[id]* is not known                                                                       305     Warn
 *[cyber_observable_id]* is not an index found in *[id]*                                                        306     Warn
 No object *[id]* is found to add the reference to                                                              307     Warn
 *[id1]* is not in this bundle.  Referenced from *[id2]*                                                        308     Warn
@@ -49,9 +49,9 @@ Only one dll can be represented in STIX 1.x for *[id]*, using first one - ignori
 Dropping Content not supported in STIX 1.x
 ---------------------------------------------------
 
-============================================================================================================================ =====    =====
+============================================================================================================================ ====   =====
 Message                                                                                                                      Code    Level
-============================================================================================================================ ====    =====
+============================================================================================================================ ====   =====
 The *[relationship]* relationship between *[id1]* and *[id2]* is not supported in STIX 1.x                                   501     Warn
 Multiple File Extensions in *[id]* not supported yet                                                                         502     Warn
 *[property]* not representable in a STIX 1.x *[type]*.  Found in *[id]*                                                      503     Warn
@@ -78,7 +78,7 @@ STIX 1.x can only store the body and headers of an email message in *[id]* indep
 Cannot convert STIX 2.0 content that contains ``intrusion-sets``                                                             524     Error
 *[id]* is not explicitly a member of a STIX 1.x ``Report``                                                                   525     Warn
 *[id]* cannot be represented in STIX 1.x                                                                                     526     Warn
-============================================================================================================================ ====    =====
+============================================================================================================================ ====   =====
 
 STIX Slider currently doesn't process this content
 -----------------------------------------------------------
@@ -96,6 +96,7 @@ Source name *[name]* in external references of *[id]* not handled, yet          
 ``tcp-ext`` in *[id]* not handled, yet                                                                              609     Warn
 Operator for ``Artifact.Raw_Artifact`` in *[id]* not handled yet                                                    610     Warn
 Nested extensions and references in patterns are not handled, yet.  Found in pattern of *[id]*                      611     Warn
+*[ref_id]* in *[id]* cannot be represented in STIX 1.x                                                              612     Warn
 =================================================================================================================== ====    =====
 
 STIX Slider conversion based on assumptions
@@ -106,5 +107,6 @@ Message                                                                         
 =================================================================================================================== ====    =====
 Assuming imcp packet in *[id]* is v4                                                                                701     Info
 ``InformationSource`` descriptions order or content in may not correspond to the references in *[id]*               702     Info
+*[ref_id]* in *[id]* is not explicitly a member of a STIX 1.x report                                                703     Info
 =================================================================================================================== ====    =====
 

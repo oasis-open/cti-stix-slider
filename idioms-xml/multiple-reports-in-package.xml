@@ -52,6 +52,9 @@ INTENT:
 Indicators - Malware Artifacts</report:Description>
                 <report:Description ordinality="2">published: 2015-05-31 00:00:00+00:00</report:Description>
             </report:Header>
+            <report:Indicators>
+                <report:Indicator idref="example:indicator-66647c79-5766-4ca7-ab8a-a579056e3c83" xsi:type='indicator:IndicatorType'/>
+            </report:Indicators>
         </stix:Report>
     </stix:Reports>
 </stix:STIX_Package>

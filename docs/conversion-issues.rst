@@ -25,8 +25,10 @@ The stix-slider currently supports object-level markings only. Granular markings
 Since that is the highest level of data marking available in STIX 2.0,
 any object downgraded will contain embedded object-level markings in their STIX 1.X representation regardless of
 using the same marking definition in multiple places. Therefore, it can result in a verbose output compared to its 2.X counterpart.
-The supported marking types are: TLP, Statement and AIS. The marking-definition objects will be placed in the STIX_Header
+The marking-definition objects will be placed in the STIX_Header
 section of the document.
+
+The supported marking types are: TLP, Statement and AIS.
 
 Kill Chains
 -------------
