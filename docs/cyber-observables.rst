@@ -2,7 +2,7 @@ Mappings from STIX 2.0 to CybOX 2.x
 ========================================
 
 The following table associates the CybOX 2.x object types with their STIX 2.0 cyber observable types.
-For each CybOX object the table also indicates if the elevator is able to convert the CybOX object to STIX 2.0.
+For each CybOX object the table also indicates if the slider is able to convert the cyber observable object to CybOX 2.x.
 
 CybOX object types not listed have no corresponding STIX 2.0 cyber observable type, and therefore are not
 converted by the slider.

@@ -3,8 +3,8 @@
 
 The stix-slider is a software tool for 'sliding' STIX 2.0 JSON to STIX
 1.x XML. Due to the differences between STIX 1.x and STIX 2.0, this
-conversion is best-effort only. During the conversion, stix-slider
-provides information on the assumptions it needs to make to produce
+conversion is a best-effort only. During the conversion, stix-slider
+produces many warning messages about the assumptions it needs to make to produce
 valid STIX
 1.x XML, and what information was not able to be converted.
 

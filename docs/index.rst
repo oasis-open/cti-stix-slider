@@ -17,6 +17,7 @@ To convert STIX 1.x XML to STIX 2.0 JSON use the stix2-elevator [link]
    command-line
    stix-mappings
    cyber-observables
+   conversion-issues
    slider_log_messages
 
 
