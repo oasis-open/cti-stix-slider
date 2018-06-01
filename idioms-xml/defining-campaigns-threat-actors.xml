@@ -1,16 +1,17 @@
 <stix:STIX_Package
-	xmlns:stixCommon="http://stix.mitre.org/common-1"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:campaign="http://stix.mitre.org/Campaign-1"
 	xmlns:ta="http://stix.mitre.org/ThreatActor-1"
-	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:et="http://stix.mitre.org/ExploitTarget-1"
 	xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1"
 	xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:example="http://example.com"
-	xmlns:campaign="http://stix.mitre.org/Campaign-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	 id="example:STIXPackage-81810123-b298-40f6-a4e7-186efcd07670" version="1.2">
     <stix:TTPs>
         <stix:TTP id="example:ttp-19da6e1c-71ab-4c2f-886d-d620d09d3b5a" timestamp="2017-01-30T21:15:04.127000+00:00" xsi:type='ttp:TTPType'>
@@ -21,6 +22,16 @@
                     </ttp:Attack_Pattern>
                 </ttp:Attack_Patterns>
             </ttp:Behavior>
+            <ttp:Victim_Targeting>
+                <ttp:Identity id="example:identity-ddfe7140-2ba4-48e4-b19a-df069432103b" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
+                    <stixCommon:Name>Branistan Peoples Party</stixCommon:Name>
+                    <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
+  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xpil:FreeTextLine>identity_class: organisation</xpil:FreeTextLine>
+  </xpil:FreeTextLines>
+</stix-ciqidentity:Specification>
+                </ttp:Identity>
+            </ttp:Victim_Targeting>
             <ttp:Information_Source>
                 <stixCommon:References>
                     <stixCommon:Reference>SOURCE: capec - https://capec.mitre.org/data/definitions/148.html</stixCommon:Reference>
@@ -35,16 +46,32 @@
                     </ttp:Attack_Pattern>
                 </ttp:Attack_Patterns>
             </ttp:Behavior>
+            <ttp:Exploit_Targets>
+                <ttp:Exploit_Target>
+                    <stixCommon:Exploit_Target idref="example:et-45920fe2-fca7-4209-b1f6-9abb40432d13" xsi:type='et:ExploitTargetType'/>
+                </ttp:Exploit_Target>
+            </ttp:Exploit_Targets>
             <ttp:Kill_Chain_Phases>
-                <stixCommon:Kill_Chain_Phase name="reconnaissance" phase_id="example:TTP-871f7da9-adfa-4be3-8f2a-b9afbddb9956" kill_chain_name="lockheed-martin-cyber-kill-chain" kill_chain_id="example:TTP-f7f15fc2-0f50-4643-9d70-08164d3673ae"/>
+                <stixCommon:Kill_Chain_Phase name="reconnaissance" phase_id="example:TTP-c2f8f073-177f-48fe-9b4c-a86cd1337e45" kill_chain_name="lockheed-martin-cyber-kill-chain" kill_chain_id="example:TTP-39b2baa9-07a0-4e1f-8f3b-a5b1faeb7a6c"/>
             </ttp:Kill_Chain_Phases>
         </stix:TTP>
         <stix:Kill_Chains>
-            <stixCommon:Kill_Chain id="example:TTP-f7f15fc2-0f50-4643-9d70-08164d3673ae" name="lockheed-martin-cyber-kill-chain">
-                <stixCommon:Kill_Chain_Phase name="reconnaissance" phase_id="example:TTP-871f7da9-adfa-4be3-8f2a-b9afbddb9956"/>
+            <stixCommon:Kill_Chain id="example:TTP-39b2baa9-07a0-4e1f-8f3b-a5b1faeb7a6c" name="lockheed-martin-cyber-kill-chain">
+                <stixCommon:Kill_Chain_Phase name="reconnaissance" phase_id="example:TTP-c2f8f073-177f-48fe-9b4c-a86cd1337e45"/>
             </stixCommon:Kill_Chain>
         </stix:Kill_Chains>
     </stix:TTPs>
+    <stix:Exploit_Targets>
+        <stixCommon:Exploit_Target id="example:et-45920fe2-fca7-4209-b1f6-9abb40432d13" timestamp="2017-01-27T13:49:41.345000+00:00" xsi:type='et:ExploitTargetType'>
+            <et:Vulnerability>
+                <et:Title>Cisco Unified Communications Manager causes file-descriptor exhaustion</et:Title>
+                <et:CVE_ID>CVE-2009-2054</et:CVE_ID>
+                <et:References>
+                    <stixCommon:Reference>SOURCE: cve - http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-CVE-2009-2054</stixCommon:Reference>
+                </et:References>
+            </et:Vulnerability>
+        </stixCommon:Exploit_Target>
+    </stix:Exploit_Targets>
     <stix:Campaigns>
         <stix:Campaign id="example:campaign-e5268b6e-4931-42f1-b379-87f48eb41b1e" timestamp="2016-08-08T15:50:10.983000+00:00" xsi:type='campaign:CampaignType'>
             <campaign:Title>Operation Bran Flakes</campaign:Title>
@@ -53,9 +80,14 @@
             <campaign:Names>
                 <campaign:Name>OBF</campaign:Name>
             </campaign:Names>
-            <campaign:Intended_Effect timestamp="2018-04-16T17:55:09.757699+00:00">
+            <campaign:Intended_Effect timestamp="2018-05-09T00:05:17.374248+00:00">
                 <stixCommon:Description>Hack www.bpp.bn</stixCommon:Description>
             </campaign:Intended_Effect>
+            <campaign:Related_TTPs>
+                <campaign:Related_TTP>
+                    <stixCommon:TTP idref="example:ttp-19da6e1c-71ab-4c2f-886d-d620d09d3b5a" xsi:type='ttp:TTPType'/>
+                </campaign:Related_TTP>
+            </campaign:Related_TTPs>
         </stix:Campaign>
         <stix:Campaign id="example:campaign-1d8897a7-fdc2-4e59-afc9-becbe04df727" timestamp="2016-08-08T15:50:10.983000+00:00" xsi:type='campaign:CampaignType'>
             <campaign:Title>Operation Raisin Bran</campaign:Title>
@@ -64,9 +96,14 @@
             <campaign:Names>
                 <campaign:Name>ORB</campaign:Name>
             </campaign:Names>
-            <campaign:Intended_Effect timestamp="2018-04-16T17:55:09.759224+00:00">
+            <campaign:Intended_Effect timestamp="2018-05-09T00:05:17.375704+00:00">
                 <stixCommon:Description>Flood www.bpp.bn</stixCommon:Description>
             </campaign:Intended_Effect>
+            <campaign:Related_TTPs>
+                <campaign:Related_TTP>
+                    <stixCommon:TTP idref="example:ttp-f6050ea6-a9a3-4524-93ed-c27858d6cb3c" xsi:type='ttp:TTPType'/>
+                </campaign:Related_TTP>
+            </campaign:Related_TTPs>
         </stix:Campaign>
     </stix:Campaigns>
     <stix:Threat_Actors>
@@ -82,30 +119,23 @@
   </xpil:FreeTextLines>
 </stix-ciqidentity:Specification>
             </ta:Identity>
-            <ta:Type timestamp="2018-04-16T17:55:09.756288+00:00">
+            <ta:Type timestamp="2018-05-09T00:05:17.372836+00:00">
                 <stixCommon:Value>State Actor / Agency</stixCommon:Value>
             </ta:Type>
-            <ta:Motivation timestamp="2018-04-16T17:55:09.756574+00:00">
+            <ta:Motivation timestamp="2018-05-09T00:05:17.373111+00:00">
                 <stixCommon:Value>Ideological</stixCommon:Value>
             </ta:Motivation>
-            <ta:Sophistication timestamp="2018-04-16T17:55:09.756502+00:00">
+            <ta:Sophistication timestamp="2018-05-09T00:05:17.373043+00:00">
                 <stixCommon:Value>strategic</stixCommon:Value>
             </ta:Sophistication>
-            <ta:Intended_Effect timestamp="2018-04-16T17:55:09.756448+00:00">
+            <ta:Intended_Effect timestamp="2018-05-09T00:05:17.372983+00:00">
                 <stixCommon:Value>Influence the election in Branistan</stixCommon:Value>
             </ta:Intended_Effect>
             <ta:Observed_TTPs>
                 <ta:Observed_TTP>
-                    <stixCommon:TTP id="example:ttp-6064804f-bf73-4e13-ae02-269147f1496e" timestamp="2018-04-16T17:55:09.762655+00:00" xsi:type='ttp:TTPType'>
+                    <stixCommon:TTP id="example:ttp-962077a4-b4e6-4059-9c04-c89216a3776b" timestamp="2018-05-09T00:05:17.380081+00:00" xsi:type='ttp:TTPType'>
                         <ttp:Victim_Targeting>
-                            <ttp:Identity id="example:identity-ddfe7140-2ba4-48e4-b19a-df069432103b" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
-                                <stixCommon:Name>Branistan Peoples Party</stixCommon:Name>
-                                <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
-  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
-    <xpil:FreeTextLine>identity_class: organisation</xpil:FreeTextLine>
-  </xpil:FreeTextLines>
-</stix-ciqidentity:Specification>
-                            </ttp:Identity>
+                            <ttp:Identity idref="example:identity-ddfe7140-2ba4-48e4-b19a-df069432103b"/>
                         </ttp:Victim_Targeting>
                     </stixCommon:TTP>
                 </ta:Observed_TTP>

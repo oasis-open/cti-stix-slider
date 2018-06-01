@@ -11,10 +11,10 @@ from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
                                         SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
                                         THREAT_ACTOR_SOPHISTICATION_MAP)
-from stix.campaign import Campaign, Names
-from stix.coa import CourseOfAction
+from stix.campaign import AssociatedCampaigns, Campaign, Names
+from stix.coa import CourseOfAction, RelatedCOAs
 from stix.common.datetimewithprecision import DateTimeWithPrecision
-from stix.common.identity import Identity
+from stix.common.identity import Identity, RelatedIdentities
 from stix.common.information_source import InformationSource
 from stix.common.kill_chains import (KillChain, KillChainPhase,
                                      KillChainPhaseReference,
@@ -36,12 +36,12 @@ from stix.extensions.marking.ais import (AISConsentType, AISMarkingStructure,
 from stix.extensions.marking.terms_of_use_marking import \
     TermsOfUseMarkingStructure
 from stix.extensions.marking.tlp import TLPMarkingStructure
-from stix.indicator import Indicator, ValidTime
+from stix.indicator import Indicator, RelatedIndicators, ValidTime
 from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
                                       Sighting, Sightings)
 from stix.report import Report
 from stix.report.header import Header
-from stix.threat_actor import ThreatActor
+from stix.threat_actor import AssociatedActors, ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
 from stix.ttp.malware_instance import MalwareInstance
@@ -63,8 +63,8 @@ _TYPE_MAP_FROM_2_0_TO_1_x = {"attack-pattern": "ttp",
                              "vulnerability": "et"}
 
 
-def handle_identity(identity_ref_20, target_obj_idref_1x):
-    identity1x_tuple = _IDENTITIES[identity_ref_20]
+def choose_full_object_or_idref(identity_ref_20, target_obj_idref_1x):
+    identity1x_tuple = _EXPLICIT_OBJECT_USED[identity_ref_20]
     if identity1x_tuple[1]:
         return target_obj_idref_1x, identity1x_tuple
     else:
@@ -72,7 +72,7 @@ def handle_identity(identity_ref_20, target_obj_idref_1x):
 
 
 def set_ta_identity(source, target_ref, target_obj_idref_1x):
-    target, identity1x_tuple = handle_identity(target_ref, target_obj_idref_1x)
+    target, identity1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
     if source.identity:
         warn("Threat Actor in STIX 2.0 has multiple attributed-to relationships, only one is allowed in STIX 1.x. Using first in list - %s omitted",
              401,
@@ -86,12 +86,53 @@ def set_ta_identity(source, target_ref, target_obj_idref_1x):
         identity1x_tuple[1] = True
 
 
+def set_related_identity(source, target_ref, target_obj_idref_1x):
+    target, identity1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
+    if not source.related_identities:
+        source.related_identities = RelatedIdentities()
+    source.related_identities.append(target)
+    identity1x_tuple[1] = True
+
+
+def set_associated_actors(source, target_ref, target_obj_idref_1x):
+    target, ta1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
+    if not source.associated_actors:
+        source.associated_actors = AssociatedActors()
+    source.associated_actors.append(target)
+    ta1x_tuple[1] = True
+
+
+def set_associated_campaigns(source, target_ref, target_obj_idref_1x):
+    target, ta1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
+    if not source.associated_campaigns:
+        source.associated_campaigns = AssociatedCampaigns()
+    source.associated_actors.append(target)
+    ta1x_tuple[1] = True
+
+
+def set_related_coas(source, target_ref, target_obj_idref_1x):
+    target, ta1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
+    if not source.related_coas:
+        source.related_coas = RelatedCOAs()
+    source.related_coas.append(target)
+    ta1x_tuple[1] = True
+
+
+def set_related_indicators(source, target_ref, target_obj_idref_1x):
+    target, ta1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
+    if not source.related_indicators:
+        source.related_indicators = RelatedIndicators()
+    source.related_indicators.append(target)
+    ta1x_tuple[1] = True
+
+
+# TODO: use _VICTIM_TARGET_TTPS
 _VICTIM_TARGET_TTPS = []
 
 
-def create_victim_target(source, target_ref, target_obj_ref_1x):
+def create_victim_target_for_threat_actor(source, target_ref, target_obj_ref_1x):
     global _VICTIM_TARGET_TTPS
-    target, identity1x_tuple = handle_identity(target_ref, target_obj_ref_1x)
+    target, identity1x_tuple = choose_full_object_or_idref(target_ref, target_obj_ref_1x)
     ttp = TTP()
     ttp.victim_targeting = VictimTargeting()
     ttp.victim_targeting.identity = target
@@ -100,16 +141,45 @@ def create_victim_target(source, target_ref, target_obj_ref_1x):
     identity1x_tuple[1] = True
 
 
-# most of the TODOs in this map represent relationships not explicitly called out in STIX 1.x
+def create_victim_target_for_attack_pattern(ttp, target_ref, target_obj_ref_1x):
+    global _VICTIM_TARGET_TTPS
+    target, identity1x_tuple = choose_full_object_or_idref(target_ref, target_obj_ref_1x)
+    ttp.victim_targeting = VictimTargeting()
+    ttp.victim_targeting.identity = target
+    _VICTIM_TARGET_TTPS.append(ttp)
+    identity1x_tuple[1] = True
 
+
+def create_exploit_target_to_ttps(ttp, target_ref, target_obj_ref_1x):
+    target, vul1x_tuple = choose_full_object_or_idref(target_ref, target_obj_ref_1x)
+    ttp.add_exploit_target(target)
+    vul1x_tuple[1] = True
+
+
+# most of the TODOs in this map represent relationships not explicitly called out in STIX 1.x
 
 _RELATIONSHIP_MAP = {
     # TODO: self-reference?
-    # ("attack_pattern", "malware", "uses"):
-    #     {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
-    #      "reverse": False,
-    #      "stix1x_source_type": TTP,
-    #      "stix1x_target_type": TTP},
+    ("attack-pattern", "malware", "uses"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("attack-pattern", "identity", "targets"):
+        {"method": create_victim_target_for_attack_pattern,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": Identity},
+    ("attack-pattern", "tool", "uses"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("attack-pattern", "vulnerability", "targets"):
+        {"method": create_exploit_target_to_ttps,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": ExploitTarget},
     ("campaign", "threat-actor", "attributed-to"):
         {"method": lambda source, target_ref: source.associated_campaigns.append(target_ref),
          "reverse": True,
@@ -117,26 +187,31 @@ _RELATIONSHIP_MAP = {
          "stix1x_target_type": ThreatActor},
     # TODO: campaign targets identity
     # TODO: campaign targets vulnerability
-    ("campaign", "attack_pattern", "uses"):
-        {"method": Campaign.related_ttps,
+    ("campaign", "attack-pattern", "uses"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
          "reverse": False,
          "stix1x_source_type": Campaign,
          "stix1x_target_type": TTP},
     ("campaign", "malware", "uses"):
-        {"method": Campaign.related_ttps,
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
          "reverse": False,
          "stix1x_source_type": Campaign,
          "stix1x_target_type": TTP},
-    ("campaign", "tool", "indicates"):
-        {"method": Campaign.related_indicators,
+    ("campaign", "tool", "uses"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
          "reverse": False,
          "stix1x_source_type": Campaign,
          "stix1x_target_type": TTP},
-    ("campaign", "indicator", "uses"):
-        {"method": Campaign.related_ttps,
+    ("campaign", "indicator", "indicates"):
+        {"method": lambda source, target_ref: source.related_indicators.append(target_ref),
          "reverse": True,
          "stix1x_source_type": Campaign,
          "stix1x_target_type": Indicator},
+    ("campaign", "campaign", "related-to"):
+        {"method": set_associated_campaigns,
+         "reverse": False,
+         "stix1x_source_type": Campaign,
+         "stix1x_target_type": Campaign},
     # TODO: course-of-action mitigates attack-pattern
     # TODO: course-of-action mitigates malware
     # TODO: course-of-action mitigates tools
@@ -145,7 +220,17 @@ _RELATIONSHIP_MAP = {
          "reverse": True,
          "stix1x_source_type": CourseOfAction,
          "stix1x_target_type": ExploitTarget},
+    ("course-of-action", "course-of-action", "related-to"):
+        {"method": set_related_coas,
+         "reverse": False,
+         "stix1x_source_type": CourseOfAction,
+         "stix1x_target_type": CourseOfAction},
     # TODO: identity relationships?
+    ("identity", "identity", "related-to"):
+        {"method": set_related_identity,
+         "reverse": False,
+         "stix1x_source_type": Identity,
+         "stix1x_target_type": Identity},
     ("indicator", "attack_pattern", "indicates"):
         {"method": Indicator.add_indicated_ttp,
          "reverse": False,
@@ -162,14 +247,23 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": Indicator,
          "stix1x_target_type": TTP},
-    # TODO: indicator indicates threat-actor
-    # TODO: indicator indicates tool
+    ("indicator", "tool", "indicates"):
+        {"method": Indicator.add_indicated_ttp,
+         "reverse": False,
+         "stix1x_source_type": Indicator,
+         "stix1x_target_type": TTP},
+    # TODO: indicator indicates threat-actor (not in 1x)
+    ("indicator", "indicator", "related-to"):
+        {"method": set_related_indicators,
+         "reverse": False,
+         "stix1x_source_type": Indicator,
+         "stix1x_target_type": Indicator},
     ("malware", "vulnerability", "targets"):
-        {"method": TTP.add_exploit_target,
+        {"method": create_exploit_target_to_ttps,
          "reverse": False,
          "stix1x_source_type": TTP,
          "stix1x_target_type": ExploitTarget},
-    ("malware", "tool", "user"):
+    ("malware", "tool", "uses"):
         {"method": TTP.add_related_ttp,
          "reverse": False,
          "stix1x_source_type": TTP,
@@ -189,13 +283,13 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": ThreatActor,
          "stix1x_target_type": Identity},
-    # TODO: threat-actor impersonates identity
+    # TODO: threat-actor impersonates identity (not in 1.x)
     ("threat-actor", "identity", "targets"):
-        {"method": create_victim_target,
+        {"method": create_victim_target_for_threat_actor,
          "reverse": False,
          "stix1x_source_type": ThreatActor,
          "stix1x_target_type": Identity},
-    # TODO: threat-actor targets vulnerability
+    # TODO: threat-actor targets vulnerability (not in 1.x)
     ("threat-actor", "malware", "uses"):
         {"method": lambda source, target_ref: source.observed_ttps.append(target_ref),
          "reverse": False,
@@ -206,6 +300,11 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": ThreatActor,
          "stix1x_target_type": TTP},
+    ("threat-actor", "threat-actor", "related-to"):
+        {"method": set_associated_actors,
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": ThreatActor},
 }
 
 
@@ -215,14 +314,6 @@ def get_relationship_adder(type_of_source, type_of_target, type_of_relationship)
         return _RELATIONSHIP_MAP[type_tuple]
     else:
         return None
-
-
-_IDENTITIES = {}
-
-
-def record_identity(o20, o1x):
-    _IDENTITIES[o20["id"]] = [o1x, False]
-    _ID_OBJECT_MAPPING[o20["id"]] = o1x
 
 
 def create_id1x(type_name_1x):
@@ -240,11 +331,14 @@ def convert_id20(id20):
 
 _ID_OBJECT_MAPPING = {}
 
+_EXPLICIT_OBJECT_USED = {}
 
-def record_id_object_mapping(id20, object1x):
+
+def record_id_object_mapping(id20, object1x, used=True):
     if id20 in _ID_OBJECT_MAPPING:
         print("{} already mapped to an object".format(id20))
     _ID_OBJECT_MAPPING[id20] = object1x
+    _EXPLICIT_OBJECT_USED[id20] = [object1x, used]
 
 
 def map_vocabs_to_label(t, vocab_map):
@@ -359,6 +453,9 @@ def convert_campaign(c20):
         c1x.title = c20["name"]
     if "description" in c20:
         c1x.add_description(c20["description"])
+    if "labels" in c20:
+        for l in c20["labels"]:
+            add_missing_property_to_description(c1x, "label", l)
     names = Names()
     if "aliases" in c20:
         for a in c20["aliases"]:
@@ -551,22 +648,31 @@ def convert_report(r20):
         add_missing_property_to_description(r1x.header, "published", r20["published"])
     for ref in r20["object_refs"]:
         ref_type = get_type_from_id(ref)
+        ref1x = convert_id20(ref)
         if ref_type == "attack-pattern":
-            r1x.add_ttp(TTP(idref=ref))
+            r1x.add_ttp(TTP(idref=ref1x))
         elif ref_type == "campaign":
-            r1x.add_campaign(Campaign(idref=ref))
+            r1x.add_campaign(Campaign(idref=ref1x))
         elif ref_type == 'course-of-action':
-            r1x.add_course_of_action(CourseOfAction(idref=ref))
+            r1x.add_course_of_action(CourseOfAction(idref=ref1x))
         elif ref_type == "indicator":
-            r1x.add_indicator(Indicator(idref=ref))
+            r1x.add_indicator(Indicator(idref=ref1x))
         elif ref_type == "observed-data":
-            r1x.add_observable(Observable(idref=ref))
+            r1x.add_observable(Observable(idref=ref1x))
         elif ref_type == "malware":
-            r1x.add_ttp(TTP(idref=ref))
+            r1x.add_ttp(TTP(idref=ref1x))
         elif ref_type == "threat-actor":
-            r1x.add_threat_actor(ThreatActor(idref=ref))
+            r1x.add_threat_actor(ThreatActor(idref=ref1x))
+        elif ref_type == "tool":
+            r1x.add_ttp(TTP(idref=ref1x))
         elif ref_type == "vulnerability":
-            r1x.add_exploit_target(ExploitTarget(idref=ref))
+            r1x.add_exploit_target(ExploitTarget(idref=ref1x))
+        elif ref_type == "identity" or ref_type == "relationship":
+            warn("%s in %s is not explicitly a member of a STIX 1.x report", 703, ref, r20["id"])
+        elif ref_type == "intrusion-set":
+            warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r20["id"])
+        else:
+            warn("ref type %s in %s is not known", 0, ref_type, r20["id"])
     if "object_marking_refs" in r20:
         for m_id in r20["object_marking_refs"]:
             ms = create_marking_specification(m_id)
@@ -634,7 +740,11 @@ def convert_tool(tool20):
         # tool1x.type_ = convert_open_vocabs_to_controlled_vocabs(tool20["labels"], TOOL_LABELS_MAP)
     ttp = TTP(id_=convert_id20(tool20["id"]),
               timestamp=text_type(tool20["modified"]))
-    ttp.resource = Resource(tools=Tools([tool1x]))
+    if not ttp.resources:
+        ttp.resources = Resource()
+    if not ttp.resources.tools:
+        ttp.resources.tools = Tools()
+    ttp.resources.tools.append(tool1x)
     if "kill_chain_phases" in tool20:
         process_kill_chain_phases(tool20["kill_chain_phases"], ttp)
     if "object_marking_refs" in tool20:
@@ -691,17 +801,21 @@ def process_relationships(rel):
              501,
              type_of_relationship, rel["id"], type_of_source, type_of_target)
         return
+    if not add_method_info["method"]:
+        # handled elsewhere
+        return
+    source_obj_class = add_method_info["stix1x_source_type"]
+    target_obj_class = add_method_info["stix1x_target_type"]
     if add_method_info["reverse"] and target_obj:
-        source_obj_class = add_method_info["stix1x_source_type"]
         source_obj_ref_1x = source_obj_class(idref=source_obj.id_)
         add_method_info["method"](target_obj, source_obj_ref_1x)
     else:
-        target_obj_class = add_method_info["stix1x_target_type"]
         if target_obj:
             target_obj_idref_1x = target_obj_class(idref=target_obj.id_)
         else:
             target_obj_idref_1x = target_obj_class(idref=convert_id20(rel["target_ref"]))
-        if target_obj_class == Identity:
+        # type_of_source == type_of_target implies its a self-referencing related-to relationship
+        if target_obj_class == Identity or target_obj_class == ExploitTarget or type_of_source == type_of_target:
             add_method_info["method"](source_obj, rel["target_ref"], target_obj_idref_1x)
         else:
             add_method_info["method"](source_obj, target_obj_idref_1x)
@@ -786,9 +900,10 @@ def create_information_source(identity20_tuple):
 def process_created_by_ref(o):
     if o["id"] in _ID_OBJECT_MAPPING:
         obj1x = _ID_OBJECT_MAPPING[o["id"]]
-        if o["created_by_ref"] in _IDENTITIES:
-            identity20_tuple = _IDENTITIES[o["created_by_ref"]]
-            obj1x.information_source = create_information_source(identity20_tuple)
+        if hasattr(obj1x, "information_source"):
+            if o["created_by_ref"] in _EXPLICIT_OBJECT_USED:
+                identity20_tuple = _EXPLICIT_OBJECT_USED[o["created_by_ref"]]
+                obj1x.information_source = create_information_source(identity20_tuple)
 
 
 def indicator_ref(ref):
@@ -809,8 +924,8 @@ def process_sighting(o):
             for ref in o["where_sighted_refs"]:
                 s = Sighting(timestamp=text_type(o["modified"]))
                 indicator_of_sighting.sightings.append(s)
-                if ref in _IDENTITIES:
-                    identity20_tuple = _IDENTITIES[ref]
+                if ref in _EXPLICIT_OBJECT_USED:
+                    identity20_tuple = _EXPLICIT_OBJECT_USED[ref]
                     s.source = create_information_source(identity20_tuple)
                 if "observed_data_refs" in o:
                     # reference, regardless of whether its in the bundle or not
@@ -840,7 +955,7 @@ def convert_marking_definition(marking20):
         tlp.id_ = convert_id20(marking20["id"])
         marking_spec.marking_structures.append(tlp)
     elif marking20["definition_type"] == "ais":
-        identity20_tuple = _IDENTITIES[marking20["created_by_ref"]]
+        identity20_tuple = _EXPLICIT_OBJECT_USED[marking20["created_by_ref"]]
         color = definition["tlp"].upper()
 
         if definition["is_proprietary"] == "true":
@@ -896,12 +1011,12 @@ def create_marking_specification(id20):
 
 def convert_bundle(bundle_obj):
     global _ID_OBJECT_MAPPING
-    global _IDENTITIES
+    global _EXPLICIT_OBJECT_USED
     global _VICTIM_TARGET_TTPS
     global _KILL_CHAINS
     global CONTAINER
     _ID_OBJECT_MAPPING = {}
-    _IDENTITIES = {}
+    _EXPLICIT_OBJECT_USED = {}
     _VICTIM_TARGET_TTPS = []
     _KILL_CHAINS = {}
 
@@ -912,7 +1027,7 @@ def convert_bundle(bundle_obj):
     for identity in (v for v in bundle_obj["objects"] if v["type"] == "identity"):
         debug("Found '%s'", 0, identity["id"])
         i1x = convert_identity(identity)
-        record_identity(identity, i1x)
+        record_id_object_mapping(identity["id"], i1x, used=False)
 
     for marking_definition in (v for v in bundle_obj["objects"] if v["type"] == "marking-definition"):
         debug("Found '%s'", 0, marking_definition["id"])

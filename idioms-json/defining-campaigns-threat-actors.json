@@ -88,6 +88,20 @@
       "name": "Content Spoofing"
     },
     {
+      "type": "vulnerability",
+      "created": "2017-01-27T13:49:41.345Z",
+      "external_references": [
+        {
+          "external_id": "CVE-2009-2054",
+          "source_name": "cve",
+          "url": "http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-CVE-2009-2054"
+        }
+      ],
+      "id": "vulnerability--45920fe2-fca7-4209-b1f6-9abb40432d13",
+      "modified": "2017-01-27T13:49:41.345Z",
+      "name": "Cisco Unified Communications Manager causes file-descriptor exhaustion"
+    },
+    {
       "type": "attack-pattern",
       "id": "attack-pattern--f6050ea6-a9a3-4524-93ed-c27858d6cb3c",
       "created": "2016-08-08T15:50:10.983Z",
@@ -238,6 +252,15 @@
       "created": "2016-08-08T15:50:10.983Z",
       "modified": "2016-08-08T15:50:10.983Z",
       "relationship_type": "targets",
+      "source_ref": "attack-pattern--19da6e1c-71ab-4c2f-886d-d620d09d3b5a",
+      "target_ref": "identity--ddfe7140-2ba4-48e4-b19a-df069432103b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2818d5aa-6879-40bd-8b01-59162e642822",
+      "created": "2016-08-08T15:50:10.983Z",
+      "modified": "2016-08-08T15:50:10.983Z",
+      "relationship_type": "targets",
       "source_ref": "threat-actor--56f3f0db-b5d5-431c-ae56-c18f02caf500",
       "target_ref": "identity--ddfe7140-2ba4-48e4-b19a-df069432103b"
     },
@@ -252,12 +275,22 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--f9d2f337-bf47-40d2-8afd-908d4e366572",
+      "id": "relationship--0b25ee24-a075-4061-9cc9-1b407dd5a35b",
       "created": "2016-08-08T15:50:10.983Z",
       "modified": "2016-08-08T15:50:10.983Z",
       "relationship_type": "uses",
       "source_ref": "threat-actor--56f3f0db-b5d5-431c-ae56-c18f02caf500",
       "target_ref": "attack-pattern--f6050ea6-a9a3-4524-93ed-c27858d6cb3c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--88b33c98-ce58-4656-8f12-d37b4a2d1fa2",
+      "created": "2016-08-08T15:50:10.983Z",
+      "modified": "2016-08-08T15:50:10.983Z",
+      "relationship_type": "targets",
+      "source_ref": "attack-pattern--f6050ea6-a9a3-4524-93ed-c27858d6cb3c",
+      "target_ref": "vulnerability--45920fe2-fca7-4209-b1f6-9abb40432d13"
     }
+
   ]
 }

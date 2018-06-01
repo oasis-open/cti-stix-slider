@@ -30,6 +30,7 @@
             "object_refs": [
                 "campaign--1855cb8a-d96c-4859-a450-abb1e7c061f2"
             ],
+            "published": "2015-05-31T00:00:00.000Z",
             "type": "report"
         },
         {
@@ -43,8 +44,9 @@
             "modified": "2015-05-07T14:22:14.760Z",
             "name": "Indicators for Malware DrownedRat",
             "object_refs": [
-                "indciator--66647c79-5766-4ca7-ab8a-a579056e3c83"
+                "indicator--66647c79-5766-4ca7-ab8a-a579056e3c83"
             ],
+            "published": "2015-05-31T00:00:00.000Z",
             "type": "report"
         }
     ],

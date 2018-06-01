@@ -432,7 +432,7 @@ def convert_addr_pattern(exp20, obj1x, id20):
 
 
 def convert_domain_name_pattern(exp20, obj1x, id20):
-    properties = exp20.lhs.property_path[2:]
+    properties = exp20.lhs.property_path
     rhs = exp20.rhs
     op = exp20.operator
     prop_name = properties[0].property_name

@@ -360,7 +360,7 @@
         "marking-definition--3444e29e-2aa6-46f7-a01c-1c174820fa67"
       ],
       "name": "Appendix E MD5 hash '001dd76872d80801692ff942308c64e6'",
-      "pattern": "[file:hashes.md5 = '001dd76872d80801692ff942308c64e6']",
+      "pattern": "[file:hashes.MD5 = '001dd76872d80801692ff942308c64e6']",
       "labels": [
         "malicious-activity"
       ],
@@ -375,7 +375,7 @@
         "marking-definition--3444e29e-2aa6-46f7-a01c-1c174820fa67"
       ],
       "name": "Appendix E MD5 hash '002325a0a67fded0381b5648d7fe9b8e'",
-      "pattern": "[file:hashes.md5 = '002325a0a67fded0381b5648d7fe9b8e']",
+      "pattern": "[file:hashes.MD5 = '002325a0a67fded0381b5648d7fe9b8e']",
       "labels": [
         "malicious-activity"
       ],
@@ -390,7 +390,7 @@
         "marking-definition--3444e29e-2aa6-46f7-a01c-1c174820fa67"
       ],
       "name": "Appendix E MD5 hash '00dbb9e1c09dbdafb360f3163ba5a3de'",
-      "pattern": "[file:hashes.md5 = '00dbb9e1c09dbdafb360f3163ba5a3de']",
+      "pattern": "[file:hashes.MD5 = '00dbb9e1c09dbdafb360f3163ba5a3de']",
       "labels": [
         "malicious-activity"
       ],

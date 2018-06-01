@@ -1,0 +1,60 @@
+<stix:STIX_Package
+	xmlns:campaign="http://stix.mitre.org/Campaign-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1"
+	xmlns:example="http://example.com"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3"
+	xmlns:report="http://stix.mitre.org/Report-1"
+	 id="example:STIXPackage-50578bc7-bb17-4f31-abf2-d5827d131368" version="1.2">
+    <stix:Campaigns>
+        <stix:Campaign id="example:campaign-1855cb8a-d96c-4859-a450-abb1e7c061f2" timestamp="2015-05-07T14:22:14.760000+00:00" xsi:type='campaign:CampaignType'>
+            <campaign:Title>Campaign against ICS</campaign:Title>
+            <campaign:Information_Source>
+                <stixCommon:Identity id="example:identity-c1b58a86-e037-4069-814d-dd0bc75539e3" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
+                    <stixCommon:Name>Government Sharing Program - GSP</stixCommon:Name>
+                    <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
+  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xpil:FreeTextLine>identity_class: unknown</xpil:FreeTextLine>
+  </xpil:FreeTextLines>
+</stix-ciqidentity:Specification>
+                </stixCommon:Identity>
+            </campaign:Information_Source>
+        </stix:Campaign>
+    </stix:Campaigns>
+    <stix:Reports>
+        <stix:Report timestamp="2015-05-07T14:22:14.760000+00:00" id="example:report-ab11f431-4b3b-457c-835f-59920625fe65" xsi:type='report:ReportType' version="1.0">
+            <report:Header>
+                <report:Title>Report on Adversary Alpha's Campaign against the Industrial Control Sector</report:Title>
+                <report:Intent xsi:type="stixVocabs:ReportIntentVocab-1.0">Campaign Characterization</report:Intent>
+                <report:Description ordinality="1">Adversary Alpha has a campaign against the ICS sector!
+
+INTENT:
+Campaign Characterization</report:Description>
+                <report:Description ordinality="2">published: 2015-05-31 00:00:00+00:00</report:Description>
+            </report:Header>
+            <report:Campaigns>
+                <report:Campaign idref="example:campaign-1855cb8a-d96c-4859-a450-abb1e7c061f2" xsi:type='campaign:CampaignType'/>
+            </report:Campaigns>
+        </stix:Report>
+        <stix:Report timestamp="2015-05-07T14:22:14.760000+00:00" id="example:report-f14804d5-3ee1-4a0e-b0f3-f9a643855ba5" xsi:type='report:ReportType' version="1.0">
+            <report:Header>
+                <report:Title>Indicators for Malware DrownedRat</report:Title>
+                <report:Intent xsi:type="stixVocabs:ReportIntentVocab-1.0">Indicators - Malware Artifacts</report:Intent>
+                <report:Description ordinality="1">
+
+INTENT:
+Indicators - Malware Artifacts</report:Description>
+                <report:Description ordinality="2">published: 2015-05-31 00:00:00+00:00</report:Description>
+            </report:Header>
+            <report:Indicators>
+                <report:Indicator idref="example:indicator-66647c79-5766-4ca7-ab8a-a579056e3c83" xsi:type='indicator:IndicatorType'/>
+            </report:Indicators>
+        </stix:Report>
+    </stix:Reports>
+</stix:STIX_Package>
