@@ -3,6 +3,7 @@ import logging
 import os
 import shlex
 
+import sdv
 from sdv import scripts, validators
 from six import text_type
 
