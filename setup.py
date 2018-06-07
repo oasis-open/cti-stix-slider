@@ -35,6 +35,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'stix>=1.1.1.9,<1.2.1.0',
+        'stix-validator>=2.5.0',
         'stixmarx>=1.0.3',
         'six>=1.10.0',
         'stix2'

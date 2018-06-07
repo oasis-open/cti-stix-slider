@@ -31,7 +31,6 @@ class NewlinesHelpFormatter(argparse.RawDescriptionHelpFormatter):
 
 def _get_arg_parser(is_script=True):
     """Create and return an ArgumentParser for this application."""
-
     desc = "stix2-slider v{0}\n\n".format(__version__)
 
     parser = argparse.ArgumentParser(
@@ -56,7 +55,14 @@ def _get_arg_parser(is_script=True):
         default=False
     )
 
-    # validate XML???
+    parser.add_argument(
+        "--validator-args",
+        help="Arguments to pass to stix-validator.\n\n"
+             "Example: stix2_slider <file> --validator-args=\"--best-practices\"",
+        dest="validator_args",
+        action="store",
+        default=""
+    )
 
     parser.add_argument(
         "-e",
