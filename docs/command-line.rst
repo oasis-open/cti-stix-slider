@@ -72,3 +72,8 @@ to ``--enable`` or ``--disable`` a message. By default, the stix2-slider display
 messages.
 
 Note: disabling the message does not disable any functionality.
+
+It is recommended that you ensure that the input STIX 2.0 file is
+valid before submitting it to the slider.
+Use the `stix2-validator <https://pypi.org/project//stix2-validator>`_.
+

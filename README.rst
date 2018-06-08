@@ -39,8 +39,9 @@ Requirements
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.python.org/pypi/python-stix2>`_ >= 1.0.0
--  `stixmarx <https://pypi.python.org/pypi/stixmarx>`_ >= 1.0.3
+-  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 1.0.0
+-  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.3
+-  `stix-validator <https://pypi.org/project/stix-validator>`_ >= 2.5.0
 
 Installation
 ------------
@@ -69,8 +70,7 @@ Usage
 
 It is recommended that you ensure that the input STIX 2.0 file is
 valid before submitting it to the slider.
-Use the `stix2-validator <https://pypi.python.org/pypi/stix2-
-validator>`_.
+Use the `stix2-validator <https://pypi.org/project//stix2-validator>`_.
 
 As A Script
 ~~~~~~~~~~~
