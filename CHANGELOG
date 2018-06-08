@@ -1,0 +1,21 @@
+CHANGELOG
+=========
+
+1.0.1 - 2018-06-08
+
+    * Add cybox.utils.caches.cache_clear() to prevent RAM consumption issue.
+    * Add stix validator to slider
+    * readthedocs for slider
+    * Added types for self-reference relationships
+    * Added several relationship mappings, especially for self-reference
+    * Add campaign labels to description field
+    * Special casing for self-reference relationships in process_relationship
+    * Do not add an information source to marking_structure objects
+    * Handle Identity related-to Identity relationship
+    * Use stix1x ids in Report
+    * Add report.published to description of Report
+    * Added relationship mappings for attack-pattern
+
+1.0.0 - 2018-04-19
+
+    * Initial Version
