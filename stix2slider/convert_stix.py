@@ -1,7 +1,7 @@
 import uuid
 
-import stixmarx
 import cybox.utils.caches
+import stixmarx
 from cybox.core import Observable
 from six import text_type
 from stix2slider.convert_cyber_observables import convert_cyber_observables
