@@ -3,6 +3,7 @@ import json
 import logging
 import sys
 
+import cybox.utils.caches
 import stix2
 from sdv import codes, errors, scripts
 
@@ -15,6 +16,8 @@ log = logging.getLogger(__name__)
 
 
 def slide_file(fn, encoding="utf-8"):
+    cybox.utils.caches.cache_clear()
+
     setup_logger(fn)
     validator_options = get_validator_options()
 
@@ -52,6 +55,8 @@ def slide_file(fn, encoding="utf-8"):
 
 
 def slide_string(string):
+    cybox.utils.caches.cache_clear()
+
     obj = stix2.parse(string)
     setup_logger(obj["id"])
     validator_options = get_validator_options()
@@ -86,6 +91,8 @@ def slide_string(string):
 
 
 def slide_bundle(bundle):
+    cybox.utils.caches.cache_clear()
+
     setup_logger(bundle["id"])
     stix_package = convert_bundle(bundle)
     validator_options = get_validator_options()
