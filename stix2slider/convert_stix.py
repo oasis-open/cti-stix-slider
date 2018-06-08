@@ -1,5 +1,6 @@
 import uuid
 
+import cybox.utils.caches
 import stixmarx
 from cybox.core import Observable
 from six import text_type
@@ -1019,6 +1020,8 @@ def convert_bundle(bundle_obj):
     _EXPLICIT_OBJECT_USED = {}
     _VICTIM_TARGET_TTPS = []
     _KILL_CHAINS = {}
+
+    cybox.utils.caches.cache_clear()
 
     CONTAINER = stixmarx.new()
     pkg = CONTAINER.package
