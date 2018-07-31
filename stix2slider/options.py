@@ -119,7 +119,7 @@ class SliderOptions(object):
                  no_squirrel_gaps=False, validator_args="",
                  enable="", disable="",
                  silent=False, message_log_directory=None,
-                 output_directory=None, log_level="INFO"):
+                 output_directory=None, log_level="INFO", use_namespace=""):
 
         if cmd_args is not None:
             if hasattr(cmd_args, "file_"):
@@ -134,6 +134,7 @@ class SliderOptions(object):
             self.log_level = cmd_args.log_level
             if hasattr(cmd_args, "output_directory"):
                 self.output_directory = cmd_args.output_directory
+            self.use_namespace = cmd_args.use_namespace
 
         else:
             self.file_ = file_
@@ -145,6 +146,7 @@ class SliderOptions(object):
             self.message_log_directory = message_log_directory
             self.log_level = log_level
             self.output_directory = output_directory
+            self.use_namespace = use_namespace
 
         # Convert string of comma-separated checks to a list,
         # and convert check code numbers to names. By default all messages are

@@ -111,6 +111,15 @@ def _get_arg_parser(is_script=True):
         choices=["DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"]
     )
 
+    parser.add_argument(
+        "--use-namespace",
+        dest="use_namespace",
+        help="Override the 'example' namespace with provided one. The format is"
+             " the prefix, namespace uri and optionally the schema location"
+             " separated by a space. \n\nExample: "
+             " stix2_slider.py <file> --use-namespace=\"example http://example.com\""
+    )
+
     return parser
 
 

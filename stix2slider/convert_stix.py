@@ -6,6 +6,7 @@ from six import text_type
 from stix2slider.convert_cyber_observables import convert_cyber_observables
 from stix2slider.options import debug, error, get_option_value, warn
 from stix2slider.pattern_grammar import create_pattern_object
+from stix2slider.utils import set_default_namespace
 from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         INDICATOR_LABEL_MAP,
                                         MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
@@ -1012,6 +1013,7 @@ def create_marking_specification(id20):
 def convert_bundle(bundle_obj):
     global _ID_OBJECT_MAPPING
     global _EXPLICIT_OBJECT_USED
+    global _ID_NAMESPACE
     global _VICTIM_TARGET_TTPS
     global _KILL_CHAINS
     global CONTAINER
@@ -1019,6 +1021,11 @@ def convert_bundle(bundle_obj):
     _EXPLICIT_OBJECT_USED = {}
     _VICTIM_TARGET_TTPS = []
     _KILL_CHAINS = {}
+
+    if get_option_value("use_namespace"):
+        option_value = get_option_value("use_namespace").split(" ")
+        _ID_NAMESPACE = option_value[0]
+        set_default_namespace(*option_value)
 
     CONTAINER = stixmarx.new()
     pkg = CONTAINER.package
