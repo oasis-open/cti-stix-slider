@@ -8,7 +8,7 @@
                 "ip-watchlist"
             ],
             "modified": "2014-05-08T09:00:00.000Z",
-            "pattern": "[file:size = 50 and file:hashes.'SHA-256' = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' AND file:name = 'iprip32.dll']",
+            "pattern": "[file:size = 50 AND file:hashes.'SHA-256' = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' AND file:name = 'iprip32.dll']",
             "type": "indicator",
             "valid_from": "2014-05-08T09:00:00.000000Z"
         }
