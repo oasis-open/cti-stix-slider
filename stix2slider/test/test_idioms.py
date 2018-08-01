@@ -116,10 +116,7 @@ def setup_tests():
             xml_path = os.path.join(xml_idioms_dir, xml_filename)
 
             if os.path.exists(xml_path):
-                xml_file = open(xml_path)
-                io = StringIO(xml_file.read())
-                loaded_xml = xml.to_etree(io)
-                xml_file.close()
+                loaded_xml = xml.to_etree(xml_path)
 
                 MASTER_XML_FILES.append(loaded_xml)
                 JSON_FILENAMES.append(json_filename.split(".")[0])
