@@ -69,7 +69,7 @@ def _get_arg_parser(is_script=True):
         "--enable",
         help="A comma-separated list of the stix2-slider messages to enable. "
              "If the --disable option is not used, no other messages will be "
-             "shown. \n\nExample: stix2_slider.py <file> --enable 250",
+             "shown. \n\nExample: stix2_slider <file> --enable 250",
         dest="enable",
         default=""
     )
@@ -78,7 +78,7 @@ def _get_arg_parser(is_script=True):
         "-d",
         "--disable",
         help="A comma-separated list of the stix2-slider messages to disable. \n\n"
-             "Example: stix2_slider.py <file> --disable 212,220",
+             "Example: stix2_slider <file> --disable 212,220",
         dest="disable",
         default=""
     )
@@ -98,7 +98,7 @@ def _get_arg_parser(is_script=True):
              "file. The name of the file will be the input file with "
              "extension .log in the specified directory. Note, make sure "
              "the directory already exists.\n\n"
-             "Example: stix2_slider.py <file> --message-log-directory \"../logs\"",
+             "Example: stix2_slider <file> --message-log-directory \"../logs\"",
         dest="message_log_directory",
         action="store",
         default=None
@@ -117,7 +117,7 @@ def _get_arg_parser(is_script=True):
         help="Override the 'example' namespace with provided one. The format is"
              " the prefix, namespace uri and optionally the schema location"
              " separated by a space. \n\nExample: "
-             " stix2_slider.py <file> --use-namespace=\"example http://example.com\""
+             " stix2_slider <file> --use-namespace=\"example http://example.com\""
     )
 
     return parser
