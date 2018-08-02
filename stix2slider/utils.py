@@ -1,6 +1,7 @@
 import os
 
 import stix2
+from mixbox import idgen, namespaces
 
 
 # This is not a final representation of an AIS marking in STIX 2.0
@@ -46,3 +47,9 @@ def find_dir(path, directory):
         if directory in dirs and 'stix2slider' in dirs:
             found_dir = os.path.join(root, directory)
             return os.path.abspath(found_dir)
+
+
+def set_default_namespace(prefix, ns_uri, schemaLocation=None):
+    """Method to override the mixbox and slider 'example' namespace."""
+    new_namespace = namespaces.Namespace(ns_uri, prefix, schemaLocation)
+    idgen.set_id_namespace(new_namespace)
