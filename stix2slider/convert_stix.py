@@ -880,7 +880,7 @@ def create_references(obj):
             if "hashes" in er:
                 warn("hashes not representable in a STIX 1.x %s.  Found in %s", 503, "InformationSource", obj["id"])
             if "description" in er:
-                info_source.add_description(er["description"])
+                ob1x.add_description(er["description"])
             if ref_texts != []:
                 if isinstance(ob1x, Indicator):
                     for rt in ref_texts:
