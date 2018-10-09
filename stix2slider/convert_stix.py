@@ -844,7 +844,7 @@ def create_references_for_vulnerability(obj):
 
 
 def get_info_source(ob1x, obj):
-    if ob1x.information_source:
+    if hasattr(ob1x, "information_source") and ob1x.information_source:
         return ob1x.information_source
     else:
         if obj["id"] in _INFORMATION_SOURCES:
@@ -872,15 +872,23 @@ def create_references(obj):
     for er in obj["external_references"]:
         # capec and cve handled elsewhere
         if (er["source_name"] != 'capec' and er["source_name"] != 'cve') and ("url" in er or "external_id" in er):
-            info_source = get_info_source(ob1x, obj)
+            ref_texts = []
             if "url" in er:
-                info_source.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
+                ref_texts.append("SOURCE: " + er["source_name"] + " - " + er["url"])
             if "external_id" in er:
-                info_source.add_reference("SOURCE: " + er["source_name"] + " - " + "EXTERNAL ID: " + er["external_id"])
+                ref_texts.append("SOURCE: " + er["source_name"] + " - " + "EXTERNAL ID: " + er["external_id"])
             if "hashes" in er:
                 warn("hashes not representable in a STIX 1.x %s.  Found in %s", 503, "InformationSource", obj["id"])
             if "description" in er:
-                info_source.add_description(er["description"])
+                ob1x.add_description(er["description"])
+            if ref_texts != []:
+                if isinstance(ob1x, Indicator):
+                    for rt in ref_texts:
+                        ob1x.add_description(rt)
+                else:
+                    info_source = get_info_source(ob1x, obj)
+                    for rt in ref_texts:
+                        info_source.add_reference(rt)
         elif (er["source_name"] != 'capec' and er["source_name"] != 'cve'):
             warn("Source name %s in external references of %s not handled, yet", 605, er["source_name"], obj["id"])
         if (er["source_name"] == 'capec' or er["source_name"] == 'cve') and "url" in er:
