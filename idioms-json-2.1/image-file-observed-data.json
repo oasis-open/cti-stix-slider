@@ -1,34 +1,35 @@
 {
-  "id": "bundle--f097bac3-e6b7-4af1-babc-a282eedab002",
-  "objects": [
-    {
-      "type": "observed-data",
-      "created": "2017-05-22T13:03:55.429Z",
-      "first_observed": "2017-05-22T13:03:55.429Z",
-      "id": "observed-data--ffeb1a1e-af39-446d-a775-6a4ce022a436",
-      "last_observed": "2017-05-22T13:03:55.429Z",
-      "modified": "2017-05-22T13:03:55.429Z",
-      "number_observed": 1,
-      "objects": {
-          "0": {
-            "type": "file",
-            "name": "picture.jpg",
-            "hashes": {
-              "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
-            },
-            "extensions": {
-              "raster-image-ext": {
-                "exif_tags": {
-                  "Make": "Nikon",
-                  "Model": "D7000",
-                  "XResolution": 4928,
-                  "YResolution": 3264
+    "id": "bundle--f097bac3-e6b7-4af1-babc-a282eedab002",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--ffeb1a1e-af39-446d-a775-6a4ce022a436",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "extensions": {
+                        "raster-image-ext": {
+                            "exif_tags": {
+                                "Make": "Nikon",
+                                "Model": "D7000",
+                                "XResolution": 4928,
+                                "YResolution": 3264
+                            }
+                        }
+                    },
+                    "hashes": {
+                        "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+                    },
+                    "name": "picture.jpg",
+                    "type": "file"
                 }
-              }
-            }
-          }
-      }
-    }],
-  "spec_version": "2.0",
-  "type": "bundle"
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
+        }
+    ],
+    "type": "bundle"
 }

@@ -1,42 +1,43 @@
 {
-  "id": "bundle--abfc063c-7f43-40d1-8969-647dc6d5077f",
-  "objects": [
-    {
-      "type": "observed-data",
-      "created": "2017-05-22T13:03:55.429Z",
-      "first_observed": "2017-05-22T13:03:55.429Z",
-      "id": "observed-data--973b8552-3b78-4122-9b1e-61d69133607c",
-      "last_observed": "2017-05-22T13:03:55.429Z",
-      "modified": "2017-05-22T13:03:55.429Z",
-      "number_observed": 1,
-      "objects": {
-        "0": {
-          "type": "domain-name",
-          "value": "example.com"
-        },
-        "1": {
-          "type": "network-traffic",
-          "dst_ref": "0",
-          "protocols": [
-            "tcp",
-            "http"
-          ],
-          "extensions": {
-            "http-request-ext": {
-              "request_method": "get",
-              "request_value": "/download.html",
-              "request_version": "http/1.1",
-              "request_header": {
-                "From": "foo@bar.com",
-                "Accept-Encoding": "gzip,deflate",
-                "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113",
-                "Host": "www.example.com"
-              }
-            }
-          }
+    "id": "bundle--abfc063c-7f43-40d1-8969-647dc6d5077f",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--973b8552-3b78-4122-9b1e-61d69133607c",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "type": "domain-name",
+                    "value": "example.com"
+                },
+                "1": {
+                    "dst_ref": "0",
+                    "extensions": {
+                        "http-request-ext": {
+                            "request_header": {
+                                "Accept-Encoding": "gzip,deflate",
+                                "From": "foo@bar.com",
+                                "Host": "www.example.com",
+                                "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113"
+                            },
+                            "request_method": "get",
+                            "request_value": "/download.html",
+                            "request_version": "http/1.1"
+                        }
+                    },
+                    "protocols": [
+                        "tcp",
+                        "http"
+                    ],
+                    "type": "network-traffic"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
         }
-      }
-    }],
-    "spec_version": "2.0",
+    ],
     "type": "bundle"
 }

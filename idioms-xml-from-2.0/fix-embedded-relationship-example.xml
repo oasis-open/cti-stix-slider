@@ -11,7 +11,7 @@
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:ttp="http://stix.mitre.org/TTP-1"
-	 id="example:STIXPackage-161f8ade-b67d-11e3-b8af-f01faf20d111" version="1.2">
+	 id="example:STIXPackage-161f8ade-b67d-41e3-b8af-f01faf20d111" version="1.2">
     <stix:TTPs>
         <stix:TTP id="example:ttp-8ac90ff3-ecf8-4835-95b8-6aea6a623df5" timestamp="2017-01-27T13:49:53.872000+00:00" xsi:type='ttp:TTPType'>
             <ttp:Behavior>
@@ -23,7 +23,7 @@
                 </ttp:Attack_Patterns>
             </ttp:Behavior>
             <ttp:Information_Source>
-                <stixCommon:Identity idref="example:identity-4ec4d0a2-80e3-11e6-ae22-56b6b6499611"/>
+                <stixCommon:Identity idref="example:identity-4ec4d0a2-80e3-41e6-ae22-56b6b6499611"/>
             </ttp:Information_Source>
         </stix:TTP>
         <stix:TTP id="example:ttp-69e5b41b-b715-41f1-a5cd-f308f1005ef7" timestamp="2017-01-27T13:49:53.872000+00:00" xsi:type='ttp:TTPType'>
@@ -44,7 +44,7 @@ TITLE:
     <stix:Threat_Actors>
         <stix:Threat_Actor id="example:threat-actor-9a8a0d25-7636-429b-a99e-b2a73cd0f11f" timestamp="2017-01-27T13:49:53.872000+00:00" xsi:type='ta:ThreatActorType'>
             <ta:Title>Adversary Bravo</ta:Title>
-            <ta:Identity id="example:identity-1621d4d4-b67d-11e3-9670-f01faf20d111" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
+            <ta:Identity id="example:identity-1621d4d4-b67d-41e3-9670-f01faf20d111" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
                 <stixCommon:Name>Adversary Bravo</stixCommon:Name>
                 <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
   <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
@@ -67,7 +67,7 @@ TITLE:
                 </ta:Observed_TTP>
             </ta:Observed_TTPs>
             <ta:Information_Source>
-                <stixCommon:Identity id="example:identity-4ec4d0a2-80e3-11e6-ae22-56b6b6499611" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
+                <stixCommon:Identity id="example:identity-4ec4d0a2-80e3-41e6-ae22-56b6b6499611" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
                     <stixCommon:Name>Emmanuelle</stixCommon:Name>
                     <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
   <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">

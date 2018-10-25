@@ -1,22 +1,23 @@
 {
-  "id": "bundle--678a6feb-50ce-4a66-8a06-0b0669833ba2",
-  "objects": [
-    {
-      "type": "observed-data",
-      "created": "2017-05-22T13:03:55.429Z",
-      "first_observed": "2017-05-22T13:03:55.429Z",
-      "id": "observed-data--b133cf99-0042-47e4-b669-99fba2baff6e",
-      "last_observed": "2017-05-22T13:03:55.429Z",
-      "modified": "2017-05-22T13:03:55.429Z",
-      "number_observed": 1,
-      "objects": {
-        "0": {
-          "type": "email-addr",
-          "value": "john@example.com",
-          "display_name": "John Doe"
+    "id": "bundle--678a6feb-50ce-4a66-8a06-0b0669833ba2",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--b133cf99-0042-47e4-b669-99fba2baff6e",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "display_name": "John Doe",
+                    "type": "email-addr",
+                    "value": "john@example.com"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
         }
-      }
-    }],
-  "spec_version": "2.0",
-  "type": "bundle"
+    ],
+    "type": "bundle"
 }

@@ -5,7 +5,7 @@
     "objects": [
         {
             "type": "indicator",
-            "id": "indicator--0d77c706-1990-3b20-85d7-ef4ada1353dd",
+            "id": "indicator--0d77c706-1990-4b20-85d7-ef4ada1353dd",
             "created": "2018-09-04T14:46:05.000Z",
             "modified": "2018-09-04T14:46:05.001Z",
             "name": "Malware URL download",
@@ -24,7 +24,7 @@
         },
         {
             "type": "malware",
-            "id": "malware--0d77c706-1990-3b20-85d7-ef4ada1353dd",
+            "id": "malware--0d77c706-1990-4b20-85d7-ef4ada1353dd",
             "created": "2018-09-04T14:46:05.000Z",
             "modified": "2018-09-04T14:46:05.001Z",
             "name": "emotet,word macro",
@@ -45,8 +45,8 @@
             "created": "2018-09-04T15:00:06.997Z",
             "modified": "2018-09-04T15:00:06.997Z",
             "relationship_type": "indicates",
-            "source_ref": "indicator--0d77c706-1990-3b20-85d7-ef4ada1353dd",
-            "target_ref": "malware--0d77c706-1990-3b20-85d7-ef4ada1353dd"
+            "source_ref": "indicator--0d77c706-1990-4b20-85d7-ef4ada1353dd",
+            "target_ref": "malware--0d77c706-1990-4b20-85d7-ef4ada1353dd"
         }
     ]
 }

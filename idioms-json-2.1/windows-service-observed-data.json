@@ -1,42 +1,43 @@
 {
-  "id": "bundle--d613eac2-af0e-4348-92ed-81f2431132da",
-  "objects": [
-    {
-      "type": "observed-data",
-      "created": "2017-05-22T13:03:55.429Z",
-      "first_observed": "2017-05-22T13:03:55.429Z",
-      "id": "observed-data--e0715a08-b679-4bf8-b626-0b50991952a2",
-      "last_observed": "2017-05-22T13:03:55.429Z",
-      "modified": "2017-05-22T13:03:55.429Z",
-      "number_observed": 1,
-      "objects": {
-        "0": {
-          "type": "file",
-          "hashes": {
-            "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
-          },
-          "name": "sirvizio.exe"
-        },
-        "1": {
-          "type": "process",
-          "pid": 2217,
-          "name": "sirvizio",
-          "command_line": "C:\\Windows\\System32\\sirvizio.exe /s",
-          "binary_ref": "0",
-          "extensions": {
-            "windows-service-ext": {
-              "descriptions": ["a service"],
-              "service_name": "sirvizio",
-              "display_name": "Sirvizio",
-              "start_type": "SERVICE_AUTO_START",
-              "service_type": "SERVICE_WIN32_OWN_PROCESS",
-              "service_status": "SERVICE_RUNNING"
-            }
-          }
+    "id": "bundle--d613eac2-af0e-4348-92ed-81f2431132da",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--e0715a08-b679-4bf8-b626-0b50991952a2",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "hashes": {
+                        "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+                    },
+                    "name": "sirvizio.exe",
+                    "type": "file"
+                },
+                "1": {
+                    "command_line": "C:\\Windows\\System32\\sirvizio.exe /s",
+                    "extensions": {
+                        "windows-service-ext": {
+                            "descriptions": [
+                                "a service"
+                            ],
+                            "display_name": "Sirvizio",
+                            "service_name": "sirvizio",
+                            "service_status": "SERVICE_RUNNING",
+                            "service_type": "SERVICE_WIN32_OWN_PROCESS",
+                            "start_type": "SERVICE_AUTO_START"
+                        }
+                    },
+                    "image_ref": "0",
+                    "pid": 2217,
+                    "type": "process"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
         }
-      }
-    }
-  ],
-  "spec_version": "2.0",
-  "type": "bundle"
+    ],
+    "type": "bundle"
 }

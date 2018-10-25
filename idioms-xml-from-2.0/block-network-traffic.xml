@@ -8,9 +8,9 @@
 	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:stixCommon="http://stix.mitre.org/common-1"
-	 id="example:STIXPackage-495c4c04-b5d8-11e3-b7bb-000c29789db9" version="1.2">
+	 id="example:STIXPackage-495c4c04-b5d8-41e3-a7bb-000c29789db9" version="1.2">
     <stix:Courses_Of_Action>
-        <stix:Course_Of_Action id="example:course-of-action-495c9b28-b5d8-11e3-b7bb-000c29789db9" timestamp="2017-01-27T13:49:41.298000+00:00" xsi:type='coa:CourseOfActionType'>
+        <stix:Course_Of_Action id="example:course-of-action-495c9b28-b5d8-41e3-b7bb-000c29789db9" timestamp="2017-01-27T13:49:41.298000+00:00" xsi:type='coa:CourseOfActionType'>
             <coa:Title>Block traffic to PIVY C2 Server (10.10.10.10)</coa:Title>
             <coa:Type xsi:type="stixVocabs:CourseOfActionTypeVocab-1.0">Perimeter Blocking</coa:Type>
             <coa:Description>

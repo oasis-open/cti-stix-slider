@@ -4,12 +4,13 @@
         {
             "created": "2014-08-08T15:50:10.983Z",
             "id": "threat-actor--56f3f0db-b5d5-431c-ae56-c18f02caf500",
-            "labels": [
+            "indicator_types": [
                 "unknown"
             ],
             "modified": "2014-08-08T15:50:10.983Z",
             "name": "People behind the intrusion",
             "sophistication": "unknown",
+            "spec_version": "2.1",
             "type": "threat-actor"
         },
         {
@@ -25,14 +26,15 @@
                     "url": "https://en.wikipedia.org/wiki/Automated_teller_machine"
                 },
                 {
-                    "source_name": "ACME Bugzilla",
                     "external_id": "1370",
+                    "source_name": "ACME Bugzilla",
                     "url": "https://www.example.com/bugs/1370"
                 }
             ],
             "id": "campaign--e5268b6e-4931-42f1-b379-87f48eb41b1e",
             "modified": "2014-08-08T15:50:10.983Z",
             "name": "Compromise of ATM Machines",
+            "spec_version": "2.1",
             "type": "campaign"
         },
         {
@@ -41,6 +43,7 @@
             "modified": "2014-08-08T15:50:10.983Z",
             "relationship_type": "attributed-to",
             "source_ref": "incident--229ab6ba-0eb2-415b-bdf2-079e6b42f51e",
+            "spec_version": "2.1",
             "target_ref": "campaign--e5268b6e-4931-42f1-b379-87f48eb41b1e",
             "type": "relationship"
         },
@@ -50,6 +53,7 @@
             "modified": "2014-08-08T15:50:10.983Z",
             "relationship_type": "attributed-to",
             "source_ref": "incident--517cf274-038d-4ed4-a3ec-3ac18ad9db8a",
+            "spec_version": "2.1",
             "target_ref": "campaign--e5268b6e-4931-42f1-b379-87f48eb41b1e",
             "type": "relationship"
         },
@@ -59,6 +63,7 @@
             "modified": "2014-08-08T15:50:10.983Z",
             "relationship_type": "attributed-to",
             "source_ref": "incident--7d8cf96f-91cb-42d0-a1e0-bfa38ea08621",
+            "spec_version": "2.1",
             "target_ref": "campaign--e5268b6e-4931-42f1-b379-87f48eb41b1e",
             "type": "relationship"
         },
@@ -68,10 +73,10 @@
             "modified": "2014-08-08T15:50:10.983Z",
             "relationship_type": "attributed-to",
             "source_ref": "campaign--e5268b6e-4931-42f1-b379-87f48eb41b1e",
+            "spec_version": "2.1",
             "target_ref": "threat-actor--56f3f0db-b5d5-431c-ae56-c18f02caf500",
             "type": "relationship"
         }
     ],
-    "spec_version": "2.0",
     "type": "bundle"
 }

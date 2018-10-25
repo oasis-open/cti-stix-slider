@@ -1,57 +1,56 @@
 {
-  "id": "bundle--cc0ca596-70e6-4dac-9bef-603166d17db8",
-  "objects": [
-    {
-      "type": "observed-data",
-      "created": "2017-05-22T13:03:55.429Z",
-      "first_observed": "2017-05-22T13:03:55.429Z",
-      "id": "observed-data--28c92b74-879a-43d3-ab74-f64db0f8fab9",
-      "last_observed": "2017-05-22T13:03:55.429Z",
-      "modified": "2017-05-22T13:03:55.429Z",
-      "number_observed": 1,
-      "object_marking_refs": [
-        "marking-definition--28b1f7ef-75ac-4c00-94a8-badd6a5baf81"
-      ],
-      "objects": {
-        "0": {
-          "type": "file",
-          "hashes": {
-            "SHA-256": "ceafbfd424be2ca4a5f0402cae090dda2fb0526cf521b60b60077c0f622b285a"
-          }
-        },
-        "1": {
-          "type": "file",
-          "hashes": {
-            "SHA-256": "19c549ec2628b989382f6b280cbd7bb836a0b461332c0fe53511ce7d584b89d3"
-          }
-        },
-        "2": {
-          "type": "file",
-          "hashes": {
-            "SHA-256": "0969de02ecf8a5f003e3f6d063d848c8a193aada092623f8ce408c15bcb5f038"
-          }
-        },
-        "3": {
-          "type": "file",
-          "name": "foo.zip",
-          "hashes": {
-            "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
-          },
-          "mime_type": "application/zip",
-          "extensions": {
-            "archive-ext": {
-              "contains_refs": [
-                "0",
-                "1",
-                "2"
-              ],
-              "version": "5.0"
-            }
-          }
+    "id": "bundle--cc0ca596-70e6-4dac-9bef-603166d17db8",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--28c92b74-879a-43d3-ab74-f64db0f8fab9",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "object_marking_refs": [
+                "marking-definition--28b1f7ef-75ac-4c00-94a8-badd6a5baf81"
+            ],
+            "objects": {
+                "0": {
+                    "hashes": {
+                        "SHA-256": "ceafbfd424be2ca4a5f0402cae090dda2fb0526cf521b60b60077c0f622b285a"
+                    },
+                    "type": "file"
+                },
+                "1": {
+                    "hashes": {
+                        "SHA-256": "19c549ec2628b989382f6b280cbd7bb836a0b461332c0fe53511ce7d584b89d3"
+                    },
+                    "type": "file"
+                },
+                "2": {
+                    "hashes": {
+                        "SHA-256": "0969de02ecf8a5f003e3f6d063d848c8a193aada092623f8ce408c15bcb5f038"
+                    },
+                    "type": "file"
+                },
+                "3": {
+                    "extensions": {
+                        "archive-ext": {
+                            "contains_refs": [
+                                "0",
+                                "1",
+                                "2"
+                            ]
+                        }
+                    },
+                    "hashes": {
+                        "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+                    },
+                    "mime_type": "application/zip",
+                    "name": "foo.zip",
+                    "type": "file"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
         }
-      }
-    }
-  ],
-  "spec_version": "2.0",
-  "type": "bundle"
+    ],
+    "type": "bundle"
 }

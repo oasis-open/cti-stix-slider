@@ -1,19 +1,19 @@
 {
-  "id": "bundle--fcbef79f-d784-4928-8eb7-6b8cb63f70f0",
-  "objects": [
-    {
-      "created": "2014-05-08T09:00:00.000Z",
-      "id": "indicator--5a56a83b-103d-487a-b06b-5874567bf049",
-      "labels": [
-        "ip-watchlist"
-      ],
-      "modified": "2014-05-08T09:00:00.000Z",
-      "name": "IP Address for known C2 channel",
-      "pattern": "[network-traffic:dst_ref.type = 'ipv4-addr' AND network-traffic:dst_ref.value = '203.0.113.33/32']",
-
-      "type": "indicator",
-      "valid_from": "2014-05-08T09:00:00.000000Z"
-    }],
-    "spec_version": "2.0",
+    "id": "bundle--fcbef79f-d784-4928-8eb7-6b8cb63f70f0",
+    "objects": [
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "id": "indicator--5a56a83b-103d-487a-b06b-5874567bf049",
+            "indicator_types": [
+                "ip-watchlist"
+            ],
+            "modified": "2014-05-08T09:00:00.000Z",
+            "name": "IP Address for known C2 channel",
+            "pattern": "[network-traffic:dst_ref.type = 'ipv4-addr' AND network-traffic:dst_ref.value = '203.0.113.33/32']",
+            "spec_version": "2.1",
+            "type": "indicator",
+            "valid_from": "2014-05-08T09:00:00.000000Z"
+        }
+    ],
     "type": "bundle"
 }

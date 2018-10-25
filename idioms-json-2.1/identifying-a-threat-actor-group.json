@@ -7,6 +7,7 @@
             "identity_class": "organization",
             "modified": "2017-01-27T13:49:53.888Z",
             "name": "Disco Tean",
+            "spec_version": "2.1",
             "type": "identity"
         },
         {
@@ -15,17 +16,19 @@
             "identity_class": "organization",
             "modified": "2017-01-27T13:49:53.888Z",
             "name": "US Gov",
+            "spec_version": "2.1",
             "type": "identity"
         },
         {
             "created": "2014-11-19T23:39:03.893Z",
             "id": "threat-actor--dfaa8d77-07e2-4e28-b2c8-92e9f7b04428",
-            "labels": [
+            "indicator_types": [
                 "unknown"
             ],
             "modified": "2014-11-19T23:39:03.893Z",
             "name": "Disco Team Threat Actor Group",
             "sophistication": "unknown",
+            "spec_version": "2.1",
             "type": "threat-actor"
         },
         {
@@ -34,6 +37,7 @@
             "modified": "2014-11-19T23:39:03.893Z",
             "relationship_type": "attributed-to",
             "source_ref": "threat-actor--dfaa8d77-07e2-4e28-b2c8-92e9f7b04428",
+            "spec_version": "2.1",
             "target_ref": "identity--733c5838-34d9-4fbf-949c-62aba761184c",
             "type": "relationship"
         },
@@ -43,10 +47,10 @@
             "modified": "2014-11-19T23:39:03.893Z",
             "relationship_type": "targets",
             "source_ref": "threat-actor--dfaa8d77-07e2-4e28-b2c8-92e9f7b04428",
+            "spec_version": "2.1",
             "target_ref": "identity--89e7c57d-0664-4ab4-8866-3f7d92eb26fd",
             "type": "relationship"
         }
     ],
-    "spec_version": "2.0",
     "type": "bundle"
 }

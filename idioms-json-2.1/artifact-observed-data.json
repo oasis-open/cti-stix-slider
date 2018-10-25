@@ -1,22 +1,23 @@
 {
-  "id": "bundle--d5bb42ba-be32-44f1-97c6-17c781a51579",
-  "objects": [
-    {
-      "type": "observed-data",
-      "created": "2017-05-22T13:03:55.429Z",
-      "first_observed": "2017-05-22T13:03:55.429Z",
-      "id": "observed-data--28c92b74-879a-43d3-ab74-f64db0f8fab9",
-      "last_observed": "2017-05-22T13:03:55.429Z",
-      "modified": "2017-05-22T13:03:55.429Z",
-      "number_observed": 1,
-      "objects": {
-        "0": {
-          "type": "artifact",
-          "mime_type": "image/jpeg",
-          "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI== ..."
+    "id": "bundle--d5bb42ba-be32-44f1-97c6-17c781a51579",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--28c92b74-879a-43d3-ab74-f64db0f8fab9",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "mime_type": "image/jpeg",
+                    "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI== ...",
+                    "type": "artifact"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
         }
-      }
-    }],
-  "spec_version": "2.0",
-  "type": "bundle"
+    ],
+    "type": "bundle"
 }

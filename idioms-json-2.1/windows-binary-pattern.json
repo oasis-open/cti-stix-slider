@@ -1,19 +1,19 @@
 {
-  "id": "bundle--57582d2d-4218-432c-933f-c7918dd684a0",
-  "objects": [
-    {
-      "created": "2014-05-08T09:00:00.000Z",
-      "id": "indicator--e6d44ea4-4297-4f9f-8065-1e7a5457b1ad",
-      "labels": [
-        "ip-watchlist"
-      ],
-      "modified": "2014-05-08T09:00:00.000Z",
-      "name": "IP Address for known C2 channel",
-      "pattern": "[file:extensions.'windows-pebinary-ext'.sections[*].entropy > 7.0]",
-
-      "type": "indicator",
-      "valid_from": "2014-05-08T09:00:00.000000Z"
-    }],
-    "spec_version": "2.0",
+    "id": "bundle--57582d2d-4218-432c-933f-c7918dd684a0",
+    "objects": [
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "id": "indicator--e6d44ea4-4297-4f9f-8065-1e7a5457b1ad",
+            "indicator_types": [
+                "ip-watchlist"
+            ],
+            "modified": "2014-05-08T09:00:00.000Z",
+            "name": "IP Address for known C2 channel",
+            "pattern": "[file:extensions.'windows-pebinary-ext'.sections[*].entropy > 7.0]",
+            "spec_version": "2.1",
+            "type": "indicator",
+            "valid_from": "2014-05-08T09:00:00.000000Z"
+        }
+    ],
     "type": "bundle"
 }

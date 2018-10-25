@@ -11,7 +11,7 @@
 	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:observable-c8c32b6e-2ea8-51c4-6446-7f5218072f27">
+        <cybox:Observable id="example:observable-c8c32b6e-2ea8-41c4-a446-7f5218072f27">
             <cybox:Object id="example:File-0b102a37-c3d3-4472-a4ea-7aa336a0709e">
                 <cybox:Properties xsi:type="FileObj:FileObjectType">
                     <FileObj:File_Name>iprip32.dll</FileObj:File_Name>

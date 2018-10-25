@@ -13,7 +13,7 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	 id="example:STIXPackage-f3d07d99-fabc-4245-838b-6d1016eabb58" version="1.2">
     <stix:Indicators>
-        <stix:Indicator id="example:indicator-0d77c706-1990-3b20-85d7-ef4ada1353dd" timestamp="2018-09-04T14:46:05.001000+00:00" xsi:type='indicator:IndicatorType'>
+        <stix:Indicator id="example:indicator-0d77c706-1990-4b20-85d7-ef4ada1353dd" timestamp="2018-09-04T14:46:05.001000+00:00" xsi:type='indicator:IndicatorType'>
             <indicator:Title>Malware URL download</indicator:Title>
             <indicator:Type>compromised</indicator:Type>
             <indicator:Description ordinality="1">This URL is a known malware URL according to URLhaus.</indicator:Description>
@@ -29,12 +29,12 @@
                 </cybox:Object>
             </indicator:Observable>
             <indicator:Indicated_TTP>
-                <stixCommon:TTP idref="example:ttp-0d77c706-1990-3b20-85d7-ef4ada1353dd" xsi:type='ttp:TTPType'/>
+                <stixCommon:TTP idref="example:ttp-0d77c706-1990-4b20-85d7-ef4ada1353dd" xsi:type='ttp:TTPType'/>
             </indicator:Indicated_TTP>
         </stix:Indicator>
     </stix:Indicators>
     <stix:TTPs>
-        <stix:TTP id="example:ttp-0d77c706-1990-3b20-85d7-ef4ada1353dd" timestamp="2018-09-04T14:46:05.001000+00:00" xsi:type='ttp:TTPType'>
+        <stix:TTP id="example:ttp-0d77c706-1990-4b20-85d7-ef4ada1353dd" timestamp="2018-09-04T14:46:05.001000+00:00" xsi:type='ttp:TTPType'>
             <ttp:Behavior>
                 <ttp:Malware>
                     <ttp:Malware_Instance>

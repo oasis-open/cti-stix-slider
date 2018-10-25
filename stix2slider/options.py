@@ -377,3 +377,5 @@ CHECK_CODES = [0,
 
                701, 702, 703
                ]
+
+VERSION_OF_STIX_2x = None
