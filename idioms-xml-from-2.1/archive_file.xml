@@ -1,0 +1,63 @@
+<stix:STIX_Package
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:example="http://example.com"
+	xmlns:ArchiveFileObj="http://cybox.mitre.org/objects#ArchiveFileObject-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+    xmlns:marking="http://data-marking.mitre.org/Marking-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
+    <stix:STIX_Header>
+        <stix:Handling>
+            <marking:Marking>
+                <marking:Controlled_Structure>../../../../stix:Observables[1]/cybox:Observable[1]/descendant-or-self::node() | ../../../../stix:Observables[1]/cybox:Observable[1]/descendant-or-self::node()/@*</marking:Controlled_Structure>
+                <marking:Marking_Structure idref="example:markingstructure-28b1f7ef-75ac-4c00-94a8-badd6a5baf81"/>
+            </marking:Marking>
+        </stix:Handling>
+    </stix:STIX_Header>
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
+            <cybox:Object id="example:ArchiveFile-735e8cee-1c9e-4da2-a03f-1d59e6076688">
+                <cybox:Properties xsi:type="ArchiveFileObj:ArchiveFileObjectType">
+                    <FileObj:File_Name>foo.zip</FileObj:File_Name>
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                    <ArchiveFileObj:Version>5.0</ArchiveFileObj:Version>
+                    <ArchiveFileObj:Archived_File xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value>ceafbfd424be2ca4a5f0402cae090dda2fb0526cf521b60b60077c0f622b285a</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </ArchiveFileObj:Archived_File>
+                    <ArchiveFileObj:Archived_File xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value>19c549ec2628b989382f6b280cbd7bb836a0b461332c0fe53511ce7d584b89d3</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </ArchiveFileObj:Archived_File>
+                    <ArchiveFileObj:Archived_File xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value>0969de02ecf8a5f003e3f6d063d848c8a193aada092623f8ce408c15bcb5f038</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </ArchiveFileObj:Archived_File>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

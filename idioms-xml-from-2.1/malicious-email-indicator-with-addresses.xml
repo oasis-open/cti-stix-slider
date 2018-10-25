@@ -1,0 +1,73 @@
+<stix:STIX_Package
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:example="http://example.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	 id="example:STIXPackage-8b8ed1c1-f01d-4393-ac65-97017ed15876" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-b06b0eb7-61dd-4338-a094-0290c380fbd8" timestamp="2014-10-31T15:52:13.126000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>Malicious E-mail Addresses</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Malicious E-mail</indicator:Type>
+            <indicator:Description>
+
+CONFIDENCE: Low</indicator:Description>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-10-31T15:52:13.126999+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-b7abb545-2da6-4534-a6bb-886a2850fcbe">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-ecea630f-e54f-41c9-b419-cd62dc445e63">
+                        <cybox:Object id="example:EmailMessage-c6b9de4d-204f-4b59-9690-de7e6f724b6a">
+                            <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                                <EmailMessageObj:Header>
+                                    <EmailMessageObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                        <AddressObj:Address_Value condition="Equals">fred@abc.com</AddressObj:Address_Value>
+                                    </EmailMessageObj:From>
+                                </EmailMessageObj:Header>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-34f6f50e-1f44-4ec1-be52-a061cb7ca9c3">
+                        <cybox:Observable_Composition operator="OR">
+                            <cybox:Observable id="example:Observable-66cf2b77-1316-40f9-af32-f3a930b64b81">
+                                <cybox:Object id="example:EmailMessage-6f5b1034-017d-463d-97d6-9e393d6c7af4">
+                                    <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                                        <EmailMessageObj:Header>
+                                            <EmailMessageObj:To>
+                                                <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                                    <AddressObj:Address_Value condition="Equals">barney@abc.com</AddressObj:Address_Value>
+                                                </EmailMessageObj:Recipient>
+                                            </EmailMessageObj:To>
+                                        </EmailMessageObj:Header>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-4f69c500-7533-4a85-b1d1-2acf6f074a08">
+                                <cybox:Object id="example:EmailMessage-40443253-b62a-4656-8fdf-fdf1fda7d57b">
+                                    <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                                        <EmailMessageObj:Header>
+                                            <EmailMessageObj:To>
+                                                <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                                    <AddressObj:Address_Value condition="Equals">wilma@abc.com</AddressObj:Address_Value>
+                                                </EmailMessageObj:Recipient>
+                                            </EmailMessageObj:To>
+                                        </EmailMessageObj:Header>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

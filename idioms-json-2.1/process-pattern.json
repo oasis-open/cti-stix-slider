@@ -1,0 +1,18 @@
+{
+    "id": "bundle--cc0ca596-70e6-4dac-9bef-603166d17db8",
+    "objects": [
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "id": "indicator--53fe3b22-0201-47cf-85d0-97c02164528d",
+            "labels": [
+                "ip-watchlist"
+            ],
+            "modified": "2014-05-08T09:00:00.000Z",
+            "pattern": "[process:command_line MATCHES '^.+>-add GlobalSign.cer -c -s -r localMachine Root$'] OR [process:command_line MATCHES'^.+>-add GlobalSign.cer -c -s -r localMachineTrustedPublisher$'] OR [process:opened_connection_refs[*].src_port = '25'] OR [process:opened_connection_refs[*].src_ref.value = '0.0.0.0']",
+            "type": "indicator",
+            "valid_from": "2014-05-08T09:00:00.000000Z"
+        }
+    ],
+    "spec_version": "2.0",
+    "type": "bundle"
+}

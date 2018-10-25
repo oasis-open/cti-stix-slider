@@ -1,0 +1,37 @@
+<stix:STIX_Package
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:example="http://example.com"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-43e994f0-4350-489c-8d10-1656463aaefd" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-a51b3719-0094-4444-9100-564be8f0ce16" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-0660090b-31ab-490a-b1a0-91c0ed115a60">
+                <cybox:Object id="example:File-676146fd-b398-4d3c-be86-91f09224367c">
+                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value condition="Equals">aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

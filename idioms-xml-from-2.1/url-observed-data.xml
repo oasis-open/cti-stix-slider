@@ -1,0 +1,21 @@
+<stix:STIX_Package
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:example="http://example.com"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:URIObj="http://cybox.mitre.org/objects#URIObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	 id="example:STIXPackage-f8f94f34-623f-4e61-805e-9e4302f84ab6" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:URI-bd9e8424-5a08-4976-a08a-26154eac8728">
+                <cybox:Properties xsi:type="URIObj:URIObjectType" type="URL">
+                    <URIObj:Value>https://example.com/research/index.html</URIObj:Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

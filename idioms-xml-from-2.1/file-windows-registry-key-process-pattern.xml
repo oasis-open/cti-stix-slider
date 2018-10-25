@@ -1,0 +1,66 @@
+<stix:STIX_Package
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:example="http://example.com"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	 id="example:STIXPackage-0b577c49-9e68-4aff-95d6-728c7468f1f4" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-16ba86a6-e42f-477e-839d-9e6f98aa3410" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-72687d75-0aed-4915-b814-cbe1defdeb8e">
+                <cybox:Observable_Composition operator="OR">
+                    <cybox:Observable id="example:Observable-539ba197-b39a-4a45-b693-9c5b76b8c2c6">
+                        <cybox:Observable_Composition operator="AND">
+                            <cybox:Observable id="example:Observable-2cdf7901-cc1b-446e-b1bd-390b4158e5a4">
+                                <cybox:Object id="example:File-37e1c115-61e9-4f6a-bd83-922e81cf6b0b">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:File_Name condition="Equals">foo.dll</FileObj:File_Name>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-8e6c47ba-87b1-44c7-a912-d81bc53a771a">
+                                <cybox:Object id="example:WinRegistryKey-e37502f6-2809-4141-bb6b-d65f782b8b3f">
+                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                        <WinRegistryKeyObj:Key condition="Equals">HKEY_LOCAL_MACHINE\\foo\\bar</WinRegistryKeyObj:Key>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-6b70bcf2-7dd5-488b-9bb0-534cfde439dc">
+                        <cybox:Observable_Composition operator="OR">
+                            <cybox:Observable id="example:Observable-5428c695-cfa8-4e73-908b-48e276dab6ed">
+                                <cybox:Object id="example:Process-e30354f8-2bf6-42e1-90e1-05c006025a4e">
+                                    <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                        <ProcessObj:Name condition="Equals">fooproc</ProcessObj:Name>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-fd11544d-32a7-4c8d-94b7-5e5121be1f85">
+                                <cybox:Object id="example:Process-7fc63413-94b2-42c2-8e07-3b34e2fe2cd7">
+                                    <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                        <ProcessObj:Name condition="Equals">procfoo</ProcessObj:Name>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

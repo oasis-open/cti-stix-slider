@@ -1,0 +1,36 @@
+<stix:STIX_Package
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:example="http://example.com"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	 id="example:STIXPackage-97ab977a-ba89-4020-8165-efa3279f628b" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-e0231edc-1e3c-47c0-a83d-8eea7c979726" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-cc130d5d-ba67-4300-a842-ea6b027cdd08">
+                <cybox:Object id="example:WinRegistryKey-05175c75-f301-4fe6-ae7a-d23e96cb1f22">
+                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                        <WinRegistryKeyObj:Key condition="Equals">HKEY_CURRENT_USER\\Software\\CryptoLocker\\Files</WinRegistryKeyObj:Key>
+                        <WinRegistryKeyObj:Values>
+                            <WinRegistryKeyObj:Value>
+                                <WinRegistryKeyObj:Data condition="Equals">fred</WinRegistryKeyObj:Data>
+                            </WinRegistryKeyObj:Value>
+                        </WinRegistryKeyObj:Values>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

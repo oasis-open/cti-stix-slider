@@ -1,0 +1,64 @@
+<stix:STIX_Package
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:example="http://example.com"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+    xmlns:marking="http://data-marking.mitre.org/Marking-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
+    <stix:STIX_Header>
+        <stix:Handling>
+            <marking:Marking>
+                <marking:Controlled_Structure>../../../../stix:Observables[1]/cybox:Observable[1]/descendant-or-self::node() | ../../../../stix:Observables[1]/cybox:Observable[1]/descendant-or-self::node()/@*</marking:Controlled_Structure>
+                <marking:Marking_Structure idref="example:markingstructure-28b1f7ef-75ac-4c00-94a8-badd6a5baf81"/>
+            </marking:Marking>
+        </stix:Handling>
+    </stix:STIX_Header>
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
+            <cybox:Object id="example:EmailMessage-0357b6da-d240-47fd-afce-b8fc10d6bd21">
+                <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                    <EmailMessageObj:Header>
+                        <EmailMessageObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <AddressObj:Address_Value>ibibo@srv1.ibibojobs.com</AddressObj:Address_Value>
+                        </EmailMessageObj:From>
+                        <EmailMessageObj:Subject>ATTACHED BILL OF LADING INVOICE DOCUMENT</EmailMessageObj:Subject>
+                    </EmailMessageObj:Header>
+                    <EmailMessageObj:Attachments>
+                        <EmailMessageObj:File object_reference="example:File-e898a34b-36d7-4d29-9110-5f95fccc43a3"/>
+                    </EmailMessageObj:Attachments>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:File-e898a34b-36d7-4d29-9110-5f95fccc43a3">
+                        <cybox:Properties xsi:type="FileObj:FileObjectType">
+                            <FileObj:File_Name>BL-Copy1.html</FileObj:File_Name>
+                            <FileObj:Size_In_Bytes>374</FileObj:Size_In_Bytes>
+                            <FileObj:Hashes>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>d5cdbf6c69bbde9bec36419bd74cfbb5</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>cbff65ef086f0adb9acc1a217b419d7d9bf06041</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>2c1aa3d24631289b2df5ede075b47b31553d89e85f9219236d7056d504d88a66</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                            </FileObj:Hashes>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

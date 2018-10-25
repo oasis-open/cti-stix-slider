@@ -1,0 +1,38 @@
+<stix:STIX_Package
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:example="http://example.com"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-53fe3b22-0201-47cf-85d0-97c02164528d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-326cc298-310e-4212-839c-286a2e52d4b2">
+                <cybox:Object id="example:File-2c2bb69c-7c0d-4a61-883e-3943f900bca6">
+                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                        <FileObj:File_Name condition="Equals">iprip32.dll</FileObj:File_Name>
+                        <FileObj:Size_In_Bytes condition="Equals">50</FileObj:Size_In_Bytes>
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value condition="Equals">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

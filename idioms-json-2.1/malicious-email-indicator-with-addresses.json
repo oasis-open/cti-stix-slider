@@ -1,0 +1,20 @@
+{
+    "id": "bundle--8b8ed1c1-f01d-4393-ac65-97017ed15876",
+    "objects": [
+        {
+            "created": "2014-10-31T15:52:13.126Z",
+            "description": "\n\nCONFIDENCE: Low",
+            "id": "indicator--b06b0eb7-61dd-4338-a094-0290c380fbd8",
+            "labels": [
+                "malicious-email"
+            ],
+            "modified": "2014-10-31T15:52:13.126Z",
+            "name": "Malicious E-mail Addresses",
+            "pattern": "[(email-message:from_ref = 'fred@abc.com' AND (email-message:to_refs[*] = 'barney@abc.com' OR email-message:to_refs[*] = 'wilma@abc.com'))]",
+            "type": "indicator",
+            "valid_from": "2014-10-31T15:52:13.126999Z"
+        }
+    ],
+    "spec_version": "2.0",
+    "type": "bundle"
+}

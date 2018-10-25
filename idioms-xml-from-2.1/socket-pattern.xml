@@ -1,0 +1,43 @@
+<stix:STIX_Package
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:example="http://example.com"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:NetworkSocketObj="http://cybox.mitre.org/objects#NetworkSocketObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+	 id="example:STIXPackage-63fe3b22-0201-47cf-85d0-97c02164528d" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-89f58633-45bb-47b6-868a-9f979d7880fc" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-466d1f77-64a7-42a8-b6b9-5fa094e413f0">
+                <cybox:Object id="example:NetworkConnection-62191998-b2ef-415b-bb82-e94f8dbd1b32">
+                    <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    </cybox:Properties>
+                    <cybox:Related_Objects>
+                        <cybox:Related_Object id="example:NetworkSocket-fd6562ae-2a80-4867-b22b-bb14d1ea3ee2">
+                            <cybox:Properties xsi:type="NetworkSocketObj:NetworkSocketObjectType">
+                                <NetworkSocketObj:Address_Family condition="Equals">AF_INET</NetworkSocketObj:Address_Family>
+                                <NetworkSocketObj:Options>
+                                    <NetworkSocketObj:SO_LINGER condition="Equals">5</NetworkSocketObj:SO_LINGER>
+                                </NetworkSocketObj:Options>
+                            </cybox:Properties>
+                            <cybox:Relationship>Related_Socket</cybox:Relationship>
+                        </cybox:Related_Object>
+                    </cybox:Related_Objects>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

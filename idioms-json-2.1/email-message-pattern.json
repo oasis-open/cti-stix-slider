@@ -1,0 +1,19 @@
+{
+  "id": "bundle--fa65bf07-5682-404d-9ca3-f0a4c1c56a7d",
+  "objects": [
+    {
+      "created": "2014-05-08T09:00:00.000Z",
+      "id": "indicator--3158759b-9e96-4976-8809-803a17b3c736",
+      "labels": [
+        "ip-watchlist"
+      ],
+      "modified": "2014-05-08T09:00:00.000Z",
+      "name": "IP Address for known C2 channel",
+      "pattern": "[email-message:body_multipart[*].body_raw_ref.name MATCHES '^Final Report.+.exe$']",
+
+      "type": "indicator",
+      "valid_from": "2014-05-08T09:00:00.000000Z"
+    }],
+    "spec_version": "2.0",
+    "type": "bundle"
+}

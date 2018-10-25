@@ -1,0 +1,44 @@
+<stix:STIX_Package
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:example="http://example.com"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	 id="example:STIXPackage-fa65bf07-5682-404d-9ca3-f0a4c1c56a7d" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-3158759b-9e96-4976-8809-803a17b3c736" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-bee362d3-c0d1-4214-89aa-b64ca58474ba">
+                <cybox:Object id="example:EmailMessage-8764689d-d5aa-4289-a7bf-3a17ca5a86bb">
+                    <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                        <EmailMessageObj:Header/>
+                        <EmailMessageObj:Attachments>
+                            <EmailMessageObj:File object_reference="example:File-eae25b5f-fe64-48f9-af8a-7e067b2b3cd2"/>
+                        </EmailMessageObj:Attachments>
+                    </cybox:Properties>
+                    <cybox:Related_Objects>
+                        <cybox:Related_Object id="example:File-eae25b5f-fe64-48f9-af8a-7e067b2b3cd2">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:File_Name pattern_type="Regex" condition="FitsPattern">^Final Report.+.exe$</FileObj:File_Name>
+                            </cybox:Properties>
+                            <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                        </cybox:Related_Object>
+                    </cybox:Related_Objects>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

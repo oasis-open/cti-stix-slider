@@ -1,0 +1,67 @@
+<stix:STIX_Package
+	xmlns:PortObj="http://cybox.mitre.org/objects#PortObject-2"
+	xmlns:HTTPSessionObj="http://cybox.mitre.org/objects#HTTPSessionObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:example="http://example.com"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:URIObj="http://cybox.mitre.org/objects#URIObject-2"
+	 id="example:STIXPackage-85a2d617-f0f1-4a3d-92ef-bca1bc3e6af1" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-1b32437f-85a6-4c25-94a2-b0420cb6df66" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-74836d09-08ca-4f26-ad52-0c9256e563c2">
+                <cybox:Object id="example:NetworkConnection-2c3e0837-01db-4c65-8a84-cd6fef8eea8c">
+                    <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                        <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                            <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                <AddressObj:Address_Value condition="Equals">198.51.100.53</AddressObj:Address_Value>
+                            </SocketAddressObj:IP_Address>
+                            <SocketAddressObj:Port xsi:type="PortObj:PortObjectType">
+                                <PortObj:Port_Value condition="Equals">25</PortObj:Port_Value>
+                            </SocketAddressObj:Port>
+                        </NetworkConnectionObj:Destination_Socket_Address>
+                        <NetworkConnectionObj:Layer7_Connections>
+                            <NetworkConnectionObj:HTTP_Session xsi:type="HTTPSessionObj:HTTPSessionObjectType">
+                                <HTTPSessionObj:HTTP_Request_Response>
+                                    <HTTPSessionObj:HTTP_Client_Request>
+                                        <HTTPSessionObj:HTTP_Request_Line>
+                                            <HTTPSessionObj:HTTP_Method condition="Equals">get</HTTPSessionObj:HTTP_Method>
+                                        </HTTPSessionObj:HTTP_Request_Line>
+                                        <HTTPSessionObj:HTTP_Request_Header>
+                                            <HTTPSessionObj:Parsed_Header>
+                                                <HTTPSessionObj:Accept_Encoding condition="Equals">gzip,deflate</HTTPSessionObj:Accept_Encoding>
+                                                <HTTPSessionObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                                    <AddressObj:Address_Value condition="Equals">bob@example.com</AddressObj:Address_Value>
+                                                </HTTPSessionObj:From>
+                                                <HTTPSessionObj:Host>
+                                                    <HTTPSessionObj:Domain_Name xsi:type="URIObj:URIObjectType" type="Domain Name">
+                                                        <URIObj:Value condition="Equals">www.example.com</URIObj:Value>
+                                                    </HTTPSessionObj:Domain_Name>
+                                                </HTTPSessionObj:Host>
+                                            </HTTPSessionObj:Parsed_Header>
+                                        </HTTPSessionObj:HTTP_Request_Header>
+                                    </HTTPSessionObj:HTTP_Client_Request>
+                                </HTTPSessionObj:HTTP_Request_Response>
+                            </NetworkConnectionObj:HTTP_Session>
+                        </NetworkConnectionObj:Layer7_Connections>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

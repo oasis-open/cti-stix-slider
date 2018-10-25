@@ -1,0 +1,58 @@
+<stix:STIX_Package
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:example="http://example.com"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:ta="http://stix.mitre.org/ThreatActor-1"
+    xmlns:xnl="urn:oasis:names:tc:ciq:xnl:3"
+	xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3"
+	xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 id="example:STIXPackage-c9567f73-3803-415c-b06e-2b0622830e5d" version="1.2">
+    <stix:Threat_Actors>
+        <stix:Threat_Actor id="example:threat-actor-dfaa8d77-07e2-4e28-b2c8-92e9f7b04428" timestamp="2014-11-19T23:39:03.893000+00:00" xsi:type='ta:ThreatActorType'>
+            <ta:Title>Disco Team Threat Actor Group</ta:Title>
+            <ta:Identity id="example:identity-733c5838-34d9-4fbf-949c-62aba761184c" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
+                <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
+  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xpil:FreeTextLine>identity_class: organization</xpil:FreeTextLine>
+  </xpil:FreeTextLines>
+  <xpil:PartyName xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xnl:OrganisationName xmlns:xnl="urn:oasis:names:tc:ciq:xnl:3">
+      <xnl:NameElement>Disco Tean</xnl:NameElement>
+    </xnl:OrganisationName>
+  </xpil:PartyName>
+</stix-ciqidentity:Specification>
+            </ta:Identity>
+            <ta:Type timestamp="2017-10-25T19:45:43.005288+00:00">
+                <stixCommon:Value>unknown</stixCommon:Value>
+            </ta:Type>
+            <ta:Sophistication timestamp="2017-10-25T19:45:43.005346+00:00">
+                <stixCommon:Value>unknown</stixCommon:Value>
+            </ta:Sophistication>
+            <ta:Observed_TTPs>
+                <ta:Observed_TTP>
+                    <stixCommon:TTP id="example:ttp-08c7a919-aa7e-40df-a5ce-e1302d5f43d8" timestamp="2017-10-25T19:45:43.005533+00:00" xsi:type='ttp:TTPType'>
+                        <ttp:Victim_Targeting>
+                            <ttp:Identity id="example:identity-89e7c57d-0664-4ab4-8866-3f7d92eb26fd" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
+                                <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
+  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xpil:FreeTextLine>identity_class: organization</xpil:FreeTextLine>
+  </xpil:FreeTextLines>
+  <xpil:PartyName xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xnl:OrganisationName xmlns:xnl="urn:oasis:names:tc:ciq:xnl:3">
+      <xnl:NameElement>US Gov</xnl:NameElement>
+    </xnl:OrganisationName>
+  </xpil:PartyName>
+</stix-ciqidentity:Specification>
+                            </ttp:Identity>
+                        </ttp:Victim_Targeting>
+                    </stixCommon:TTP>
+                </ta:Observed_TTP>
+            </ta:Observed_TTPs>
+        </stix:Threat_Actor>
+    </stix:Threat_Actors>
+</stix:STIX_Package>

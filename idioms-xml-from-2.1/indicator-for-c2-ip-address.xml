@@ -1,0 +1,35 @@
+<stix:STIX_Package
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:example="http://example.com"
+	 id="example:STIXPackage-63fe3b22-0201-47cf-85d0-97c02164528d" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-53fe3b22-0201-47cf-85d0-97c02164528d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-9f9e8592-1a3a-42f0-8e16-56c062671a5c">
+                <cybox:Object id="example:Address-3923ec77-e675-4db7-b2bb-8c42717b2b3a">
+                    <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                        <AddressObj:Address_Value condition="Equals">10.0.0.0</AddressObj:Address_Value>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+            <indicator:Indicated_TTP>
+                <stixCommon:TTP idref="example:ttp-73fe3b22-0201-47cf-85d0-97c02164528d" xsi:type='ttp:TTPType'/>
+            </indicator:Indicated_TTP>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>
