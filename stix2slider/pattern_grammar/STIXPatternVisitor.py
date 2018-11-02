@@ -37,6 +37,11 @@ class STIXPatternVisitorForSlider(ParseTreeVisitor):
         children = self.visitChildren(ctx)
         return children[0]
 
+    def visit(self, tree):
+        if hasattr(self, "visitPattern"):
+            return self.visitPattern(tree)
+        else:
+            return self.visitChildren(tree)
 
     # Visit a parse tree produced by STIXPatternParser#observationExpressions.
     def visitObservationExpressions(self, ctx):
@@ -295,8 +300,5 @@ class STIXPatternVisitorForSlider(ParseTreeVisitor):
         if aggregate:
             aggregate.append(nextResult)
         elif nextResult:
-            if isinstance(nextResult, list):
-                return nextResult
-            else:
-                aggregate = [nextResult]
+            aggregate = [nextResult]
         return aggregate

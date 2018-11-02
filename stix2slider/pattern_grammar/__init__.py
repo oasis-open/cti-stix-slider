@@ -13,6 +13,15 @@ from stix2patterns.validator import STIXPatternErrorListener
 from .STIXPatternVisitor import STIXPatternVisitorForSlider
 
 
+class SliderPatternContext(STIXPatternParser.PatternContext):
+
+    def accept(self, visitor):
+        if hasattr(visitor, "visitPattern"):
+            return visitor.visitPattern(self)
+        else:
+            return visitor.visitChildren(self)
+
+
 def create_pattern_object(pattern):
     '''
     Validates a pattern against the STIX Pattern grammar.  Error messages are
