@@ -16,7 +16,7 @@ from stix2slider.convert_pattern import (AndBooleanExpressionForSlider,
                                          OrObservationExpressionForSlider,
                                          ParentheticalExpressionForSlider,
                                          QualifiedObservationExpressionForSlider)
-from stix2slider.pattern_grammar.STIXPatternParser import *
+from stix2patterns.grammars.STIXPatternParser import *
 
 
 def collapse_lists(lists):
@@ -30,7 +30,7 @@ def collapse_lists(lists):
 
 # This class defines a complete generic visitor for a parse tree produced by STIXPatternParser.
 
-class STIXPatternVisitor(ParseTreeVisitor):
+class STIXPatternVisitorForSlider(ParseTreeVisitor):
 
     # Visit a parse tree produced by STIXPatternParser#pattern.
     def visitPattern(self, ctx):
@@ -273,9 +273,9 @@ class STIXPatternVisitor(ParseTreeVisitor):
 
 
     def visitTerminal(self, node):
-        if node.symbol.type == STIXPatternParser.IntLiteral:
+        if node.symbol.type == STIXPatternParser.IntPosLiteral or node.symbol.type == STIXPatternParser.IntNegLiteral:
             return stix2.IntegerConstant(node.getText())
-        elif node.symbol.type == STIXPatternParser.FloatLiteral:
+        elif node.symbol.type == STIXPatternParser.FloatPosLiteral or node.symbol.type == STIXPatternParser.FloatNegLiteral:
             return stix2.FloatConstant(node.getText())
         elif node.symbol.type == STIXPatternParser.HexLiteral:
             return stix2.HexConstant(node.getText())
@@ -295,5 +295,8 @@ class STIXPatternVisitor(ParseTreeVisitor):
         if aggregate:
             aggregate.append(nextResult)
         elif nextResult:
-            aggregate = [nextResult]
+            if isinstance(nextResult, list):
+                return nextResult
+            else:
+                aggregate = [nextResult]
         return aggregate

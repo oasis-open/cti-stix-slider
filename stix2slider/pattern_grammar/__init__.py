@@ -6,25 +6,11 @@ from __future__ import print_function
 
 import six
 
-from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
-from antlr4.error.ErrorListener import ErrorListener
-from stix2slider.pattern_grammar.STIXPatternLexer import STIXPatternLexer
-from stix2slider.pattern_grammar.STIXPatternParser import STIXPatternParser
-from stix2slider.pattern_grammar.STIXPatternVisitor import STIXPatternVisitor
-
-
-class STIXPatternErrorListener(ErrorListener):
-    '''
-    Modifies ErrorListener to collect error message and set flag to False when
-    invalid pattern is encountered.
-    '''
-    def __init__(self):
-        super(STIXPatternErrorListener, self).__init__()
-        self.err_strings = []
-
-    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        self.err_strings.append("FAIL: Error found at line %d:%d. %s" %
-                                (line, column, msg))
+from antlr4 import CommonTokenStream, InputStream
+from stix2patterns.grammars.STIXPatternLexer import STIXPatternLexer
+from stix2patterns.grammars.STIXPatternParser import STIXPatternParser
+from stix2patterns.validator import STIXPatternErrorListener
+from .STIXPatternVisitor import STIXPatternVisitorForSlider
 
 
 def create_pattern_object(pattern):
@@ -64,5 +50,5 @@ def create_pattern_object(pattern):
             parser.literalNames[i] = parser.symbolicNames[i]
 
     tree = parser.pattern()
-    builder = STIXPatternVisitor()
+    builder = STIXPatternVisitorForSlider()
     return builder.visit(tree)
