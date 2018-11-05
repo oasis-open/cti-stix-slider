@@ -17,6 +17,7 @@ from stix2slider.convert_pattern import (AndBooleanExpressionForSlider,
                                          ParentheticalExpressionForSlider,
                                          QualifiedObservationExpressionForSlider)
 from stix2patterns.grammars.STIXPatternParser import *
+from stix2patterns.grammars.STIXPatternVisitor import STIXPatternVisitor
 
 
 def collapse_lists(lists):
@@ -30,18 +31,13 @@ def collapse_lists(lists):
 
 # This class defines a complete generic visitor for a parse tree produced by STIXPatternParser.
 
-class STIXPatternVisitorForSlider(ParseTreeVisitor):
+class STIXPatternVisitorForSlider(STIXPatternVisitor):
 
     # Visit a parse tree produced by STIXPatternParser#pattern.
     def visitPattern(self, ctx):
         children = self.visitChildren(ctx)
         return children[0]
 
-    def visit(self, tree):
-        if hasattr(self, "visitPattern"):
-            return self.visitPattern(tree)
-        else:
-            return self.visitChildren(tree)
 
     # Visit a parse tree produced by STIXPatternParser#observationExpressions.
     def visitObservationExpressions(self, ctx):
@@ -50,7 +46,6 @@ class STIXPatternVisitorForSlider(ParseTreeVisitor):
             return children[0]
         else:
             return stix2.FollowedByObservationExpression([children[0], children[2]])
-
 
 
     # Visit a parse tree produced by STIXPatternParser#observationExpressionOr.
