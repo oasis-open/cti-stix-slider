@@ -4,22 +4,28 @@ Validates a user entered pattern against STIXPattern grammar.
 
 from __future__ import print_function
 
+
 import six
 
-from antlr4 import CommonTokenStream, InputStream
+from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
+from antlr4.error.ErrorListener import ErrorListener
 from stix2patterns.grammars.STIXPatternLexer import STIXPatternLexer
 from stix2patterns.grammars.STIXPatternParser import STIXPatternParser
-from stix2patterns.validator import STIXPatternErrorListener
 from .STIXPatternVisitor import STIXPatternVisitorForSlider
 
 
-class SliderPatternContext(STIXPatternParser.PatternContext):
+class STIXPatternErrorListener(ErrorListener):
+    '''
+    Modifies ErrorListener to collect error message and set flag to False when
+    invalid pattern is encountered.
+    '''
+    def __init__(self):
+        super(STIXPatternErrorListener, self).__init__()
+        self.err_strings = []
 
-    def accept(self, visitor):
-        if hasattr(visitor, "visitPattern"):
-            return visitor.visitPattern(self)
-        else:
-            return visitor.visitChildren(self)
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        self.err_strings.append("FAIL: Error found at line %d:%d. %s" %
+                                (line, column, msg))
 
 
 def create_pattern_object(pattern):
