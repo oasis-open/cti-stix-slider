@@ -1,6 +1,5 @@
 # Generated from STIXPattern.g4 by ANTLR 4.7
 import stix2
-from antlr4 import *
 from stix2slider.convert_pattern import (AndBooleanExpressionForSlider,
                                          AndObservationExpressionForSlider,
                                          EqualityComparisonExpressionForSlider,
