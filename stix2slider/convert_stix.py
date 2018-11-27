@@ -5,7 +5,7 @@ from cybox.core import Observable
 from six import text_type
 from stix2slider.convert_cyber_observables import convert_cyber_observables
 from stix2slider.options import debug, error, get_option_value, warn, VERSION_OF_STIX_2x
-from stix2slider.pattern_grammar import create_pattern_object
+from stix2.STIXPatternVisitor import create_pattern_object
 from stix2slider.utils import set_default_namespace
 from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         INDICATOR_LABEL_MAP,
@@ -593,7 +593,7 @@ def convert_indicator(indicator2x):
     indicator1x.add_valid_time_position(
         convert_to_valid_time(text_type(indicator2x["valid_from"]),
                               text_type(indicator2x["valid_until"]) if "valid_until" in indicator2x else None))
-    indicator1x.add_observable(create_pattern_object(indicator2x["pattern"]).toSTIX1x(indicator2x["id"]))
+    indicator1x.add_observable(create_pattern_object(indicator2x["pattern"],"Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
     if "kill_chain_phases" in indicator2x:
         process_kill_chain_phases(indicator2x["kill_chain_phases"], indicator1x)
     if "object_marking_refs" in indicator2x:

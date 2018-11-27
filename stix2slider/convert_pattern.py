@@ -125,6 +125,16 @@ class ObjectPathForSlider(ObjectPath):
             else:
                 return set([self.object_type_name])
 
+    @staticmethod
+    def make_object_path(lhs):
+        """Create ObjectPath from string encoded object path
+
+        Args:
+            lhs (str): object path of left-hand-side component of expression
+        """
+        path_as_parts = lhs.split(":")
+        return ObjectPathForSlider(path_as_parts[0], path_as_parts[1].split("."))
+
 
 class ComparisonExpressionForSlider(_ComparisonExpression):
     def toSTIX1x(self, id20, existing_obj=None):
