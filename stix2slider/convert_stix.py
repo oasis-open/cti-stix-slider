@@ -616,7 +616,7 @@ def convert_malware(malware2x):
     if VERSION_OF_STIX_2x == "2.0":
         types = convert_open_vocabs_to_controlled_vocabs(malware2x["labels"], MALWARE_LABELS_MAP)
     else:
-        types = convert_open_vocabs_to_controlled_vocabs(malware2x["malware_type"], MALWARE_LABELS_MAP)
+        types = convert_open_vocabs_to_controlled_vocabs(malware2x["malware_types"], MALWARE_LABELS_MAP)
         if "labels" in malware2x:
             add_missing_list_property_to_description(malware2x, "labels", malware2x["labels"])
     for t in types:
@@ -847,19 +847,19 @@ def enhance_identity(identity_object):
     return ciq_object
 
 
-def add_location_to_information_source(source_1x_obj, target_obj):
+def add_location_to_identity(source_1x_obj, target_obj):
     if isinstance(source_1x_obj, ThreatActor):
-        if source_1x_obj.information_source == None:
-            source_1x_obj.information_source = InformationSource()
-        source_1x_obj.information_source
-    elif isinstance(source_1x_obj, Identity):
+        # add an identity to the threat actor, if necessary
+        if source_1x_obj.identity == None:
+            source_1x_obj.identity = CIQIdentity3_0Instance()
+        source_1x_obj = source_1x_obj.identity
+    if isinstance(source_1x_obj, Identity):
         if not isinstance(source_1x_obj, CIQIdentity3_0Instance):
             source_1x_obj = enhance_identity(source_1x_obj)
         record_id_object_mapping(source_1x_obj.id_, source_1x_obj, used=False, overwrite=True)
         source_1x_obj.specification.add_address(create_address_object_from_location(target_obj))
     else:
         warn("Relationship between %s and location is not supported in STIX 1.x", 0, source_1x_obj.id_)
-
 
 
 def process_location_reference(rel):
@@ -874,9 +874,9 @@ def process_location_reference(rel):
         else:
             warn("No %s object exists for %s in relationship %s", 0, "target_ref", rel["target_ref"], rel["id"])
             return
-        add_location_to_information_source(source_1x_obj, target_obj)
+        add_location_to_identity(source_1x_obj, target_obj)
     else:
-        warn("Cannot convert %s because it doesn't contain both a source_ref and a target_ref", 0, rel["id"])
+        warn("Cannot convert %s because it doesn't contain both a source_ref and a target_ref", 314, rel["id"])
 
 
 def process_relationships(rel):

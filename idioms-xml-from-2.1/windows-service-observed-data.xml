@@ -16,9 +16,7 @@
             <cybox:Object id="example:WinService-186c3b1e-9c91-4fc1-961d-2cd786ef2d6e">
                 <cybox:Properties xsi:type="WinServiceObj:WindowsServiceObjectType">
                     <ProcessObj:PID>2217</ProcessObj:PID>
-                    <ProcessObj:Name>sirvizio</ProcessObj:Name>
                     <ProcessObj:Image_Info>
-                        <ProcessObj:File_Name>sirvizio.exe</ProcessObj:File_Name>
                         <ProcessObj:Command_Line>C:\Windows\System32\sirvizio.exe /s</ProcessObj:Command_Line>
                     </ProcessObj:Image_Info>
                     <WinServiceObj:Description_List>

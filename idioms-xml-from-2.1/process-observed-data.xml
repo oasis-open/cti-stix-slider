@@ -14,11 +14,7 @@
             <cybox:Object id="example:Process-268e8e06-1dd9-484a-a756-40a99d883ab0">
                 <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
                     <ProcessObj:PID>1221</ProcessObj:PID>
-                    <ProcessObj:Name>gedit-bin</ProcessObj:Name>
                     <ProcessObj:Creation_Time>2016-01-20T14:11:25.550000+00:00</ProcessObj:Creation_Time>
-                    <ProcessObj:Argument_List>
-                        <ProcessObj:Argument>--new-window</ProcessObj:Argument>
-                    </ProcessObj:Argument_List>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

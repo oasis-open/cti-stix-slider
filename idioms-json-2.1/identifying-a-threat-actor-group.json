@@ -22,7 +22,7 @@
         {
             "created": "2014-11-19T23:39:03.893Z",
             "id": "threat-actor--dfaa8d77-07e2-4e28-b2c8-92e9f7b04428",
-            "indicator_types": [
+            "threat_actor_types": [
                 "unknown"
             ],
             "modified": "2014-11-19T23:39:03.893Z",

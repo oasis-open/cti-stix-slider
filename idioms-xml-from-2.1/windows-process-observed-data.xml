@@ -15,7 +15,6 @@
             <cybox:Object id="example:WinProcess-7e5f1148-bcc4-4eba-bca6-4a333b59ac69">
                 <cybox:Properties xsi:type="WinProcessObj:WindowsProcessObjectType" aslr_enabled="true" dep_enabled="true">
                     <ProcessObj:PID>314</ProcessObj:PID>
-                    <ProcessObj:Name>foobar.exe</ProcessObj:Name>
                     <WinProcessObj:Priority>HIGH_PRIORITY_CLASS</WinProcessObj:Priority>
                     <WinProcessObj:Security_ID>S-1-5-21-186985262-1144665072-74031268-1309</WinProcessObj:Security_ID>
                 </cybox:Properties>

@@ -31,7 +31,6 @@
                             <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
                         </cyboxCommon:Hash>
                     </FileObj:Hashes>
-                    <ArchiveFileObj:Version>5.0</ArchiveFileObj:Version>
                     <ArchiveFileObj:Archived_File xsi:type="FileObj:FileObjectType">
                         <FileObj:Hashes>
                             <cyboxCommon:Hash>

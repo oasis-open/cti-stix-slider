@@ -31,7 +31,6 @@
                     <cybox:Related_Object id="example:NetworkSocket-95a31b29-b898-4bd9-807f-8614eb5c7eb9">
                         <cybox:Properties xsi:type="NetworkSocketObj:NetworkSocketObjectType" is_listening="true">
                             <NetworkSocketObj:Address_Family>AF_INET</NetworkSocketObj:Address_Family>
-                            <NetworkSocketObj:Domain>PF_INET</NetworkSocketObj:Domain>
                             <NetworkSocketObj:Options>
                                 <NetworkSocketObj:SO_LINGER>5</NetworkSocketObj:SO_LINGER>
                             </NetworkSocketObj:Options>

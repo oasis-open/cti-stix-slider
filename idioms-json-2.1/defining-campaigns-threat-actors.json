@@ -31,7 +31,7 @@
                 "Influence the election in Branistan"
             ],
             "id": "threat-actor--56f3f0db-b5d5-431c-ae56-c18f02caf500",
-            "indicator_types": [
+            "threat_actor_types": [
                 "nation-state"
             ],
             "modified": "2016-08-08T15:50:10.983Z",

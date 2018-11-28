@@ -34,6 +34,7 @@ No object *[id]* is found to add the reference to                               
 ``is_encrypted`` in *[id]* is true, but no ``decryption_key`` is given                                         311     Info
 ``is_encrypted`` in *[id]* is false, but ``decryption_key`` is given                                           312     Info
 The *[property1]* property in *[id]* should be '*[boolean]*' if the *[property2]* property is [not] present    313     Warn
+Cannot convert *[id]* because it doesn't contain both a source_ref and a target_ref                            314     Warn
 ============================================================================================================== ====    =====
 
 Multiple values are not supported in STIX 1.x
