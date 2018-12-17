@@ -373,7 +373,7 @@ def add_scalar_artifact_property_pattern(obj, properties, rhs, op, id20):
     # it is illegal in STIX 2.0 to have both a payload_bin and url property - be we don't warn about it here
     elif prop_name == "payload_bin":
         obj.packed_data = rhs.value
-        warn("Operator for Artifact.Raw_Artifact in %s not handled yet", 610, id20)
+        warn("Operator %s for Artifact.Raw_Artifact in %s not handled yet", 610, op, id20)
     elif prop_name == "url":
         obj.raw_artifact_reference = rhs.value
     # art1x.packaging.encoding.algorithm = "Base64"

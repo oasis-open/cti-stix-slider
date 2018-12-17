@@ -502,8 +502,8 @@ def convert_email_message_c_o(em20, em1x, obs20_id):
                  obs20_id)
         em1x.raw_body = em20["body"]
     else:
-        if em20["is_multipart"]:
-            warn("The is_multipart property in %s should be 'true' if the body property is not present",
+        if "body_multipart" in em20 and "is_multipart" in em20 and not em20["is_multipart"]:
+            warn("The is_multipart property in %s should not be 'false' if the body_multipart property is present",
                  313,
                  obs20_id)
     if "body_multipart" in em20:
