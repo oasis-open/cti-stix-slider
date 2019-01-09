@@ -5,6 +5,7 @@ from cybox.common.hashes import Hash, HashList
 from cybox.common.vocabs import VocabString
 from cybox.core import Observable
 from cybox.core.observable import ObservableComposition
+from cybox.objects.account_object import Authentication
 from cybox.objects.address_object import Address
 from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact
@@ -78,7 +79,7 @@ from stix2slider.convert_cyber_observables import (add_host, convert_addr_c_o,
                                                    convert_artifact_c_o,
                                                    convert_domain_name_c_o,
                                                    convert_file_c_o)
-from stix2slider.options import info, warn
+from stix2slider.options import VERSION_OF_STIX_2x, info, warn
 
 _CYBOX_OBJECT_MAP = {
     "artifact": Artifact,
@@ -955,7 +956,8 @@ def add_scalar_process_property_pattern(process_obj, properties, rhs, op, id20):
             warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, prop_name1,
                  "Account",
                  id20)
-    elif prop_name0 == "binary_ref":
+    elif ((prop_name0 == "binary_ref" and VERSION_OF_STIX_2x == "2.0") or
+          (prop_name0 == "image_ref" and VERSION_OF_STIX_2x == "2.1")):
         # TODO: what if there are mutiple references to the same object?
         prop_name1 = properties[1].property_name
         if prop_name1 == "extensions" or prop_name1.find("_ref") > 0:
@@ -1139,6 +1141,10 @@ def convert_user_account_pattern(exp20, obj1x, id20):
     elif prop_name == "account-created":
         obj1x.created_time = rhs_value
         convert_operator(op, obj1x.created_time, id20)
+    elif prop_name == "credential" and VERSION_OF_STIX_2x == "2.1":
+        obj1x.authentication.append(Authentication())
+        obj1x.authentication[0].authentication_data = rhs_value
+        convert_operator(op, obj1x.authentication, id20)
     # TODO: account_expires
     # TODO: password_last_changed
     # TODO: account_first_login

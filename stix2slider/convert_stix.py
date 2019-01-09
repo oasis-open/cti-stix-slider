@@ -3,9 +3,10 @@ import uuid
 import stixmarx
 from cybox.core import Observable
 from six import text_type
-from stix2slider.convert_cyber_observables import convert_cyber_observables
-from stix2slider.options import debug, error, get_option_value, warn, VERSION_OF_STIX_2x
 from stix2.pattern_visitor import create_pattern_object
+from stix2slider.convert_cyber_observables import convert_cyber_observables
+from stix2slider.options import (VERSION_OF_STIX_2x, debug, error,
+                                 get_option_value, warn)
 from stix2slider.utils import set_default_namespace
 from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         INDICATOR_LABEL_MAP,
@@ -27,11 +28,10 @@ from stix.core import STIXHeader
 from stix.data_marking import Marking, MarkingSpecification, MarkingStructure
 from stix.exploit_target import ExploitTarget
 from stix.exploit_target.vulnerability import Vulnerability
-from stix.extensions.identity.ciq_identity_3_0 import (CIQIdentity3_0Instance,
+from stix.extensions.identity.ciq_identity_3_0 import (Address,
+                                                       CIQIdentity3_0Instance,
                                                        OrganisationInfo,
-                                                       Address,
                                                        PartyName,
-                                                       AdministrativeArea,
                                                        STIXCIQIdentity3_0)
 from stix.extensions.marking.ais import (AISConsentType, AISMarkingStructure,
                                          IsProprietary, NotProprietary,
@@ -426,7 +426,7 @@ def convert_attack_pattern(ap2x):
     if "description" in ap2x:
         ap1x.add_description(ap2x["description"])
     if "labels" in ap2x:
-        add_missing_list_property_to_description(ap1x, "labels", ap2x["labels"] )
+        add_missing_list_property_to_description(ap1x, "labels", ap2x["labels"])
     if "external_references" in ap2x:
         ap1x.capec_id = extract_external_id("capec", ap2x["external_references"])
     ttp = TTP(id_=convert_id2x(ap2x["id"]),
@@ -593,7 +593,7 @@ def convert_indicator(indicator2x):
     indicator1x.add_valid_time_position(
         convert_to_valid_time(text_type(indicator2x["valid_from"]),
                               text_type(indicator2x["valid_until"]) if "valid_until" in indicator2x else None))
-    indicator1x.add_observable(create_pattern_object(indicator2x["pattern"],"Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
+    indicator1x.add_observable(create_pattern_object(indicator2x["pattern"], "Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
     if "kill_chain_phases" in indicator2x:
         process_kill_chain_phases(indicator2x["kill_chain_phases"], indicator1x)
     if "object_marking_refs" in indicator2x:
@@ -850,7 +850,7 @@ def enhance_identity(identity_object):
 def add_location_to_identity(source_1x_obj, target_obj):
     if isinstance(source_1x_obj, ThreatActor):
         # add an identity to the threat actor, if necessary
-        if source_1x_obj.identity == None:
+        if source_1x_obj.identity is None:
             source_1x_obj.identity = CIQIdentity3_0Instance()
         source_1x_obj = source_1x_obj.identity
     if isinstance(source_1x_obj, Identity):
@@ -870,7 +870,7 @@ def process_location_reference(rel):
             warn("No %s object exists for %s in relationship %s", 0, "source_ref", rel["source_ref"], rel["id"])
             return
         if rel["target_ref"] in _LOCATIONS:
-            target_obj = _LOCATIONS[rel["target_ref"]] # 2.x object
+            target_obj = _LOCATIONS[rel["target_ref"]]  # 2.x object
         else:
             warn("No %s object exists for %s in relationship %s", 0, "target_ref", rel["target_ref"], rel["id"])
             return
