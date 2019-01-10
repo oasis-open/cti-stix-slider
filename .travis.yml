@@ -19,6 +19,5 @@ install:
 script:
   - tox
   - pre-commit run --all-files
-  - python setup.py check -r -s
 after_success:
   - codecov
