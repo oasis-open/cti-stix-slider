@@ -75,9 +75,11 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
-                                X509_V3_EXTENSIONS_TYPE_MAP, convert_pe_type,
+                                X509_V3_EXTENSIONS_TYPE_MAP,
+                                convert_pe_type,
                                 determine_2x_address_type,
-                                is_domain_name_address, is_windows_directory)
+                                is_domain_name_address,
+                                is_windows_directory)
 from stix2slider.convert_cyber_observables import (add_host, convert_addr_c_o,
                                                    convert_artifact_c_o,
                                                    convert_domain_name_c_o,

@@ -346,7 +346,7 @@ def convert_pe_type(pe_type20, obs20_id):
         return "Invalid"
 
 
-def determine_20_address_type(address):
+def determine_2x_address_type(address):
     if "." in address:
         return "ipv4-addr"
     elif ":" in address:
