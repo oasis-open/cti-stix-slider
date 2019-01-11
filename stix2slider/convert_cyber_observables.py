@@ -7,7 +7,7 @@ from cybox.common.structured_text import StructuredText
 from cybox.common.vocabs import VocabString
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
-from cybox.objects.artifact_object import Artifact, Packaging, Encoding
+from cybox.objects.artifact_object import Artifact, Encoding
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
 from cybox.objects.email_message_object import (Attachments, EmailHeader,
@@ -68,10 +68,9 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
                                 PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP_2_0,
                                 PROCESS_MAP_2_1, REGISTRY_KEY_MAP,
-                                REGISTRY_VALUE_MAP,
-                                SOCKET_MAP_2_0, SOCKET_MAP_2_1,
-                                SOCKET_OPTIONS_MAP, STARTUP_INFO_MAP,
-                                USER_ACCOUNT_MAP,
+                                REGISTRY_VALUE_MAP, SOCKET_MAP_2_0,
+                                SOCKET_MAP_2_1, SOCKET_OPTIONS_MAP,
+                                STARTUP_INFO_MAP, USER_ACCOUNT_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
