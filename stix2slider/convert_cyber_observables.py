@@ -66,12 +66,11 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 OTHER_EMAIL_HEADERS_MAP,
                                 PDF_DOCUMENT_INFORMATION_DICT_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
-                                PE_BINARY_OPTIONAL_HEADER_MAP,
-                                PROCESS_MAP_2_0,
-                                PROCESS_MAP_2_1,
-                                REGISTRY_KEY_MAP, REGISTRY_VALUE_MAP,
-                                SOCKET_MAP, SOCKET_OPTIONS_MAP,
-                                STARTUP_INFO_MAP, USER_ACCOUNT_MAP,
+                                PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP_2_0,
+                                PROCESS_MAP_2_1, REGISTRY_KEY_MAP,
+                                REGISTRY_VALUE_MAP, SOCKET_MAP,
+                                SOCKET_OPTIONS_MAP, STARTUP_INFO_MAP,
+                                USER_ACCOUNT_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
@@ -630,7 +629,7 @@ def convert_process_c_o(process2x, process1x, obs2x_id):
         else:
             warn("%s is not an index found in %s", 306, process2x["creator_user_ref"], obs2x_id)
     if ("binary_ref" in process2x and get_option_value("version_of_stix2x") == "2.0" or
-        "image_ref" in process2x and get_option_value("version_of_stix2x") == "2.1"):
+            "image_ref" in process2x and get_option_value("version_of_stix2x") == "2.1"):
         if "binary_ref" in process2x:
             ref = "binary_ref"
         elif "image_ref" in process2x:

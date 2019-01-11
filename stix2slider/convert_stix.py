@@ -5,8 +5,8 @@ from cybox.core import Observable
 from six import text_type
 from stix2.pattern_visitor import create_pattern_object
 from stix2slider.convert_cyber_observables import convert_cyber_observables
-from stix2slider.options import (debug, error, set_option_value,
-                                 get_option_value, warn)
+from stix2slider.options import (debug, error, get_option_value,
+                                 set_option_value, warn)
 from stix2slider.utils import set_default_namespace
 from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         INDICATOR_LABEL_MAP,
