@@ -555,7 +555,7 @@ def add_scalar_file_property_pattern(file_obj, properties, rhs, op, id2x):
             file_obj.full_path = rhs.value + ("\\\\" if is_windows_directory(directory_string) else "/") + str(file_obj.file_name)
             convert_operator(op, file_obj.full_path, id2x)
         else:
-            warn("The path property in %s is the only directory property supportable in STIX 1.x. %s is ignored", 0, id2x, properties[1].property_name)
+            warn("The path property in %s is the only directory property supportable in STIX 1.x. %s is ignored", 521, id2x, properties[1].property_name)
     elif prop_name == 'content_ref':
         # TODO: what if there are mutiple references to the same object?
         obs = Artifact()

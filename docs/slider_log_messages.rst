@@ -35,6 +35,8 @@ No object *[id]* is found to add the reference to                               
 ``is_encrypted`` in *[id]* is false, but ``decryption_key`` is given                                           312     Info
 The *[property1]* property in *[id]* should be '*[boolean]*' if the *[property2]* property is [not] present    313     Warn
 Cannot convert *[id]* because it doesn't contain both a source_ref and a target_ref                            314     Warn
+No *[ref_property]* object exists for *[id]* in relationship *[rel-id]*                                        315     Warn
+ref type *[type]* in *[id]* is not known                                                                       316     Warn
 ============================================================================================================== ====    =====
 
 Multiple values are not supported in STIX 1.x
@@ -43,7 +45,7 @@ Multiple values are not supported in STIX 1.x
 ======================================================================================================================== ====    =====
 Message                                                                                                                  Code    Level
 ======================================================================================================================== ====    =====
-*[type]* in STIX 2.0 has multiple *[property]*, only one is allowed in STIX 1.x. Using first in list - *[value]* omitted  401     Warn
+*[type]* in STIX 2.x has multiple *[property]*, only one is allowed in STIX 1.x. Using first in list - *[value]* omitted  401     Warn
 Only one dll can be represented in STIX 1.x for *[id]*, using first one - ignoring *[value]*                              402     Warn
 ======================================================================================================================== ====    =====
 
@@ -58,13 +60,13 @@ Multiple File Extensions in *[id]* not supported yet                            
 *[property]* not representable in a STIX 1.x *[type]*.  Found in *[id]*                                                      503     Warn
 *[property]* not representable in a STIX 1.x *[type]*.  Found in the pattern of *[id]*                                       504     Warn
 *[op]* cannot be converted to a STIX 1.x operator in the pattern of *[id]*                                                   505     Warn
-``account_type`` property of *[id]* in STIX 2.0 is not directly represented as a property in STIX 1.x                        506     Warn
+``account_type`` property of *[id]* in STIX 2.x is not directly represented as a property in STIX 1.x                        506     Warn
 Received Line *[line]* in *[id]* has a prefix that is not representable in STIX 1.x                                          507     Warn
-Unable to convert STIX 2.0 sighting *[id]* because it doesn't refer to an indicator                                          508     Warn
+Unable to convert STIX 2.x sighting *[id]* because it doesn't refer to an indicator                                          508     Warn
 ``NO MESSAGE ASSIGNED``                                                                                                      509
 Identity has no property to store ``external-references`` from *[id]*                                                        510     Warn
-pe_type SYS in *[id]* is valid in STIX 2.0, but not in STIX 1.x                                                              511     Warn
-pe_type [pe_type] in *[id]* is allowed in STIX 2.0, but not in STIX 1.x                                                      512     Warn
+pe_type SYS in *[id]* is valid in STIX 2.x, but not in STIX 1.x                                                              511     Warn
+pe_type [pe_type] in *[id]* is allowed in STIX 2.x, but not in STIX 1.x                                                      512     Warn
 *[property]* is an XML attribute of *[cybox object type]* in STIX 1.x, so the operator 'equals' is assumed in *[id]*         513     Warn
 Order may not be maintained for ``pdfids`` in *[id]*                                                                         514     Warn
 The ``groups`` property of ``unix-account-ext`` contains strings, but the STIX 1.x property expects integers in *[property]* 515     Warn
@@ -72,13 +74,15 @@ No file name provided for ``binary_ref`` of *[id]*, therefore it cannot be repre
 Hashes of the ``binary_ref`` of *[id]* process cannot be represented in the STIX 1.x ``Process`` object                      517     Warn
 resolves_to_refs in *[id]* not representable in STIX 1.x                                                                     518     Warn
 Multiple Network Traffic extensions in *[id]* not supported yet                                                              519     Warn
-The user_id property of *[id]* in STIX 2.0 is only represented as a property in STIX 1.x on ``UnixUserAccount`` objects      520     Warn
+The user_id property of *[id]* in STIX 2.x is only represented as a property in STIX 1.x on ``UnixUserAccount`` objects      520     Warn
 The ``path`` property in *[id]* is the only directory property supportable in STIX 1.x. *[property]* is ignored              521     Warn
 Nested Archive Files in *[id]* not handled yet                                                                               522     Warn
 STIX 1.x can only store the body and headers of an email message in *[id]* independently                                     523     Warn
-Cannot convert STIX 2.0 content that contains ``intrusion-sets``                                                             524     Error
+Cannot convert STIX 2.x content that contains ``intrusion-sets``                                                             524     Error
 *[id]* is not explicitly a member of a STIX 1.x ``Report``                                                                   525     Warn
 *[id]* cannot be represented in STIX 1.x                                                                                     526     Warn
+Relationship between *[id]* and a location is not supported in STIX 1.x                                                      527     Warn
+Ignoring *[id]*, because a *[type]* cannot be represented in STIX 1.x                                                        528     Warn
 ============================================================================================================================ ====   =====
 
 STIX Slider currently doesn't process this content

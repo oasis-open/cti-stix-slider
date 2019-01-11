@@ -341,16 +341,16 @@ X509_V3_EXTENSIONS_TYPE_MAP = {
 }
 
 
-def convert_pe_type(pe_type20, obs20_id):
-    if pe_type20 == "exe":
+def convert_pe_type(pe_type2x, obs2x_id):
+    if pe_type2x == "exe":
         return "Executable"
-    elif pe_type20 == "dll":
+    elif pe_type2x == "dll":
         return "Dll"
-    elif pe_type20 == "sys":
-        warn("pe_type SYS in %s is valid in STIX 2.0, but not in STIX 1.x", 511, obs20_id)
+    elif pe_type2x == "sys":
+        warn("pe_type SYS in %s is valid in STIX 2.x, but not in STIX 1.x", 511, obs2x_id)
         return "Invalid"
     else:
-        warn("pe_type %s in %s is allowed in STIX 2.0, but not in STIX 1.x", 512, pe_type20, obs20_id)
+        warn("pe_type %s in %s is allowed in STIX 2.x, but not in STIX 1.x", 512, pe_type2x, obs2x_id)
         return "Invalid"
 
 

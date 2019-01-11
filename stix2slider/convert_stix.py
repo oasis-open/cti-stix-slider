@@ -690,12 +690,12 @@ def convert_report(r2x):
             r1x.add_ttp(TTP(idref=ref1x))
         elif ref_type == "vulnerability":
             r1x.add_exploit_target(ExploitTarget(idref=ref1x))
-        elif ref_type == "identity" or ref_type == "relationship":
+        elif ref_type == "identity" or ref_type == "relationship" or ref_type == "location":
             warn("%s in %s is not explicitly a member of a STIX 1.x report", 703, ref, r2x["id"])
-        elif ref_type == "intrusion-set":
+        elif ref_type == "intrusion-set" or ref_type == "opinion" or ref_type == "note":
             warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r2x["id"])
         else:
-            warn("ref type %s in %s is not known", 0, ref_type, r2x["id"])
+            warn("ref type %s in %s is not known", 316, ref_type, r2x["id"])
     if "object_marking_refs" in r2x:
         for m_id in r2x["object_marking_refs"]:
             ms = create_marking_specification(m_id)
@@ -858,7 +858,7 @@ def add_location_to_identity(source_1x_obj, target_obj):
         record_id_object_mapping(source_1x_obj.id_, source_1x_obj, used=False, overwrite=True)
         source_1x_obj.specification.add_address(create_address_object_from_location(target_obj))
     else:
-        warn("Relationship between %s and location is not supported in STIX 1.x", 0, source_1x_obj.id_)
+        warn("Relationship between %s and location is not supported in STIX 1.x", 527, source_1x_obj.id_)
 
 
 def process_location_reference(rel):
@@ -866,12 +866,12 @@ def process_location_reference(rel):
         if rel["source_ref"] in _ID_OBJECT_MAPPING:
             source_1x_obj = _ID_OBJECT_MAPPING[rel["source_ref"]]  # 1.x object
         else:
-            warn("No %s object exists for %s in relationship %s", 0, "source_ref", rel["source_ref"], rel["id"])
+            warn("No %s object exists for %s in relationship %s", 315, "source_ref", rel["source_ref"], rel["id"])
             return
         if rel["target_ref"] in _LOCATIONS:
             target_obj = _LOCATIONS[rel["target_ref"]]  # 2.x object
         else:
-            warn("No %s object exists for %s in relationship %s", 0, "target_ref", rel["target_ref"], rel["id"])
+            warn("No %s object exists for %s in relationship %s", 315, "target_ref", rel["target_ref"], rel["id"])
             return
         add_location_to_identity(source_1x_obj, target_obj)
     else:
@@ -1173,11 +1173,11 @@ def convert_bundle(bundle_obj):
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
         elif o["type"] == "note":
-            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 527, o["id"], "note")
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "note")
         elif o["type"] == "observed-data":
             pkg.add_observable(convert_observed_data(o))
         elif o["type"] == "opinion":
-            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 527, o["id"], "opinion")
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "opinion")
         elif o["type"] == "report":
             pkg.add_report(convert_report(o))
         elif o["type"] == "threat-actor":
