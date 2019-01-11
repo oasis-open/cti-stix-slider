@@ -9,7 +9,7 @@ from sdv import codes, errors, scripts
 
 from stix2slider.convert_stix import convert_bundle
 from stix2slider.options import setup_logger, get_validator_options
-import stix2slider.utils  # flake8: noqa
+# import stix2slider.utils  # flake8: noqa
 
 # Module-level logger
 log = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ def slide_file(fn, encoding="utf-8"):
     with io.open(fn, "r", encoding=encoding) as json_data:
         json_content = json.load(json_data)
 
-    obj = stix2.parse(json_content)
+    obj = stix2.parse(json_content, allow_custom=True)
     stix_package = convert_bundle(obj)
 
     if stix_package:

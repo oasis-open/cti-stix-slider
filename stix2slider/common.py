@@ -83,11 +83,17 @@ PDF_DOCUMENT_INFORMATION_DICT_MAP = {
 }
 
 
-IMAGE_FILE_EXTENSION_MAP = {
+IMAGE_FILE_EXTENSION_MAP_2_0 = {
     "image_height": ImageFile.image_height,
     "image_width": ImageFile.image_width,
     "bits_per_pixel": ImageFile.bits_per_pixel,
     "image_compression_algorithm": ImageFile.compression_algorithm
+}
+
+IMAGE_FILE_EXTENSION_MAP_2_1 = {
+    "image_height": ImageFile.image_height,
+    "image_width": ImageFile.image_width,
+    "bits_per_pixel": ImageFile.bits_per_pixel,
 }
 
 
@@ -135,13 +141,18 @@ PE_BINARY_OPTIONAL_HEADER_MAP = {
 }
 
 
-PROCESS_MAP = {
+PROCESS_MAP_2_0 = {
     "is_hidden": Process.is_hidden,
     "pid": Process.pid,
     "name": Process.name,
     "created": Process.creation_time
 }
 
+PROCESS_MAP_2_1 = {
+    "is_hidden": Process.is_hidden,
+    "pid": Process.pid,
+    "created": Process.creation_time
+}
 
 WINDOWS_PROCESS_EXTENSION_MAP = {
     "aslr_enabled": WinProcess.aslr_enabled,
@@ -264,9 +275,17 @@ SOCKET_OPTIONS_MAP = {
 }
 
 
-SOCKET_MAP = {
+SOCKET_MAP_2_0 = {
     "address_family": NetworkSocket.address_family,
     "protocol_family": NetworkSocket.domain,
+    "is_blocking": NetworkSocket.is_blocking,
+    "is_listening": NetworkSocket.is_listening,
+    "socket_type": NetworkSocket.type_,
+    "socket_descriptor": NetworkSocket.socket_descriptor
+}
+
+SOCKET_MAP_2_1 = {
+    "address_family": NetworkSocket.address_family,
     "is_blocking": NetworkSocket.is_blocking,
     "is_listening": NetworkSocket.is_listening,
     "socket_type": NetworkSocket.type_,
@@ -284,7 +303,7 @@ USER_ACCOUNT_MAP = {
     "is_disabled": UserAccount.disabled,
     "account_created": Account.creation_date,
     # TODO: account_expires
-    # TODO: password_last_changed
+    # TODO: password_last_changed (2.0) / credential_last_changed (2.1)
     # TODO: account_first_login
     "account_last_login": UserAccount.last_login
 }
@@ -322,20 +341,20 @@ X509_V3_EXTENSIONS_TYPE_MAP = {
 }
 
 
-def convert_pe_type(pe_type20, obs20_id):
-    if pe_type20 == "exe":
+def convert_pe_type(pe_type2x, obs2x_id):
+    if pe_type2x == "exe":
         return "Executable"
-    elif pe_type20 == "dll":
+    elif pe_type2x == "dll":
         return "Dll"
-    elif pe_type20 == "sys":
-        warn("pe_type SYS in %s is valid in STIX 2.0, but not in STIX 1.x", 511, obs20_id)
+    elif pe_type2x == "sys":
+        warn("pe_type SYS in %s is valid in STIX 2.x, but not in STIX 1.x", 511, obs2x_id)
         return "Invalid"
     else:
-        warn("pe_type %s in %s is allowed in STIX 2.0, but not in STIX 1.x", 512, pe_type20, obs20_id)
+        warn("pe_type %s in %s is allowed in STIX 2.x, but not in STIX 1.x", 512, pe_type2x, obs2x_id)
         return "Invalid"
 
 
-def determine_20_address_type(address):
+def determine_2x_address_type(address):
     if "." in address:
         return "ipv4-addr"
     elif ":" in address:

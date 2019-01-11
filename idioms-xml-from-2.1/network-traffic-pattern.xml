@@ -1,0 +1,37 @@
+<stix:STIX_Package
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	 id="example:STIXPackage-fcbef79f-d784-4928-8eb7-6b8cb63f70f0" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-5a56a83b-103d-487a-b06b-5874567bf049" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-e00a74ea-3e22-4e90-8010-371e706e81d0">
+                <cybox:Object id="example:NetworkConnection-7adc9be4-e2a8-4e5e-940b-d3edc08a7c98">
+                    <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                        <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                            <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                <AddressObj:Address_Value condition="Equals">203.0.113.33/32</AddressObj:Address_Value>
+                            </SocketAddressObj:IP_Address>
+                        </NetworkConnectionObj:Destination_Socket_Address>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

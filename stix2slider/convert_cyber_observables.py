@@ -7,7 +7,7 @@ from cybox.common.structured_text import StructuredText
 from cybox.common.vocabs import VocabString
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
-from cybox.objects.artifact_object import Artifact
+from cybox.objects.artifact_object import Artifact, Encoding
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
 from cybox.objects.email_message_object import (Attachments, EmailHeader,
@@ -61,13 +61,15 @@ from six import text_type
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 EMAIL_MESSAGE_MAP, FILE_MAP,
                                 HTTP_REQUEST_HEADERS_MAP,
-                                IMAGE_FILE_EXTENSION_MAP,
+                                IMAGE_FILE_EXTENSION_MAP_2_0,
+                                IMAGE_FILE_EXTENSION_MAP_2_1,
                                 OTHER_EMAIL_HEADERS_MAP,
                                 PDF_DOCUMENT_INFORMATION_DICT_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
-                                PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP,
-                                REGISTRY_KEY_MAP, REGISTRY_VALUE_MAP,
-                                SOCKET_MAP, SOCKET_OPTIONS_MAP,
+                                PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP_2_0,
+                                PROCESS_MAP_2_1, REGISTRY_KEY_MAP,
+                                REGISTRY_VALUE_MAP, SOCKET_MAP_2_0,
+                                SOCKET_MAP_2_1, SOCKET_OPTIONS_MAP,
                                 STARTUP_INFO_MAP, USER_ACCOUNT_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
@@ -163,12 +165,12 @@ def determine_1x_object_type(c_o_object):
         return X509Certificate
 
 
-def convert_obj(obj20, obj1x, mapping_table, obs20_id):
-    for key, value in obj20.items():
+def convert_obj(obj2x, obj1x, mapping_table, obs2x_id):
+    for key, value in obj2x.items():
         if key in mapping_table:
             mapping_table[key].__set__(obj1x, value)
         # else:
-        #    warn("%s property in %s is not not representable in STIX 1.x", 0, key, obs20_id)
+        #    warn("%s property in %s is not not representable in STIX 1.x", 0, key, obs2x_id)
 
 
 def add_missing_property_to_description(obj1x, property_name, property_value):
@@ -204,39 +206,42 @@ def add_hashes_property(obj, hash_type, value):
         warn("Unknown hash type %s used in %s", 302, hash_type, obj.id_)
 
 
-def convert_artifact_c_o(art20, art1x, obs20_id):
-    if "mime_type" in art20:
-        art1x.content_type = art20["mime_type"]
-    # it is illegal in STIX 2.0 to have both a payload_bin and url property - be we don't warn about it here
-    if "payload_bin" in art20:
-        art1x.packed_data = art20["payload_bin"]
-    if "url" in art20:
-        art1x.raw_artifact_reference = art20["url"]
-    if "hashes" in art20:
+def convert_artifact_c_o(art2x, art1x, obs2x_id):
+    if "mime_type" in art2x:
+        art1x.content_type = art2x["mime_type"]
+    # it is illegal in STIX 2.0 to have both a payload_bin and url property - but we don't warn about it here
+    if "payload_bin" in art2x:
+        art1x.packed_data = art2x["payload_bin"]
+    if "url" in art2x:
+        art1x.raw_artifact_reference = art2x["url"]
+    if "hashes" in art2x:
         art1x.hashes = HashList()
-        for k, v in art20["hashes"].items():
+        for k, v in art2x["hashes"].items():
             add_hashes_property(art1x.hashes, k, v)
+    encoding = Encoding()
+    encoding.algorithm = "Base64"
+    art1x.packaging.append(encoding)
     # art1x.packaging.encoding.algorithm = "Base64"
 
 
-def convert_autonomous_system_c_o(as20, as1x, obs20_id):
-    convert_obj(as20, as1x, AUTONOMOUS_SYSTEM_MAP, obs20_id)
+def convert_autonomous_system_c_o(as2x, as1x, obs2x_id):
+    convert_obj(as2x, as1x, AUTONOMOUS_SYSTEM_MAP, obs2x_id)
 
 
-def convert_domain_name_c_o(dn20, dn1x, obs20_id):
-    dn1x.value = dn20["value"]
+def convert_domain_name_c_o(dn2x, dn1x, obs2x_id):
+    dn1x.value = dn2x["value"]
     dn1x.type_ = "FQDN"
-    if "resolves_to_refs" in dn20:
-        for ref in dn20["resolves_to_refs"]:
+    if "resolves_to_refs" in dn2x:
+        for ref in dn2x["resolves_to_refs"]:
             if ref in _STIX1X_OBJS:
                 obj = _STIX1X_OBJS[ref]
                 dn1x.add_related(obj, "Resolved_To", inline=True)
             else:
-                warn("%s is not an index found in %s", 306, ref, obs20_id)
+                warn("%s is not an index found in %s", 306, ref, obs2x_id)
 
 
-def convert_archive_file_extension(archive_ext, file1x, obs20_id):
-    if "version" in archive_ext:
+def convert_archive_file_extension(archive_ext, file1x, obs2x_id):
+    if "version" in archive_ext and get_option_value("version_of_stix2x") == "2.0":
         file1x.version = archive_ext["version"]
     if "comment" in archive_ext:
         file1x.comment = archive_ext["comment"]
@@ -244,10 +249,10 @@ def convert_archive_file_extension(archive_ext, file1x, obs20_id):
         if ref in _STIX1X_OBJS:
             file1x.archived_file.append(_STIX1X_OBJS[ref])
         else:
-            warn("%s is not an index found in %s", 306, ref, obs20_id)
+            warn("%s is not an index found in %s", 306, ref, obs2x_id)
 
 
-def convert_pdf_file_extension(pdf_ext, file1x, obs20_id):
+def convert_pdf_file_extension(pdf_ext, file1x, obs2x_id):
     if "version" in pdf_ext:
         file1x.version = pdf_ext["version"]
     if "is_optimized" in pdf_ext or "document_info_dict" in pdf_ext:
@@ -259,9 +264,9 @@ def convert_pdf_file_extension(pdf_ext, file1x, obs20_id):
             convert_obj(pdf_ext["document_info_dict"],
                         file1x.metadata.document_information_dictionary,
                         PDF_DOCUMENT_INFORMATION_DICT_MAP,
-                        obs20_id)
+                        obs2x_id)
     if "pdfid0" in pdf_ext or "pdfid1" in pdf_ext:
-        warn("Order may not be maintained for pdfids in %s", 514, obs20_id)
+        warn("Order may not be maintained for pdfids in %s", 514, obs2x_id)
         file1x.trailers = PDFTrailerList()
         trailer = PDFTrailer()
         file1x.trailers.trailer.append(trailer)
@@ -272,8 +277,9 @@ def convert_pdf_file_extension(pdf_ext, file1x, obs20_id):
             trailer.id_.id_string.append(pdf_ext["pdfid1"])
 
 
-def convert_image_file_extension(image_ext, file1x, obs20_id):
-    convert_obj(image_ext, file1x, IMAGE_FILE_EXTENSION_MAP, obs20_id)
+def convert_image_file_extension(image_ext, file1x, obs2x_id):
+    convert_obj(image_ext, file1x, IMAGE_FILE_EXTENSION_MAP_2_0 if get_option_value("version_of_stix2x") == "2.0" else IMAGE_FILE_EXTENSION_MAP_2_1,
+                obs2x_id)
     if "exif_tags" in image_ext:
         exif_tags = image_ext["exif_tags"]
         if "Compression" in exif_tags:
@@ -282,10 +288,10 @@ def convert_image_file_extension(image_ext, file1x, obs20_id):
             warn("%s not representable in a STIX 1.x %s.  Found in %s", 503,
                  "exif_tags",
                  "ImageFile",
-                 obs20_id)
+                 obs2x_id)
 
 
-def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs20_id):
+def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs2x_id):
     if "imphash" in pe_bin_ext:
         if not file1x.headers.hashes:
             file1x.headers.hashes = HashList()
@@ -294,7 +300,7 @@ def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs20_id):
     if "number_of_sections" in pe_bin_ext:
         add_missing_property_to_description(file1x, "number_of_sections", pe_bin_ext["number_of_sections"])
     if "pe_type" in pe_bin_ext:
-        file1x.type_ = convert_pe_type(pe_bin_ext["pe_type"], obs20_id)
+        file1x.type_ = convert_pe_type(pe_bin_ext["pe_type"], obs2x_id)
     if not file1x.headers:
         file1x.headers = PEHeaders()
     if any(x in pe_bin_ext for x in ("machine_hex", "time_date_stamp",
@@ -305,18 +311,18 @@ def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs20_id):
                                      "file_header_hashes")
            ):
         file1x.headers.file_header = PEFileHeader()
-        convert_obj(pe_bin_ext, file1x.headers.file_header, PE_BINARY_FILE_HEADER_MAP, obs20_id)
+        convert_obj(pe_bin_ext, file1x.headers.file_header, PE_BINARY_FILE_HEADER_MAP, obs2x_id)
     if "file_header_hashes" in pe_bin_ext:
         file1x.headers.file_header.hashes = HashList()
         for k, v in sort_objects_into_processing_order(pe_bin_ext["file_header_hashes"]):
             add_hashes_property(file1x.headers.file_header.hashes, k, v)
     if "optional_header" in pe_bin_ext:
-        op_header20 = pe_bin_ext["optional_header"]
+        op_header2x = pe_bin_ext["optional_header"]
         file1x.headers.optional_header = PEOptionalHeader()
-        convert_obj(op_header20, file1x.headers.optional_header, PE_BINARY_OPTIONAL_HEADER_MAP, obs20_id)
-        if "hashes" in op_header20:
+        convert_obj(op_header2x, file1x.headers.optional_header, PE_BINARY_OPTIONAL_HEADER_MAP, obs2x_id)
+        if "hashes" in op_header2x:
             file1x.headers.optional_header.hashes = HashList()
-            for k, v in sort_objects_into_processing_order(op_header20["hashes"]):
+            for k, v in sort_objects_into_processing_order(op_header2x["hashes"]):
                 add_hashes_property(file1x.headers.optional_header.hashes, k, v)
     if "sections" in pe_bin_ext:
         file1x.sections = PESectionList()
@@ -338,101 +344,102 @@ def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs20_id):
                     add_hashes_property(section.data_hashes, k, v)
 
 
-def convert_ntfs_file_extension(ntfs_ext, file1x, obs20_id):
+def convert_ntfs_file_extension(ntfs_ext, file1x, obs2x_id):
     if "sid" in ntfs_ext:
         file1x.security_id = ntfs_ext["sid"]
     if "alternate_data_streams" in ntfs_ext:
         file1x.stream_list = StreamList()
         ads_list = ntfs_ext["alternate_data_streams"]
-        for ads20 in ads_list:
+        for ads2x in ads_list:
             ads1x = Stream()
-            if "name" in ads20:
-                ads1x.name = ads20["name"]
-            if "size" in ads20:
-                ads1x.size_in_bytes = ads20["size"]
-            if "hashes" in ads20:
-                for k, v in sort_objects_into_processing_order(ads20["hashes"]):
+            if "name" in ads2x:
+                ads1x.name = ads2x["name"]
+            if "size" in ads2x:
+                ads1x.size_in_bytes = ads2x["size"]
+            if "hashes" in ads2x:
+                for k, v in sort_objects_into_processing_order(ads2x["hashes"]):
                     add_hashes_property(ads1x, k, v)
             file1x.stream_list.append(ads1x)
 
 
-def convert_file_extensions(file20, file1x, obs20_id):
-    extensions = file20["extensions"]
+def convert_file_extensions(file2x, file1x, obs2x_id):
+    extensions = file2x["extensions"]
     if "archive-ext" in extensions:
-        convert_archive_file_extension(extensions["archive-ext"], file1x, obs20_id)
+        convert_archive_file_extension(extensions["archive-ext"], file1x, obs2x_id)
     if "pdf-ext" in extensions:
-        convert_pdf_file_extension(extensions["pdf-ext"], file1x, obs20_id)
+        convert_pdf_file_extension(extensions["pdf-ext"], file1x, obs2x_id)
     if "ntfs-ext" in extensions:
-        convert_ntfs_file_extension(extensions["ntfs-ext"], file1x, obs20_id)
+        convert_ntfs_file_extension(extensions["ntfs-ext"], file1x, obs2x_id)
     if "raster-image-ext" in extensions:
-        convert_image_file_extension(extensions["raster-image-ext"], file1x, obs20_id)
+        convert_image_file_extension(extensions["raster-image-ext"], file1x, obs2x_id)
     if "windows-pebinary-ext" in extensions:
-        convert_windows_pe_binary_file_extension(extensions["windows-pebinary-ext"], file1x, obs20_id)
+        convert_windows_pe_binary_file_extension(extensions["windows-pebinary-ext"], file1x, obs2x_id)
 
 
-def convert_file_c_o(file20, file1x, obs20_id):
-    if "hashes" in file20:
-        for k, v in sort_objects_into_processing_order(file20["hashes"]):
+def convert_file_c_o(file2x, file1x, obs2x_id):
+    if "hashes" in file2x:
+        for k, v in sort_objects_into_processing_order(file2x["hashes"]):
             add_hashes_property(file1x, k, v)
-    convert_obj(file20, file1x, FILE_MAP, obs20_id)
-    if "parent_directory_ref" in file20:
-        if file20["parent_directory_ref"] in _STIX1X_OBJS:
-            directory_object = _STIX1X_OBJS[file20["parent_directory_ref"]]
+    convert_obj(file2x, file1x, FILE_MAP, obs2x_id)
+    if "parent_directory_ref" in file2x:
+        if file2x["parent_directory_ref"] in _STIX1X_OBJS:
+            directory_object = _STIX1X_OBJS[file2x["parent_directory_ref"]]
             directory_string = str(directory_object.full_path)
-            file1x.full_path = directory_string + ("\\" if is_windows_directory(directory_string) else "/") + file20["name"]
+            file1x.full_path = directory_string + ("\\" if is_windows_directory(directory_string) else "/") + file2x["name"]
         else:
-            warn("%s is not an index found in %s", 306, file20["parent_directory_ref"], obs20_id)
-    if "is_encrypted" in file20:
-        if file20["is_encrypted"]:
-            if "encryption_algorithm" in file20:
-                file1x.encryption_algorithm = file20["encryption_algorithm"]
+            warn("%s is not an index found in %s", 306, file2x["parent_directory_ref"], obs2x_id)
+    if "is_encrypted" in file2x and get_option_value("version_of_stix2x") == "2.0":
+        if file2x["is_encrypted"]:
+            if "encryption_algorithm" in file2x:
+                file1x.encryption_algorithm = file2x["encryption_algorithm"]
             else:
-                info("is_encrypted in %s is true, but no encryption_algorithm is given", 309, obs20_id)
-            if "decryption_key" in file20:
-                file1x.decryption_key = file20["decryption_key"]
+                info("is_encrypted in %s is true, but no encryption_algorithm is given", 309, obs2x_id)
+            if "decryption_key" in file2x:
+                file1x.decryption_key = file2x["decryption_key"]
             else:
-                info("is_encrypted in %s is true, but no decryption_key is given", 311, obs20_id)
+                info("is_encrypted in %s is true, but no decryption_key is given", 311, obs2x_id)
         else:
-            if "encryption_algorithm" in file20:
-                info("is_encrypted in %s is false, but encryption_algorithm is given", 310, obs20_id)
-            if "decryption_key" in file20:
-                info("is_encrypted in %s is false, but decryption_key is given", 312, obs20_id)
-    if "extensions" in file20:
-        convert_file_extensions(file20, file1x, obs20_id)
+            if "encryption_algorithm" in file2x:
+                info("is_encrypted in %s is false, but encryption_algorithm is given", 310, obs2x_id)
+            if "decryption_key" in file2x:
+                info("is_encrypted in %s is false, but decryption_key is given", 312, obs2x_id)
+    if "extensions" in file2x:
+        convert_file_extensions(file2x, file1x, obs2x_id)
     # in STIX 2.0, there are two contains_ref properties, one in the basic File object, and one on the Archive File extension
     # the slider does not handle the one in the basic File object
-    if "contains_refs" in file20:
-        warn("contains_refs in %s not handled", 607, obs20_id)
+    if "contains_refs" in file2x:
+        warn("contains_refs in %s not handled", 607, obs2x_id)
+    return file1x
 
 
-def convert_directory_c_o(directory20, file1x, obs20_id):
-    convert_obj(directory20, file1x, DIRECTORY_MAP, obs20_id)
+def convert_directory_c_o(directory2x, file1x, obs2x_id):
+    convert_obj(directory2x, file1x, DIRECTORY_MAP, obs2x_id)
 
 
-def populate_received_line(rl20, rl1x, obs20_id):
+def populate_received_line(rl2x, rl1x, obs2x_id):
     # do we need to consider case?
     # can't there be multiple lines with the same prefix??
-    if rl20.startswith("from"):
-        rl1x.from_ = rl20
-    elif rl20.startswith("by"):
-        rl1x.by = rl20
-    elif rl20.startswith("via"):
-        rl1x.via = rl20
-    elif rl20.startswith("with"):
-        rl1x.with_ = rl20
-    elif rl20.startswith("for"):
-        rl1x.for_ = rl20
-    elif rl20.startswith("id"):
-        rl1x.id_ = rl20
-    elif rl20.startswith("timestamp"):
-        rl1x.timestamp = rl20
+    if rl2x.startswith("from"):
+        rl1x.from_ = rl2x
+    elif rl2x.startswith("by"):
+        rl1x.by = rl2x
+    elif rl2x.startswith("via"):
+        rl1x.via = rl2x
+    elif rl2x.startswith("with"):
+        rl1x.with_ = rl2x
+    elif rl2x.startswith("for"):
+        rl1x.for_ = rl2x
+    elif rl2x.startswith("id"):
+        rl1x.id_ = rl2x
+    elif rl2x.startswith("timestamp"):
+        rl1x.timestamp = rl2x
     else:
-        warn("Received Line %s in %s has a prefix that is not representable in STIX 1.x", 507, rl20), obs20_id
+        warn("Received Line %s in %s has a prefix that is not representable in STIX 1.x", 507, rl2x), obs2x_id
 
 
-def populate_other_header_fields(headers20, header1x, obs20_id):
+def populate_other_header_fields(headers2x, header1x, obs2x_id):
     # keys must match the ones from RFC 2822
-    for k, v in headers20.items():
+    for k, v in headers2x.items():
         # delimiter is used
 
         # if isinstance(v, list):
@@ -441,78 +448,78 @@ def populate_other_header_fields(headers20, header1x, obs20_id):
         #         for h in v[1:]:
         #             warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
         #                  401,
-        #                  obs20_id, k, h)
-        convert_obj(headers20, header1x, OTHER_EMAIL_HEADERS_MAP, obs20_id)
+        #                  obs2x_id, k, h)
+        convert_obj(headers2x, header1x, OTHER_EMAIL_HEADERS_MAP, obs2x_id)
 
 
-def convert_email_message_c_o(em20, em1x, obs20_id):
+def convert_email_message_c_o(em2x, em1x, obs2x_id):
     em1x.header = EmailHeader()
-    convert_obj(em20, em1x, EMAIL_MESSAGE_MAP, obs20_id)
+    convert_obj(em2x, em1x, EMAIL_MESSAGE_MAP, obs2x_id)
 
-    if "from_ref" in em20:
-        if em20["from_ref"] in _STIX1X_OBJS:
-            em1x.header.from_ = _STIX1X_OBJS[em20["from_ref"]]
+    if "from_ref" in em2x:
+        if em2x["from_ref"] in _STIX1X_OBJS:
+            em1x.header.from_ = _STIX1X_OBJS[em2x["from_ref"]]
         else:
-            warn("%s is not an index found in %s, property 'from_ref'", 306, em20["from_ref"], obs20_id)
-    if "sender_ref" in em20:
-        if em20["sender_ref"] in _STIX1X_OBJS:
-            em1x.header.sender = _STIX1X_OBJS[em20["sender_ref"]]
+            warn("%s is not an index found in %s, property 'from_ref'", 306, em2x["from_ref"], obs2x_id)
+    if "sender_ref" in em2x:
+        if em2x["sender_ref"] in _STIX1X_OBJS:
+            em1x.header.sender = _STIX1X_OBJS[em2x["sender_ref"]]
         else:
-            warn("%s is not an index found in %s, property 'sender_refs'", 306, em20["sender_ref"], obs20_id)
-    if "to_refs" in em20:
+            warn("%s is not an index found in %s, property 'sender_refs'", 306, em2x["sender_ref"], obs2x_id)
+    if "to_refs" in em2x:
         to_address_objects = []
-        for to_ref in em20["to_refs"]:
+        for to_ref in em2x["to_refs"]:
             if to_ref in _STIX1X_OBJS:
                 to_address_objects.append(_STIX1X_OBJS[to_ref])
                 em1x.header.to = to_address_objects
             else:
-                warn("%s is not an index found in %s, property 'to_refs'", 306, to_ref, obs20_id)
-    if "cc_refs" in em20:
+                warn("%s is not an index found in %s, property 'to_refs'", 306, to_ref, obs2x_id)
+    if "cc_refs" in em2x:
         cc_address_objects = []
-        for cc_ref in em20["cc_refs"]:
+        for cc_ref in em2x["cc_refs"]:
             if cc_ref in _STIX1X_OBJS:
                 cc_address_objects.append(_STIX1X_OBJS[cc_ref])
                 em1x.header.cc = cc_address_objects
             else:
-                warn("%s is not an index found in %s, property 'cc_refs'", 306, cc_ref, obs20_id)
-    if "bcc_refs" in em20:
+                warn("%s is not an index found in %s, property 'cc_refs'", 306, cc_ref, obs2x_id)
+    if "bcc_refs" in em2x:
         bcc_address_objects = []
-        for bcc_ref in em20["bcc_refs"]:
+        for bcc_ref in em2x["bcc_refs"]:
             if bcc_ref in _STIX1X_OBJS:
                 bcc_address_objects.append(_STIX1X_OBJS[bcc_ref])
                 em1x.header.bcc = bcc_address_objects
             else:
-                warn("%s is not an index found in %s, property 'bcc_refs'", 306, bcc_ref, obs20_id)
-    if "content_type" in em20:
-        em1x.header.content_type = em20["content_type"]
-    if "received_lines" in em20:
+                warn("%s is not an index found in %s, property 'bcc_refs'", 306, bcc_ref, obs2x_id)
+    if "content_type" in em2x:
+        em1x.header.content_type = em2x["content_type"]
+    if "received_lines" in em2x:
         em1x.header.received_lines = ReceivedLineList()
-        for rl20 in em20["received_lines"]:
+        for rl2x in em2x["received_lines"]:
             rl1x = ReceivedLine()
             em1x.header.received_lines.append(rl1x)
-            populate_received_line(rl20, rl1x, obs20_id)
-    if "additional_header_fields" in em20:
-        populate_other_header_fields(em20["additional_header_fields"], em1x.header, obs20_id)
-    if "raw_email_refs" in em20:
-        warn("STIX 1.x can only store the body and headers of an email message in %s independently", 523, obs20_id)
-    if "body" in em20:
-        if em20["is_multipart"]:
+            populate_received_line(rl2x, rl1x, obs2x_id)
+    if "additional_header_fields" in em2x:
+        populate_other_header_fields(em2x["additional_header_fields"], em1x.header, obs2x_id)
+    if "raw_email_refs" in em2x:
+        warn("STIX 1.x can only store the body and headers of an email message in %s independently", 523, obs2x_id)
+    if "body" in em2x:
+        if em2x["is_multipart"]:
             warn("The is_multipart property in %s should be 'false' if the body property is present",
                  313,
-                 obs20_id)
-        em1x.raw_body = em20["body"]
+                 obs2x_id)
+        em1x.raw_body = em2x["body"]
     else:
-        if em20["is_multipart"]:
-            warn("The is_multipart property in %s should be 'true' if the body property is not present",
+        if "body_multipart" in em2x and "is_multipart" in em2x and not em2x["is_multipart"]:
+            warn("The is_multipart property in %s should not be 'false' if the body_multipart property is present",
                  313,
-                 obs20_id)
-    if "body_multipart" in em20:
-        if not em20["is_multipart"]:
+                 obs2x_id)
+    if "body_multipart" in em2x:
+        if not em2x["is_multipart"]:
             warn("The is_multipart property in %s should be 'true' if the body_multipart property is present",
                  313,
-                 obs20_id)
+                 obs2x_id)
         attachments = []
-        for part in em20["body_multipart"]:
+        for part in em2x["body_multipart"]:
             # content_disposition is optional, so we can't depend upon it
             # if "content_disposition" in part and part["content_disposition"].find("attachment"):
             if "body_raw_ref" in part:
@@ -522,7 +529,7 @@ def convert_email_message_c_o(em20, em1x, obs20_id):
                     if isinstance(obj, File) or isinstance(obj, Artifact):
                         attachments.append(obj)
                 else:
-                    warn("%s is not an index found in %s", 306, part["body_raw_ref"], obs20_id)
+                    warn("%s is not an index found in %s", 306, part["body_raw_ref"], obs2x_id)
             if "body" in part:
                 em1x.raw_body = part["body"]
         if attachments:
@@ -531,151 +538,163 @@ def convert_email_message_c_o(em20, em1x, obs20_id):
                 em1x.add_related(a, "Contains", inline=True)
                 em1x.attachments.append(a.parent.id_)
     else:
-        if em20["is_multipart"]:
+        if em2x["is_multipart"]:
             warn("The is_multipart property in %s should be 'false' if the body_multipart property is not present",
                  313,
-                 obs20_id)
+                 obs2x_id)
 
 
-def convert_addr_c_o(addr20, addr1x, obs20_id):
+def convert_addr_c_o(addr2x, addr1x, obs2x_id):
     # CIDR values are not treated in any different way
-    addr1x.address_value = addr20["value"]
-    if addr20["type"] == 'ipv4-addr':
+    addr1x.address_value = addr2x["value"]
+    if addr2x["type"] == 'ipv4-addr':
         addr1x.category = Address.CAT_IPV4
-    elif addr20["type"] == 'ipv6-addr':
+    elif addr2x["type"] == 'ipv6-addr':
         addr1x.category = Address.CAT_IPV6
-    elif addr20["type"] == 'mac-addr':
+    elif addr2x["type"] == 'mac-addr':
         addr1x.category = Address.CAT_MAC
-    if "resolves_to_refs" in addr20:
-        for ref in addr20["resolves_to_refs"]:
+    if "resolves_to_refs" in addr2x:
+        for ref in addr2x["resolves_to_refs"]:
             if ref in _STIX1X_OBJS:
                 obj = _STIX1X_OBJS[ref]
                 addr1x.add_related(obj, "Resolved_To", inline=True)
             else:
-                warn("%s is not an index found in %s", 306, ref, obs20_id)
-    if "belongs_to_refs" in addr20:
-        warn("%s property in %s not handled yet", 606, "belongs_to_refs", obs20_id)
+                warn("%s is not an index found in %s", 306, ref, obs2x_id)
+    if "belongs_to_refs" in addr2x:
+        warn("%s property in %s not handled yet", 606, "belongs_to_refs", obs2x_id)
 
 
-def convert_process_extensions(process20, process1x, obs20_id):
-    extensions = process20["extensions"]
+def convert_process_extensions(process2x, process1x, obs2x_id):
+    extensions = process2x["extensions"]
     if "windows-process-ext" in extensions:
         windows_process = extensions["windows-process-ext"]
-        convert_obj(windows_process, process1x, WINDOWS_PROCESS_EXTENSION_MAP, obs20_id)
+        convert_obj(windows_process, process1x, WINDOWS_PROCESS_EXTENSION_MAP, obs2x_id)
         if "startup_info" in windows_process:
             process1x.startup_info = StartupInfo()
             convert_obj(windows_process["startup_info"], process1x.startup_info, STARTUP_INFO_MAP)
+        elif "integrity_level" in windows_process and get_option_value("version_of_stix2x") == "2.1":
+                warn("%s not representable in a STIX 1.x %s.  Found in  %s", 503, "WinProcess",
+                     "integrity_level",
+                     obs2x_id)
     if "windows-service-ext" in extensions:
         windows_service = extensions["windows-service-ext"]
-        convert_obj(windows_service, process1x, WINDOWS_SERVICE_EXTENSION_MAP, obs20_id)
+        convert_obj(windows_service, process1x, WINDOWS_SERVICE_EXTENSION_MAP, obs2x_id)
         if "service_dll_refs" in windows_service:
             if windows_service["service_dll_refs"][0] in _STIX1X_OBJS:
                 file_object = _STIX1X_OBJS[windows_service["service_dll_refs"][0]]
                 if "name" in file_object:
                     process1x.service_dll = file_object.file_name
             else:
-                warn("%s is not an index found in %s", 306, windows_service["service_dll_refs"][0], obs20_id)
+                warn("%s is not an index found in %s", 306, windows_service["service_dll_refs"][0], obs2x_id)
             if len(windows_service["service_dll_refs"]) > 1:
                 for dll_ref in windows_service["service_dll_refs"][1:]:
                     warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
                          401,
-                         obs20_id, "service_dll_refs", dll_ref)
+                         obs2x_id, "service_dll_refs", dll_ref)
         if "descriptions" in windows_service:
             process1x.description_list = ServiceDescriptionList()
             for d in windows_service["descriptions"]:
                 process1x.description_list.append(d)
 
 
-def convert_process_c_o(process20, process1x, obs20_id):
-    convert_obj(process20, process1x, PROCESS_MAP, obs20_id)
-    if "cwd" in process20:
+def convert_process_c_o(process2x, process1x, obs2x_id):
+    convert_obj(process2x,
+                process1x,
+                PROCESS_MAP_2_0 if get_option_value("version_of_stix2x") == "2.0" else PROCESS_MAP_2_1,
+                obs2x_id)
+    if "cwd" in process2x:
         if not process1x.image_info:
             process1x.image_info = ImageInfo()
-        process1x.image_info.current_directory = process20["cwd"]
-    if "arguments" in process20:
+        process1x.image_info.current_directory = process2x["cwd"]
+    if "arguments" in process2x and get_option_value("version_of_stix2x") == "2.0":
         process1x.argument_list = ArgumentList()
-        for a in process20["arguments"]:
+        for a in process2x["arguments"]:
             process1x.argument_list.append(a)
-    if "command_line" in process20:
+    if "command_line" in process2x:
         if not process1x.image_info:
             process1x.image_info = ImageInfo()
-        process1x.image_info.command_line = process20["command_line"]
-    if "environment_variables" in process20:
+        process1x.image_info.command_line = process2x["command_line"]
+    if "environment_variables" in process2x:
         process1x.environment_variable_list = EnvironmentVariableList()
-        for k, v in process20["environment_variables"].items():
+        for k, v in process2x["environment_variables"].items():
             ev = EnvironmentVariable()
             process1x.environment_variable_list.append(ev)
             ev.name = k
             ev.value = v
-    if "opened_connection_refs" in process20:
+    if "opened_connection_refs" in process2x:
         process1x.network_connection_list = NetworkConnectionList()
-        for conn_ref in process20["opened_connection_refs"]:
+        for conn_ref in process2x["opened_connection_refs"]:
             if conn_ref in _STIX1X_OBJS:
                 process1x.network_connection_list.append(_STIX1X_OBJS[conn_ref])
             else:
-                warn("%s is not an index found in %s", 306, conn_ref, obs20_id)
-    if "creator_user_ref" in process20:
-        if process20["creator_user_ref"] in _STIX1X_OBJS:
-            account_object = _STIX1X_OBJS[process20["creator_user_ref"]]
+                warn("%s is not an index found in %s", 306, conn_ref, obs2x_id)
+    if "creator_user_ref" in process2x:
+        if process2x["creator_user_ref"] in _STIX1X_OBJS:
+            account_object = _STIX1X_OBJS[process2x["creator_user_ref"]]
             if "account_login" in account_object:
                 process1x.username = account_object.username
         else:
-            warn("%s is not an index found in %s", 306, process20["creator_user_ref"], obs20_id)
-    if "binary_ref" in process20:
-        if process20["binary_ref"] in _STIX1X_OBJS:
-            file_obj = _STIX1X_OBJS[process20["binary_ref"]]
+            warn("%s is not an index found in %s", 306, process2x["creator_user_ref"], obs2x_id)
+    if ("binary_ref" in process2x and get_option_value("version_of_stix2x") == "2.0" or
+            "image_ref" in process2x and get_option_value("version_of_stix2x") == "2.1"):
+        if "binary_ref" in process2x:
+            ref = "binary_ref"
+        elif "image_ref" in process2x:
+            ref = "image_ref"
+        if process2x[ref] in _STIX1X_OBJS:
+            file_obj = _STIX1X_OBJS[process2x[ref]]
             if file_obj.file_name:
                 if not process1x.image_info:
                     process1x.image_info = ImageInfo()
                 process1x.image_info.file_name = file_obj.file_name
                 # TODO: file_obj.full_path
                 if file_obj.hashes:
-                    warn("Hashes of the binary_ref of %s process cannot be represented in the STIX 1.x Process object", 517, obs20_id)
+                    warn("Hashes of the binary_ref of %s process cannot be represented in the STIX 1.x Process object", 517, obs2x_id)
             else:
-                warn("No file name provided for binary_ref of %s, therefore it cannot be represented in the STIX 1.x Process object", 516, obs20_id)
+                warn("No file name provided for binary_ref of %s, therefore it cannot be represented in the STIX 1.x Process object", 516, obs2x_id)
         else:
-            warn("%s is not an index found in %s", 306, process20["binary_ref"], obs20_id)
-    if "parent_ref" in process20:
-        if process20["parent_ref"] in _STIX1X_OBJS:
-            process_object = _STIX1X_OBJS[process20["parent_ref"]]
+            warn("%s is not an index found in %s", 306, process2x[ref], obs2x_id)
+    if "parent_ref" in process2x:
+        if process2x["parent_ref"] in _STIX1X_OBJS:
+            process_object = _STIX1X_OBJS[process2x["parent_ref"]]
             if "pid" in process_object:
                 process1x.parent_pid = process_object.pid
         else:
-            warn("%s is not an index found in %s", 306, process20["parent_ref"], obs20_id)
-    if "child_refs" in process20:
+            warn("%s is not an index found in %s", 306, process2x["parent_ref"], obs2x_id)
+    if "child_refs" in process2x:
         process1x.child_pid_list = ChildPIDList()
-        for cr in process20["child_refs"]:
+        for cr in process2x["child_refs"]:
             process_object = _STIX1X_OBJS[cr]
             if "pid" in process_object:
                 process1x.child_pid_list.append(process_object.pid)
-    if "extensions" in process20:
-        convert_process_extensions(process20, process1x, obs20_id)
+    if "extensions" in process2x:
+        convert_process_extensions(process2x, process1x, obs2x_id)
 
 
-def convert_address_ref(obj20, direction, obs20_id):
+def convert_address_ref(obj2x, direction, obs2x_id):
     sa = None
     add_property = direction + "_ref"
     port_property = direction + "_port"
-    if add_property in obj20:
-        if obj20[add_property] in _STIX1X_OBJS:
+    if add_property in obj2x:
+        if obj2x[add_property] in _STIX1X_OBJS:
             sa = SocketAddress()
-            obj = _STIX1X_OBJS[obj20[add_property]]
+            obj = _STIX1X_OBJS[obj2x[add_property]]
             if isinstance(obj, Address):
                 sa.ip_address = obj
             elif isinstance(obj, DomainName):
                 sa.hostname = Hostname()
                 sa.hostname.hostname_value = obj.value
         else:
-            warn("%s is not an index found in %s", 306, obj20[add_property], obs20_id)
-    if port_property in obj20:
+            warn("%s is not an index found in %s", 306, obj2x[add_property], obs2x_id)
+    if port_property in obj2x:
         if not sa:
             sa = SocketAddress()
         sa.port = Port()
-        sa.port.port_value = obj20[port_property]
+        sa.port.port_value = obj2x[port_property]
     return sa
 
 
-def convert_network_traffic_to_http_session(http_request_ext, nc, obs20_id):
+def convert_network_traffic_to_http_session(http_request_ext, nc, obs2x_id):
     obj1x = HTTPSession()
     nc.layer7_connections = Layer7Connections()
     nc.layer7_connections.http_session = obj1x
@@ -694,7 +713,7 @@ def convert_network_traffic_to_http_session(http_request_ext, nc, obs20_id):
         convert_obj(http_request_ext["request_header"],
                     rr.http_client_request.http_request_header.parsed_header,
                     HTTP_REQUEST_HEADERS_MAP,
-                    obs20_id)
+                    obs2x_id)
         if "Host" in http_request_ext["request_header"]:
             rr.http_client_request.http_request_header.parsed_header.host = \
                 add_host(http_request_ext["request_header"]["Host"])
@@ -716,14 +735,14 @@ def convert_network_traffic_to_http_session(http_request_ext, nc, obs20_id):
                 artifact_obj = _STIX1X_OBJS[http_request_ext["message_body_length"]]
                 body.message_body = artifact_obj.packed_data
             else:
-                warn("%s is not an index found in %s", 306, http_request_ext["message_body_length"], obs20_id)
+                warn("%s is not an index found in %s", 306, http_request_ext["message_body_length"], obs2x_id)
         rr.http_client_request.http_message_body = body
 
 
-def convert_network_traffic_to_network_icmp_packet(icmp_ext, nc, obs20_id):
+def convert_network_traffic_to_network_icmp_packet(icmp_ext, nc, obs2x_id):
     obj1x = NetworkPacket()
     obj1x.internet_layer = InternetLayer()
-    info("Assuming imcp packet in %s is v4", 701, obs20_id)
+    info("Assuming imcp packet in %s is v4", 701, obs2x_id)
     icmpv4 = ICMPv4Packet()
     icmpv4.icmpv4_header = ICMPv4Header()
     icmpv4.icmpv4_header.type_ = icmp_ext["icmp_type_hex"]
@@ -732,107 +751,110 @@ def convert_network_traffic_to_network_icmp_packet(icmp_ext, nc, obs20_id):
     nc.add_related(obj1x, VocabString("ICMP_Packet"), inline=True)
 
 
-def convert_network_traffic_to_network_socket(socket_ext, nc, obs20_id):
+def convert_network_traffic_to_network_socket(socket_ext, nc, obs2x_id):
     obj1x = NetworkSocket()
-    convert_obj(socket_ext, obj1x, SOCKET_MAP, obs20_id)
+    convert_obj(socket_ext,
+                obj1x,
+                SOCKET_MAP_2_0 if get_option_value("version_of_stix2x") == "2.0" else SOCKET_MAP_2_1,
+                obs2x_id)
     if "options" in socket_ext:
         obj1x.options = SocketOptions()
         convert_obj(socket_ext["options"],
                     obj1x.options,
                     SOCKET_OPTIONS_MAP,
-                    obs20_id)
+                    obs2x_id)
     if "socket_handle" in socket_ext:
-        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, "socket_handle", "NetworkSocket", obs20_id)
+        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, "socket_handle", "NetworkSocket", obs2x_id)
     nc.add_related(obj1x, VocabString("Related_Socket"), inline=True)
-    # obj1x.local_address = convert_address_ref(obj20, "src")
-    # obj1x.remote_address = convert_address_ref(obj20, "dst")
+    # obj1x.local_address = convert_address_ref(obj2x, "src")
+    # obj1x.remote_address = convert_address_ref(obj2x, "dst")
 
 
-def convert_network_traffic_c_o(obj20, obj1x, obs20_id):
-    obj1x.source_socket_address = convert_address_ref(obj20, "src", obs20_id)
-    obj1x.destination_socket_address = convert_address_ref(obj20, "dst", obs20_id)
-    if "extensions" in obj20:
-        extensions = obj20["extensions"]
+def convert_network_traffic_c_o(obj2x, obj1x, obs2x_id):
+    obj1x.source_socket_address = convert_address_ref(obj2x, "src", obs2x_id)
+    obj1x.destination_socket_address = convert_address_ref(obj2x, "dst", obs2x_id)
+    if "extensions" in obj2x:
+        extensions = obj2x["extensions"]
         if "socket-ext" in extensions:
-            convert_network_traffic_to_network_socket(extensions["socket-ext"], obj1x, obs20_id)
+            convert_network_traffic_to_network_socket(extensions["socket-ext"], obj1x, obs2x_id)
         elif "icmp-ext" in extensions:
-            convert_network_traffic_to_network_icmp_packet(extensions["icmp-ext"], obj1x, obs20_id)
+            convert_network_traffic_to_network_icmp_packet(extensions["icmp-ext"], obj1x, obs2x_id)
         elif "http-request-ext" in extensions:
-            convert_network_traffic_to_http_session(extensions["http-request-ext"], obj1x, obs20_id)
+            convert_network_traffic_to_http_session(extensions["http-request-ext"], obj1x, obs2x_id)
         elif "tcp-ext" in extensions:
-            warn("tcp-ext in %s not handled, yet", 609, obs20_id)
-    if "protocols" in obj20:
-        warn("%s property in %s not handled, yet", 608, "protocols", obs20_id)
+            warn("tcp-ext in %s not handled, yet", 609, obs2x_id)
+    if "protocols" in obj2x:
+        warn("%s property in %s not handled, yet", 608, "protocols", obs2x_id)
     # how is is_active related to tcp_state?
     for name in ("start", "end", "src_byte_count", "dst_byte_count", "src_packets", "dst_packets", "ipfix",
                  "src_payload_ref", "dst_payload_ref", "encapsulates_refs", "encapsulated_by_ref"):
-        if name in obj20:
+        if name in obj2x:
             warn("%s not representable in a STIX 1.x %s.  Found in %s",
                  503,
-                 name, "NetworkConnection", obs20_id)
+                 name, "NetworkConnection", obs2x_id)
 
 
-def convert_software_c_o(soft20, prod1x, obs20_id):
-    prod1x.product = soft20["name"]
-    if "cpe" in soft20:
-        warn("cpe not representable in a STIX 1.x Product.  Found in %s", 503, obs20_id)
-    if "languages" in soft20:
-        prod1x.language = soft20["languages"][0]
-        if len(soft20["languages"]) > 1:
-            for l in soft20["languages"][1:]:
+def convert_software_c_o(soft2x, prod1x, obs2x_id):
+    prod1x.product = soft2x["name"]
+    if "cpe" in soft2x:
+        warn("cpe not representable in a STIX 1.x Product.  Found in %s", 503, obs2x_id)
+    if "languages" in soft2x:
+        prod1x.language = soft2x["languages"][0]
+        if len(soft2x["languages"]) > 1:
+            for l in soft2x["languages"][1:]:
                 warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
-                     401, obs20_id, "languages", l)
+                     401, obs2x_id, "languages", l)
 
-    if "vendor" in soft20:
-        prod1x.vendor = soft20["vendor"]
-    if "version" in soft20:
-        prod1x.version = soft20["version"]
+    if "vendor" in soft2x:
+        prod1x.vendor = soft2x["vendor"]
+    if "version" in soft2x:
+        prod1x.version = soft2x["version"]
 
 
-def convert_unix_account_extensions(ua20, ua1x, obs20_id):
-    if "extensions" in ua20:
+def convert_unix_account_extensions(ua2x, ua1x, obs2x_id):
+    if "extensions" in ua2x:
         # must be unix-account-ext
-        if "user_id" in ua20:
-            ua1x.user_id = int(ua20["user_id"])
-        unix_account_ext = ua20["extensions"]["unix-account-ext"]
+        if "user_id" in ua2x:
+            ua1x.user_id = int(ua2x["user_id"])
+        unix_account_ext = ua2x["extensions"]["unix-account-ext"]
         if "gid" in unix_account_ext:
             ua1x.group_id = unix_account_ext["gid"]
         if "groups" in unix_account_ext:
             for g in unix_account_ext["groups"]:
                 warn("The 'groups' property of unix-account-ext contains strings, but the STIX 1.x property expects integers in %s",
                      515,
-                     obs20_id)
+                     obs2x_id)
         if "home_dir" in unix_account_ext:
             ua1x.home_directory = unix_account_ext["home_dir"]
         if "shell" in unix_account_ext:
             ua1x.login_shell = unix_account_ext["shell"]
 
 
-def convert_user_account_c_o(ua20, ua1x, obs20_id):
-    convert_obj(ua20, ua1x, USER_ACCOUNT_MAP, obs20_id)
-    convert_unix_account_extensions(ua20, ua1x, obs20_id)
+def convert_user_account_c_o(ua2x, ua1x, obs2x_id):
+    convert_obj(ua2x, ua1x, USER_ACCOUNT_MAP, obs2x_id)
+    convert_unix_account_extensions(ua2x, ua1x, obs2x_id)
 
 
-def convert_window_registry_value(v20, obs20_id):
+def convert_window_registry_value(v2x, obs2x_id):
     v1x = RegistryValue()
-    convert_obj(v20, v1x, REGISTRY_VALUE_MAP, obs20_id)
+    convert_obj(v2x, v1x, REGISTRY_VALUE_MAP, obs2x_id)
     return v1x
 
 
-def convert_windows_registry_key_c_o(wrk20, wrk1x, obs20_id):
-    convert_obj(wrk20, wrk1x, REGISTRY_KEY_MAP, obs20_id)
-    if "values" in wrk20:
+def convert_windows_registry_key_c_o(wrk2x, wrk1x, obs2x_id):
+    convert_obj(wrk2x, wrk1x, REGISTRY_KEY_MAP, obs2x_id)
+    if "values" in wrk2x:
         values = []
-        for v in wrk20["values"]:
-            values.append(convert_window_registry_value(v, obs20_id))
+        for v in wrk2x["values"]:
+            values.append(convert_window_registry_value(v, obs2x_id))
         wrk1x.values = RegistryValues()
         wrk1x.values.value = values
-    if "creator_user_ref" in wrk20:
-        if wrk20["creator_user_ref"] in _STIX1X_OBJS:
-            account_object = _STIX1X_OBJS[wrk20["creator_user_ref"]]
+    if "creator_user_ref" in wrk2x:
+        if wrk2x["creator_user_ref"] in _STIX1X_OBJS:
+            account_object = _STIX1X_OBJS[wrk2x["creator_user_ref"]]
             wrk1x.creator_username = account_object.username
         else:
-            warn("%s is not an index found in %s", 306, wrk20["creator_user_ref"], obs20_id)
+            warn("%s is not an index found in %s", 306, wrk2x["creator_user_ref"], obs2x_id)
 
 
 def convert_subfield(obj, rhs_value, property, sub_object_class, setting_function):
@@ -843,9 +865,9 @@ def convert_subfield(obj, rhs_value, property, sub_object_class, setting_functio
     setting_function.__set__(sub_object, rhs_value)
 
 
-def convert_x509_certificate_c_o(c_o_object, obj1x, obs20_id):
+def convert_x509_certificate_c_o(c_o_object, obj1x, obs2x_id):
     obj1x.certificate = X509Cert()
-    convert_obj(c_o_object, obj1x.certificate, X509_CERTIFICATE_MAP, obs20_id)
+    convert_obj(c_o_object, obj1x.certificate, X509_CERTIFICATE_MAP, obs2x_id)
     if "validity_not_before" in c_o_object or "validity_not_after" in c_o_object:
         obj1x.certificate.validity = Validity()
         if "validity_not_before" in c_o_object:
@@ -867,49 +889,49 @@ def convert_x509_certificate_c_o(c_o_object, obj1x, obs20_id):
     if "x509_v3_extensions" in c_o_object:
         v3_ext = c_o_object["x509_v3_extensions"]
         obj1x.certificate.standard_extensions = X509V3Extensions()
-        convert_obj(v3_ext, obj1x.certificate.standard_extensions, X509_V3_EXTENSIONS_TYPE_MAP, obs20_id)
+        convert_obj(v3_ext, obj1x.certificate.standard_extensions, X509_V3_EXTENSIONS_TYPE_MAP, obs2x_id)
 
 
-def convert_cyber_observable(c_o_object, obs20_id):
+def convert_cyber_observable(c_o_object, obs2x_id):
     type1x = determine_1x_object_type(c_o_object)
     if type1x:
         obj1x = type1x()
     else:
-        error("Unable to determine STIX 1.x type for %s", 603, obs20_id)
-    type_name20 = c_o_object["type"]
-    if type_name20 == "artifact":
-        convert_artifact_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "autonomous-system":
-        convert_autonomous_system_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "directory":
-        convert_directory_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "domain-name":
-        convert_domain_name_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "email-message":
-        convert_email_message_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "file":
-        convert_file_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 in ['ipv4-addr', 'ipv6-addr', 'mac-addr', 'email-addr']:
+        error("Unable to determine STIX 1.x type for %s", 603, obs2x_id)
+    type_name2x = c_o_object["type"]
+    if type_name2x == "artifact":
+        convert_artifact_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "autonomous-system":
+        convert_autonomous_system_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "directory":
+        convert_directory_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "domain-name":
+        convert_domain_name_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "email-message":
+        convert_email_message_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "file":
+        convert_file_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x in ['ipv4-addr', 'ipv6-addr', 'mac-addr', 'email-addr']:
         # TODO: email_address have display_name property
-        convert_addr_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "mutex":
+        convert_addr_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "mutex":
         obj1x.name = c_o_object["name"]
         obj1x.named = True
-    elif type_name20 == "network-traffic":
-        convert_network_traffic_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "process":
-        convert_process_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == 'software':
-        convert_software_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "url":
+    elif type_name2x == "network-traffic":
+        convert_network_traffic_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "process":
+        convert_process_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == 'software':
+        convert_software_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "url":
         obj1x.value = c_o_object["value"]
         obj1x.type_ = URI.TYPE_URL
-    elif type_name20 == "user-account":
-        convert_user_account_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "windows-registry-key":
-        convert_windows_registry_key_c_o(c_o_object, obj1x, obs20_id)
-    elif type_name20 == "x509-certificate":
-        convert_x509_certificate_c_o(c_o_object, obj1x, obs20_id)
+    elif type_name2x == "user-account":
+        convert_user_account_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "windows-registry-key":
+        convert_windows_registry_key_c_o(c_o_object, obj1x, obs2x_id)
+    elif type_name2x == "x509-certificate":
+        convert_x509_certificate_c_o(c_o_object, obj1x, obs2x_id)
     return obj1x
 
 
@@ -945,11 +967,11 @@ def sort_objects_into_obj_processing_order(objs):
     return sorted(tuple_list, key=cmp_to_key(process_before))
 
 
-def convert_cyber_observables(c_o_objects, obs20_id):
+def convert_cyber_observables(c_o_objects, obs2x_id):
     global _STIX1X_OBJS
     _STIX1X_OBJS = {}
     sorted_obj = sort_objects_into_obj_processing_order(c_o_objects)
     for tup in sorted_obj:
-        _STIX1X_OBJS[tup[0]] = convert_cyber_observable(tup[1], obs20_id)
+        _STIX1X_OBJS[tup[0]] = convert_cyber_observable(tup[1], obs2x_id)
     # return the parent, so you get related objects
     return _STIX1X_OBJS[sorted_obj[-1][0]].parent

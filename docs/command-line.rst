@@ -2,7 +2,7 @@
 ===========================
 
 The slider comes with a bundled script which you can use to convert
-STIX 2.0 content to STIX 1.x content:
+STIX 2.x content to STIX 1.x content:
 
 .. code-block:: text
 
@@ -13,10 +13,10 @@ STIX 2.0 content to STIX 1.x content:
                             [--use-namespace USE_NAMESPACE]
                             file
 
-        stix2-slider v1.0.1
+        stix2-slider v2.0.0
 
 The stix2-slider is a work-in-progress. It should be used to explore how
-existing STIX 2.0 would potentially be represented in STIX 1.x. Using the
+existing STIX 2.x would potentially be represented in STIX 1.x. Using the
 current version of the stix2-slider will provide insight to issues that might need
 to be mitigated so you can use an application that supports only STIX 1.x content.
 
@@ -24,7 +24,7 @@ positional arguments:
 
 .. code-block:: text
 
-        file    The input STIX 2.0 document to be 'slid' to STIX 1.x.
+        file    The input STIX 2.x document to be 'slid' to STIX 1.x.
 
 optional arguments:
 
@@ -34,7 +34,7 @@ optional arguments:
                 show this help message and exit
 
           --no-squirrel-gaps
-                Do not include STIX 2.0 content that cannot be
+                Do not include STIX 2.x content that cannot be
                 represented directly in STIX 1.x using the description
                 property.
 
@@ -82,7 +82,7 @@ messages.
 
 Note: disabling the message does not disable any functionality.
 
-It is recommended that you ensure that the input STIX 2.0 file is
+It is recommended that you ensure that the input STIX 2.x file is
 valid before submitting it to the slider.
 Use the `stix2-validator <https://pypi.org/project//stix2-validator>`_.
 

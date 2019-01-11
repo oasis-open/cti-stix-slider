@@ -1,0 +1,19 @@
+{
+    "id": "bundle--63fe3b22-0201-47cf-85d0-97c02164528d",
+    "objects": [
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "id": "indicator--89f58633-45bb-47b6-868a-9f979d7880fc",
+            "indicator_types": [
+                "ip-watchlist"
+            ],
+            "modified": "2014-05-08T09:00:00.000Z",
+            "name": "IP Address for known C2 channel",
+            "pattern": "[network-traffic:extensions.'socket-ext'.address_family = 'AF_INET' AND network-traffic:extensions.'socket-ext'.options.SO_LINGER = 5]",
+            "spec_version": "2.1",
+            "type": "indicator",
+            "valid_from": "2014-05-08T09:00:00.000000Z"
+        }
+    ],
+    "type": "bundle"
+}

@@ -1,0 +1,27 @@
+<stix:STIX_Package
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:UnixUserAccountObj="http://cybox.mitre.org/objects#UnixUserAccountObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:example="http://example.com"
+	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 id="example:STIXPackage-cb818110-9468-4182-b86d-f8724e0fb2e7" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-a350d2a1-5cab-4add-98cf-1dfea10db3f6">
+            <cybox:Object id="example:UnixUserAccount-7a76f12c-56ab-4643-a4e9-f0aa413bca84">
+                <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                    <UserAccountObj:Home_Directory>/home/jdoe</UserAccountObj:Home_Directory>
+                    <UserAccountObj:Username>jdoe</UserAccountObj:Username>
+                    <UnixUserAccountObj:Group_ID>1001</UnixUserAccountObj:Group_ID>
+                    <UnixUserAccountObj:User_ID>1001</UnixUserAccountObj:User_ID>
+                    <UnixUserAccountObj:Login_Shell>/bin/bash</UnixUserAccountObj:Login_Shell>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

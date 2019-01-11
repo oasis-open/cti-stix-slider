@@ -1,0 +1,140 @@
+<stix:STIX_Package
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:example="http://example.com"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	 id="example:STIXPackage-43fe3b22-0201-47cf-85d0-97c02164528d" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-865d068f-45db-4671-a23a-4bfbe92b31e9" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>indicator 3</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-53e1f82f-a3b9-4da9-9841-b4abfdcccf00">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-c0bc5c0e-399b-4c32-ae1d-a1bbc4ec91fb">
+                        <cybox:Observable_Composition operator="OR">
+                            <cybox:Observable id="example:Observable-069dac40-d553-4cce-9fe2-cb6d3ab47094">
+                                <cybox:Object id="example:Address-a4ca5320-f1da-4e17-a9ab-aab86964d524">
+                                    <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                        <AddressObj:Address_Value condition="Equals">10.0.0.0</AddressObj:Address_Value>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-1ebc832c-034c-4fc7-981d-9d5f17ef6ed2">
+                                <cybox:Object id="example:Address-e6ba1891-20e3-4057-8040-4b058f1f697e">
+                                    <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                        <AddressObj:Address_Value condition="Equals">20.0.0.0</AddressObj:Address_Value>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-8a51c3e0-4092-4a5b-ab2f-fec0976cf0a6">
+                        <cybox:Object id="example:File-c1b98805-c154-4800-b73b-05c95937c19c">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:Hashes>
+                                    <cyboxCommon:Hash>
+                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">3340a281074fcb539967438e3fac326f</cyboxCommon:Simple_Hash_Value>
+                                    </cyboxCommon:Hash>
+                                </FileObj:Hashes>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-44fe3b22-0201-47cf-85d0-97c0216452ab" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>indicator 2</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-80acaebf-be95-4414-acef-35b4b43688d6">
+                <cybox:Observable_Composition operator="OR">
+                    <cybox:Observable id="example:Observable-55b2da83-c909-481f-85cb-c3f282024a81">
+                        <cybox:Object id="example:Address-1b1f3a24-b081-46d4-8833-a3a8f8e8cc20">
+                            <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                <AddressObj:Address_Value condition="Equals">10.0.0.0</AddressObj:Address_Value>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-860629dc-7d87-4e17-a915-bfd53e211d5c">
+                        <cybox:Object id="example:Address-7e5ec223-074e-4d44-af47-f8ca883219c7">
+                            <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                <AddressObj:Address_Value condition="Equals">20.0.0.0</AddressObj:Address_Value>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-33fe3b22-0201-47cf-85d0-97c02164528d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-63aae16e-dd4c-44ad-917f-677fc4f054b1">
+                <cybox:Object id="example:Address-e6c2d0ac-4be4-4824-aa65-170142d46e71">
+                    <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                        <AddressObj:Address_Value condition="Equals">10.0.0.0</AddressObj:Address_Value>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-b312970e-b34b-4323-9aee-d953d003bc19" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>indicator 4</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-8ffb64bb-a531-48e3-a5bc-11612f48431d">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-86882b70-4259-472c-bd03-abb5a4495ccc">
+                        <cybox:Observable_Composition operator="OR">
+                            <cybox:Observable id="example:Observable-bf36c10a-fcdd-4c38-be35-825b3e94bcb2">
+                                <cybox:Object id="example:Address-ea0228c9-1f9d-49c9-81f6-43b6e01256a0">
+                                    <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                        <AddressObj:Address_Value condition="Equals">10.0.0.0</AddressObj:Address_Value>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-37c33cbc-968c-4696-8cf3-82cd3a4ae412">
+                                <cybox:Object id="example:Address-8a114c1e-107e-42db-840b-3b4378d74805">
+                                    <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                        <AddressObj:Address_Value condition="Equals">20.0.0.0</AddressObj:Address_Value>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-2fa2ac34-ac19-4288-a70a-5929ebec975e">
+                        <cybox:Object id="example:File-56263a99-1d2a-489f-aae3-d26cdfe9a826">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:Hashes>
+                                    <cyboxCommon:Hash>
+                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">3340a281074fcb539967438e3fac326f</cyboxCommon:Simple_Hash_Value>
+                                    </cyboxCommon:Hash>
+                                </FileObj:Hashes>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

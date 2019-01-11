@@ -1,0 +1,21 @@
+<stix:STIX_Package
+	xmlns:example="http://example.com"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 id="example:STIXPackage-678a6feb-50ce-4a66-8a06-0b0669833ba2" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-b133cf99-0042-47e4-b669-99fba2baff6e">
+            <cybox:Object id="example:EmailAddress-5a03994c-c228-40a8-9dab-c5731cc5ecf8">
+                <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                    <AddressObj:Address_Value>john@example.com</AddressObj:Address_Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

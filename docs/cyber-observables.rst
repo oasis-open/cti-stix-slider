@@ -1,14 +1,14 @@
-Mappings from STIX 2.0 to CybOX 2.x
+Mappings from STIX 2.x to CybOX 2.x
 ========================================
 
-The following table associates the CybOX 2.x object types with their STIX 2.0 cyber observable types.
+The following table associates the CybOX 2.x object types with their STIX 2.x cyber observable types.
 For each CybOX object the table also indicates if the slider is able to convert the cyber observable object to CybOX 2.x.
 
-CybOX object types not listed have no corresponding STIX 2.0 cyber observable type, and therefore are not
+CybOX object types not listed have no corresponding STIX 2.x cyber observable type, and therefore are not
 converted by the slider.
 
 ============================================= ============================================= ==============================================
-**STIX 2.0 Cyber Observable Type**            **CybOX 2.x Type**                            **Converted in version 1.0.0 of the Slider**
+**STIX 2.x Cyber Observable Type**            **CybOX 2.x Type**                            **Converted in version 2.0.0 of the Slider**
 ============================================= ============================================= ==============================================
 ``artifact``                                  Artifact                                      yes
 ``autonomous-system``                         AutonomousSystem                              yes

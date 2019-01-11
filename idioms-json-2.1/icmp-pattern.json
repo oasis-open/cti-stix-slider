@@ -1,0 +1,19 @@
+{
+    "id": "bundle--4ea2f83e-f012-48ad-b90b-21ff4d572872",
+    "objects": [
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "id": "indicator--cb2ae57d-c4db-438b-a1a4-b069410bc2de",
+            "indicator_types": [
+                "ip-watchlist"
+            ],
+            "modified": "2014-05-08T09:00:00.000Z",
+            "name": "IP Address for known C2 channel",
+            "pattern": "[network-traffic:extensions.'icmp-ext'.icmp_type_hex = '08' AND network-traffic:extensions.'icmp-ext'.icmp_code_hex = '00']",
+            "spec_version": "2.1",
+            "type": "indicator",
+            "valid_from": "2014-05-08T09:00:00.000000Z"
+        }
+    ],
+    "type": "bundle"
+}

@@ -1,0 +1,19 @@
+{
+    "id": "bundle--0b577c49-9e68-4aff-95d6-728c7468f1f4",
+    "objects": [
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "id": "indicator--16ba86a6-e42f-477e-839d-9e6f98aa3410",
+            "indicator_types": [
+                "ip-watchlist"
+            ],
+            "modified": "2014-05-08T09:00:00.000Z",
+            "name": "IP Address for known C2 channel",
+            "pattern": "([file:name = 'foo.dll'] AND [windows-registry-key:key = 'HKEY_LOCAL_MACHINE\\\\foo\\\\bar']) OR [process:name = 'fooproc' OR process:name = 'procfoo']",
+            "spec_version": "2.1",
+            "type": "indicator",
+            "valid_from": "2014-05-08T09:00:00.000000Z"
+        }
+    ],
+    "type": "bundle"
+}

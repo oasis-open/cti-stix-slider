@@ -1,29 +1,29 @@
-Mappings from STIX 1.x to STIX 2.0
+Mappings from STIX 1.x to STIX 2.x
 =======================================
 
 This section outlines the disposition of each property of the top-level objects when converted.
 
-For each STIX 2.0 object that was converted the following options are possible:
+For each STIX 2.x object that was converted the following options are possible:
 
- - **STIX 2.0 property mapped directly to a STIX 1.x property.**  This property's value is used unaltered in the conversion to 2.0.
- - **STIX 2.0 property translated into STIX 1.x property.**  This property's value must undergo some minor processing to determine the
+ - **STIX 2.x property mapped directly to a STIX 1.x property.**  This property's value is used unaltered in the conversion to 2.x.
+ - **STIX 2.x property translated into STIX 1.x property.**  This property's value must undergo some minor processing to determine the
    corresponding content for 1.x.
- - **STIX 2.0 relationship mapped using STIX 1.x property.** This 2.0 relationship object is used to construct an embedded STIX 1.x relationship.
-   If the STIX 2.0 ``relationship-type`` is not listed below, then that relationship will not be converted to an embedded STIX 1.x relationship.
+ - **STIX 2.x relationship mapped using STIX 1.x property.** This 2.x relationship object is used to construct an embedded STIX 1.x relationship.
+   If the STIX 2.x ``relationship-type`` is not listed below, then that relationship will not be converted to an embedded STIX 1.x relationship.
    The "reverse" notation indicates the the STIX 1.x property is found on target object.
- - **STIX 2.0 property recorded in the STIX 1.x description property.**  This 2.0 property has no corresponding property in STIX 1.x, but its value
+ - **STIX 2.x property recorded in the STIX 1.x description property.**  This 2.x property has no corresponding property in STIX 1.x, but its value
    can be (optionally) included in the description property of the 1.x object as text.
 
-   If the STIX 2.0 content was created using the elevator
+   If the STIX 2.x content was created using the elevator
    it might be the case that it recorded some 1.x properties in the description.  However, the slider makes no attempt to examine the content of
-   the 2.0 descriptor property to determine if it can use information found within it to populate the original 1.x properties.
- - **STIX 2.0 property not mapped.**  This property will not be included in the converted 1.x object.
+   the 2.x descriptor property to determine if it can use information found within it to populate the original 1.x properties.
+ - **STIX 2.x property not mapped.**  This property will not be included in the converted 1.x object.
 
 Top Level Object Mappings
 -------------------------------
 
 +-------------------------+---------------------------+
-| **STIX 2.0 object**     | **STIX 1.x object**       |
+| **STIX 2.x object**     | **STIX 1.x object**       |
 +=========================+===========================+
 | ``attack-pattern``      | ``ttp:Attack_Pattern``    |
 +-------------------------+---------------------------+
@@ -40,9 +40,11 @@ Top Level Object Mappings
 +-------------------------+---------------------------+
 | ``intrusion-set``       | *not converted*           |
 +-------------------------+---------------------------+
-| ``observed-data``       | ``Observable``            |
+| ``location``            | ``xpil:Address``          |
 +-------------------------+---------------------------+
 | ``malware``             | ``ttp:MalwareInstance``   |
++-------------------------+---------------------------+
+| ``observed-data``       | ``Observable``            |
 +-------------------------+---------------------------+
 | ``report``              | ``Report``                |
 +-------------------------+---------------------------+
@@ -56,10 +58,10 @@ Top Level Object Mappings
 Common Properties
 ------------------------
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 +-------------------------+------------------------------------+
-| **STIX 2.0 property**   | **STIX 1.x property**              |
+| **STIX 2.x property**   | **STIX 1.x property**              |
 +=========================+====================================+
 | ``created``             | *not converted* (see ``modified``) |
 +-------------------------+------------------------------------+
@@ -70,10 +72,10 @@ Common Properties
 | ``name``                | ``Title``                          |
 +-------------------------+------------------------------------+
 
-**STIX 2.0 Properties Translated to STIX 1.x Properties**
+**STIX 2.x Properties Translated to STIX 1.x Properties**
 
 +-------------------------+--------------------------------------------------------------------------------------+
-| **STIX 2.0 property**   | **STIX 1.x property**                                                                |
+| **STIX 2.x property**   | **STIX 1.x property**                                                                |
 +=========================+======================================================================================+
 | ``type``                | *implicitly defined by its element name or explicitly using xsi:type*                |
 +-------------------------+--------------------------------------------------------------------------------------+
@@ -90,15 +92,15 @@ Common Properties
 | ``granular_markings``   | ``Handling``                                                                         |
 +-------------------------+--------------------------------------------------------------------------------------+
 
-**STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 *none*
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 *none*
 
-**STIX 2.0 Properties Not Mapped**
+**STIX 2.x Properties Not Mapped**
 
 - ``revoked``
 
@@ -106,24 +108,24 @@ Attack Pattern
 ------------------
 
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 *none*
 
-**STIX 2.0 Properties Translated to STIX 1.x Properties**
+**STIX 2.x Properties Translated to STIX 1.x Properties**
 
 +---------------------------+-------------------------------------------------------------------+
-| **STIX 2.0 property**     | **STIX 1.x property**                                             |
+| **STIX 2.x property**     | **STIX 1.x property**                                             |
 +===========================+===================================================================+
 | ``external_references``   | ``capec_id``                                                      |
 +---------------------------+-------------------------------------------------------------------+
 | ``kill_chain_phases``     | ``ttp:Kill_Chain_Phases``                                         |
 +---------------------------+-------------------------------------------------------------------+
 
-**STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 +------------------------------------------------+----------------------------+
-| **STIX 2.0 relationship type**                 | **STIX 1.x property**      |
+| **STIX 2.x relationship type**                 | **STIX 1.x property**      |
 +================================================+============================+
 | ``targets`` (identity only)                    |  ``ttp:Victim_Targeting``  |
 +------------------------------------------------+----------------------------+
@@ -132,17 +134,17 @@ Attack Pattern
 |  ``uses`` (malware, tool)                      | ``ttp:Related_TTPs``       |
 +------------------------------------------------+----------------------------+
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 - ``labels``
 
-**STIX 2.0 Properties Not Mapped**
+**STIX 2.x Properties Not Mapped**
 
 *none*
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 
@@ -183,24 +185,24 @@ STIX 1.x in XML
 Campaigns
 ----------------
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 +-------------------------+------------------------+
-| **STIX 2.0 property**   | **STIX 1.x property**  |
+| **STIX 2.x property**   | **STIX 1.x property**  |
 +=========================+========================+
 | ``aliases``             | ``Names``              |
 +-------------------------+------------------------+
 | ``objective``           | ``Intended_Effect``    |
 +-------------------------+------------------------+
 
-**STIX 2.0 Properties Translated to STIX 1.x Properties**
+**STIX 2.x Properties Translated to STIX 1.x Properties**
 
 *none*
 
-**​STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+**​STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 +----------------------------------------------+----------------------------------------------+
-| **STIX 2.0 relationship type**               | **STIX 1.x property**                        |
+| **STIX 2.x relationship type**               | **STIX 1.x property**                        |
 +==============================================+==============================================+
 | ``uses``                                     | ``Related_TTPs``                             |
 +----------------------------------------------+----------------------------------------------+
@@ -211,19 +213,19 @@ Campaigns
 | ``related-to`` (campaign)                    | ``Associated_Campaigns``                     |
 +----------------------------------------------+----------------------------------------------+
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 -  ``first_seen``
 -  ``last_seen``
 -  ``labels``
 
-**STIX 2.0 Properties Not Mapped**
+**STIX 2.x Properties Not Mapped**
 
 *none*
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 
@@ -271,32 +273,32 @@ STIX 1.x in XML
 Course of Action
 ----------------------
 
-In STIX 2.0 the course-of-action object is defined as a stub. This means that in STIX
-2.0 this object type is pretty "bare-bones", not containing most of the
+In STIX 2.x the course-of-action object is defined as a stub. This means that in STIX
+2.x this object type is pretty "bare-bones", not containing most of the
 properties that were found in STIX 1.x.
 
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 *none*
 
-**STIX 2.0 Properties Translated to STIX 1.x Properties**
+**STIX 2.x Properties Translated to STIX 1.x Properties**
 
 +-------------------------+------------------------+
-| **STIX 2.0 property**   | **STIX 1.x property**  |
+| **STIX 2.x property**   | **STIX 1.x property**  |
 +=========================+========================+
 | ``labels``              | ``Type``               |
 +-------------------------+------------------------+
 
-**STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 +----------------------------------------------+----------------------------------------------+
-| **STIX 2.0 relationship type**               | **STIX 1.x property**                        |
+| **STIX 2.x relationship type**               | **STIX 1.x property**                        |
 +==============================================+==============================================+
 | ``related-to`` (course-of-action)            | ``Related_COAs``                             |
 +----------------------------------------------+----------------------------------------------+
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 *none*
 
@@ -306,7 +308,7 @@ properties that were found in STIX 1.x.
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 
@@ -340,27 +342,27 @@ STIX 1.x in XML
                 </coa:Description>
     </stix:Course_Of_Action>
 
-Notice that although there is information in the STIX 2.0 description property (from a previous use of the elevator) that
+Notice that although there is information in the STIX 2.x description property (from a previous use of the elevator) that
 could be used to populate STIX 1.x properties, the description property is transferred directly, with no additional processing.
 
 Indicator
 ------------------
 
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 +-----------------------------------+---------------------------+
-| **STIX 2.0 property**             | **STIX 1.x property**     |
+| **STIX 2.x property**             | **STIX 1.x property**     |
 +===================================+===========================+
 |  ``valid_from``, ``valid_until``  | ``Valid_Time_Position``   |
 +-----------------------------------+---------------------------+
 | ``created_by_ref``                | ``Producer``              |
 +-----------------------------------+---------------------------+
 
-**STIX 2.0  Properties Translated to STIX 1.x Properties**
+**STIX 2.x  Properties Translated to STIX 1.x Properties**
 
 +-------------------------+---------------------------------------------+
-|**STIX 2.0 property**    | **STIX 1.x property**                       |
+|**STIX 2.x property**    | **STIX 1.x property**                       |
 +=========================+=============================================+
 | ``kill_chain_phases``   | ``Kill_Chain_Phases``                       |
 +-------------------------+---------------------------------------------+
@@ -369,10 +371,10 @@ Indicator
 | ``labels``              | ``Type``                                    |
 +-------------------------+---------------------------------------------+
 
-**STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 +----------------------------------------------+-----------------------+
-| **STIX 2.0 relationship type**               | **STIX 1.x property** |
+| **STIX 2.x relationship type**               | **STIX 1.x property** |
 +==============================================+=======================+
 | ``detects``                                  | ``Indicated_TTP``     |
 +----------------------------------------------+-----------------------+
@@ -383,17 +385,17 @@ Indicator
 | ``related-to`` (indicator)                   | ``Related_Indicators``|
 +----------------------------------------------+-----------------------+
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 *none*
 
-**STIX 2.0 Properties Not Mapped**
+**STIX 2.x Properties Not Mapped**
 
 *none*
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 
@@ -442,29 +444,100 @@ STIX 1.x in XML
             </indicator:Indicated_TTP>
         </stix:Indicator>
 
-Malware
--------------
+Location
+------------------
 
-The Malware object in STIX 2.0 is a stub.
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
++-----------------------------------+---------------------------+
+| **STIX 2.x property**             | **STIX 1.x property**     |
++===================================+===========================+
+| ``adminstrative_area``            | ``adminstrative_area``    |
++-----------------------------------+---------------------------+
+|  ``country``                      | ``country``               |
++-----------------------------------+---------------------------+
+
+
+**STIX 2.x  Properties Translated to STIX 1.x Properties**
 
 *none*
 
-**STIX 2.0 Properties Translated to STIX 1.x Properties**
+**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
+
++----------------------------------------------+-----------------------+
+| **STIX 2.x relationship type**               | **STIX 1.x property** |
++==============================================+=======================+
+| ``located-at`` (identity)                    | ``Addresses``         |
++----------------------------------------------+-----------------------+
+| ``located-at`` (threat-actor)                | ``Identity/Addresses``|
++----------------------------------------------+-----------------------+
+
+**STIX 2.x Properties Recorded in the STIX 1.x free_text_address Property**
+
+ - ``latitude``
+ - ``longitude``
+ - ``precision``
+ - ``region``
+ - ``city``
+ - ``code``
+ - ``postal_code``
+
+**STIX 2.x Properties Not Mapped**
+
+*none*
+
+**An Example**
+
+STIX 2.x in JSON
+
+.. code-block:: json
+
+    {
+      "administrative_area": "California",
+      "country": "US",
+      "created": "2014-11-19T23:39:03.893Z",
+      "id": "location--c1445467-fd92-4532-9161-1c3024ab6467",
+      "modified": "2014-11-19T23:39:03.893Z",
+      "spec_version": "2.1",
+      "type": "location"
+    }
+
+STIX 1.x in XML
+
+.. code-block:: xml
+
+    <xpil:Address>
+        <xal:Country xmlns:xal="urn:oasis:names:tc:ciq:xal:3">
+            <xal:NameElement>US</xal:NameElement>
+        </xal:Country>
+        <xal:AdministrativeArea xmlns:xal="urn:oasis:names:tc:ciq:xal:3">
+            <xal:NameElement>California</xal:NameElement>
+        </xal:AdministrativeArea>
+    </xpil:Address>
+
+Malware
+-------------
+
+The Malware object in STIX 2.x is a stub.
+
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
+
+*none*
+
+**STIX 2.x Properties Translated to STIX 1.x Properties**
 
 +---------------------------+-------------------------------+
-| **STIX 2.0 property**     | **STIX 1.x property**         |
+| **STIX 2.x property**     | **STIX 1.x property**         |
 +===========================+===============================+
 |  ``kill_chain_phases``    | ``ttp:Kill_Chain_Phases``     |
 +---------------------------+-------------------------------+
 |  ``labels``               | ``Type``                      |
 +---------------------------+-------------------------------+
 
-**STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 +------------------------------------------+-----------------------------+
-| **STIX 2.0 relationship type**           | **STIX 1.x property**       |
+| **STIX 2.x relationship type**           | **STIX 1.x property**       |
 +==========================================+=============================+
 | ``variant-of``                           |  ``ttp:Related_TTPs``       |
 +------------------------------------------+-----------------------------+
@@ -475,17 +548,17 @@ The Malware object in STIX 2.0 is a stub.
 | ``targets`` (identity only)              | ``ttp:Victim_Targeting``    |
 +------------------------------------------+-----------------------------+
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 *none*
 
-**STIX 2.0 Properties Not Mapped**
+**STIX 2.x Properties Not Mapped**
 
 *none*
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 
@@ -522,26 +595,26 @@ STIX 1.x in XML
 Report
 --------
 
-The Report object in 2.0 does not contain objects, but only object references
+The Report object in 2.x does not contain objects, but only object references
 to STIX objects that are specified elsewhere (the location of the actual
 objects may not be contained in the same bundle that contains the report
 object).  1.x objects with only the ``idref`` property are created for each
-object reference in the STIX 2.0 report.
+object reference in the STIX 2.x report.
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 +-------------------------+------------------------+
-| **STIX 2.0 property**   | **STIX 1.x property**  |
+| **STIX 2.x property**   | **STIX 1.x property**  |
 +=========================+========================+
 | ``name``                | ``Header.Title``       |
 +-------------------------+------------------------+
 | ``description``         | ``Header.Description`` |
 +-------------------------+------------------------+
 
-**STIX 2.0 Properties Translated to STIX 1.x Properties**
+**STIX 2.x Properties Translated to STIX 1.x Properties**
 
 +--------------------------------------------------------+-----------------------+
-| **STIX 2.0 property**                                  | **STIX 1.x property** |
+| **STIX 2.x property**                                  | **STIX 1.x property** |
 +========================================================+=======================+
 | ``object_refs`` (observed-data)                        | ``Observables``       |
 +--------------------------------------------------------+-----------------------+
@@ -562,21 +635,21 @@ object reference in the STIX 2.0 report.
 | ``labels``                                             | ``Header.Intent``     |
 +--------------------------------------------------------+-----------------------+
 
-​**STIX 2.0 Properties Mapped Using STIX 1.x Relationships**
+​**STIX 2.x Properties Mapped Using STIX 1.x Relationships**
 
 *none*
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 - ``published``
 
-**STIX 2.0 Properties Not Mapped**
+**STIX 2.x Properties Not Mapped**
 
 *none*
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 
@@ -620,18 +693,18 @@ STIX 1.x in XML
 Threat Actor
 ------------------
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 +-------------------------------------+--------------------------------------+
-| **STIX 2.0 property**               | **STIX 1.x property**                |
+| **STIX 2.x property**               | **STIX 1.x property**                |
 +=====================================+======================================+
 | ``goals``                           | ``Intended_Effects``                 |
 +-------------------------------------+--------------------------------------+
 
-**STIX 2.0 Properties Translated to STIX 1.x Properties**
+**STIX 2.x Properties Translated to STIX 1.x Properties**
 
 +-------------------------------------+--------------------------------------+
-| **STIX 2.0 property**               | **STIX 1.x property**                |
+| **STIX 2.x property**               | **STIX 1.x property**                |
 +=====================================+======================================+
 | ``primary_motivation``              | ``Motivation``                       |
 | ``secondary_motivations``           |                                      |
@@ -642,10 +715,10 @@ Threat Actor
 | ``labels``                          | ``Type``                             |
 +-------------------------------------+--------------------------------------+
 
-​**STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+​**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 +--------------------------------+---------------------------------------+
-| **STIX 2.0 relationship type** | **STIX 1.x property**                 |
+| **STIX 2.x relationship type** | **STIX 1.x property**                 |
 +================================+=======================================+
 | ``uses``                       | ``Observed_TTPs``                     |
 +--------------------------------+---------------------------------------+
@@ -654,20 +727,20 @@ Threat Actor
 | ``related-to`` (threat-actor)  | ``Associated_Actors``                 |
 +--------------------------------+---------------------------------------+
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 - ``name``
 - ``aliases``
 - ``roles``
 - ``resource_level``
 
-**STIX 2.0 Properties Not Mapped**
+**STIX 2.x Properties Not Mapped**
 
 *none*
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 
@@ -702,10 +775,10 @@ STIX 1.x in XML
 Tool
 -------
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 +--------------------------+--------------------------------+
-| **STIX 2.0 property**    | **STIX 1.x property**          |
+| **STIX 2.x property**    | **STIX 1.x property**          |
 +==========================+================================+
 | ``name``                 | ``Name`` (from CybOX)          |
 +--------------------------+--------------------------------+
@@ -717,7 +790,7 @@ Tool
 +--------------------------+--------------------------------+
 
 
-​**STIX 2.0 Properties Translated to STIX 2.0 Properties**
+​**STIX 2.x Properties Translated to STIX 2.x Properties**
 
 +-----------------------------------+-------------------------------+
 | **STIX 1.x property**             | **STIX 1.x property**         |
@@ -727,17 +800,17 @@ Tool
 | ``kill_chain_phases``             | ``ttp:Kill_Chain_Phases``     |
 +-----------------------------------+-------------------------------+
 
-​**STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+​**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 +---------------------------------------+----------------------------+
-| **STIX 2.0 relationship type**        | **STIX 1.x property**      |
+| **STIX 2.x relationship type**        | **STIX 1.x property**      |
 +=======================================+============================+
 | ``uses`` (attack-pattern) (reverse)   | ``ttp:Related_TTPs``       |
 +---------------------------------------+----------------------------+
 | ``targets`` (identity)                | ``ttp:Related_TTPs``       |
 +---------------------------------------+----------------------------+
 
-**STIX 2.0  Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x  Properties Recorded in the STIX 1.x Description Property**
 
 - ``ttp:Intended_Effect``
 
@@ -747,7 +820,7 @@ Tool
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 
@@ -793,14 +866,14 @@ STIX 1.x in XML
 Vulnerability
 ------------------
 
-**STIX 2.0 Properties Mapped Directly to STIX 1.x Properties**
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
 *none*
 
-**STIX 2.0 Properties Translated to STIX 1.x Properties**
+**STIX 2.x Properties Translated to STIX 1.x Properties**
 
 +---------------------------------------------------------+------------------------------+
-| **STIX 2.0 property**                                   | **STIX 1.x  property**       |
+| **STIX 2.x property**                                   | **STIX 1.x  property**       |
 +=========================================================+==============================+
 | ``external_references`` (``source_name``: ``cve``)      |``CVE_ID``                    |
 +---------------------------------------------------------+------------------------------+
@@ -808,27 +881,27 @@ Vulnerability
 +---------------------------------------------------------+------------------------------+
 
 
-**​STIX 2.0 Relationships Mapped Using STIX 1.x Relationships**
+**​STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
 +------------------------------------------------+--------------------------------+
-| **STIX 2.0 relationship type**                 | **STIX 1.x property**          |
+| **STIX 2.x relationship type**                 | **STIX 1.x property**          |
 +================================================+================================+
 | ``mitigates`` (reverse)                        | ``et:Potential_COAs``          |
 +------------------------------------------------+--------------------------------+
 | ``related-to`` (when not used for versioning)  | ``et:Related_Exploit_Targets`` |
 +------------------------------------------------+--------------------------------+
 
-**STIX 2.0 Properties Recorded in the STIX 1.x Description Property**
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
 - ``labels``
 
-**STIX 2.0 Properties Not Mapped**
+**STIX 2.x Properties Not Mapped**
 
 *none*
 
 **An Example**
 
-STIX 2.0 in JSON
+STIX 2.x in JSON
 
 .. code-block:: json
 

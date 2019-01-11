@@ -1,0 +1,30 @@
+{
+    "id": "bundle--46f26b4f-e0f7-4865-b104-6d221cb90d12",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--d879b23b-26a6-490b-b78c-24d074654d33",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "extensions": {
+                        "windows-process-ext": {
+                            "aslr_enabled": true,
+                            "dep_enabled": true,
+                            "owner_sid": "S-1-5-21-186985262-1144665072-74031268-1309",
+                            "priority": "HIGH_PRIORITY_CLASS"
+                        }
+                    },
+                    "pid": 314,
+                    "type": "process"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
+        }
+    ],
+    "type": "bundle"
+}

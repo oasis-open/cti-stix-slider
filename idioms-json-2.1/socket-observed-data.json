@@ -1,0 +1,41 @@
+{
+    "id": "bundle--8fb48930-41e7-45d9-9ab7-171be0385f20",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--8647e9be-c8df-44d5-af4a-9dd4ae43c641",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "type": "ipv4-addr",
+                    "value": "198.51.100.2"
+                },
+                "1": {
+                    "extensions": {
+                        "socket-ext": {
+                            "address_family": "AF_INET",
+                            "is_listening": true,
+                            "options": {
+                                "SO_LINGER": 5
+                            },
+                            "socket_type": "SOCK_STREAM"
+                        }
+                    },
+                    "protocols": [
+                        "ip",
+                        "tcp"
+                    ],
+                    "src_port": 223,
+                    "src_ref": "0",
+                    "type": "network-traffic"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
+        }
+    ],
+    "type": "bundle"
+}

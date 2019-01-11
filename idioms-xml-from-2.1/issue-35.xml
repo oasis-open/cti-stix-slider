@@ -1,0 +1,57 @@
+<stix:STIX_Package
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:URIObj="http://cybox.mitre.org/objects#URIObject-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:example="http://example.com"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 id="example:STIXPackage-f3d07d99-fabc-4245-838b-6d1016eabb58" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-0d77c706-1990-4b20-85d7-ef4ada1353dd" timestamp="2018-09-04T14:46:05.001000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>Malware URL download</indicator:Title>
+            <indicator:Type>compromised</indicator:Type>
+            <indicator:Description ordinality="1">This URL is a known malware URL according to URLhaus.</indicator:Description>
+            <indicator:Description ordinality="2">SOURCE: URLhaus - https://urlhaus.abuse.ch/url/51331/</indicator:Description>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2018-09-04T14:46:05+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-2715bd96-3b1f-417e-9992-e0196f014a03">
+                <cybox:Object id="example:URI-92ddbea5-12e7-487c-b3a5-18cd1a7442b4">
+                    <cybox:Properties xsi:type="URIObj:URIObjectType">
+                        <URIObj:Value condition="Equals">http://writerbliss.com/Payments/</URIObj:Value>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+            <indicator:Indicated_TTP>
+                <stixCommon:TTP idref="example:ttp-0d77c706-1990-4b20-85d7-ef4ada1353dd" xsi:type='ttp:TTPType'/>
+            </indicator:Indicated_TTP>
+        </stix:Indicator>
+    </stix:Indicators>
+    <stix:TTPs>
+        <stix:TTP id="example:ttp-0d77c706-1990-4b20-85d7-ef4ada1353dd" timestamp="2018-09-04T14:46:05.001000+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Behavior>
+                <ttp:Malware>
+                    <ttp:Malware_Instance>
+                        <ttp:Type>dropper</ttp:Type>
+                        <ttp:Name>emotet,word macro</ttp:Name>
+                        <ttp:Description>Malware tries to download additional payload from remote server</ttp:Description>
+                    </ttp:Malware_Instance>
+                </ttp:Malware>
+            </ttp:Behavior>
+            <ttp:Kill_Chain_Phases>
+                <stixCommon:Kill_Chain_Phase name="establish-foothold" phase_id="example:TTP-994d2909-bb24-457e-a97e-73915113b6a3" kill_chain_name="urlhaus-attack-kill-chain" kill_chain_id="example:TTP-674c9553-0700-4e4b-8f42-b97ea1c03f18"/>
+            </ttp:Kill_Chain_Phases>
+        </stix:TTP>
+        <stix:Kill_Chains>
+            <stixCommon:Kill_Chain id="example:TTP-674c9553-0700-4e4b-8f42-b97ea1c03f18" name="urlhaus-attack-kill-chain">
+                <stixCommon:Kill_Chain_Phase name="establish-foothold" phase_id="example:TTP-994d2909-bb24-457e-a97e-73915113b6a3"/>
+            </stixCommon:Kill_Chain>
+        </stix:Kill_Chains>
+    </stix:TTPs>
+</stix:STIX_Package>

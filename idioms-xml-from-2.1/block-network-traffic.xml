@@ -1,0 +1,32 @@
+<stix:STIX_Package
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:coa="http://stix.mitre.org/CourseOfAction-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:example="http://example.com"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	 id="example:STIXPackage-495c4c04-b5d8-41e3-a7bb-000c29789db9" version="1.2">
+    <stix:Courses_Of_Action>
+        <stix:Course_Of_Action id="example:course-of-action-495c9b28-b5d8-41e3-b7bb-000c29789db9" timestamp="2017-01-27T13:49:41.298000+00:00" xsi:type='coa:CourseOfActionType'>
+            <coa:Title>Block traffic to PIVY C2 Server (10.10.10.10)</coa:Title>
+            <coa:Type xsi:type="stixVocabs:CourseOfActionTypeVocab-1.0">Perimeter Blocking</coa:Type>
+            <coa:Description>
+
+STAGE:
+	Response
+
+OBJECTIVE: Block communication between the PIVY agents and the C2 Server
+
+CONFIDENCE: High
+
+IMPACT:LowThis IP address is not used for legitimate hosting so there should be no operational impact.
+
+COST:Low
+
+EFFICACY:High</coa:Description>
+        </stix:Course_Of_Action>
+    </stix:Courses_Of_Action>
+</stix:STIX_Package>

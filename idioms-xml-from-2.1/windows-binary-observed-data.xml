@@ -1,0 +1,107 @@
+<stix:STIX_Package
+	xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:example="http://example.com"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	 id="example:STIXPackage-667d10d7-eef9-4259-b544-d39d2c12ba54" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-1f54eaf6-9f07-4286-bdfa-c7f726c34c19">
+            <cybox:Object id="example:WinExecutableFile-a97a301d-c2e5-4741-acb6-36559aeb7218">
+                <cybox:Description>number_of_sections: 4</cybox:Description>
+                <cybox:Properties xsi:type="WinExecutableFileObj:WindowsExecutableFileObjectType">
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                    <WinExecutableFileObj:Headers>
+                        <WinExecutableFileObj:File_Header>
+                            <WinExecutableFileObj:Machine>014c</WinExecutableFileObj:Machine>
+                            <WinExecutableFileObj:Time_Date_Stamp>2016-01-22 12:31:12+00:00</WinExecutableFileObj:Time_Date_Stamp>
+                            <WinExecutableFileObj:Pointer_To_Symbol_Table>74726144</WinExecutableFileObj:Pointer_To_Symbol_Table>
+                            <WinExecutableFileObj:Number_Of_Symbols>4542568</WinExecutableFileObj:Number_Of_Symbols>
+                            <WinExecutableFileObj:Size_Of_Optional_Header>224</WinExecutableFileObj:Size_Of_Optional_Header>
+                            <WinExecutableFileObj:Characteristics>818f</WinExecutableFileObj:Characteristics>
+                        </WinExecutableFileObj:File_Header>
+                        <WinExecutableFileObj:Optional_Header>
+                            <WinExecutableFileObj:Magic>010b</WinExecutableFileObj:Magic>
+                            <WinExecutableFileObj:Major_Linker_Version>2</WinExecutableFileObj:Major_Linker_Version>
+                            <WinExecutableFileObj:Minor_Linker_Version>25</WinExecutableFileObj:Minor_Linker_Version>
+                            <WinExecutableFileObj:Size_Of_Code>512</WinExecutableFileObj:Size_Of_Code>
+                            <WinExecutableFileObj:Size_Of_Initialized_Data>283648</WinExecutableFileObj:Size_Of_Initialized_Data>
+                            <WinExecutableFileObj:Size_Of_Uninitialized_Data>0</WinExecutableFileObj:Size_Of_Uninitialized_Data>
+                            <WinExecutableFileObj:Address_Of_Entry_Point>4096</WinExecutableFileObj:Address_Of_Entry_Point>
+                            <WinExecutableFileObj:Base_Of_Code>4096</WinExecutableFileObj:Base_Of_Code>
+                            <WinExecutableFileObj:Base_Of_Data>8192</WinExecutableFileObj:Base_Of_Data>
+                            <WinExecutableFileObj:Image_Base>14548992</WinExecutableFileObj:Image_Base>
+                            <WinExecutableFileObj:Section_Alignment>4096</WinExecutableFileObj:Section_Alignment>
+                            <WinExecutableFileObj:File_Alignment>4096</WinExecutableFileObj:File_Alignment>
+                            <WinExecutableFileObj:Major_OS_Version>1</WinExecutableFileObj:Major_OS_Version>
+                            <WinExecutableFileObj:Minor_OS_Version>0</WinExecutableFileObj:Minor_OS_Version>
+                            <WinExecutableFileObj:Major_Image_Version>0</WinExecutableFileObj:Major_Image_Version>
+                            <WinExecutableFileObj:Minor_Image_Version>0</WinExecutableFileObj:Minor_Image_Version>
+                            <WinExecutableFileObj:Major_Subsystem_Version>4</WinExecutableFileObj:Major_Subsystem_Version>
+                            <WinExecutableFileObj:Minor_Subsystem_Version>0</WinExecutableFileObj:Minor_Subsystem_Version>
+                            <WinExecutableFileObj:Win32_Version_Value>00</WinExecutableFileObj:Win32_Version_Value>
+                            <WinExecutableFileObj:Size_Of_Image>299008</WinExecutableFileObj:Size_Of_Image>
+                            <WinExecutableFileObj:Size_Of_Headers>4096</WinExecutableFileObj:Size_Of_Headers>
+                            <WinExecutableFileObj:Checksum>00</WinExecutableFileObj:Checksum>
+                            <WinExecutableFileObj:Subsystem>03</WinExecutableFileObj:Subsystem>
+                            <WinExecutableFileObj:DLL_Characteristics>00</WinExecutableFileObj:DLL_Characteristics>
+                            <WinExecutableFileObj:Size_Of_Stack_Reserve>100000</WinExecutableFileObj:Size_Of_Stack_Reserve>
+                            <WinExecutableFileObj:Size_Of_Stack_Commit>8192</WinExecutableFileObj:Size_Of_Stack_Commit>
+                            <WinExecutableFileObj:Size_Of_Heap_Reserve>100000</WinExecutableFileObj:Size_Of_Heap_Reserve>
+                            <WinExecutableFileObj:Size_Of_Heap_Commit>4096</WinExecutableFileObj:Size_Of_Heap_Commit>
+                            <WinExecutableFileObj:Loader_Flags>abdbffde</WinExecutableFileObj:Loader_Flags>
+                            <WinExecutableFileObj:Number_Of_Rva_And_Sizes>3758087646</WinExecutableFileObj:Number_Of_Rva_And_Sizes>
+                        </WinExecutableFileObj:Optional_Header>
+                    </WinExecutableFileObj:Headers>
+                    <WinExecutableFileObj:Sections>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>CODE</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.061089</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>DATA</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>7.980693</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>NicolasB</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.607433</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>.idata</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.607433</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                    </WinExecutableFileObj:Sections>
+                    <WinExecutableFileObj:Type>Executable</WinExecutableFileObj:Type>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

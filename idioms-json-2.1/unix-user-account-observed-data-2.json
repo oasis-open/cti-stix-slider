@@ -1,0 +1,38 @@
+{
+    "id": "bundle--cb818110-9468-4182-b86d-f8724e0fb2e7",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--a350d2a1-5cab-4add-98cf-1dfea10db3f6",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "account_login": "jdoe",
+                    "account_type": "unix",
+                    "can_escalate_privs": true,
+                    "display_name": "John Doe",
+                    "extensions": {
+                        "unix-account-ext": {
+                            "gid": 1001,
+                            "groups": [
+                                "wheel"
+                            ],
+                            "home_dir": "/home/jdoe",
+                            "shell": "/bin/bash"
+                        }
+                    },
+                    "is_privileged": false,
+                    "is_service_account": false,
+                    "type": "user-account",
+                    "user_id": "1001"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
+        }
+    ],
+    "type": "bundle"
+}

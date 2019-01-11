@@ -1,0 +1,38 @@
+{
+    "id": "bundle--864148ad-415d-4141-8e32-81490a8aa325",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--02aa2e18-55fc-44dd-be68-cf83c58f87ac",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "display_name": "John Doe",
+                    "type": "email-addr",
+                    "value": "jdoe@example.com"
+                },
+                "1": {
+                    "display_name": "Mary Smith",
+                    "type": "email-addr",
+                    "value": "mary@example.com"
+                },
+                "2": {
+                    "date": "1997-11-21T15:55:06.000Z",
+                    "from_ref": "0",
+                    "is_multipart": false,
+                    "subject": "Saying Hello",
+                    "to_refs": [
+                        "1"
+                    ],
+                    "type": "email-message"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
+        }
+    ],
+    "type": "bundle"
+}

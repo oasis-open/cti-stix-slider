@@ -1,0 +1,29 @@
+{
+    "id": "bundle--710a03da-7bf0-4f37-adda-c3a061d26001",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--c2828209-6e7f-43d8-a633-5596be6032b3",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "resolves_to_refs": [
+                        "1"
+                    ],
+                    "type": "domain-name",
+                    "value": "example.com"
+                },
+                "1": {
+                    "type": "ipv4-addr",
+                    "value": "198.51.100.2"
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
+        }
+    ],
+    "type": "bundle"
+}

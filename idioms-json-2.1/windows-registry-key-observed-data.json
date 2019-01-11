@@ -1,0 +1,34 @@
+{
+    "id": "bundle--a43455ec-ed2f-420b-8d89-f0a45b547c08",
+    "objects": [
+        {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--59fd4db3-272b-4a33-9729-b6a46dbdd69b",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "objects": {
+                "0": {
+                    "key": "hkey_local_machine\\system\\bar\\foo",
+                    "type": "windows-registry-key",
+                    "values": [
+                        {
+                            "data": "qwerty",
+                            "data_type": "REG_SZ",
+                            "name": "Foo"
+                        },
+                        {
+                            "data": "42",
+                            "data_type": "REG_DWORD",
+                            "name": "Bar"
+                        }
+                    ]
+                }
+            },
+            "spec_version": "2.1",
+            "type": "observed-data"
+        }
+    ],
+    "type": "bundle"
+}

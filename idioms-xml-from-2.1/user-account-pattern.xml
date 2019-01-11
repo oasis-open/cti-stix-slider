@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stix:STIX_Package
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:example="http://example.com"
+	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:UnixUserAccountObj="http://cybox.mitre.org/objects#UnixUserAccountObject-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	 id="example:STIXPackage-2c8e7a2f-03eb-4ef9-b532-a92958116c97" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-7f895892-d044-455e-ab93-a5286c3b1f04" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-a006cb03-66f8-495a-bb74-6a3e03a23653">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-a47f54f4-a420-497f-b573-27d3e598cf0a">
+                        <cybox:Observable_Composition operator="AND">
+                            <cybox:Observable id="example:Observable-6ee617fd-f90d-4508-aa0a-35eac7b650a7">
+                                <cybox:Object id="example:UnixUserAccount-6632d927-6291-4ab6-a040-e645180e9829">
+                                    <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                                        <AccountObj:Authentication>
+                                            <AccountObj:Authentication_Data>PaSSw0rD</AccountObj:Authentication_Data>
+                                        </AccountObj:Authentication>
+                                        <UserAccountObj:Username condition="Equals">Peter</UserAccountObj:Username>
+                                        <UnixUserAccountObj:User_ID condition="Equals">1007</UnixUserAccountObj:User_ID>
+
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-c662a848-0545-4fde-b4e5-5e6cc4e227e8">
+                                <cybox:Object id="example:UnixUserAccount-48da6da8-c03d-4ef9-adf5-73f1afaffd81">
+                                    <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                                        <UserAccountObj:Username condition="Equals">Paul</UserAccountObj:Username>
+                                        <UnixUserAccountObj:User_ID condition="Equals">1008</UnixUserAccountObj:User_ID>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-1d1a3aea-c705-4094-a5d7-a2976476aa62">
+                        <cybox:Object id="example:UnixUserAccount-8b351ff1-adff-46c4-be90-5dbb5e3e072f">
+                            <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                                <UserAccountObj:Username condition="Equals">Mary</UserAccountObj:Username>
+                                <UnixUserAccountObj:Group_ID condition="Equals">1003</UnixUserAccountObj:Group_ID>
+                                <UnixUserAccountObj:User_ID condition="Equals">1009</UnixUserAccountObj:User_ID>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>

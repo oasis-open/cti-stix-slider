@@ -1,0 +1,24 @@
+<stix:STIX_Package
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:example="http://example.com"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	 id="example:STIXPackage-46f26b4f-e0f7-4865-b104-6d221cb90d12" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-d879b23b-26a6-490b-b78c-24d074654d33">
+            <cybox:Object id="example:WinProcess-7e5f1148-bcc4-4eba-bca6-4a333b59ac69">
+                <cybox:Properties xsi:type="WinProcessObj:WindowsProcessObjectType" aslr_enabled="true" dep_enabled="true">
+                    <ProcessObj:PID>314</ProcessObj:PID>
+                    <WinProcessObj:Priority>HIGH_PRIORITY_CLASS</WinProcessObj:Priority>
+                    <WinProcessObj:Security_ID>S-1-5-21-186985262-1144665072-74031268-1309</WinProcessObj:Security_ID>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

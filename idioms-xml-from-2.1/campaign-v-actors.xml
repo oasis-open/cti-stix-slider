@@ -1,0 +1,46 @@
+<stix:STIX_Package
+	xmlns:ta="http://stix.mitre.org/ThreatActor-1"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:campaign="http://stix.mitre.org/Campaign-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:example="http://example.com"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	 id="example:STIXPackage-81810123-b298-40f6-a4e7-186efcd07670" version="1.2">
+    <stix:Campaigns>
+        <stix:Campaign id="example:campaign-e5268b6e-4931-42f1-b379-87f48eb41b1e" timestamp="2014-08-08T15:50:10.983000+00:00" xsi:type='campaign:CampaignType'>
+            <campaign:Title>Compromise of ATM Machines</campaign:Title>
+            <campaign:Description>Fred
+
+INFORMATION SOURCE ROLE: Aggregator
+
+INFORMATION SOURCE ROLE: Initial Author</campaign:Description>
+            <campaign:Information_Source>
+                <stixCommon:References>
+                    <stixCommon:Reference>SOURCE: ACME - http://foo.com/bar</stixCommon:Reference>
+                    <stixCommon:Reference>SOURCE: wikipedia - https://en.wikipedia.org/wiki/Automated_teller_machine</stixCommon:Reference>
+                    <stixCommon:Reference>SOURCE: ACME Bugzilla - https://www.example.com/bugs/1370</stixCommon:Reference>
+                    <stixCommon:Reference>SOURCE: ACME Bugzilla - EXTERNAL ID: 1370</stixCommon:Reference>
+                </stixCommon:References>
+            </campaign:Information_Source>
+        </stix:Campaign>
+    </stix:Campaigns>
+    <stix:Threat_Actors>
+        <stix:Threat_Actor id="example:threat-actor-56f3f0db-b5d5-431c-ae56-c18f02caf500" timestamp="2014-08-08T15:50:10.983000+00:00" xsi:type='ta:ThreatActorType'>
+            <ta:Title>People behind the intrusion</ta:Title>
+            <ta:Type timestamp="2018-04-16T16:20:18.063358+00:00">
+                <stixCommon:Value>unknown</stixCommon:Value>
+            </ta:Type>
+            <ta:Sophistication timestamp="2018-04-16T16:20:18.063444+00:00">
+                <stixCommon:Value>unknown</stixCommon:Value>
+            </ta:Sophistication>
+            <ta:Associated_Campaigns>
+                <ta:Associated_Campaign>
+                    <stixCommon:Campaign idref="example:campaign-e5268b6e-4931-42f1-b379-87f48eb41b1e" xsi:type='campaign:CampaignType'/>
+                </ta:Associated_Campaign>
+            </ta:Associated_Campaigns>
+        </stix:Threat_Actor>
+    </stix:Threat_Actors>
+</stix:STIX_Package>

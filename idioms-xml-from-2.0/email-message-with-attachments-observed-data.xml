@@ -1,0 +1,87 @@
+<stix:STIX_Package
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:example="http://example.com"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	 id="example:STIXPackage-a50ebeb7-0fa1-4eb0-b2ff-7d36d5d82369" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-9a28189d-2670-4ba6-b968-d3c475b1ec0a">
+            <cybox:Object id="example:EmailMessage-294bd89a-3ce0-4422-bf77-620ce9197021">
+                <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                    <EmailMessageObj:Header>
+                        <EmailMessageObj:Received_Lines>
+                            <EmailMessageObj:Received>
+                                <EmailMessageObj:From>from mail.example.com ([198.51.100.3]) by smtp.gmail.com with ESMTPSA id q23sm23309939wme.17.2016.07.19.07.20.32 (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Tue, 19 Jul 2016 07:20:40 -0700 (PDT)</EmailMessageObj:From>
+                            </EmailMessageObj:Received>
+                        </EmailMessageObj:Received_Lines>
+                        <EmailMessageObj:To>
+                            <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value>bob@example.com</AddressObj:Address_Value>
+                            </EmailMessageObj:Recipient>
+                        </EmailMessageObj:To>
+                        <EmailMessageObj:CC>
+                            <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value>mary@example.com</AddressObj:Address_Value>
+                            </EmailMessageObj:Recipient>
+                        </EmailMessageObj:CC>
+                        <EmailMessageObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <AddressObj:Address_Value>jdoe@example.com</AddressObj:Address_Value>
+                        </EmailMessageObj:From>
+                        <EmailMessageObj:Subject>Check out this picture of a cat!</EmailMessageObj:Subject>
+                        <EmailMessageObj:Date>2016-06-19T14:20:40+00:00</EmailMessageObj:Date>
+                        <EmailMessageObj:Content_Type>multipart/mixed</EmailMessageObj:Content_Type>
+                        <EmailMessageObj:X_Mailer>Mutt/1.5.23</EmailMessageObj:X_Mailer>
+                        <EmailMessageObj:X_Originating_IP xsi:type="AddressObj:AddressObjectType">
+                            <AddressObj:Address_Value>198.51.100.3</AddressObj:Address_Value>
+                        </EmailMessageObj:X_Originating_IP>
+                    </EmailMessageObj:Header>
+                    <EmailMessageObj:Raw_Body><![CDATA[Cats are funny!]]></EmailMessageObj:Raw_Body>
+                    <EmailMessageObj:Attachments>
+                        <EmailMessageObj:File object_reference="example:Artifact-0abf9af2-0993-4d28-b239-58a6a6907229"/>
+                        <EmailMessageObj:File object_reference="example:File-5ea0062a-cbca-4db0-94e3-3bc9d1364658"/>
+                    </EmailMessageObj:Attachments>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:Artifact-0abf9af2-0993-4d28-b239-58a6a6907229">
+                        <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="image/jpeg">
+                            <ArtifactObj:Hashes>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>effb46bba03f6c8aea5c653f9cf984f170dcdd3bbbe2ff6843c3e5da0e698766</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                            </ArtifactObj:Hashes>
+                            <ArtifactObj:Packaging>
+                                <ArtifactObj:Encoding algorithm="Base64"/>
+                            </ArtifactObj:Packaging>
+                            <ArtifactObj:Raw_Artifact><![CDATA[VBORw0KGgoAAAANSUhEUgAAADI== ...]]></ArtifactObj:Raw_Artifact>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                    </cybox:Related_Object>
+                    <cybox:Related_Object id="example:File-5ea0062a-cbca-4db0-94e3-3bc9d1364658">
+                        <cybox:Properties xsi:type="FileObj:FileObjectType">
+                            <FileObj:File_Name>tabby_pics.zip</FileObj:File_Name>
+                            <FileObj:Magic_Number>504B0304</FileObj:Magic_Number>
+                            <FileObj:Hashes>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>fe90a7e910cb3a4739bed9180e807e93fa70c90f25a8915476f5e4bfbac681db</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                            </FileObj:Hashes>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>
+

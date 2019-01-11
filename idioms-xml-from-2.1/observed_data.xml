@@ -1,0 +1,514 @@
+<stix:STIX_Package
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:ImageFileObj="http://cybox.mitre.org/objects#ImageFileObject-1"
+	xmlns:ASObj="http://cybox.mitre.org/objects#ASObject-1"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:ProductObj="http://cybox.mitre.org/objects#ProductObject-2"
+	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
+	xmlns:X509CertificateObj="http://cybox.mitre.org/objects#X509CertificateObject-2"
+	xmlns:example="http://example.com"
+	xmlns:UnixUserAccountObj="http://cybox.mitre.org/objects#UnixUserAccountObject-2"
+	xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:PDFFileObj="http://cybox.mitre.org/objects#PDFFileObject-1"
+	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
+	xmlns:URIObj="http://cybox.mitre.org/objects#URIObject-2"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
+	xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
+    xmlns:NetworkSocketObj="http://cybox.mitre.org/objects#NetworkSocketObject-2"
+    xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+    xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+    xmlns:HTTPSessionObj="http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    xmlns:PacketObj="http://cybox.mitre.org/objects#PacketObject-2"
+    xmlns:PortObj="http://cybox.mitre.org/objects#PortObject-2"
+	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
+            <cybox:Object id="example:Artifact-93fad08f-8bac-4d80-b68b-4f36ca99a900">
+                <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="image/jpeg">
+                    <ArtifactObj:Raw_Artifact><![CDATA[VBORw0KGgoAAAANSUhEUgAAADI== ...]]></ArtifactObj:Raw_Artifact>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-7ef0f598-8e1d-4ded-9e10-fc2aa8ea2dbd">
+            <cybox:Object id="example:AutonomousSystem-3b3c0bac-2892-44e8-babc-32e3540d748b">
+                <cybox:Properties xsi:type="ASObj:ASObjectType">
+                    <ASObj:Number>15139</ASObj:Number>
+                    <ASObj:Name>Slime Industries</ASObj:Name>
+                    <ASObj:Regional_Internet_Registry>ARIN</ASObj:Regional_Internet_Registry>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-c2828209-6e7f-43d8-a633-5596be6032b3">
+            <cybox:Object id="example:DomainName-bbe22ea6-10a9-4a4c-a105-2b5ca1b218ef">
+                <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
+                    <DomainNameObj:Value>example.com</DomainNameObj:Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-b133cf99-0042-47e4-b669-99fba2baff6e">
+            <cybox:Object id="example:EmailAddress-8b57aea8-30b0-44fd-b099-d190ec6bf10c">
+                <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                    <AddressObj:Address_Value>john@example.com</AddressObj:Address_Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-02aa2e18-55fc-44dd-be68-cf83c58f87ac">
+            <cybox:Object id="example:EmailMessage-7d3b911b-70f8-48eb-a6fb-dd7f020a46d6">
+                <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                    <EmailMessageObj:Header>
+                        <EmailMessageObj:To>
+                            <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value>mary@example.com</AddressObj:Address_Value>
+                            </EmailMessageObj:Recipient>
+                        </EmailMessageObj:To>
+                        <EmailMessageObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <AddressObj:Address_Value>jdoe@example.com</AddressObj:Address_Value>
+                        </EmailMessageObj:From>
+                        <EmailMessageObj:Subject>Saying Hello</EmailMessageObj:Subject>
+                        <EmailMessageObj:Date>1997-11-21T15:55:06+00:00</EmailMessageObj:Date>
+                    </EmailMessageObj:Header>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-bbce6835-185e-40e8-8b96-8e3e13c97418">
+            <cybox:Object id="example:EmailMessage-2b7db290-2bbf-488e-a1ac-aaf76bad061c">
+                <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                    <EmailMessageObj:Header>
+                        <EmailMessageObj:To>
+                            <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value>bob@example.com</AddressObj:Address_Value>
+                            </EmailMessageObj:Recipient>
+                        </EmailMessageObj:To>
+                        <EmailMessageObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <AddressObj:Address_Value>joe@example.com</AddressObj:Address_Value>
+                        </EmailMessageObj:From>
+                        <EmailMessageObj:Subject>Did you see this?</EmailMessageObj:Subject>
+                        <EmailMessageObj:Date>2004-04-19T12:22:23+00:00</EmailMessageObj:Date>
+                        <EmailMessageObj:Reply_To xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <AddressObj:Address_Value>steve@example.com##comma##jane@example.com</AddressObj:Address_Value>
+                        </EmailMessageObj:Reply_To>
+                    </EmailMessageObj:Header>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-9a28189d-2670-4ba6-b968-d3c475b1ec0a">
+            <cybox:Object id="example:EmailMessage-698206d6-b14a-4560-b6ab-3fcd4c480797">
+                <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                    <EmailMessageObj:Header>
+                        <EmailMessageObj:Received_Lines>
+                            <EmailMessageObj:Received>
+                                <EmailMessageObj:From>from mail.example.com ([198.51.100.3]) by smtp.gmail.com with ESMTPSA id q23sm23309939wme.17.2016.07.19.07.20.32 (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Tue, 19 Jul 2016 07:20:40 -0700 (PDT)</EmailMessageObj:From>
+                            </EmailMessageObj:Received>
+                        </EmailMessageObj:Received_Lines>
+                        <EmailMessageObj:To>
+                            <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value>bob@example.com</AddressObj:Address_Value>
+                            </EmailMessageObj:Recipient>
+                        </EmailMessageObj:To>
+                        <EmailMessageObj:CC>
+                            <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value>mary@example.com</AddressObj:Address_Value>
+                            </EmailMessageObj:Recipient>
+                        </EmailMessageObj:CC>
+                        <EmailMessageObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <AddressObj:Address_Value>jdoe@example.com</AddressObj:Address_Value>
+                        </EmailMessageObj:From>
+                        <EmailMessageObj:Subject>Check out this picture of a cat!</EmailMessageObj:Subject>
+                        <EmailMessageObj:Date>2016-06-19T14:20:40+00:00</EmailMessageObj:Date>
+                        <EmailMessageObj:Content_Type>multipart/mixed</EmailMessageObj:Content_Type>
+                        <EmailMessageObj:X_Mailer>Mutt/1.5.23</EmailMessageObj:X_Mailer>
+                        <EmailMessageObj:X_Originating_IP xsi:type="AddressObj:AddressObjectType">
+                            <AddressObj:Address_Value>198.51.100.3</AddressObj:Address_Value>
+                        </EmailMessageObj:X_Originating_IP>
+                    </EmailMessageObj:Header>
+                    <EmailMessageObj:Attachments>
+                        <EmailMessageObj:File object_reference="example:File-909fe8d5-3ebb-4598-9527-3940ebdadff8"/>
+                    </EmailMessageObj:Attachments>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:File-909fe8d5-3ebb-4598-9527-3940ebdadff8">
+                        <cybox:Properties xsi:type="FileObj:FileObjectType">
+                            <FileObj:File_Name>tabby_pics.zip</FileObj:File_Name>
+                            <FileObj:Magic_Number>504B0304</FileObj:Magic_Number>
+                            <FileObj:Hashes>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>fe90a7e910cb3a4739bed9180e807e93fa70c90f25a8915476f5e4bfbac681db</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                            </FileObj:Hashes>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-10ee8b81-a999-4d6d-af49-93256aef5152">
+            <cybox:Object id="example:WinFile-43b526f3-4a48-4289-a3b6-bc7c9fccdb9e">
+                <cybox:Properties xsi:type="WinFileObj:WindowsFileObjectType">
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                    <WinFileObj:Stream_List>
+                        <WinFileObj:Stream>
+                            <WinFileObj:Name>second.stream</WinFileObj:Name>
+                            <WinFileObj:Size_In_Bytes>25536</WinFileObj:Size_In_Bytes>
+                        </WinFileObj:Stream>
+                    </WinFileObj:Stream_List>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-ffeb1a1e-af39-446d-a775-6a4ce022a436">
+            <cybox:Object id="example:ImageFile-81adc98a-b672-4693-b30f-99f0b099cd70">
+                <cybox:Properties xsi:type="ImageFileObj:ImageFileObjectType">
+                    <FileObj:File_Name>picture.jpg</FileObj:File_Name>
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-ffeb1a1e-af39-446d-a775-6a4ce022a436">
+            <cybox:Object id="example:PDFFile-5d6f40b7-7ccd-4518-a362-c47907f51582">
+                <cybox:Properties xsi:type="PDFFileObj:PDFFileObjectType">
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                    <PDFFileObj:Metadata>
+                        <PDFFileObj:Document_Information_Dictionary>
+                            <PDFFileObj:Title>Sample document</PDFFileObj:Title>
+                            <PDFFileObj:Author>Adobe Systems Incorporated</PDFFileObj:Author>
+                            <PDFFileObj:Creator>Adobe FrameMaker 5.5.3 for Power Macintosh</PDFFileObj:Creator>
+                            <PDFFileObj:Producer>Acrobat Distiller 3.01 for Power Macintosh</PDFFileObj:Producer>
+                        </PDFFileObj:Document_Information_Dictionary>
+                    </PDFFileObj:Metadata>
+                    <PDFFileObj:Version>1.7</PDFFileObj:Version>
+                    <PDFFileObj:Trailers>
+                        <PDFFileObj:Trailer>
+                            <PDFFileObj:ID>
+                                <PDFFileObj:ID_String>DFCE52BD827ECF765649852119D</PDFFileObj:ID_String>
+                                <PDFFileObj:ID_String>57A1E0F9ED2AE523E313C</PDFFileObj:ID_String>
+                            </PDFFileObj:ID>
+                        </PDFFileObj:Trailer>
+                    </PDFFileObj:Trailers>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-1f54eaf6-9f07-4286-bdfa-c7f726c34c19">
+            <cybox:Object id="example:WinExecutableFile-b33b5d6c-be82-46aa-88b0-9b05ba1baf5c">
+                <cybox:Description>number_of_sections: 4</cybox:Description>
+                <cybox:Properties xsi:type="WinExecutableFileObj:WindowsExecutableFileObjectType">
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                    <WinExecutableFileObj:Headers>
+                        <WinExecutableFileObj:File_Header>
+                            <WinExecutableFileObj:Machine>014c</WinExecutableFileObj:Machine>
+                            <WinExecutableFileObj:Time_Date_Stamp>2016-01-22 12:31:12+00:00</WinExecutableFileObj:Time_Date_Stamp>
+                            <WinExecutableFileObj:Pointer_To_Symbol_Table>74726144</WinExecutableFileObj:Pointer_To_Symbol_Table>
+                            <WinExecutableFileObj:Number_Of_Symbols>4542568</WinExecutableFileObj:Number_Of_Symbols>
+                            <WinExecutableFileObj:Size_Of_Optional_Header>224</WinExecutableFileObj:Size_Of_Optional_Header>
+                            <WinExecutableFileObj:Characteristics>818f</WinExecutableFileObj:Characteristics>
+                        </WinExecutableFileObj:File_Header>
+                        <WinExecutableFileObj:Optional_Header>
+                            <WinExecutableFileObj:Magic>010b</WinExecutableFileObj:Magic>
+                            <WinExecutableFileObj:Major_Linker_Version>2</WinExecutableFileObj:Major_Linker_Version>
+                            <WinExecutableFileObj:Minor_Linker_Version>25</WinExecutableFileObj:Minor_Linker_Version>
+                            <WinExecutableFileObj:Size_Of_Code>512</WinExecutableFileObj:Size_Of_Code>
+                            <WinExecutableFileObj:Size_Of_Initialized_Data>283648</WinExecutableFileObj:Size_Of_Initialized_Data>
+                            <WinExecutableFileObj:Size_Of_Uninitialized_Data>0</WinExecutableFileObj:Size_Of_Uninitialized_Data>
+                            <WinExecutableFileObj:Address_Of_Entry_Point>4096</WinExecutableFileObj:Address_Of_Entry_Point>
+                            <WinExecutableFileObj:Base_Of_Code>4096</WinExecutableFileObj:Base_Of_Code>
+                            <WinExecutableFileObj:Base_Of_Data>8192</WinExecutableFileObj:Base_Of_Data>
+                            <WinExecutableFileObj:Image_Base>14548992</WinExecutableFileObj:Image_Base>
+                            <WinExecutableFileObj:Section_Alignment>4096</WinExecutableFileObj:Section_Alignment>
+                            <WinExecutableFileObj:File_Alignment>4096</WinExecutableFileObj:File_Alignment>
+                            <WinExecutableFileObj:Major_OS_Version>1</WinExecutableFileObj:Major_OS_Version>
+                            <WinExecutableFileObj:Minor_OS_Version>0</WinExecutableFileObj:Minor_OS_Version>
+                            <WinExecutableFileObj:Major_Image_Version>0</WinExecutableFileObj:Major_Image_Version>
+                            <WinExecutableFileObj:Minor_Image_Version>0</WinExecutableFileObj:Minor_Image_Version>
+                            <WinExecutableFileObj:Major_Subsystem_Version>4</WinExecutableFileObj:Major_Subsystem_Version>
+                            <WinExecutableFileObj:Minor_Subsystem_Version>0</WinExecutableFileObj:Minor_Subsystem_Version>
+                            <WinExecutableFileObj:Win32_Version_Value>00</WinExecutableFileObj:Win32_Version_Value>
+                            <WinExecutableFileObj:Size_Of_Image>299008</WinExecutableFileObj:Size_Of_Image>
+                            <WinExecutableFileObj:Size_Of_Headers>4096</WinExecutableFileObj:Size_Of_Headers>
+                            <WinExecutableFileObj:Checksum>00</WinExecutableFileObj:Checksum>
+                            <WinExecutableFileObj:Subsystem>03</WinExecutableFileObj:Subsystem>
+                            <WinExecutableFileObj:DLL_Characteristics>00</WinExecutableFileObj:DLL_Characteristics>
+                            <WinExecutableFileObj:Size_Of_Stack_Reserve>100000</WinExecutableFileObj:Size_Of_Stack_Reserve>
+                            <WinExecutableFileObj:Size_Of_Stack_Commit>8192</WinExecutableFileObj:Size_Of_Stack_Commit>
+                            <WinExecutableFileObj:Size_Of_Heap_Reserve>100000</WinExecutableFileObj:Size_Of_Heap_Reserve>
+                            <WinExecutableFileObj:Size_Of_Heap_Commit>4096</WinExecutableFileObj:Size_Of_Heap_Commit>
+                            <WinExecutableFileObj:Loader_Flags>abdbffde</WinExecutableFileObj:Loader_Flags>
+                            <WinExecutableFileObj:Number_Of_Rva_And_Sizes>3758087646</WinExecutableFileObj:Number_Of_Rva_And_Sizes>
+                        </WinExecutableFileObj:Optional_Header>
+                    </WinExecutableFileObj:Headers>
+                    <WinExecutableFileObj:Sections>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>CODE</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.061089</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>DATA</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>7.980693</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>NicolasB</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.607433</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>.idata</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.607433</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                    </WinExecutableFileObj:Sections>
+                    <WinExecutableFileObj:Type>Executable</WinExecutableFileObj:Type>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-c554b0f3-1107-4963-8b77-27c518cac165">
+            <cybox:Object id="example:Process-d8a4f4c5-e518-45e4-bb78-2f96462887a3">
+                <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                    <ProcessObj:PID>1221</ProcessObj:PID>
+                    <ProcessObj:Name>gedit-bin</ProcessObj:Name>
+                    <ProcessObj:Creation_Time>2016-01-20T14:11:25.550000+00:00</ProcessObj:Creation_Time>
+                    <ProcessObj:Argument_List>
+                        <ProcessObj:Argument>--new-window</ProcessObj:Argument>
+                    </ProcessObj:Argument_List>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-d879b23b-26a6-490b-b78c-24d074654d33">
+            <cybox:Object id="example:WinProcess-ae3954a8-f01e-4b14-a165-301149a592bb">
+                <cybox:Properties xsi:type="WinProcessObj:WindowsProcessObjectType" aslr_enabled="true" dep_enabled="true">
+                    <ProcessObj:PID>314</ProcessObj:PID>
+                    <ProcessObj:Name>foobar.exe</ProcessObj:Name>
+                    <WinProcessObj:Priority>HIGH_PRIORITY_CLASS</WinProcessObj:Priority>
+                    <WinProcessObj:Security_ID>S-1-5-21-186985262-1144665072-74031268-1309</WinProcessObj:Security_ID>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-e0715a08-b679-4bf8-b626-0b50991952a2">
+            <cybox:Object id="example:WinService-00108fe7-03f1-4b7d-8946-e3dc91fc72c7">
+                <cybox:Properties xsi:type="WinServiceObj:WindowsServiceObjectType">
+                    <ProcessObj:PID>2217</ProcessObj:PID>
+                    <ProcessObj:Name>sirvizio</ProcessObj:Name>
+                    <ProcessObj:Image_Info>
+                        <ProcessObj:File_Name>sirvizio.exe</ProcessObj:File_Name>
+                        <ProcessObj:Command_Line>C:\Windows\System32\sirvizio.exe /s</ProcessObj:Command_Line>
+                    </ProcessObj:Image_Info>
+                    <WinServiceObj:Display_Name>Sirvizio</WinServiceObj:Display_Name>
+                    <WinServiceObj:Service_Name>sirvizio</WinServiceObj:Service_Name>
+                    <WinServiceObj:Startup_Type>SERVICE_AUTO_START</WinServiceObj:Startup_Type>
+                    <WinServiceObj:Service_Status>SERVICE_RUNNING</WinServiceObj:Service_Status>
+                    <WinServiceObj:Service_Type>SERVICE_WIN32_OWN_PROCESS</WinServiceObj:Service_Type>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:Product-ed9d8f3f-a8e3-4862-a382-c4ed3956ca83">
+                <cybox:Properties xsi:type="ProductObj:ProductObjectType">
+                    <ProductObj:Product>Word</ProductObj:Product>
+                    <ProductObj:Vendor>Microsoft</ProductObj:Vendor>
+                    <ProductObj:Version>2002</ProductObj:Version>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:URI-c7fd5c85-a459-4feb-b1ab-2d08ef6c2254">
+                <cybox:Properties xsi:type="URIObj:URIObjectType" type="URL">
+                    <URIObj:Value>https://example.com/research/index.html</URIObj:Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-0177c85b-9de0-472a-8e9a-a41cc828672b">
+            <cybox:Object id="example:UnixUserAccount-c541af11-14a7-46ad-84aa-cc1155e44c4b">
+                <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                    <AccountObj:Creation_Date>2016-01-20T12:31:12+00:00</AccountObj:Creation_Date>
+                    <UserAccountObj:Last_Login>2016-07-22T16:08:28+00:00</UserAccountObj:Last_Login>
+                    <UserAccountObj:Username>jdoe</UserAccountObj:Username>
+                    <UnixUserAccountObj:User_ID>1001</UnixUserAccountObj:User_ID>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-a350d2a1-5cab-4add-98cf-1dfea10db3f6">
+            <cybox:Object id="example:UnixUserAccount-2439c50c-9c8b-4dc3-93fb-d29a08b7ac94">
+                <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                    <UserAccountObj:Home_Directory>/home/jdoe</UserAccountObj:Home_Directory>
+                    <UserAccountObj:Username>jdoe</UserAccountObj:Username>
+                    <UnixUserAccountObj:Group_ID>1001</UnixUserAccountObj:Group_ID>
+                    <UnixUserAccountObj:User_ID>1001</UnixUserAccountObj:User_ID>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-59fd4db3-272b-4a33-9729-b6a46dbdd69b">
+            <cybox:Object id="example:WinRegistryKey-a8cbbee8-425d-4806-9482-9d12257b2bc2">
+                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                    <WinRegistryKeyObj:Key>hkey_local_machine\system\bar\foo</WinRegistryKeyObj:Key>
+                    <WinRegistryKeyObj:Values>
+                        <WinRegistryKeyObj:Value>
+                            <WinRegistryKeyObj:Name>Foo</WinRegistryKeyObj:Name>
+                            <WinRegistryKeyObj:Data>qwerty</WinRegistryKeyObj:Data>
+                            <WinRegistryKeyObj:Datatype>REG_SZ</WinRegistryKeyObj:Datatype>
+                        </WinRegistryKeyObj:Value>
+                        <WinRegistryKeyObj:Value>
+                            <WinRegistryKeyObj:Name>Bar</WinRegistryKeyObj:Name>
+                            <WinRegistryKeyObj:Data>42</WinRegistryKeyObj:Data>
+                            <WinRegistryKeyObj:Datatype>REG_DWORD</WinRegistryKeyObj:Datatype>
+                        </WinRegistryKeyObj:Value>
+                    </WinRegistryKeyObj:Values>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:X509Certificate-38f8f7dd-8c0b-4533-9b44-bf12ae79f1f0">
+                <cybox:Properties xsi:type="X509CertificateObj:X509CertificateObjectType">
+                    <X509CertificateObj:Certificate>
+                        <X509CertificateObj:Issuer>C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com</X509CertificateObj:Issuer>
+                        <X509CertificateObj:Validity>
+                            <X509CertificateObj:Not_Before>2016-03-12T12:00:00+00:00</X509CertificateObj:Not_Before>
+                            <X509CertificateObj:Not_After>2016-08-21T12:00:00+00:00</X509CertificateObj:Not_After>
+                        </X509CertificateObj:Validity>
+                        <X509CertificateObj:Subject>C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org</X509CertificateObj:Subject>
+                    </X509CertificateObj:Certificate>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+            <cybox:Object id="example:NetworkConnection-b7d0184e-e0d1-4838-b234-513090ea1c40">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.53</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Destination_Socket_Address>
+                    <NetworkConnectionObj:Layer7_Connections>
+                        <NetworkConnectionObj:HTTP_Session xsi:type="HTTPSessionObj:HTTPSessionObjectType">
+                            <HTTPSessionObj:HTTP_Request_Response>
+                                <HTTPSessionObj:HTTP_Client_Request>
+                                    <HTTPSessionObj:HTTP_Request_Line>
+                                        <HTTPSessionObj:HTTP_Method>get</HTTPSessionObj:HTTP_Method>
+                                        <HTTPSessionObj:Value>/download.html</HTTPSessionObj:Value>
+                                        <HTTPSessionObj:Version>http/1.1</HTTPSessionObj:Version>
+                                    </HTTPSessionObj:HTTP_Request_Line>
+                                    <HTTPSessionObj:HTTP_Request_Header>
+                                        <HTTPSessionObj:Parsed_Header>
+                                            <HTTPSessionObj:Accept_Encoding>gzip,deflate</HTTPSessionObj:Accept_Encoding>
+                                            <HTTPSessionObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                                <AddressObj:Address_Value>foo@bar.com</AddressObj:Address_Value>
+                                            </HTTPSessionObj:From>
+                                            <HTTPSessionObj:Host>
+                                                <HTTPSessionObj:Domain_Name xsi:type="URIObj:URIObjectType" type="Domain Name">
+                                                    <URIObj:Value>www.example.com</URIObj:Value>
+                                                </HTTPSessionObj:Domain_Name>
+                                            </HTTPSessionObj:Host>
+                                            <HTTPSessionObj:User_Agent>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113</HTTPSessionObj:User_Agent>
+                                        </HTTPSessionObj:Parsed_Header>
+                                    </HTTPSessionObj:HTTP_Request_Header>
+                                </HTTPSessionObj:HTTP_Client_Request>
+                            </HTTPSessionObj:HTTP_Request_Response>
+                        </NetworkConnectionObj:HTTP_Session>
+                    </NetworkConnectionObj:Layer7_Connections>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-e98d85ac-f848-4d1a-b344-bf3b81dbc91b">
+            <cybox:Object id="example:NetworkConnection-7242a525-190a-4fe3-85d7-d5a83bc3af7e">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Source_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.9</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Source_Socket_Address>
+                    <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>203.0.113.5</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Destination_Socket_Address>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:NetworkPacket-509c4809-a4a4-4aa5-8bc4-95fbf9d3d75d">
+                        <cybox:Properties xsi:type="PacketObj:NetworkPacketObjectType">
+                            <PacketObj:Internet_Layer>
+                                <PacketObj:ICMPv4>
+                                    <PacketObj:ICMPv4_Header>
+                                        <PacketObj:Type>08</PacketObj:Type>
+                                        <PacketObj:Code>00</PacketObj:Code>
+                                    </PacketObj:ICMPv4_Header>
+                                </PacketObj:ICMPv4>
+                            </PacketObj:Internet_Layer>
+                        </cybox:Properties>
+                        <cybox:Relationship>ICMP_Packet</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-8647e9be-c8df-44d5-af4a-9dd4ae43c641">
+            <cybox:Object id="example:NetworkConnection-ed88709a-ef93-4410-9f70-f0bf2e5a1827">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Source_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.2</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                        <SocketAddressObj:Port xsi:type="PortObj:PortObjectType">
+                            <PortObj:Port_Value>223</PortObj:Port_Value>
+                        </SocketAddressObj:Port>
+                    </NetworkConnectionObj:Source_Socket_Address>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:NetworkSocket-c0bf8e58-fd4d-45b6-b97c-9aa8e6bbf27b">
+                        <cybox:Properties xsi:type="NetworkSocketObj:NetworkSocketObjectType" is_listening="true">
+                            <NetworkSocketObj:Address_Family>AF_INET</NetworkSocketObj:Address_Family>
+                            <NetworkSocketObj:Domain>PF_INET</NetworkSocketObj:Domain>
+                            <NetworkSocketObj:Options>
+                                <NetworkSocketObj:SO_LINGER>5</NetworkSocketObj:SO_LINGER>
+                            </NetworkSocketObj:Options>
+                            <NetworkSocketObj:Type>SOCK_STREAM</NetworkSocketObj:Type>
+                        </cybox:Properties>
+                        <cybox:Relationship>Related_Socket</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>
