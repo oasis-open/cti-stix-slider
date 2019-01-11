@@ -1,6 +1,7 @@
 <stix:STIX_Package 
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
 	xmlns:PortObj="http://cybox.mitre.org/objects#PortObject-2"
 	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
 	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
@@ -35,6 +36,14 @@
                                                     <ProcessObj:Command_Line pattern_type="Regex" condition="FitsPattern">^.+&gt;-add GlobalSign.cer -c -s -r localMachine Root$</ProcessObj:Command_Line>
                                                 </ProcessObj:Image_Info>
                                             </cybox:Properties>
+                                            <cybox:Related_Objects>
+                                                <cybox:Related_Object id="example:File-5dcf4e76-d267-414d-8d7d-c1862b86fa4e">
+                                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                                        <FileObj:File_Name>foo.c</FileObj:File_Name>
+                                                    </cybox:Properties>
+                                                    <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                                                </cybox:Related_Object>
+                                            </cybox:Related_Objects>
                                         </cybox:Object>
                                     </cybox:Observable>
                                     <cybox:Observable id="example:Observable-7a0c5ee8-292e-4b6c-8f4b-f62f3f5b666b">

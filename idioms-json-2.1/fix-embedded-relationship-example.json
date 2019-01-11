@@ -7,6 +7,7 @@
             "identity_class": "unknown",
             "modified": "2017-01-27T13:49:53.872Z",
             "name": "Emmanuelle",
+            "roles": ["analyst"],
             "spec_version": "2.1",
             "type": "identity"
         },

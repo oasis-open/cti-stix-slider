@@ -83,11 +83,17 @@ PDF_DOCUMENT_INFORMATION_DICT_MAP = {
 }
 
 
-IMAGE_FILE_EXTENSION_MAP = {
+IMAGE_FILE_EXTENSION_MAP_2_0 = {
     "image_height": ImageFile.image_height,
     "image_width": ImageFile.image_width,
     "bits_per_pixel": ImageFile.bits_per_pixel,
     "image_compression_algorithm": ImageFile.compression_algorithm
+}
+
+IMAGE_FILE_EXTENSION_MAP_2_1 = {
+    "image_height": ImageFile.image_height,
+    "image_width": ImageFile.image_width,
+    "bits_per_pixel": ImageFile.bits_per_pixel,
 }
 
 
@@ -135,13 +141,18 @@ PE_BINARY_OPTIONAL_HEADER_MAP = {
 }
 
 
-PROCESS_MAP = {
+PROCESS_MAP_2_0 = {
     "is_hidden": Process.is_hidden,
     "pid": Process.pid,
     "name": Process.name,
     "created": Process.creation_time
 }
 
+PROCESS_MAP_2_1 = {
+    "is_hidden": Process.is_hidden,
+    "pid": Process.pid,
+    "created": Process.creation_time
+}
 
 WINDOWS_PROCESS_EXTENSION_MAP = {
     "aslr_enabled": WinProcess.aslr_enabled,

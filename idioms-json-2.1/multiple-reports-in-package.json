@@ -24,6 +24,9 @@
             "created_by_ref": "identity--c1b58a86-e037-4069-814d-dd0bc75539e3",
             "description": "Adversary Alpha has a campaign against the ICS sector!\n\nINTENT:\nCampaign Characterization",
             "id": "report--ab11f431-4b3b-457c-835f-59920625fe65",
+            "labels": [
+                "this one"
+            ],
             "report_types": [
                 "campaign-characterization"
             ],

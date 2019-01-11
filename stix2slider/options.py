@@ -166,6 +166,7 @@ class SliderOptions(object):
             self.enabled = [text_type(x) for x in CHECK_CODES]
 
         self.marking_container = None
+        self.version_of_stix2x = None
 
 
 def initialize_options(slider_args=None):
@@ -378,4 +379,3 @@ CHECK_CODES = [0,
                701, 702, 703
                ]
 
-VERSION_OF_STIX_2x = None

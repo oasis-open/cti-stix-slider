@@ -5,7 +5,7 @@ from cybox.core import Observable
 from six import text_type
 from stix2.pattern_visitor import create_pattern_object
 from stix2slider.convert_cyber_observables import convert_cyber_observables
-from stix2slider.options import (VERSION_OF_STIX_2x, debug, error,
+from stix2slider.options import (debug, error, set_option_value,
                                  get_option_value, warn)
 from stix2slider.utils import set_default_namespace
 from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
@@ -520,7 +520,7 @@ def convert_identity(ident2x):
         ident1x.id_ = id1x
         if ident2x["identity_class"] != "organization":
             ident1x.name = ident2x["name"]
-        if VERSION_OF_STIX_2x == "2.0":
+        if get_option_value("version_of_stix2x") == "2.0":
             if "labels" in ident2x:
                 ident1x.roles = ident2x["labels"]
         else:
@@ -582,7 +582,7 @@ def convert_indicator(indicator2x):
         indicator1x.title = indicator2x["name"]
     if "description" in indicator2x:
         indicator1x.add_description(indicator2x["description"])
-    if VERSION_OF_STIX_2x == "2.0":
+    if get_option_value("version_of_stix2x") == "2.0":
         indicator1x.indicator_types = convert_open_vocabs_to_controlled_vocabs(indicator2x["labels"],
                                                                                INDICATOR_LABEL_MAP)
     else:
@@ -613,7 +613,7 @@ def convert_malware(malware2x):
         malware1x.add_name(malware2x["name"])
     if "description" in malware2x:
         malware1x.add_description(malware2x["description"])
-    if VERSION_OF_STIX_2x == "2.0":
+    if get_option_value("version_of_stix2x") == "2.0":
         types = convert_open_vocabs_to_controlled_vocabs(malware2x["labels"], MALWARE_LABELS_MAP)
     else:
         types = convert_open_vocabs_to_controlled_vocabs(malware2x["malware_types"], MALWARE_LABELS_MAP)
@@ -660,12 +660,11 @@ def convert_report(r2x):
         r1x.header.title = r2x["name"]
     if "description" in r2x:
         r1x.header.add_description(r2x["description"])
-    if VERSION_OF_STIX_2x == "2.0":
+    if get_option_value("version_of_stix2x") == "2.0":
         intents = convert_open_vocabs_to_controlled_vocabs(r2x["labels"], REPORT_LABELS_MAP)
     else:
         intents = convert_open_vocabs_to_controlled_vocabs(r2x["report_types"], REPORT_LABELS_MAP)
-        if "labels" in r2x:
-            add_missing_list_property_to_description(r2x, "labels", r2x["labels"])
+        # TODO: what if there are labels - there is not description property on reports to put it
     for i in intents:
         r1x.header.add_intent(i)
     if "published" in r2x:
@@ -711,7 +710,7 @@ def convert_threat_actor(ta2x):
     ta1x = ThreatActor(id_=convert_id2x(ta2x["id"]),
                        timestamp=text_type(ta2x["modified"]))
     ta1x.title = ta2x["name"]
-    if VERSION_OF_STIX_2x == "2.0":
+    if get_option_value("version_of_stix2x") == "2.0":
         types = convert_open_vocabs_to_controlled_vocabs(ta2x["labels"], THREAT_ACTOR_LABEL_MAP)
     else:
         types = convert_open_vocabs_to_controlled_vocabs(ta2x["threat_actor_types"], THREAT_ACTOR_LABEL_MAP)
@@ -1126,16 +1125,15 @@ def convert_bundle(bundle_obj):
     global _VICTIM_TARGET_TTPS
     global _KILL_CHAINS
     global CONTAINER
-    global VERSION_OF_STIX_2x
     _ID_OBJECT_MAPPING = {}
     _EXPLICIT_OBJECT_USED = {}
     _VICTIM_TARGET_TTPS = []
     _KILL_CHAINS = {}
 
     if "spec_version" in bundle_obj:
-        VERSION_OF_STIX_2x = "2.0"
+        set_option_value("version_of_stix2x", "2.0")
     else:
-        VERSION_OF_STIX_2x = "2.1"
+        set_option_value("version_of_stix2x", "2.1")
 
     if get_option_value("use_namespace"):
         option_value = get_option_value("use_namespace").split(" ")

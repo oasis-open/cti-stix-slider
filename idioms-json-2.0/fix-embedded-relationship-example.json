@@ -5,6 +5,9 @@
             "created": "2017-01-27T13:49:53.872Z",
             "id": "identity--4ec4d0a2-80e3-41e6-ae22-56b6b6499611",
             "identity_class": "unknown",
+            "labels": [
+                "analyst"
+            ],
             "modified": "2017-01-27T13:49:53.872Z",
             "name": "Emmanuelle",
             "type": "identity"

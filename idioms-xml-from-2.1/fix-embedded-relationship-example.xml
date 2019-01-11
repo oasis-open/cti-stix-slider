@@ -1,16 +1,16 @@
 <stix:STIX_Package
-	xmlns:ta="http://stix.mitre.org/ThreatActor-1"
-	xmlns:example="http://example.com"
-	xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3"
-	xmlns:stix="http://stix.mitre.org/stix-1"
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:stixCommon="http://stix.mitre.org/common-1"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1"
 	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ta="http://stix.mitre.org/ThreatActor-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:example="http://example.com"
+	xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
 	 id="example:STIXPackage-161f8ade-b67d-41e3-b8af-f01faf20d111" version="1.2">
     <stix:TTPs>
         <stix:TTP id="example:ttp-8ac90ff3-ecf8-4835-95b8-6aea6a623df5" timestamp="2017-01-27T13:49:53.872000+00:00" xsi:type='ttp:TTPType'>
@@ -47,15 +47,15 @@ TITLE:
             <ta:Identity id="example:identity-1621d4d4-b67d-41e3-9670-f01faf20d111" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
                 <stixCommon:Name>Adversary Bravo</stixCommon:Name>
                 <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
-  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
-    <xpil:FreeTextLine>identity_class: unknown</xpil:FreeTextLine>
-  </xpil:FreeTextLines>
-</stix-ciqidentity:Specification>
+                    <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+                         <xpil:FreeTextLine>identity_class: unknown</xpil:FreeTextLine>
+                    </xpil:FreeTextLines>
+                </stix-ciqidentity:Specification>
             </ta:Identity>
-            <ta:Type timestamp="2018-05-09T18:15:03.231916+00:00">
+            <ta:Type timestamp="2019-01-11T00:22:03.515760+00:00">
                 <stixCommon:Value>unknown</stixCommon:Value>
             </ta:Type>
-            <ta:Sophistication timestamp="2018-05-09T18:15:03.231989+00:00">
+            <ta:Sophistication timestamp="2019-01-11T00:22:03.515829+00:00">
                 <stixCommon:Value>unknown</stixCommon:Value>
             </ta:Sophistication>
             <ta:Observed_TTPs>
@@ -70,10 +70,11 @@ TITLE:
                 <stixCommon:Identity id="example:identity-4ec4d0a2-80e3-41e6-ae22-56b6b6499611" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
                     <stixCommon:Name>Emmanuelle</stixCommon:Name>
                     <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
-  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
-    <xpil:FreeTextLine>identity_class: unknown</xpil:FreeTextLine>
-  </xpil:FreeTextLines>
-</stix-ciqidentity:Specification>
+                        <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+                            <xpil:FreeTextLine>identity_class: unknown</xpil:FreeTextLine>
+                        </xpil:FreeTextLines>
+                    </stix-ciqidentity:Specification>
+                    <stix-ciqidentity:Role>analyst</stix-ciqidentity:Role>
                 </stixCommon:Identity>
             </ta:Information_Source>
         </stix:Threat_Actor>

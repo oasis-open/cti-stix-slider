@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <stix:STIX_Package
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -28,8 +29,12 @@
                             <cybox:Observable id="example:Observable-6ee617fd-f90d-4508-aa0a-35eac7b650a7">
                                 <cybox:Object id="example:UnixUserAccount-6632d927-6291-4ab6-a040-e645180e9829">
                                     <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                                        <AccountObj:Authentication>
+                                            <AccountObj:Authentication_Data>PaSSw0rD</AccountObj:Authentication_Data>
+                                        </AccountObj:Authentication>
                                         <UserAccountObj:Username condition="Equals">Peter</UserAccountObj:Username>
                                         <UnixUserAccountObj:User_ID condition="Equals">1007</UnixUserAccountObj:User_ID>
+
                                     </cybox:Properties>
                                 </cybox:Object>
                             </cybox:Observable>

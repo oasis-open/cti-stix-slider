@@ -46,14 +46,12 @@
                             <cybox:Observable id="example:Observable-5428c695-cfa8-4e73-908b-48e276dab6ed">
                                 <cybox:Object id="example:Process-e30354f8-2bf6-42e1-90e1-05c006025a4e">
                                     <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
-                                        <ProcessObj:Name condition="Equals">fooproc</ProcessObj:Name>
                                     </cybox:Properties>
                                 </cybox:Object>
                             </cybox:Observable>
                             <cybox:Observable id="example:Observable-fd11544d-32a7-4c8d-94b7-5e5121be1f85">
                                 <cybox:Object id="example:Process-7fc63413-94b2-42c2-8e07-3b34e2fe2cd7">
                                     <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
-                                        <ProcessObj:Name condition="Equals">procfoo</ProcessObj:Name>
                                     </cybox:Properties>
                                 </cybox:Object>
                             </cybox:Observable>
