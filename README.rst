@@ -27,7 +27,7 @@ considered final.**
 Please enter any comments on how to improve it into the issue tracker.
 
 For more information, see `the
-documentation <https://stix2_slider.readthedocs.io/>`__ on
+documentation <https://cti-stix-slider.readthedocs.io/>`__ on
 ReadTheDocs.
 
 
