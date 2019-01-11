@@ -7,7 +7,7 @@ from cybox.common.structured_text import StructuredText
 from cybox.common.vocabs import VocabString
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
-from cybox.objects.artifact_object import Artifact
+from cybox.objects.artifact_object import Artifact, Packaging, Encoding
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
 from cybox.objects.email_message_object import (Attachments, EmailHeader,
@@ -68,7 +68,8 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
                                 PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP_2_0,
                                 PROCESS_MAP_2_1, REGISTRY_KEY_MAP,
-                                REGISTRY_VALUE_MAP, SOCKET_MAP,
+                                REGISTRY_VALUE_MAP,
+                                SOCKET_MAP_2_0, SOCKET_MAP_2_1,
                                 SOCKET_OPTIONS_MAP, STARTUP_INFO_MAP,
                                 USER_ACCOUNT_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
@@ -209,7 +210,7 @@ def add_hashes_property(obj, hash_type, value):
 def convert_artifact_c_o(art2x, art1x, obs2x_id):
     if "mime_type" in art2x:
         art1x.content_type = art2x["mime_type"]
-    # it is illegal in STIX 2.0 to have both a payload_bin and url property - be we don't warn about it here
+    # it is illegal in STIX 2.0 to have both a payload_bin and url property - but we don't warn about it here
     if "payload_bin" in art2x:
         art1x.packed_data = art2x["payload_bin"]
     if "url" in art2x:
@@ -218,6 +219,9 @@ def convert_artifact_c_o(art2x, art1x, obs2x_id):
         art1x.hashes = HashList()
         for k, v in art2x["hashes"].items():
             add_hashes_property(art1x.hashes, k, v)
+    encoding = Encoding()
+    encoding.algorithm = "Base64"
+    art1x.packaging.append(encoding)
     # art1x.packaging.encoding.algorithm = "Base64"
 
 
@@ -385,7 +389,7 @@ def convert_file_c_o(file2x, file1x, obs2x_id):
             file1x.full_path = directory_string + ("\\" if is_windows_directory(directory_string) else "/") + file2x["name"]
         else:
             warn("%s is not an index found in %s", 306, file2x["parent_directory_ref"], obs2x_id)
-    if "is_encrypted" in file2x:
+    if "is_encrypted" in file2x and get_option_value("version_of_stix2x") == "2.0":
         if file2x["is_encrypted"]:
             if "encryption_algorithm" in file2x:
                 file1x.encryption_algorithm = file2x["encryption_algorithm"]
@@ -569,6 +573,10 @@ def convert_process_extensions(process2x, process1x, obs2x_id):
         if "startup_info" in windows_process:
             process1x.startup_info = StartupInfo()
             convert_obj(windows_process["startup_info"], process1x.startup_info, STARTUP_INFO_MAP)
+        elif "integrity_level" in windows_process and get_option_value("version_of_stix2x") == "2.1":
+                warn("%s not representable in a STIX 1.x %s.  Found in  %s", 503, "WinProcess",
+                     "integrity_level",
+                     obs2x_id)
     if "windows-service-ext" in extensions:
         windows_service = extensions["windows-service-ext"]
         convert_obj(windows_service, process1x, WINDOWS_SERVICE_EXTENSION_MAP, obs2x_id)
@@ -746,7 +754,10 @@ def convert_network_traffic_to_network_icmp_packet(icmp_ext, nc, obs2x_id):
 
 def convert_network_traffic_to_network_socket(socket_ext, nc, obs2x_id):
     obj1x = NetworkSocket()
-    convert_obj(socket_ext, obj1x, SOCKET_MAP, obs2x_id)
+    convert_obj(socket_ext,
+                obj1x,
+                SOCKET_MAP_2_0 if get_option_value("version_of_stix2x") == "2.0" else SOCKET_MAP_2_1,
+                obs2x_id)
     if "options" in socket_ext:
         obj1x.options = SocketOptions()
         convert_obj(socket_ext["options"],

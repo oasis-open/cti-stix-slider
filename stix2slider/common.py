@@ -275,9 +275,17 @@ SOCKET_OPTIONS_MAP = {
 }
 
 
-SOCKET_MAP = {
+SOCKET_MAP_2_0 = {
     "address_family": NetworkSocket.address_family,
     "protocol_family": NetworkSocket.domain,
+    "is_blocking": NetworkSocket.is_blocking,
+    "is_listening": NetworkSocket.is_listening,
+    "socket_type": NetworkSocket.type_,
+    "socket_descriptor": NetworkSocket.socket_descriptor
+}
+
+SOCKET_MAP_2_1 = {
+    "address_family": NetworkSocket.address_family,
     "is_blocking": NetworkSocket.is_blocking,
     "is_listening": NetworkSocket.is_listening,
     "socket_type": NetworkSocket.type_,
@@ -295,7 +303,7 @@ USER_ACCOUNT_MAP = {
     "is_disabled": UserAccount.disabled,
     "account_created": Account.creation_date,
     # TODO: account_expires
-    # TODO: password_last_changed
+    # TODO: password_last_changed (2.0) / credential_last_changed (2.1)
     # TODO: account_first_login
     "account_last_login": UserAccount.last_login
 }

@@ -68,7 +68,8 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
                                 PDF_DOCUMENT_INFORMATION_DICT_MAP,
                                 PE_BINARY_FILE_HEADER_MAP,
                                 PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP_2_0,
-                                PROCESS_MAP_2_1, SOCKET_MAP,
+                                PROCESS_MAP_2_1,
+                                SOCKET_MAP_2_0, SOCKET_MAP_2_1,
                                 SOCKET_OPTIONS_MAP, STARTUP_INFO_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
@@ -378,7 +379,9 @@ def add_scalar_artifact_property_pattern(obj, properties, rhs, op, id2x):
         warn("Operator %s for Artifact.Raw_Artifact in %s not handled yet", 610, op, id2x)
     elif prop_name == "url":
         obj.raw_artifact_reference = rhs.value
-    # art1x.packaging.encoding.algorithm = "Base64"
+    # TODO: art1x.packaging.encoding.algorithm = "Base64"
+    elif get_option_value("version_of_stix2x") == "2.1" and (prop_name == "encryption_algorithm" or prop_name == "decryption_key"):
+        warn("%s property in %s not handled yet", 606, prop_name, id2x)
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
 
@@ -559,6 +562,9 @@ def add_scalar_file_property_pattern(file_obj, properties, rhs, op, id2x):
         convert_artifact_c_o({properties[1].property_name: rhs.value}, obs)
         # TODO: determine which property needs the operator
         file_obj.add_related(obs, "Contains", inline=True)
+    elif (get_option_value("version_of_stix2x") == "2.0" and
+            (prop_name == "is_encrypted" or prop_name == "encryption_algorithm" or prop_name == "decryption_key")):
+        warn("%s property in %s not handled yet", 606, prop_name, id2x)
     else:
         warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
 
@@ -882,7 +888,12 @@ def convert_network_socket_pattern(nc, properties, rhs, op, id2x):
         nc.add_related(obj1x, VocabString("Related_Socket"), inline=True)
     else:
         obj1x = nc.parent.related_objects[0].properties
-    if not convert_pattern(obj1x, prop_name, rhs, op, SOCKET_MAP, id2x):
+    if not convert_pattern(obj1x,
+                           prop_name,
+                           rhs,
+                           op,
+                           SOCKET_MAP_2_0 if get_option_value("version_of_stix2x") == "2.0" else SOCKET_MAP_2_1,
+                           id2x):
         if prop_name == "options":
             if not obj1x.options:
                 obj1x.options = SocketOptions()
@@ -1048,6 +1059,10 @@ def add_process_extension_pattern(process_obj, properties, rhs, op, id2x):
                 if not process_obj.startup_info:
                     process_obj.startup_info = StartupInfo()
                 convert_pattern(process_obj.startup_info, properties[2].property_name, rhs, op, STARTUP_INFO_MAP, id2x)
+            elif prop_name1 == "integrity_level" and get_option_value("version_of_stix2x") == "2.1":
+                warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, "WinProcess",
+                     prop_name1,
+                     id2x)
     elif prop_name0 == "win-service-ext":
         if not convert_pattern(process_obj, prop_name1, rhs, op, WINDOWS_SERVICE_EXTENSION_MAP, id2x):
             if prop_name1 == "service_dll_refs":
