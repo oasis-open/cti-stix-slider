@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+2.0.0 - 2019-01-14
+
+    Convert STIX 2.1 content to STIX 1.x
+
+    Fix multipart warnings
+    Remove parser files, incorporate stix2 visitor
+    Set up 2.1 testing
+    Add python37 to test configuration.
+    Added option --default-namespace
+    Add ability to override default 'example' namespace.
+    Remove pycodestyle
+
 1.0.1 - 2018-06-08
 
     * Add cybox.utils.caches.cache_clear() to prevent RAM consumption issue.
