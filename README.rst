@@ -8,17 +8,17 @@ Repository <https://www.oasis-open.org/resources/open-
 repositories/>`_.
 See the `Governance`_ section for more information.
 
-The stix-slider is a software tool for 'sliding' STIX 2.0 JSON to STIX
-1.x XML. Due to the differences between STIX 1.x and STIX 2.0, this
+The stix-slider is a software tool for 'sliding' STIX 2.x JSON to STIX
+1.x XML. Due to the differences between STIX 1.x and STIX 2.x, this
 conversion is best-effort only. During the conversion, stix-slider
 provides information on the assumptions it needs to make to produce
 valid STIX
 1.x XML, and what information was not able to be converted.
 
 The stix-slider is a work-in-progress. It should be used to explore
-how STIX 2.0 content could potentially be represented in STIX 1.x.
+how STIX 2.x content could potentially be represented in STIX 1.x.
 Using the current version of the slider will provide insight to issues
-that might need to be mitigated to convert your STIX 2.0 content for
+that might need to be mitigated to convert your STIX 2.x content for
 use in application that accept only STIX 1.x content.
 
 **It should not be used in a production environment, and should not be
@@ -45,7 +45,7 @@ Requirements
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 1.0.0
+-  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 1.1.0
 -  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.3
 -  `stix-validator <https://pypi.org/project/stix-validator>`_ >= 2.5.0
 
@@ -74,7 +74,7 @@ You can also install the stix-slider from GitHub to get the latest
 Usage
 -----
 
-It is recommended that you ensure that the input STIX 2.0 file is
+It is recommended that you ensure that the input STIX 2.x file is
 valid before submitting it to the slider.
 Use the `stix2-validator <https://pypi.org/project//stix2-validator>`_.
 
@@ -82,7 +82,7 @@ As A Script
 ~~~~~~~~~~~
 
 The slider comes with a bundled script which you can use to convert
-STIX 2.0 content to STIX 1.x content::
+STIX 2.x content to STIX 1.x content::
 
         usage: stix2_slider [-h] [--no-squirrel-gaps] [--validator-args VALIDATOR_ARGS]
                             [-e ENABLE] [-d DISABLE] [-s]
@@ -91,19 +91,19 @@ STIX 2.0 content to STIX 1.x content::
                             [--use-namespace USE_NAMESPACE]
                             file
 
-        stix2-slider v1.0.1
+        stix2-slider v2.0.0
 
         The stix2-slider is a work-in-progress. It should be used to explore how
-        existing STIX 2.0 would potentially be represented in STIX 1.x. Using the
+        existing STIX 2.x would potentially be represented in STIX 1.x. Using the
         current version of the stix2-slider will provide insight to issues that might need
         to be mitigated so you can use an application that supports only STIX 1.x content.
 
-        positional arguments:   The input STIX 2.0 document to be 'slid' to STIX 1.x..
+        positional arguments:   The input STIX 2.x document to be 'slid' to STIX 1.x..
 
         optional arguments:
           -h, --help            show this help message and exit
 
-          --no-squirrel-gaps    Do not include STIX 2.0 content that cannot be
+          --no-squirrel-gaps    Do not include STIX 2.x content that cannot be
                                 represented directly in STIX 1.x using the description
                                 property.
 
@@ -152,7 +152,7 @@ As A Library
 
 You can also use this library to integrate STIX 'sliding' into your
 own
-tools. You can slide a STIX 2.0 file::
+tools. You can slide a STIX 2.x file::
 
       from stix2slider import slide_file
       from stix2slider.options import initialize_options
@@ -239,7 +239,7 @@ TC:
 
 This GitHub public repository is provided to support version-
 controlled development of a Python "slider" application which will
-convert `STIX 2.0 <http://docs.oasis-open.org/cti/stix/v2.0/>`_
+convert `STIX 2.x <http://docs.oasis-open.org/cti/stix/v2.x/>`_
 content to `STIX 1.x <http://docs.oasis-open.org/cti/stix/v1.2.1/>`_
 content.
 
