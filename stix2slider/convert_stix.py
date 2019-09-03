@@ -1,18 +1,8 @@
 import uuid
 
-import stixmarx
 from cybox.core import Observable
 from six import text_type
 from stix2.pattern_visitor import create_pattern_object
-from stix2slider.convert_cyber_observables import convert_cyber_observables
-from stix2slider.options import (debug, error, get_option_value,
-                                 set_option_value, warn)
-from stix2slider.utils import set_default_namespace
-from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
-                                        INDICATOR_LABEL_MAP,
-                                        MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
-                                        SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
-                                        THREAT_ACTOR_SOPHISTICATION_MAP)
 from stix.campaign import AssociatedCampaigns, Campaign, Names
 from stix.coa import CourseOfAction, RelatedCOAs
 from stix.common.datetimewithprecision import DateTimeWithPrecision
@@ -50,6 +40,17 @@ from stix.ttp.attack_pattern import AttackPattern
 from stix.ttp.malware_instance import MalwareInstance
 from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
+import stixmarx
+
+from stix2slider.convert_cyber_observables import convert_cyber_observables
+from stix2slider.options import (debug, error, get_option_value,
+                                 set_option_value, warn)
+from stix2slider.utils import set_default_namespace
+from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
+                                        INDICATOR_LABEL_MAP,
+                                        MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
+                                        SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
+                                        THREAT_ACTOR_SOPHISTICATION_MAP)
 
 CONTAINER = None
 
@@ -538,16 +539,16 @@ def convert_identity(ident2x):
                 party_name.add_organisation_name(text_type(ident2x["name"]))
                 ident1x.specification.party_name = party_name
             if "sectors" in ident2x:
-                    first = True
-                    for s in ident2x["sectors"]:
-                        if first:
-                            ident1x.specification.organisation_info = \
-                                OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP, False)[0]))
-                            first = False
-                        else:
-                            warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
-                                 401,
-                                 "Identity", "sectors", s)
+                first = True
+                for s in ident2x["sectors"]:
+                    if first:
+                        ident1x.specification.organisation_info = \
+                            OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP, False)[0]))
+                        first = False
+                    else:
+                        warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+                             401,
+                             "Identity", "sectors", s)
             # Identity in 1.x has no description property, use free-text-lines
             if "identity_class" in ident2x:
                 add_missing_property_to_free_text_lines(ident1x.specification, "identity_class", ident2x["identity_class"])
@@ -732,7 +733,7 @@ def convert_threat_actor(ta2x):
         for s in sophistications:
             ta1x.add_sophistication(s)
     if "resource_level" in ta2x:
-            add_missing_list_property_to_description(ta1x, "resource_level", ta2x["resource_level"])
+        add_missing_list_property_to_description(ta1x, "resource_level", ta2x["resource_level"])
     all_motivations = []
     if "primary_motivation" in ta2x:
         all_motivations = [ta2x["primary_motivation"]]

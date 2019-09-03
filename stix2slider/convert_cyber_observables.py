@@ -58,6 +58,7 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    X509Cert, X509Certificate,
                                                    X509V3Extensions)
 from six import text_type
+
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 EMAIL_MESSAGE_MAP, FILE_MAP,
                                 HTTP_REQUEST_HEADERS_MAP,
@@ -573,9 +574,9 @@ def convert_process_extensions(process2x, process1x, obs2x_id):
             process1x.startup_info = StartupInfo()
             convert_obj(windows_process["startup_info"], process1x.startup_info, STARTUP_INFO_MAP)
         elif "integrity_level" in windows_process and get_option_value("version_of_stix2x") == "2.1":
-                warn("%s not representable in a STIX 1.x %s.  Found in  %s", 503, "WinProcess",
-                     "integrity_level",
-                     obs2x_id)
+            warn("%s not representable in a STIX 1.x %s.  Found in  %s", 503, "WinProcess",
+                 "integrity_level",
+                 obs2x_id)
     if "windows-service-ext" in extensions:
         windows_service = extensions["windows-service-ext"]
         convert_obj(windows_service, process1x, WINDOWS_SERVICE_EXTENSION_MAP, obs2x_id)

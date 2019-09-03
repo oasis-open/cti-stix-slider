@@ -17,6 +17,7 @@ from cybox.objects.win_registry_key_object import RegistryValue, WinRegistryKey
 from cybox.objects.win_service_object import WinService
 from cybox.objects.win_user_object import UserAccount
 from cybox.objects.x509_certificate_object import X509Cert, X509V3Extensions
+
 from stix2slider.options import warn
 
 AUTONOMOUS_SYSTEM_MAP = {

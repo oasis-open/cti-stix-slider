@@ -1,4 +1,3 @@
-import stix2
 from cybox.common.environment_variable import (EnvironmentVariable,
                                                EnvironmentVariableList)
 from cybox.common.hashes import Hash, HashList
@@ -58,8 +57,10 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, X509Cert,
                                                    X509Certificate,
                                                    X509V3Extensions)
+import stix2
 from stix2.patterns import (BasicObjectPathComponent, ListObjectPathComponent,
                             ObjectPath, _ComparisonExpression)
+
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, FILE_MAP,
                                 HTTP_REQUEST_HEADERS_MAP,
                                 IMAGE_FILE_EXTENSION_MAP_2_0,
@@ -947,9 +948,9 @@ def convert_network_connection_pattern_1(rhs, op, properties, nc, id2x):
             warn("tcp-ext in %s not handled, yet", 609, id2x)
     elif prop_name0 in ("start", "end", "src_byte_count", "dst_byte_count", "src_packets", "dst_packets", "ipfix",
                         "src_payload_ref", "dst_payload_ref", "encapsulates_refs", "encapsulated_by_ref"):
-            warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s",
-                 504,
-                 prop_name0, "NetworkConnection", id2x)
+        warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s",
+             504,
+             prop_name0, "NetworkConnection", id2x)
 
 
 def convert_network_connection_pattern(exp2x, nc, id2x):
