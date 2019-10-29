@@ -32,8 +32,6 @@ from stix.extensions.marking.tlp import TLPMarkingStructure
 from stix.indicator import Indicator, RelatedIndicators, ValidTime
 from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
                                       Sighting, Sightings)
-from stix.report import Report
-from stix.report.header import Header
 from stix.threat_actor import AssociatedActors, ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
@@ -52,11 +50,17 @@ from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
                                         THREAT_ACTOR_SOPHISTICATION_MAP)
 
+try:
+    from stix.report import Report
+    from stix.report.header import Header
+    _STIX_1_VERSION = "1.2"
+except ImportError:
+    _STIX_1_VERSION = "1.1.1"
+
+
 CONTAINER = None
 
 _ID_NAMESPACE = "example"
-
-_STIX_1_VERSION = "1.2"
 
 _TYPE_MAP_FROM_2_0_TO_1_x = {"attack-pattern": "ttp",
                              "observed-data": "observable",
@@ -425,7 +429,10 @@ def convert_attack_pattern(ap2x):
     if "name" in ap2x:
         ap1x.title = ap2x["name"]
     if "description" in ap2x:
-        ap1x.add_description(ap2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            ap1x.add_description(ap2x["description"])
+        else:
+            ap1x.description = ap2x["description"]
     if "labels" in ap2x:
         add_missing_list_property_to_description(ap1x, "labels", ap2x["labels"])
     if "external_references" in ap2x:
@@ -582,7 +589,10 @@ def convert_indicator(indicator2x):
     if "name" in indicator2x:
         indicator1x.title = indicator2x["name"]
     if "description" in indicator2x:
-        indicator1x.add_description(indicator2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            indicator1x.add_description(indicator2x["description"])
+        else:
+            indicator1x.description = indicator2x["description"]
     if get_option_value("version_of_stix2x") == "2.0":
         indicator1x.indicator_types = convert_open_vocabs_to_controlled_vocabs(indicator2x["labels"],
                                                                                INDICATOR_LABEL_MAP)
@@ -654,57 +664,60 @@ def convert_observed_data(od2x):
 
 
 def convert_report(r2x):
-    r1x = Report(id_=convert_id2x(r2x["id"]),
-                 timestamp=text_type(r2x["modified"]))
-    r1x.header = Header()
-    if "name" in r2x:
-        r1x.header.title = r2x["name"]
-    if "description" in r2x:
-        r1x.header.add_description(r2x["description"])
-    if get_option_value("version_of_stix2x") == "2.0":
-        intents = convert_open_vocabs_to_controlled_vocabs(r2x["labels"], REPORT_LABELS_MAP)
-    else:
-        intents = convert_open_vocabs_to_controlled_vocabs(r2x["report_types"], REPORT_LABELS_MAP)
-        # TODO: what if there are labels - there is not description property on reports to put it
-    for i in intents:
-        r1x.header.add_intent(i)
-    if "published" in r2x:
-        add_missing_property_to_description(r1x.header, "published", r2x["published"])
-    for ref in r2x["object_refs"]:
-        ref_type = get_type_from_id(ref)
-        ref1x = convert_id2x(ref)
-        if ref_type == "attack-pattern":
-            r1x.add_ttp(TTP(idref=ref1x))
-        elif ref_type == "campaign":
-            r1x.add_campaign(Campaign(idref=ref1x))
-        elif ref_type == 'course-of-action':
-            r1x.add_course_of_action(CourseOfAction(idref=ref1x))
-        elif ref_type == "indicator":
-            r1x.add_indicator(Indicator(idref=ref1x))
-        elif ref_type == "observed-data":
-            r1x.add_observable(Observable(idref=ref1x))
-        elif ref_type == "malware":
-            r1x.add_ttp(TTP(idref=ref1x))
-        elif ref_type == "threat-actor":
-            r1x.add_threat_actor(ThreatActor(idref=ref1x))
-        elif ref_type == "tool":
-            r1x.add_ttp(TTP(idref=ref1x))
-        elif ref_type == "vulnerability":
-            r1x.add_exploit_target(ExploitTarget(idref=ref1x))
-        elif ref_type == "identity" or ref_type == "relationship" or ref_type == "location":
-            warn("%s in %s is not explicitly a member of a STIX 1.x report", 703, ref, r2x["id"])
-        elif ref_type == "intrusion-set" or ref_type == "opinion" or ref_type == "note":
-            warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r2x["id"])
+    if _STIX_1_VERSION == "1.2":
+        r1x = Report(id_=convert_id2x(r2x["id"]),
+                     timestamp=text_type(r2x["modified"]))
+        r1x.header = Header()
+        if "name" in r2x:
+            r1x.header.title = r2x["name"]
+        if "description" in r2x:
+            r1x.header.add_description(r2x["description"])
+        if get_option_value("version_of_stix2x") == "2.0":
+            intents = convert_open_vocabs_to_controlled_vocabs(r2x["labels"], REPORT_LABELS_MAP)
         else:
-            warn("ref type %s in %s is not known", 316, ref_type, r2x["id"])
-    if "object_marking_refs" in r2x:
-        for m_id in r2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(r1x, ms, descendants=True)
-    if "granular_markings" in r2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, r2x["id"])
-    return r1x
+            intents = convert_open_vocabs_to_controlled_vocabs(r2x["report_types"], REPORT_LABELS_MAP)
+            # TODO: what if there are labels - there is not description property on reports to put it
+        for i in intents:
+            r1x.header.add_intent(i)
+        if "published" in r2x:
+            add_missing_property_to_description(r1x.header, "published", r2x["published"])
+        for ref in r2x["object_refs"]:
+            ref_type = get_type_from_id(ref)
+            ref1x = convert_id2x(ref)
+            if ref_type == "attack-pattern":
+                r1x.add_ttp(TTP(idref=ref1x))
+            elif ref_type == "campaign":
+                r1x.add_campaign(Campaign(idref=ref1x))
+            elif ref_type == 'course-of-action':
+                r1x.add_course_of_action(CourseOfAction(idref=ref1x))
+            elif ref_type == "indicator":
+                r1x.add_indicator(Indicator(idref=ref1x))
+            elif ref_type == "observed-data":
+                r1x.add_observable(Observable(idref=ref1x))
+            elif ref_type == "malware":
+                r1x.add_ttp(TTP(idref=ref1x))
+            elif ref_type == "threat-actor":
+                r1x.add_threat_actor(ThreatActor(idref=ref1x))
+            elif ref_type == "tool":
+                r1x.add_ttp(TTP(idref=ref1x))
+            elif ref_type == "vulnerability":
+                r1x.add_exploit_target(ExploitTarget(idref=ref1x))
+            elif ref_type == "identity" or ref_type == "relationship" or ref_type == "location":
+                warn("%s in %s is not explicitly a member of a STIX 1.x report", 703, ref, r2x["id"])
+            elif ref_type == "intrusion-set" or ref_type == "opinion" or ref_type == "note":
+                warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r2x["id"])
+            else:
+                warn("ref type %s in %s is not known", 316, ref_type, r2x["id"])
+        if "object_marking_refs" in r2x:
+            for m_id in r2x["object_marking_refs"]:
+                ms = create_marking_specification(m_id)
+                if ms:
+                    CONTAINER.add_marking(r1x, ms, descendants=True)
+        if "granular_markings" in r2x:
+            error("Granular Markings present in '%s' are not supported by stix2slider", 604, r2x["id"])
+        return r1x
+    else:
+        return None
 
 
 def convert_threat_actor(ta2x):
@@ -1180,7 +1193,8 @@ def convert_bundle(bundle_obj):
         elif o["type"] == "opinion":
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "opinion")
         elif o["type"] == "report":
-            pkg.add_report(convert_report(o))
+            if _STIX_1_VERSION == "1.2":
+                pkg.add_report(convert_report(o))
         elif o["type"] == "threat-actor":
             pkg.add_threat_actor(convert_threat_actor(o))
         elif o["type"] == "tool":
