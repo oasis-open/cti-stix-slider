@@ -389,9 +389,11 @@ def add_missing_property_to_description(obj1x, property_name, property_value):
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
-    if not get_option_value("no_squirrel_gaps"):
-        obj1x.add_description(property_name + ": " + ", ".join(property_values))
-
+    try:
+        if not get_option_value("no_squirrel_gaps"):
+            obj1x.add_description(property_name + ": " + ", ".join(property_values))
+    except AttributeError:
+            warn("Failed to assign %s property of %s object to %s", property_name, obj1x, ", ".join(property_values))
 
 _KILL_CHAINS = {}
 
