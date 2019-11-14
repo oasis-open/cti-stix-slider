@@ -2,6 +2,7 @@ import uuid
 
 from cybox.core import Observable
 from six import text_type
+from stix2.exceptions import ImmutableError
 from stix2.pattern_visitor import create_pattern_object
 from stix.campaign import AssociatedCampaigns, Campaign, Names
 from stix.coa import CourseOfAction, RelatedCOAs
@@ -385,15 +386,25 @@ def get_type_from_id(id_):
 
 def add_missing_property_to_description(obj1x, property_name, property_value):
     if not get_option_value("no_squirrel_gaps"):
-        obj1x.add_description(property_name + ": " + text_type(property_value))
+        if _STIX_1_VERSION == "1.2":
+            obj1x.add_description(property_name + ": " + text_type(property_value))
+        else:
+            try:
+                obj1x.description = property_name + ": " + text_type(property_value)     
+            except ImmutableError:
+                pass
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
-    try:
-        if not get_option_value("no_squirrel_gaps"):
+    if not get_option_value("no_squirrel_gaps"):
+        if _STIX_1_VERSION == "1.2":
             obj1x.add_description(property_name + ": " + ", ".join(property_values))
-    except AttributeError:
-            warn("Failed to assign %s property of %s object to %s", property_name, obj1x, ", ".join(property_values))
+        else:
+            try:
+                obj1x.description = property_name + ": " + ", ".join(property_values)
+            except ImmutableError:
+                pass
+            
 
 _KILL_CHAINS = {}
 
@@ -464,7 +475,10 @@ def convert_campaign(c2x):
     if "name" in c2x:
         c1x.title = c2x["name"]
     if "description" in c2x:
-        c1x.add_description(c2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            c1x.add_description(c2x["description"])
+        else:
+            c1x.description = c2x["description"]
     if "labels" in c2x:
         add_missing_list_property_to_description(c1x, "labels", c2x["labels"])
     names = Names()
@@ -496,7 +510,10 @@ def convert_coa(coa2x):
     if "name" in coa2x:
         coa1x.title = coa2x["name"]
     if "description" in coa2x:
-        coa1x.add_description(coa2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            coa1x.add_description(coa2x["description"])
+        else:
+            coa1x.description = coa2x["description"]
     if "labels" in coa2x:
         coa_types = convert_open_vocabs_to_controlled_vocabs(coa2x["labels"], COA_LABEL_MAP)
         coa1x.type_ = coa_types[0]
@@ -595,6 +612,7 @@ def convert_indicator(indicator2x):
             indicator1x.add_description(indicator2x["description"])
         else:
             indicator1x.description = indicator2x["description"]
+
     if get_option_value("version_of_stix2x") == "2.0":
         indicator1x.indicator_types = convert_open_vocabs_to_controlled_vocabs(indicator2x["labels"],
                                                                                INDICATOR_LABEL_MAP)
@@ -625,7 +643,11 @@ def convert_malware(malware2x):
     if "name" in malware2x:
         malware1x.add_name(malware2x["name"])
     if "description" in malware2x:
-        malware1x.add_description(malware2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            malware1x.add_description(malware2x["description"])
+        else:
+            malware1x.description = malware2x["description"]
+
     if get_option_value("version_of_stix2x") == "2.0":
         types = convert_open_vocabs_to_controlled_vocabs(malware2x["labels"], MALWARE_LABELS_MAP)
     else:
@@ -735,7 +757,10 @@ def convert_threat_actor(ta2x):
     for t in types:
         ta1x.add_type(t)
     if "description" in ta2x:
-        ta1x.add_description(ta2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            ta1x.add_description(ta2x["description"])
+        else:
+            ta1x.description = ta2x["description"]
     if "aliases" in ta2x:
         add_missing_list_property_to_description(ta1x, "aliases", ta2x["aliases"])
     if "roles" in ta2x:
@@ -807,7 +832,10 @@ def convert_vulnerability(v2x):
     if "name" in v2x:
         v1x.title = v2x["name"]
     if "description" in v2x:
-        v1x.add_description(v2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            v1x.add_description(v2x["description"])
+        else:
+            v1x.description = v2x["description"]
     if "labels" in v2x:
         add_missing_list_property_to_description(v1x, "labels", v2x["labels"])
     v1x.cve_id = extract_external_id("cve", v2x["external_references"])
@@ -993,11 +1021,17 @@ def create_references(obj):
             if "hashes" in er:
                 warn("hashes not representable in a STIX 1.x %s.  Found in %s", 503, "InformationSource", obj["id"])
             if "description" in er:
-                ob1x.add_description(er["description"])
+                if _STIX_1_VERSION == "1.2":
+                    ob1x.add_description(er["description"])
+                else:
+                    ob1x.description = er["description"]
             if ref_texts != []:
                 if isinstance(ob1x, Indicator):
                     for rt in ref_texts:
-                        ob1x.add_description(rt)
+                        if _STIX_1_VERSION == "1.2":
+                            ob1x.add_description(rt)
+                        else:
+                            ob1x.description = ob1x.description + " " + rt
                 else:
                     info_source = get_info_source(ob1x, obj)
                     for rt in ref_texts:
@@ -1197,6 +1231,9 @@ def convert_bundle(bundle_obj):
         elif o["type"] == "report":
             if _STIX_1_VERSION == "1.2":
                 pkg.add_report(convert_report(o))
+            else:
+                warn("Ignoring %s, because %ss cannot be represented in STIX 1.1.1", 509, o["id"], "report")
+
         elif o["type"] == "threat-actor":
             pkg.add_threat_actor(convert_threat_actor(o))
         elif o["type"] == "tool":
