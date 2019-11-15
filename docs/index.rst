@@ -19,7 +19,7 @@ To convert STIX 1.x XML to STIX 2.x JSON use the `stix2-elevator <https://pypi.p
    cyber-observables
    conversion-issues
    slider_log_messages
-
+   contributing
 
 
 Indices and tables

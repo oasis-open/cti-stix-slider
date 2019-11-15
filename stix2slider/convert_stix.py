@@ -1,18 +1,9 @@
 import uuid
 
-import stixmarx
 from cybox.core import Observable
 from six import text_type
+from stix2.exceptions import ImmutableError
 from stix2.pattern_visitor import create_pattern_object
-from stix2slider.convert_cyber_observables import convert_cyber_observables
-from stix2slider.options import (debug, error, get_option_value,
-                                 set_option_value, warn)
-from stix2slider.utils import set_default_namespace
-from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
-                                        INDICATOR_LABEL_MAP,
-                                        MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
-                                        SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
-                                        THREAT_ACTOR_SOPHISTICATION_MAP)
 from stix.campaign import AssociatedCampaigns, Campaign, Names
 from stix.coa import CourseOfAction, RelatedCOAs
 from stix.common.datetimewithprecision import DateTimeWithPrecision
@@ -42,20 +33,35 @@ from stix.extensions.marking.tlp import TLPMarkingStructure
 from stix.indicator import Indicator, RelatedIndicators, ValidTime
 from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
                                       Sighting, Sightings)
-from stix.report import Report
-from stix.report.header import Header
 from stix.threat_actor import AssociatedActors, ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
 from stix.ttp.malware_instance import MalwareInstance
 from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
+import stixmarx
+
+from stix2slider.convert_cyber_observables import convert_cyber_observables
+from stix2slider.options import (debug, error, get_option_value,
+                                 set_option_value, warn)
+from stix2slider.utils import set_default_namespace
+from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
+                                        INDICATOR_LABEL_MAP,
+                                        MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
+                                        SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
+                                        THREAT_ACTOR_SOPHISTICATION_MAP)
+
+try:
+    from stix.report import Report
+    from stix.report.header import Header
+    _STIX_1_VERSION = "1.2"
+except ImportError:
+    _STIX_1_VERSION = "1.1.1"
+
 
 CONTAINER = None
 
 _ID_NAMESPACE = "example"
-
-_STIX_1_VERSION = "1.2"
 
 _TYPE_MAP_FROM_2_0_TO_1_x = {"attack-pattern": "ttp",
                              "observed-data": "observable",
@@ -380,13 +386,19 @@ def get_type_from_id(id_):
 
 def add_missing_property_to_description(obj1x, property_name, property_value):
     if not get_option_value("no_squirrel_gaps"):
-        obj1x.add_description(property_name + ": " + text_type(property_value))
+        if _STIX_1_VERSION == "1.2":
+            obj1x.add_description(property_name + ": " + text_type(property_value))
+        else:
+            obj1x.description = property_name + ": " + text_type(property_value)     
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
     if not get_option_value("no_squirrel_gaps"):
-        obj1x.add_description(property_name + ": " + ", ".join(property_values))
-
+        if _STIX_1_VERSION == "1.2":
+            obj1x.add_description(property_name + ": " + ", ".join(property_values))
+        else:
+            obj1x.description = property_name + ": " + ", ".join(property_values)
+            
 
 _KILL_CHAINS = {}
 
@@ -424,7 +436,10 @@ def convert_attack_pattern(ap2x):
     if "name" in ap2x:
         ap1x.title = ap2x["name"]
     if "description" in ap2x:
-        ap1x.add_description(ap2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            ap1x.add_description(ap2x["description"])
+        else:
+            ap1x.description = ap2x["description"]
     if "labels" in ap2x:
         add_missing_list_property_to_description(ap1x, "labels", ap2x["labels"])
     if "external_references" in ap2x:
@@ -454,7 +469,10 @@ def convert_campaign(c2x):
     if "name" in c2x:
         c1x.title = c2x["name"]
     if "description" in c2x:
-        c1x.add_description(c2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            c1x.add_description(c2x["description"])
+        else:
+            c1x.description = c2x["description"]
     if "labels" in c2x:
         add_missing_list_property_to_description(c1x, "labels", c2x["labels"])
     names = Names()
@@ -486,7 +504,10 @@ def convert_coa(coa2x):
     if "name" in coa2x:
         coa1x.title = coa2x["name"]
     if "description" in coa2x:
-        coa1x.add_description(coa2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            coa1x.add_description(coa2x["description"])
+        else:
+            coa1x.description = coa2x["description"]
     if "labels" in coa2x:
         coa_types = convert_open_vocabs_to_controlled_vocabs(coa2x["labels"], COA_LABEL_MAP)
         coa1x.type_ = coa_types[0]
@@ -527,7 +548,7 @@ def convert_identity(ident2x):
             if "roles" in ident2x:
                 ident1x.roles = ident2x["roles"]
             if "labels" in ident2x:
-                add_missing_list_property_to_description(ident2x, "labels", ident2x["labels"])
+                add_missing_list_property_to_description(ident1x, "labels", ident2x["labels"])
         if ("sectors" in ident2x or
                 "contact_information" in ident2x or
                 "identity_class" in ident2x or
@@ -538,16 +559,16 @@ def convert_identity(ident2x):
                 party_name.add_organisation_name(text_type(ident2x["name"]))
                 ident1x.specification.party_name = party_name
             if "sectors" in ident2x:
-                    first = True
-                    for s in ident2x["sectors"]:
-                        if first:
-                            ident1x.specification.organisation_info = \
-                                OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP, False)[0]))
-                            first = False
-                        else:
-                            warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
-                                 401,
-                                 "Identity", "sectors", s)
+                first = True
+                for s in ident2x["sectors"]:
+                    if first:
+                        ident1x.specification.organisation_info = \
+                            OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP, False)[0]))
+                        first = False
+                    else:
+                        warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+                             401,
+                             "Identity", "sectors", s)
             # Identity in 1.x has no description property, use free-text-lines
             if "identity_class" in ident2x:
                 add_missing_property_to_free_text_lines(ident1x.specification, "identity_class", ident2x["identity_class"])
@@ -581,7 +602,11 @@ def convert_indicator(indicator2x):
     if "name" in indicator2x:
         indicator1x.title = indicator2x["name"]
     if "description" in indicator2x:
-        indicator1x.add_description(indicator2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            indicator1x.add_description(indicator2x["description"])
+        else:
+            indicator1x.description = indicator2x["description"]
+
     if get_option_value("version_of_stix2x") == "2.0":
         indicator1x.indicator_types = convert_open_vocabs_to_controlled_vocabs(indicator2x["labels"],
                                                                                INDICATOR_LABEL_MAP)
@@ -589,7 +614,7 @@ def convert_indicator(indicator2x):
         indicator1x.indicator_types = convert_open_vocabs_to_controlled_vocabs(indicator2x["indicator_types"],
                                                                                INDICATOR_LABEL_MAP)
         if "labels" in indicator2x:
-            add_missing_list_property_to_description(indicator2x, "labels", indicator2x["labels"])
+            add_missing_list_property_to_description(indicator1x, "labels", indicator2x["labels"])
     indicator1x.add_valid_time_position(
         convert_to_valid_time(text_type(indicator2x["valid_from"]),
                               text_type(indicator2x["valid_until"]) if "valid_until" in indicator2x else None))
@@ -612,13 +637,17 @@ def convert_malware(malware2x):
     if "name" in malware2x:
         malware1x.add_name(malware2x["name"])
     if "description" in malware2x:
-        malware1x.add_description(malware2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            malware1x.add_description(malware2x["description"])
+        else:
+            malware1x.description = malware2x["description"]
+
     if get_option_value("version_of_stix2x") == "2.0":
         types = convert_open_vocabs_to_controlled_vocabs(malware2x["labels"], MALWARE_LABELS_MAP)
     else:
         types = convert_open_vocabs_to_controlled_vocabs(malware2x["malware_types"], MALWARE_LABELS_MAP)
         if "labels" in malware2x:
-            add_missing_list_property_to_description(malware2x, "labels", malware2x["labels"])
+            add_missing_list_property_to_description(malware1x, "labels", malware2x["labels"])
     for t in types:
         malware1x.add_type(t)
     ttp = TTP(id_=convert_id2x(malware2x["id"]),
@@ -653,57 +682,60 @@ def convert_observed_data(od2x):
 
 
 def convert_report(r2x):
-    r1x = Report(id_=convert_id2x(r2x["id"]),
-                 timestamp=text_type(r2x["modified"]))
-    r1x.header = Header()
-    if "name" in r2x:
-        r1x.header.title = r2x["name"]
-    if "description" in r2x:
-        r1x.header.add_description(r2x["description"])
-    if get_option_value("version_of_stix2x") == "2.0":
-        intents = convert_open_vocabs_to_controlled_vocabs(r2x["labels"], REPORT_LABELS_MAP)
-    else:
-        intents = convert_open_vocabs_to_controlled_vocabs(r2x["report_types"], REPORT_LABELS_MAP)
-        # TODO: what if there are labels - there is not description property on reports to put it
-    for i in intents:
-        r1x.header.add_intent(i)
-    if "published" in r2x:
-        add_missing_property_to_description(r1x.header, "published", r2x["published"])
-    for ref in r2x["object_refs"]:
-        ref_type = get_type_from_id(ref)
-        ref1x = convert_id2x(ref)
-        if ref_type == "attack-pattern":
-            r1x.add_ttp(TTP(idref=ref1x))
-        elif ref_type == "campaign":
-            r1x.add_campaign(Campaign(idref=ref1x))
-        elif ref_type == 'course-of-action':
-            r1x.add_course_of_action(CourseOfAction(idref=ref1x))
-        elif ref_type == "indicator":
-            r1x.add_indicator(Indicator(idref=ref1x))
-        elif ref_type == "observed-data":
-            r1x.add_observable(Observable(idref=ref1x))
-        elif ref_type == "malware":
-            r1x.add_ttp(TTP(idref=ref1x))
-        elif ref_type == "threat-actor":
-            r1x.add_threat_actor(ThreatActor(idref=ref1x))
-        elif ref_type == "tool":
-            r1x.add_ttp(TTP(idref=ref1x))
-        elif ref_type == "vulnerability":
-            r1x.add_exploit_target(ExploitTarget(idref=ref1x))
-        elif ref_type == "identity" or ref_type == "relationship" or ref_type == "location":
-            warn("%s in %s is not explicitly a member of a STIX 1.x report", 703, ref, r2x["id"])
-        elif ref_type == "intrusion-set" or ref_type == "opinion" or ref_type == "note":
-            warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r2x["id"])
+    if _STIX_1_VERSION == "1.2":
+        r1x = Report(id_=convert_id2x(r2x["id"]),
+                     timestamp=text_type(r2x["modified"]))
+        r1x.header = Header()
+        if "name" in r2x:
+            r1x.header.title = r2x["name"]
+        if "description" in r2x:
+            r1x.header.add_description(r2x["description"])
+        if get_option_value("version_of_stix2x") == "2.0":
+            intents = convert_open_vocabs_to_controlled_vocabs(r2x["labels"], REPORT_LABELS_MAP)
         else:
-            warn("ref type %s in %s is not known", 316, ref_type, r2x["id"])
-    if "object_marking_refs" in r2x:
-        for m_id in r2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(r1x, ms, descendants=True)
-    if "granular_markings" in r2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, r2x["id"])
-    return r1x
+            intents = convert_open_vocabs_to_controlled_vocabs(r2x["report_types"], REPORT_LABELS_MAP)
+            # TODO: what if there are labels - there is not description property on reports to put it
+        for i in intents:
+            r1x.header.add_intent(i)
+        if "published" in r2x:
+            add_missing_property_to_description(r1x.header, "published", r2x["published"])
+        for ref in r2x["object_refs"]:
+            ref_type = get_type_from_id(ref)
+            ref1x = convert_id2x(ref)
+            if ref_type == "attack-pattern":
+                r1x.add_ttp(TTP(idref=ref1x))
+            elif ref_type == "campaign":
+                r1x.add_campaign(Campaign(idref=ref1x))
+            elif ref_type == 'course-of-action':
+                r1x.add_course_of_action(CourseOfAction(idref=ref1x))
+            elif ref_type == "indicator":
+                r1x.add_indicator(Indicator(idref=ref1x))
+            elif ref_type == "observed-data":
+                r1x.add_observable(Observable(idref=ref1x))
+            elif ref_type == "malware":
+                r1x.add_ttp(TTP(idref=ref1x))
+            elif ref_type == "threat-actor":
+                r1x.add_threat_actor(ThreatActor(idref=ref1x))
+            elif ref_type == "tool":
+                r1x.add_ttp(TTP(idref=ref1x))
+            elif ref_type == "vulnerability":
+                r1x.add_exploit_target(ExploitTarget(idref=ref1x))
+            elif ref_type == "identity" or ref_type == "relationship" or ref_type == "location":
+                warn("%s in %s is not explicitly a member of a STIX 1.x report", 703, ref, r2x["id"])
+            elif ref_type == "intrusion-set" or ref_type == "opinion" or ref_type == "note":
+                warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r2x["id"])
+            else:
+                warn("ref type %s in %s is not known", 316, ref_type, r2x["id"])
+        if "object_marking_refs" in r2x:
+            for m_id in r2x["object_marking_refs"]:
+                ms = create_marking_specification(m_id)
+                if ms:
+                    CONTAINER.add_marking(r1x, ms, descendants=True)
+        if "granular_markings" in r2x:
+            error("Granular Markings present in '%s' are not supported by stix2slider", 604, r2x["id"])
+        return r1x
+    else:
+        return None
 
 
 def convert_threat_actor(ta2x):
@@ -715,11 +747,14 @@ def convert_threat_actor(ta2x):
     else:
         types = convert_open_vocabs_to_controlled_vocabs(ta2x["threat_actor_types"], THREAT_ACTOR_LABEL_MAP)
         if "labels" in ta2x:
-            add_missing_list_property_to_description(ta2x, "labels", ta2x["labels"])
+            add_missing_list_property_to_description(ta1x, "labels", ta2x["labels"])
     for t in types:
         ta1x.add_type(t)
     if "description" in ta2x:
-        ta1x.add_description(ta2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            ta1x.add_description(ta2x["description"])
+        else:
+            ta1x.description = ta2x["description"]
     if "aliases" in ta2x:
         add_missing_list_property_to_description(ta1x, "aliases", ta2x["aliases"])
     if "roles" in ta2x:
@@ -732,7 +767,7 @@ def convert_threat_actor(ta2x):
         for s in sophistications:
             ta1x.add_sophistication(s)
     if "resource_level" in ta2x:
-            add_missing_list_property_to_description(ta1x, "resource_level", ta2x["resource_level"])
+        add_missing_list_property_to_description(ta1x, "resource_level", ta2x["resource_level"])
     all_motivations = []
     if "primary_motivation" in ta2x:
         all_motivations = [ta2x["primary_motivation"]]
@@ -791,7 +826,10 @@ def convert_vulnerability(v2x):
     if "name" in v2x:
         v1x.title = v2x["name"]
     if "description" in v2x:
-        v1x.add_description(v2x["description"])
+        if _STIX_1_VERSION == "1.2":
+            v1x.add_description(v2x["description"])
+        else:
+            v1x.description = v2x["description"]
     if "labels" in v2x:
         add_missing_list_property_to_description(v1x, "labels", v2x["labels"])
     v1x.cve_id = extract_external_id("cve", v2x["external_references"])
@@ -977,11 +1015,17 @@ def create_references(obj):
             if "hashes" in er:
                 warn("hashes not representable in a STIX 1.x %s.  Found in %s", 503, "InformationSource", obj["id"])
             if "description" in er:
-                ob1x.add_description(er["description"])
+                if _STIX_1_VERSION == "1.2":
+                    ob1x.add_description(er["description"])
+                else:
+                    ob1x.description = er["description"]
             if ref_texts != []:
                 if isinstance(ob1x, Indicator):
                     for rt in ref_texts:
-                        ob1x.add_description(rt)
+                        if _STIX_1_VERSION == "1.2":
+                            ob1x.add_description(rt)
+                        else:
+                            ob1x.description = ob1x.description + " " + rt
                 else:
                     info_source = get_info_source(ob1x, obj)
                     for rt in ref_texts:
@@ -1179,7 +1223,11 @@ def convert_bundle(bundle_obj):
         elif o["type"] == "opinion":
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "opinion")
         elif o["type"] == "report":
-            pkg.add_report(convert_report(o))
+            if _STIX_1_VERSION == "1.2":
+                pkg.add_report(convert_report(o))
+            else:
+                warn("Ignoring %s, because %ss cannot be represented in STIX 1.1.1", 509, o["id"], "report")
+
         elif o["type"] == "threat-actor":
             pkg.add_threat_actor(convert_threat_actor(o))
         elif o["type"] == "tool":

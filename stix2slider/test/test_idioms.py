@@ -4,10 +4,11 @@ import os
 
 from six import StringIO
 from six.moves import zip
+from stixmarx import markingmap, xml
+
 from stix2slider.cli import slide_file
 from stix2slider.options import initialize_options
 from stix2slider.utils import find_dir
-from stixmarx import markingmap, xml
 
 TESTED_JSON_FILES = []
 JSON_FILENAMES = []

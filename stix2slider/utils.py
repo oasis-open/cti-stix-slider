@@ -1,7 +1,7 @@
 import os
 
-import stix2
 from mixbox import idgen, namespaces
+import stix2
 
 
 # This is not a final representation of an AIS marking in STIX 2.0

@@ -4,11 +4,12 @@ import logging
 import sys
 
 import cybox.utils.caches
-import stix2
 from sdv import codes, errors, scripts
+import stix2
 
 from stix2slider.convert_stix import convert_bundle
-from stix2slider.options import setup_logger, get_validator_options
+from stix2slider.options import get_validator_options, setup_logger
+
 # import stix2slider.utils  # flake8: noqa
 
 # Module-level logger
