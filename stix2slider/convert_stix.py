@@ -2,7 +2,6 @@ import uuid
 
 from cybox.core import Observable
 from six import text_type
-from stix2.exceptions import ImmutableError
 from stix2.pattern_visitor import create_pattern_object
 from stix.campaign import AssociatedCampaigns, Campaign, Names
 from stix.coa import CourseOfAction, RelatedCOAs
@@ -389,7 +388,7 @@ def add_missing_property_to_description(obj1x, property_name, property_value):
         if _STIX_1_VERSION == "1.2":
             obj1x.add_description(property_name + ": " + text_type(property_value))
         else:
-            obj1x.description = property_name + ": " + text_type(property_value)     
+            obj1x.description = property_name + ": " + text_type(property_value)
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
@@ -398,7 +397,7 @@ def add_missing_list_property_to_description(obj1x, property_name, property_valu
             obj1x.add_description(property_name + ": " + ", ".join(property_values))
         else:
             obj1x.description = property_name + ": " + ", ".join(property_values)
-            
+
 
 _KILL_CHAINS = {}
 
