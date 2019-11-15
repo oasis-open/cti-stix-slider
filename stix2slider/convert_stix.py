@@ -389,10 +389,7 @@ def add_missing_property_to_description(obj1x, property_name, property_value):
         if _STIX_1_VERSION == "1.2":
             obj1x.add_description(property_name + ": " + text_type(property_value))
         else:
-            try:
-                obj1x.description = property_name + ": " + text_type(property_value)     
-            except ImmutableError:
-                pass
+            obj1x.description = property_name + ": " + text_type(property_value)     
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
@@ -400,10 +397,7 @@ def add_missing_list_property_to_description(obj1x, property_name, property_valu
         if _STIX_1_VERSION == "1.2":
             obj1x.add_description(property_name + ": " + ", ".join(property_values))
         else:
-            try:
-                obj1x.description = property_name + ": " + ", ".join(property_values)
-            except ImmutableError:
-                pass
+            obj1x.description = property_name + ": " + ", ".join(property_values)
             
 
 _KILL_CHAINS = {}
@@ -554,7 +548,7 @@ def convert_identity(ident2x):
             if "roles" in ident2x:
                 ident1x.roles = ident2x["roles"]
             if "labels" in ident2x:
-                add_missing_list_property_to_description(ident2x, "labels", ident2x["labels"])
+                add_missing_list_property_to_description(ident1x, "labels", ident2x["labels"])
         if ("sectors" in ident2x or
                 "contact_information" in ident2x or
                 "identity_class" in ident2x or
@@ -620,7 +614,7 @@ def convert_indicator(indicator2x):
         indicator1x.indicator_types = convert_open_vocabs_to_controlled_vocabs(indicator2x["indicator_types"],
                                                                                INDICATOR_LABEL_MAP)
         if "labels" in indicator2x:
-            add_missing_list_property_to_description(indicator2x, "labels", indicator2x["labels"])
+            add_missing_list_property_to_description(indicator1x, "labels", indicator2x["labels"])
     indicator1x.add_valid_time_position(
         convert_to_valid_time(text_type(indicator2x["valid_from"]),
                               text_type(indicator2x["valid_until"]) if "valid_until" in indicator2x else None))
@@ -653,7 +647,7 @@ def convert_malware(malware2x):
     else:
         types = convert_open_vocabs_to_controlled_vocabs(malware2x["malware_types"], MALWARE_LABELS_MAP)
         if "labels" in malware2x:
-            add_missing_list_property_to_description(malware2x, "labels", malware2x["labels"])
+            add_missing_list_property_to_description(malware1x, "labels", malware2x["labels"])
     for t in types:
         malware1x.add_type(t)
     ttp = TTP(id_=convert_id2x(malware2x["id"]),
@@ -753,7 +747,7 @@ def convert_threat_actor(ta2x):
     else:
         types = convert_open_vocabs_to_controlled_vocabs(ta2x["threat_actor_types"], THREAT_ACTOR_LABEL_MAP)
         if "labels" in ta2x:
-            add_missing_list_property_to_description(ta2x, "labels", ta2x["labels"])
+            add_missing_list_property_to_description(ta1x, "labels", ta2x["labels"])
     for t in types:
         ta1x.add_type(t)
     if "description" in ta2x:
