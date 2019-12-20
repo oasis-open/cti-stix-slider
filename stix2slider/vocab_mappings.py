@@ -51,6 +51,21 @@ INDICATOR_LABEL_MAP = \
         "host-characteristics": "Host Characteristics",
     }
 
+INFRASTRUCTURE_LABEL_MAP = \
+    {
+        "amplification": "Amplification",
+        "anonymization": "Anonymization",
+        "botnet": "Botnet",
+        "command-and-control": "C2",
+        "exfiltration": "Exfiltration",
+        "hosting-malware": "Hosting Malware",
+        "hosting-target-lists": "Hosting Target Lists",
+        "phishing": "Phishing",
+        "reconnaissance": "Reconnaissance",
+        "staging": "Staging",
+        "undefined": "Undefined",
+    }
+
 MALWARE_LABELS_MAP = \
     {
         "adware": "Adware",

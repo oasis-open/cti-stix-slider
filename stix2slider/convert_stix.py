@@ -35,6 +35,7 @@ from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
 from stix.threat_actor import AssociatedActors, ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
+from stix.ttp.infrastructure import Infrastructure
 from stix.ttp.malware_instance import MalwareInstance
 from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
@@ -46,6 +47,7 @@ from stix2slider.options import (debug, error, get_option_value,
 from stix2slider.utils import set_default_namespace
 from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         INDICATOR_LABEL_MAP,
+                                        INFRASTRUCTURE_LABEL_MAP,
                                         MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
                                         SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
                                         THREAT_ACTOR_SOPHISTICATION_MAP)
@@ -66,6 +68,7 @@ _TYPE_MAP_FROM_2_0_TO_1_x = {"attack-pattern": "ttp",
                              "observed-data": "observable",
                              "bundle": "STIXPackage",
                              "malware": "ttp",
+                             "infrastructure": "ttp",
                              "marking-definition": "markingstructure",
                              "toolinformation": "tool",
                              "vulnerability": "et"}
@@ -188,6 +191,11 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": TTP,
          "stix1x_target_type": ExploitTarget},
+    ("attack-pattern", "indicator", "indicates"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": Indicator},
     ("campaign", "threat-actor", "attributed-to"):
         {"method": lambda source, target_ref: source.associated_campaigns.append(target_ref),
          "reverse": True,
@@ -239,7 +247,7 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": Identity,
          "stix1x_target_type": Identity},
-    ("indicator", "attack_pattern", "indicates"):
+    ("indicator", "attack-pattern", "indicates"):
         {"method": Indicator.add_indicated_ttp,
          "reverse": False,
          "stix1x_source_type": Indicator,
@@ -266,6 +274,11 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": Indicator,
          "stix1x_target_type": Indicator},
+    ("indicator", "infrastructure", "indicates"):
+        {"method": Indicator.add_indicated_ttp,
+         "reverse": False,
+         "stix1x_source_type": Indicator,
+         "stix1x_target_type": TTP},
     ("malware", "vulnerability", "targets"):
         {"method": create_exploit_target_to_ttps,
          "reverse": False,
@@ -594,6 +607,39 @@ def convert_identity(ident2x):
         error("Granular Markings present in '%s' are not supported by stix2slider", 604, ident2x["id"])
     return ident1x
 
+def convert_infrastructure(infrastructure2x):
+    infrastructure1x = Infrastructure(id_=convert_id2x(infrastructure2x["id"]))
+    if "name" in infrastructure2x:
+        infrastructure1x.title = infrastructure2x["name"]
+    if "description" in infrastructure2x:
+        if _STIX_1_VERSION == "1.2":
+            infrastructure1x.add_description(infrastructure2x["description"])
+        else:
+            infrastructure1x.description = infrastructure2x["description"]
+
+    if get_option_value("version_of_stix2x") == "2.0":
+        infrastructure1x.infrastructure_types = convert_open_vocabs_to_controlled_vocabs(infrastructure2x["labels"],
+                                                                               INFRASTRUCTURE_LABEL_MAP)
+    else:
+        infrastructure1x.infrastructure_types = convert_open_vocabs_to_controlled_vocabs(infrastructure2x["infrastructure_types"],
+                                                                               INFRASTRUCTURE_LABEL_MAP)
+        if "labels" in infrastructure2x:
+            add_missing_list_property_to_description(infrastructure1x, "labels", infrastructure2x["labels"])
+    # infrastructure1x.add_valid_time_position(
+        # convert_to_valid_time(text_type(infrastructure2x["valid_from"]),
+                            #   text_type(infrastructure2x["valid_until"]) if "valid_until" in infrastructure2x else None))
+    # indicator1x.add_observable(create_pattern_object(infrastructure2x["pattern"], "Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
+    if "kill_chain_phases" in infrastructure2x:
+        process_kill_chain_phases(infrastructure2x["kill_chain_phases"], infrastructure1x)
+    if "object_marking_refs" in infrastructure2x:
+        for m_id in infrastructure2x["object_marking_refs"]:
+            ms = create_marking_specification(m_id)
+            if ms:
+                CONTAINER.add_marking(infrastructure1x, ms, descendants=True)
+    if "granular_markings" in infrastructure2x:
+        error("Granular Markings present in '%s' are not supported by stix2slider", 604, infrastructure2x["id"])
+    record_id_object_mapping(infrastructure2x["id"], infrastructure1x)
+    return infrastructure1x
 
 def convert_indicator(indicator2x):
     indicator1x = Indicator(id_=convert_id2x(indicator2x["id"]),
@@ -1208,6 +1254,8 @@ def convert_bundle(bundle_obj):
             pkg.add_course_of_action(convert_coa(o))
         elif o["type"] == "indicator":
             pkg.add_indicator(convert_indicator(o))
+        elif o["type"] == "infrastructure":
+            pkg.add_ttp(convert_infrastructure(o))
         elif o["type"] == "intrusion-set":
             error("Cannot convert STIX 2.x content that contains %s", 524, "intrusion-set")
             return None
