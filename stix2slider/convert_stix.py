@@ -279,6 +279,11 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": Indicator,
          "stix1x_target_type": TTP},
+    # ("infrastructure", "infrastructure", "uses"):
+        # {"method": Infrastructure.add_indicated_ttp,
+        #  "reverse": False,
+        #  "stix1x_source_type": Infrastructure,
+        #  "stix1x_target_type": Infrastructure},
     ("malware", "vulnerability", "targets"):
         {"method": create_exploit_target_to_ttps,
          "reverse": False,
@@ -608,7 +613,7 @@ def convert_identity(ident2x):
     return ident1x
 
 def convert_infrastructure(infrastructure2x):
-    infrastructure1x = Infrastructure(id_=convert_id2x(infrastructure2x["id"]))
+    infrastructure1x = Infrastructure()#id_=convert_id2x(infrastructure2x["id"]))
     if "name" in infrastructure2x:
         infrastructure1x.title = infrastructure2x["name"]
     if "description" in infrastructure2x:
@@ -626,20 +631,34 @@ def convert_infrastructure(infrastructure2x):
         if "labels" in infrastructure2x:
             add_missing_list_property_to_description(infrastructure1x, "labels", infrastructure2x["labels"])
     # infrastructure1x.add_valid_time_position(
-        # convert_to_valid_time(text_type(infrastructure2x["valid_from"]),
-                            #   text_type(infrastructure2x["valid_until"]) if "valid_until" in infrastructure2x else None))
+    #     convert_to_valid_time(text_type(infrastructure2x["valid_from"]),
+    #                           text_type(infrastructure2x["valid_until"]) if "valid_until" in infrastructure2x else None))
     # indicator1x.add_observable(create_pattern_object(infrastructure2x["pattern"], "Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
+    # if "kill_chain_phases" in infrastructure2x:
+        # process_kill_chain_phases(infrastructure2x["kill_chain_phases"], infrastructure1x)
+    # if "object_marking_refs" in infrastructure2x:
+        # for m_id in infrastructure2x["object_marking_refs"]:
+            # ms = create_marking_specification(m_id)
+            # if ms:
+                # CONTAINER.add_marking(infrastructure1x, ms, descendants=True)
+    # if "granular_markings" in infrastructure2x:
+        # error("Granular Markings present in '%s' are not supported by stix2slider", 604, infrastructure2x["id"])
+    # record_id_object_mapping(infrastructure2x["id"], infrastructure1x)
+    # return infrastructure1x
+    ttp = TTP(id_=convert_id2x(infrastructure2x["id"]),
+              timestamp=text_type(infrastructure2x["modified"]))
+    ttp.resources = Resource(infrastructure= infrastructure1x)
     if "kill_chain_phases" in infrastructure2x:
-        process_kill_chain_phases(infrastructure2x["kill_chain_phases"], infrastructure1x)
+        process_kill_chain_phases(infrastructure2x["kill_chain_phases"], ttp)
     if "object_marking_refs" in infrastructure2x:
         for m_id in infrastructure2x["object_marking_refs"]:
             ms = create_marking_specification(m_id)
             if ms:
-                CONTAINER.add_marking(infrastructure1x, ms, descendants=True)
+                CONTAINER.add_marking(ttp, ms, descendants=True)
     if "granular_markings" in infrastructure2x:
         error("Granular Markings present in '%s' are not supported by stix2slider", 604, infrastructure2x["id"])
-    record_id_object_mapping(infrastructure2x["id"], infrastructure1x)
-    return infrastructure1x
+    record_id_object_mapping(infrastructure2x["id"], ttp)
+    return ttp
 
 def convert_indicator(indicator2x):
     indicator1x = Indicator(id_=convert_id2x(indicator2x["id"]),
