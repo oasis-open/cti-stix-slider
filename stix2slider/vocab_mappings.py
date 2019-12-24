@@ -55,8 +55,8 @@ INFRASTRUCTURE_LABEL_MAP = \
     {
         "amplification": "Amplification",
         "anonymization": "Anonymization",
-        "botnet": "Botnet",
-        "command-and-control": "C2",
+        "botnet": "Hosting - Fast Flux Botnet Hosting",
+        "command-and-control": "Hosting - Compromised Server",
         "exfiltration": "Exfiltration",
         "hosting-malware": "Hosting Malware",
         "hosting-target-lists": "Hosting Target Lists",
