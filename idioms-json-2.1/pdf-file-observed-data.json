@@ -8,30 +8,32 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "extensions": {
-                        "pdf-ext": {
-                            "document_info_dict": {
-                                "Author": "Adobe Systems Incorporated",
-                                "CreationDate": "20070412090123-02",
-                                "Creator": "Adobe FrameMaker 5.5.3 for Power Macintosh",
-                                "Producer": "Acrobat Distiller 3.01 for Power Macintosh",
-                                "Title": "Sample document"
-                            },
-                            "pdfid0": "DFCE52BD827ECF765649852119D",
-                            "pdfid1": "57A1E0F9ED2AE523E313C",
-                            "version": "1.7"
-                        }
-                    },
-                    "hashes": {
-                        "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
-                    },
-                    "type": "file"
-                }
-            },
+            "object_refs": [
+                "file--a5fa1344-a18d-5bfa-ad09-ac044040c9c0"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "extensions": {
+                "pdf-ext": {
+                    "document_info_dict": {
+                        "Author": "Adobe Systems Incorporated",
+                        "CreationDate": "20070412090123-02",
+                        "Creator": "Adobe FrameMaker 5.5.3 for Power Macintosh",
+                        "Producer": "Acrobat Distiller 3.01 for Power Macintosh",
+                        "Title": "Sample document"
+                    },
+                    "pdfid0": "DFCE52BD827ECF765649852119D",
+                    "pdfid1": "57A1E0F9ED2AE523E313C",
+                    "version": "1.7"
+                }
+            },
+            "hashes": {
+                "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+            },
+            "id": "file--a5fa1344-a18d-5bfa-ad09-ac044040c9c0",
+            "type": "file"
         }
     ],
     "type": "bundle"

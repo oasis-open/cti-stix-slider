@@ -2,26 +2,54 @@
     "id": "bundle--cc0ca596-70e6-4dac-9bef-603166d17db8",
     "objects": [
         {
-            "created": "2017-01-27T13:49:41.345Z",
-            "first_observed": "2017-01-27T13:49:41.345Z",
-            "id": "observed-data--c8c32b6e-2ea8-41c4-a446-7f5218072f27",
-            "last_observed": "2017-01-27T13:49:41.345Z",
-            "modified": "2017-01-27T13:49:41.345Z",
-            "number_observed": 1,
-            "objects": {
-                "0": {
-                    "hashes": {
-                        "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-                    },
-                    "name": "iprip32.dll",
-                    "parent_directory_ref": "1",
-                    "type": "file"
-                },
-                "1": {
-                    "path": "/usr/local",
-                    "type": "directory"
-                }
+            "id": "directory--4aa982e3-4aac-5d5b-a699-d08c8c11f5f3",
+            "path": "/usr/local",
+            "type": "directory"
+        },
+        {
+            "hashes": {
+                "MD5": "5d8129be965fab8115eca34fc84bd7f0",
+                "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+
             },
+            "id": "file--88a04250-a572-5393-bd4e-27f54f56c67a",
+            "name": "iprip32.dll",
+            "parent_directory_ref": "directory--4aa982e3-4aac-5d5b-a699-d08c8c11f5f3",
+            "type": "file"
+        },
+        {
+            "created": "2019-08-21T11:06:15.318Z",
+            "first_seen": "2019-08-21T11:06:15.318Z",
+            "id": "infrastructure--dd955e08-16d0-4f08-a064-50d9e7a3104d",
+            "infrastructure_types": [
+                "malware-c2"
+            ],
+            "modified": "2019-08-21T11:06:15.318Z",
+            "name": "Malware C2 Channel",
+            "spec_version": "2.1",
+            "type": "infrastructure"
+        },
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "id": "relationship--fe557f9d-fcb4-423a-a3ba-7e61f475584a",
+            "modified": "2014-05-08T09:00:00.000Z",
+            "relationship_type": "consists-of",
+            "source_ref": "infrastructure--dd955e08-16d0-6f08-a064-50d9e7a3104d",
+            "spec_version": "2.1",
+            "target_ref": "observed-data--c8c32b6e-2ea8-41c4-a446-7f5218072f27",
+            "type": "relationship"
+        },
+        {
+            "created": "2019-08-21T11:06:15.317Z",
+            "first_observed": "2019-08-21T11:06:15.317Z",
+            "id": "observed-data--c8c32b6e-2ea8-41c4-a446-7f5218072f27",
+            "last_observed": "2019-08-21T11:06:15.317Z",
+            "modified": "2019-08-21T11:06:15.317Z",
+            "number_observed": 1,
+            "object_refs": [
+                "file--88a04250-a572-5393-bd4e-27f54f56c67a",
+                "directory--4aa982e3-4aac-5d5b-a699-d08c8c11f5f3"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
         }

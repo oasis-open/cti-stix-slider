@@ -1,6 +1,5 @@
-import uuid
-
 from cybox.core import Observable
+from cybox.objects.email_message_object import Attachments
 from six import text_type
 from stix2.pattern_visitor import create_pattern_object
 from stix.campaign import AssociatedCampaigns, Campaign, Names
@@ -29,6 +28,8 @@ from stix.extensions.marking.ais import (AISConsentType, AISMarkingStructure,
 from stix.extensions.marking.terms_of_use_marking import \
     TermsOfUseMarkingStructure
 from stix.extensions.marking.tlp import TLPMarkingStructure
+from stix.extensions.test_mechanism.snort_test_mechanism import SnortTestMechanism
+from stix.extensions.test_mechanism.yara_test_mechanism import YaraTestMechanism
 from stix.indicator import Indicator, RelatedIndicators, ValidTime
 from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
                                       Sighting, Sightings)
@@ -40,7 +41,10 @@ from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
 import stixmarx
 
-from stix2slider.convert_cyber_observables import convert_cyber_observables
+
+from stix2slider.common import convert_id2x, create_id1x
+from stix2slider.convert_cyber_observables import (convert_cyber_observables, convert_sco, add_refs, get_stix1x_obj_from_stix2x_id,
+                                                   get_refs)
 from stix2slider.options import (debug, error, get_option_value,
                                  set_option_value, warn)
 from stix2slider.utils import set_default_namespace
@@ -59,16 +63,6 @@ except ImportError:
 
 
 CONTAINER = None
-
-_ID_NAMESPACE = "example"
-
-_TYPE_MAP_FROM_2_0_TO_1_x = {"attack-pattern": "ttp",
-                             "observed-data": "observable",
-                             "bundle": "STIXPackage",
-                             "malware": "ttp",
-                             "marking-definition": "markingstructure",
-                             "toolinformation": "tool",
-                             "vulnerability": "et"}
 
 
 def choose_full_object_or_idref(identity_ref_2x, target_obj_idref_1x):
@@ -324,20 +318,8 @@ def get_relationship_adder(type_of_source, type_of_target, type_of_relationship)
         return None
 
 
-def create_id1x(type_name_1x):
-    return "%s:%s-%s" % (_ID_NAMESPACE, type_name_1x, uuid.uuid4())
-
-
-def convert_id2x(id2x):
-    id_parts = id2x.split("--")
-    if id_parts[0] in _TYPE_MAP_FROM_2_0_TO_1_x:
-        type_name = _TYPE_MAP_FROM_2_0_TO_1_x[id_parts[0]]
-    else:
-        type_name = id_parts[0]
-    return "%s:%s-%s" % (_ID_NAMESPACE, type_name, id_parts[1])
-
-
 _ID_OBJECT_MAPPING = {}
+
 
 _EXPLICIT_OBJECT_USED = {}
 
@@ -441,6 +423,8 @@ def convert_attack_pattern(ap2x):
             ap1x.description = ap2x["description"]
     if "labels" in ap2x:
         add_missing_list_property_to_description(ap1x, "labels", ap2x["labels"])
+    if "aliases" in ap2x:
+        add_missing_list_property_to_description(ap1x, "aliases", ap2x["aliases"])
     if "external_references" in ap2x:
         ap1x.capec_id = extract_external_id("capec", ap2x["external_references"])
     ttp = TTP(id_=convert_id2x(ap2x["id"]),
@@ -617,7 +601,21 @@ def convert_indicator(indicator2x):
     indicator1x.add_valid_time_position(
         convert_to_valid_time(text_type(indicator2x["valid_from"]),
                               text_type(indicator2x["valid_until"]) if "valid_until" in indicator2x else None))
-    indicator1x.add_observable(create_pattern_object(indicator2x["pattern"], "Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
+    if get_option_value("version_of_stix2x") == "2.0" or ("pattern_type" in indicator2x and indicator2x["pattern_type"] == "stix"):
+        indicator1x.add_observable(create_pattern_object(indicator2x["pattern"], "Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
+    elif indicator2x["pattern_type"] == "snort":
+        tm = SnortTestMechanism()
+        tm.rule = indicator2x["pattern"]
+        if "pattern_version" in indicator2x:
+            tm.version = indicator2x["pattern_version"]
+    elif indicator2x["pattern_type"] == "yara":
+        tm = YaraTestMechanism()
+        tm.rule = indicator2x["pattern"]
+        if "pattern_version" in indicator2x:
+            tm.version = indicator2x["pattern_version"]
+    elif "pattern_type" in indicator2x:
+        # not supported
+        warn("%s pattern type in %s cannot be represented in STIX 1.x", 0, indicator2x["pattern_type"], indicator2x["id"])
     if "kill_chain_phases" in indicator2x:
         process_kill_chain_phases(indicator2x["kill_chain_phases"], indicator1x)
     if "object_marking_refs" in indicator2x:
@@ -676,7 +674,8 @@ def convert_observed_data(od2x):
     if "granular_markings" in od2x:
         error("Granular Markings present in '%s' are not supported by stix2slider", 604, od2x["id"])
     # observable-data has no description
-    o1x.object_ = convert_cyber_observables(od2x["objects"], od2x["id"])
+    if "objects" in od2x:  # deprecated in 2.1
+        o1x.object_ = convert_cyber_observables(od2x["objects"], od2x["id"])
     return o1x
 
 
@@ -758,6 +757,10 @@ def convert_threat_actor(ta2x):
         add_missing_list_property_to_description(ta1x, "aliases", ta2x["aliases"])
     if "roles" in ta2x:
         add_missing_list_property_to_description(ta1x, "roles", ta2x["roles"])
+    if "first_seen" in ta2x:
+        add_missing_property_to_description(ta1x, "first_seen", ta2x["first_seen"])
+    if "last_seen" in ta2x:
+        add_missing_property_to_description(ta1x, "last_seen", ta2x["last_seen"])
     if "goals" in ta2x:
         for g in ta2x["goals"]:
             ta1x.add_intended_effect(g)
@@ -1067,11 +1070,17 @@ def process_sighting(o):
             return
         if not indicator_of_sighting.sightings:
             indicator_of_sighting.sightings = Sightings()
+
         if "count" in o:
             indicator_of_sighting.sightings.sightings_count = o["count"]
         if "where_sighted_refs" in o:
             for ref in o["where_sighted_refs"]:
                 s = Sighting(timestamp=text_type(o["modified"]))
+                if "description" in o:
+                    if _STIX_1_VERSION == "1.2":
+                        s.add_description(o["description"])
+                    else:
+                        s.description = o["description"]
                 indicator_of_sighting.sightings.append(s)
                 if ref in _EXPLICIT_OBJECT_USED:
                     identity2x_tuple = _EXPLICIT_OBJECT_USED[ref]
@@ -1161,6 +1170,76 @@ def create_marking_specification(id2x):
 _LOCATIONS = {}
 
 
+def sco_type(type_name):
+    return type_name in ["artifact", "autonomous-system", "directory", "domain-name", "email-addr",
+                         "email-message", "file", "ipv4-addr", "ipv6-addr", "mac-addr", "mutex",
+                         "network-traffic", "process", "software", "url", "user-account",
+                         "windows-registry-key", "x509-certificate"]
+
+
+def create_object_ref_graph(object_refs, stix2x_objs):
+    parent_graph = dict()
+    child_graph = dict()
+    for ref in object_refs:
+        obj = stix2x_objs[ref]
+        parent_graph[ref] = list()
+        obs_refs = get_refs(obj)
+        child_graph[ref] = obs_refs
+        for o_id in obs_refs:
+            if o_id not in parent_graph:
+                parent_graph[o_id] = list()
+            parent_graph[o_id].append(ref)
+    return parent_graph, child_graph
+
+
+def handle_ref_as_related_object(obj2x, object_root, prop2x, relationship_name, stix2x_objs):
+    if prop2x in obj2x:
+        child_obj = get_stix1x_obj_from_stix2x_id(obj2x[prop2x])
+        # add_related changes the parent, so we must save and reset it
+        saved_parent = child_obj.parent
+        object_root.add_related(child_obj, relationship_name, True)
+        child_obj.parent = saved_parent
+
+
+def handle_refs_as_related_object(obj2x, object_root, prop2x, relationship_name, stix2x_objs):
+    pass
+
+
+def add_any_related_objects(root_id, object_root, stix2x_objs, child_graph):
+    if root_id in child_graph:
+        for c in child_graph[root_id]:
+            add_any_related_objects(c, get_stix1x_obj_from_stix2x_id(c), stix2x_objs, child_graph)
+    stix2x_obj = stix2x_objs[root_id]
+    root_type = stix2x_obj["type"]
+
+    if root_type == "email-message":
+        if "body_multipart" in stix2x_obj:
+            object_root.attachments = Attachments()
+            for part in stix2x_obj["body_multipart"]:
+                handle_ref_as_related_object(part, object_root, "body_raw_ref", "Contains", stix2x_objs)
+                object_root.attachments.append(part["body_raw_ref"])
+    elif root_type == "email-addr":
+        handle_ref_as_related_object(stix2x_obj, object_root, "belongs_to_ref", "Related_To", stix2x_objs)
+    elif root_type == "file" or root_type == "directory":
+        handle_refs_as_related_object(stix2x_obj, object_root, "contains_ref", "Contains", stix2x_objs)
+
+
+def add_object_refs(o, stix2x_objs, stix1x_obs_list):
+    parent_graph, child_graph = create_object_ref_graph(o["object_refs"], stix2x_objs)
+    for k, v in parent_graph.items():
+        # find the root - it has no parents!
+        if v == []:
+            root_id = k
+            break
+    object_root = get_stix1x_obj_from_stix2x_id(root_id)
+    obs = stix1x_obs_list[o["id"]]
+    # assignment changes the parent, so we must save and reset it
+    #saved_parent = object_root.parent
+    obs.object_ = object_root
+    #object_root.parent = saved_parent
+    add_any_related_objects(root_id, object_root, stix2x_objs, child_graph)
+
+
 def convert_bundle(bundle_obj):
     global _ID_OBJECT_MAPPING
     global _EXPLICIT_OBJECT_USED
@@ -1168,10 +1247,14 @@ def convert_bundle(bundle_obj):
     global _VICTIM_TARGET_TTPS
     global _KILL_CHAINS
     global CONTAINER
+    global STIX1X_OBS_GLOBAL
     _ID_OBJECT_MAPPING = {}
     _EXPLICIT_OBJECT_USED = {}
     _VICTIM_TARGET_TTPS = []
     _KILL_CHAINS = {}
+    STIX1X_OBS_GLOBAL = {}
+    stix2x_objs = {}
+    stix1x_obs_list = {}
 
     if "spec_version" in bundle_obj:
         set_option_value("version_of_stix2x", "2.0")
@@ -1200,12 +1283,17 @@ def convert_bundle(bundle_obj):
         pkg.stix_header.handling.add_marking(m1x)
 
     for o in bundle_obj["objects"]:
+        # map all 2.x objects to their 2.x ids
+        stix2x_objs[o["id"]] = o
         if o["type"] == "attack-pattern":
             pkg.add_ttp(convert_attack_pattern(o))
         elif o["type"] == "campaign":
             pkg.add_campaign(convert_campaign(o))
         elif o["type"] == 'course-of-action':
             pkg.add_course_of_action(convert_coa(o))
+        elif o["type"] == "grouping":
+            error("Cannot convert STIX 2.x content that contains %s", 524, "grouping")
+            return None
         elif o["type"] == "indicator":
             pkg.add_indicator(convert_indicator(o))
         elif o["type"] == "intrusion-set":
@@ -1215,10 +1303,15 @@ def convert_bundle(bundle_obj):
             _LOCATIONS[o["id"]] = o
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
+        elif o["type"] == "malware_analysis":
+            error("Cannot convert STIX 2.x content that contains %s", 524, "malware_analysis")
+            return None
         elif o["type"] == "note":
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "note")
         elif o["type"] == "observed-data":
-            pkg.add_observable(convert_observed_data(o))
+            obs1x = convert_observed_data(o)
+            pkg.add_observable(obs1x)
+            stix1x_obs_list[o["id"]] = obs1x
         elif o["type"] == "opinion":
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "opinion")
         elif o["type"] == "report":
@@ -1233,6 +1326,9 @@ def convert_bundle(bundle_obj):
             pkg.add_ttp(convert_tool(o))
         elif o["type"] == "vulnerability":
             pkg.add_exploit_target(convert_vulnerability(o))
+        elif sco_type(o["type"]):
+            convert_sco(o)
+
     # second passes
     for o in bundle_obj["objects"]:
         if o["type"] == "relationship":
@@ -1245,6 +1341,13 @@ def convert_bundle(bundle_obj):
     for o in bundle_obj["objects"]:
         if o["type"] == "sighting":
             process_sighting(o)
+    if get_option_value("version_of_stix2x") == "2.1":
+        for o in bundle_obj["objects"]:
+            if sco_type(o["type"]):
+                add_refs(o)
+        for o in bundle_obj["objects"]:
+            if o["type"] == "observed-data":
+                add_object_refs(o, stix2x_objs, stix1x_obs_list)
     for k, v in _KILL_CHAINS.items():
         pkg.ttps.kill_chains.append(v["kill_chain"])
     CONTAINER.flush()

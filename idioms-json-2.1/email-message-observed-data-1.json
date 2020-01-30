@@ -8,30 +8,53 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "display_name": "John Doe",
-                    "type": "email-addr",
-                    "value": "jdoe@example.com"
-                },
-                "1": {
-                    "display_name": "Mary Smith",
-                    "type": "email-addr",
-                    "value": "mary@example.com"
-                },
-                "2": {
-                    "date": "1997-11-21T15:55:06.000Z",
-                    "from_ref": "0",
-                    "is_multipart": false,
-                    "subject": "Saying Hello",
-                    "to_refs": [
-                        "1"
-                    ],
-                    "type": "email-message"
-                }
-            },
+            "object_refs": [
+                "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+                "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194",
+                "email-message--72b7698f-10c2-565a-a2a6-b4996a2f2265"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "account_created": "2016-01-20T12:31:12Z",
+            "account_first_login": "2016-01-20T14:26:07Z",
+            "account_last_login": "2016-07-22T16:08:28Z",
+            "account_login": "jdoe",
+            "account_type": "unix",
+            "can_escalate_privs": true,
+            "credential_last_changed": "2016-01-20T14:27:43Z",
+            "display_name": "John Doe",
+            "id": "user-account--0d5b424b-93b8-5cd8-ac36-306e1789d63c",
+            "is_privileged": false,
+            "is_service_account": false,
+            "type": "user-account",
+            "user_id": "1001"
+        },
+        {
+            "belongs_to_ref": "user-account--0d5b424b-93b8-5cd8-ac36-306e1789d63c",
+            "display_name": "John Doe",
+            "id": "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+            "type": "email-addr",
+            "value": "jdoe@example.com"
+        },
+        {
+            "display_name": "Mary Smith",
+            "id": "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194",
+            "type": "email-addr",
+            "value": "mary@example.com"
+        },
+        {
+            "date": "1997-11-21T15:55:06.000Z",
+            "from_ref": "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+            "id": "email-message--72b7698f-10c2-565a-a2a6-b4996a2f2265",
+            "is_multipart": false,
+            "subject": "Saying Hello",
+            "to_refs": [
+                "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194",
+                "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed"
+            ],
+            "type": "email-message"
         }
     ],
     "type": "bundle"

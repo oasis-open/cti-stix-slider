@@ -8,15 +8,17 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "mime_type": "image/jpeg",
-                    "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI== ...",
-                    "type": "artifact"
-                }
-            },
+            "object_refs": [
+                "artifact--ca17bcf8-9846-5ab4-8662-75c1bf6e63ee"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "artifact--ca17bcf8-9846-5ab4-8662-75c1bf6e63ee",
+            "mime_type": "image/jpeg",
+            "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI== ...",
+            "type": "artifact"
         }
     ],
     "type": "bundle"

@@ -1,3 +1,5 @@
+import uuid
+
 from cybox.objects.account_object import Account
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.email_message_object import EmailHeader, EmailMessage
@@ -34,6 +36,10 @@ DIRECTORY_MAP = {
     "created": File.created_time,
     "modified": File.modified_time,
     "accessed": File.accessed_time,
+    # WD07
+    "ctime": File.created_time,
+    "mtime": File.modified_time,
+    "atime": File.accessed_time,
 }
 
 
@@ -67,7 +73,11 @@ FILE_MAP = {
     # TODO: mime_type
     "created": File.created_time,
     "modified": File.modified_time,
-    "accessed": File.accessed_time
+    "accessed": File.accessed_time,
+    # WD07
+    "ctime": File.created_time,
+    "mtime": File.modified_time,
+    "atime": File.accessed_time,
 }
 
 
@@ -313,7 +323,9 @@ USER_ACCOUNT_MAP = {
 REGISTRY_KEY_MAP = {
     "key": WinRegistryKey.key,
     "modified": WinRegistryKey.modified_time,
-    "number_of_subkeys": WinRegistryKey.number_subkeys
+    "number_of_subkeys": WinRegistryKey.number_subkeys,
+    # WD07
+    "modified_time": WinRegistryKey.modified_time,
 }
 
 
@@ -381,3 +393,31 @@ def is_domain_name_address(s):
         return not s.isdigit(parts[0])
     else:
         return False
+
+
+_TYPE_MAP_FROM_2_0_TO_1_x = {"attack-pattern": "ttp",
+                             "observed-data": "observable",
+                             "bundle": "STIXPackage",
+                             "malware": "ttp",
+                             "marking-definition": "markingstructure",
+                             "toolinformation": "tool",
+                             "vulnerability": "et"}
+
+
+_ID_NAMESPACE = "example"
+
+
+def convert_id2x(id2x, sco_type_name=None):
+    id_parts = id2x.split("--")
+    if sco_type_name:
+        type_name = sco_type_name
+    elif id_parts[0] in _TYPE_MAP_FROM_2_0_TO_1_x:
+        type_name = _TYPE_MAP_FROM_2_0_TO_1_x[id_parts[0]]
+    else:
+        type_name = id_parts[0]
+    return "%s:%s-%s" % (_ID_NAMESPACE, type_name, id_parts[1])
+
+
+def create_id1x(type_name_1x):
+    return "%s:%s-%s" % (_ID_NAMESPACE, type_name_1x, uuid.uuid4())
+

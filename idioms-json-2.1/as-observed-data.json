@@ -8,16 +8,18 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "name": "Slime Industries",
-                    "number": 15139,
-                    "rir": "ARIN",
-                    "type": "autonomous-system"
-                }
-            },
+            "object_refs": [
+                "autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74",
+            "name": "Slime Industries",
+            "number": 15139,
+            "rir": "ARIN",
+            "type": "autonomous-system"
         }
     ],
     "type": "bundle"

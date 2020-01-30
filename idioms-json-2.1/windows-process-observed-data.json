@@ -8,22 +8,24 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "extensions": {
-                        "windows-process-ext": {
-                            "aslr_enabled": true,
-                            "dep_enabled": true,
-                            "owner_sid": "S-1-5-21-186985262-1144665072-74031268-1309",
-                            "priority": "HIGH_PRIORITY_CLASS"
-                        }
-                    },
-                    "pid": 314,
-                    "type": "process"
-                }
-            },
+            "object_refs": [
+                "process--b244fbdb-8029-44e6-83e9-acad42707bb5"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "extensions": {
+                "windows-process-ext": {
+                    "aslr_enabled": true,
+                    "dep_enabled": true,
+                    "owner_sid": "S-1-5-21-186985262-1144665072-74031268-1309",
+                    "priority": "HIGH_PRIORITY_CLASS"
+                }
+            },
+            "id": "process--b244fbdb-8029-44e6-83e9-acad42707bb5",
+            "pid": 314,
+            "type": "process"
         }
     ],
     "type": "bundle"

@@ -19,6 +19,9 @@
                             <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
                                 <AddressObj:Address_Value>mary@example.com</AddressObj:Address_Value>
                             </EmailMessageObj:Recipient>
+                             <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value>jdoe@example.com</AddressObj:Address_Value>
+                            </EmailMessageObj:Recipient>
                         </EmailMessageObj:To>
                         <EmailMessageObj:From xsi:type="AddressObj:AddressObjectType" category="e-mail">
                             <AddressObj:Address_Value>jdoe@example.com</AddressObj:Address_Value>

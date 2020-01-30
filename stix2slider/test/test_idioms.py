@@ -130,6 +130,7 @@ def test_idiom_mapping(test_file, stored_master):
     initialize_options()
 
     converted_new_xml = slide_file(test_file)
+    print(converted_new_xml)
     converted_new_xml = StringIO(converted_new_xml)
     converted_new_xml = xml.to_etree(converted_new_xml)
 

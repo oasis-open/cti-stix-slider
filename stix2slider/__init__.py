@@ -8,7 +8,7 @@ from sdv import codes, errors, scripts
 import stix2
 
 from stix2slider.convert_stix import convert_bundle
-from stix2slider.options import get_validator_options, setup_logger
+from stix2slider.options import get_validator_options, setup_logger, get_option_value
 
 # import stix2slider.utils  # flake8: noqa
 
@@ -25,7 +25,7 @@ def slide_file(fn, encoding="utf-8"):
     with io.open(fn, "r", encoding=encoding) as json_data:
         json_content = json.load(json_data)
 
-    obj = stix2.parse(json_content, allow_custom=True)
+    obj = stix2.parse(json_content, allow_custom=True, version="2.0" if get_option_value("version_of_stix2x") == "2.0" else "2.1")
     stix_package = convert_bundle(obj)
 
     if stix_package:

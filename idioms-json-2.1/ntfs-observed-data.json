@@ -9,7 +9,11 @@
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
             "objects": {
-                "0": {
+                "0": ,
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+            {
                     "extensions": {
                         "ntfs-ext": {
                             "alternate_data_streams": [
@@ -25,10 +29,7 @@
                     },
                     "type": "file"
                 }
-            },
-            "spec_version": "2.1",
-            "type": "observed-data"
-        }
+            }
     ],
     "type": "bundle"
 }

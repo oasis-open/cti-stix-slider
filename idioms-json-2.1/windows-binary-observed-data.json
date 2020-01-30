@@ -8,78 +8,80 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "extensions": {
-                        "windows-pebinary-ext": {
-                            "characteristics_hex": "818f",
-                            "machine_hex": "014c",
-                            "number_of_sections": 4,
-                            "number_of_symbols": 4542568,
-                            "optional_header": {
-                                "address_of_entry_point": 4096,
-                                "base_of_code": 4096,
-                                "base_of_data": 8192,
-                                "checksum_hex": "00",
-                                "dll_characteristics_hex": "00",
-                                "file_alignment": 4096,
-                                "image_base": 14548992,
-                                "loader_flags_hex": "abdbffde",
-                                "magic_hex": "010b",
-                                "major_image_version": 0,
-                                "major_linker_version": 2,
-                                "major_os_version": 1,
-                                "major_subsystem_version": 4,
-                                "minor_image_version": 0,
-                                "minor_linker_version": 25,
-                                "minor_os_version": 0,
-                                "minor_subsystem_version": 0,
-                                "number_of_rva_and_sizes": 3758087646,
-                                "section_alignment": 4096,
-                                "size_of_code": 512,
-                                "size_of_headers": 4096,
-                                "size_of_heap_commit": 4096,
-                                "size_of_heap_reserve": 100000,
-                                "size_of_image": 299008,
-                                "size_of_initialized_data": 283648,
-                                "size_of_stack_commit": 8192,
-                                "size_of_stack_reserve": 100000,
-                                "size_of_uninitialized_data": 0,
-                                "subsystem_hex": "03",
-                                "win32_version_value_hex": "00"
-                            },
-                            "pe_type": "exe",
-                            "pointer_to_symbol_table_hex": "74726144",
-                            "sections": [
-                                {
-                                    "entropy": 0.061089,
-                                    "name": "CODE"
-                                },
-                                {
-                                    "entropy": 7.980693,
-                                    "name": "DATA"
-                                },
-                                {
-                                    "entropy": 0.607433,
-                                    "name": "NicolasB"
-                                },
-                                {
-                                    "entropy": 0.607433,
-                                    "name": ".idata"
-                                }
-                            ],
-                            "size_of_optional_header": 224,
-                            "time_date_stamp": "2016-01-22T12:31:12Z"
-                        }
-                    },
-                    "hashes": {
-                        "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
-                    },
-                    "type": "file"
-                }
-            },
+            "object_refs": [
+                "file--c760f710-d325-5d64-94ae-a7d697b22a09"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "extensions": {
+                "windows-pebinary-ext": {
+                    "characteristics_hex": "818f",
+                    "machine_hex": "014c",
+                    "number_of_sections": 4,
+                    "number_of_symbols": 4542568,
+                    "optional_header": {
+                        "address_of_entry_point": 4096,
+                        "base_of_code": 4096,
+                        "base_of_data": 8192,
+                        "checksum_hex": "00",
+                        "dll_characteristics_hex": "00",
+                        "file_alignment": 4096,
+                        "image_base": 14548992,
+                        "loader_flags_hex": "abdbffde",
+                        "magic_hex": "010b",
+                        "major_image_version": 0,
+                        "major_linker_version": 2,
+                        "major_os_version": 1,
+                        "major_subsystem_version": 4,
+                        "minor_image_version": 0,
+                        "minor_linker_version": 25,
+                        "minor_os_version": 0,
+                        "minor_subsystem_version": 0,
+                        "number_of_rva_and_sizes": 3758087646,
+                        "section_alignment": 4096,
+                        "size_of_code": 512,
+                        "size_of_headers": 4096,
+                        "size_of_heap_commit": 4096,
+                        "size_of_heap_reserve": 100000,
+                        "size_of_image": 299008,
+                        "size_of_initialized_data": 283648,
+                        "size_of_stack_commit": 8192,
+                        "size_of_stack_reserve": 100000,
+                        "size_of_uninitialized_data": 0,
+                        "subsystem_hex": "03",
+                        "win32_version_value_hex": "00"
+                    },
+                    "pe_type": "exe",
+                    "pointer_to_symbol_table_hex": "74726144",
+                    "sections": [
+                        {
+                            "entropy": 0.061089,
+                            "name": "CODE"
+                        },
+                        {
+                            "entropy": 7.980693,
+                            "name": "DATA"
+                        },
+                        {
+                            "entropy": 0.607433,
+                            "name": "NicolasB"
+                        },
+                        {
+                            "entropy": 0.607433,
+                            "name": ".idata"
+                        }
+                    ],
+                    "size_of_optional_header": 224,
+                    "time_date_stamp": "2016-01-22T12:31:12Z"
+                }
+            },
+            "hashes": {
+                "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+            },
+            "id": "file--c760f710-d325-5d64-94ae-a7d697b22a09",
+            "type": "file"
         }
     ],
     "type": "bundle"

@@ -17,6 +17,10 @@
                     <FileObj:File_Name>iprip32.dll</FileObj:File_Name>
                     <FileObj:Full_Path>/usr/local/iprip32.dll</FileObj:Full_Path>
                     <FileObj:Hashes>
+                         <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>5d8129be965fab8115eca34fc84bd7f0</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
                         <cyboxCommon:Hash>
                             <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
                             <cyboxCommon:Simple_Hash_Value>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</cyboxCommon:Simple_Hash_Value>
