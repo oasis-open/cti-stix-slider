@@ -682,10 +682,11 @@ def convert_process_c_o(process2x, process1x, obs2x_id):
         if not process1x.image_info:
             process1x.image_info = ImageInfo()
         # should it be the full path?
-        handle_ref(process2x, process1x, ref, "file_name",
-                   _STIX1X_OBJS, process1x.image_info, accessor=lambda x: x.file_name, obs2x_id=obs2x_id)
-        if not process1x.image_info.file_name:
-            process1x.image_info = None
+        if get_option_value("version_of_stix2x") == "2.0":
+            handle_ref(process2x, process1x, ref, "file_name",
+                       _STIX1X_OBJS, process1x.image_info, accessor=lambda x: x.file_name, obs2x_id=obs2x_id)
+            if not process1x.image_info.file_name:
+                process1x.image_info = None
     if get_option_value("version_of_stix2x") == "2.0":
         handle_ref(process2x, process1x, "parent_ref", "parent_pid", _STIX1X_OBJS)
         handle_refs(process2x, process1x, "child_refs", "child_pid_list", _STIX1X_OBJS)
@@ -1095,6 +1096,8 @@ def add_refs_network_traffic(obj2x, obj1x):
 def add_refs_process(obj2x, obj1x):
     handle_refs(obj2x, obj1x, "opened_connection_refs", "network_connection_list", STIX1X_OBS_GLOBAL)
     handle_ref(obj2x, obj1x, "creator_user_ref", "username", STIX1X_OBS_GLOBAL, accessor=lambda x: x.username)
+     #if not obj1x.image_info:
+
     handle_ref(obj2x, obj1x, "image_ref", "file_name", STIX1X_OBS_GLOBAL, obj1x.image_info, accessor=lambda x: x.file_name)
     handle_ref(obj2x, obj1x, "parent_ref", "parent_pid", STIX1X_OBS_GLOBAL)
     handle_refs(obj2x, obj1x, "child_refs", "child_pid_list", STIX1X_OBS_GLOBAL)

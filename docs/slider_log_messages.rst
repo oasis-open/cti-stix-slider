@@ -78,7 +78,7 @@ The user_id property of *[id]* in STIX 2.x is only represented as a property in 
 The ``path`` property in *[id]* is the only directory property supportable in STIX 1.x. *[property]* is ignored              521     Warn
 Nested Archive Files in *[id]* not handled yet                                                                               522     Warn
 STIX 1.x can only store the body and headers of an email message in *[id]* independently                                     523     Warn
-Cannot convert STIX 2.x content that contains ``intrusion-sets``                                                             524     Error
+``NO MESSAGE ASSIGNED``                                                                                                      524
 *[id]* is not explicitly a member of a STIX 1.x ``Report``                                                                   525     Warn
 *[id]* cannot be represented in STIX 1.x                                                                                     526     Warn
 Relationship between *[id]* and a location is not supported in STIX 1.x                                                      527     Warn

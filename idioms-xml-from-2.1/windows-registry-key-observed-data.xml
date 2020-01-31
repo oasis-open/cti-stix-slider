@@ -26,6 +26,7 @@
                             <WinRegistryKeyObj:Datatype>REG_DWORD</WinRegistryKeyObj:Datatype>
                         </WinRegistryKeyObj:Value>
                     </WinRegistryKeyObj:Values>
+                    <WinRegistryKeyObj:Creator_Username>fred</WinRegistryKeyObj:Creator_Username>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

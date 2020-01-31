@@ -9,7 +9,8 @@
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
             "object_refs": [
-                "windows-registry-key--2ba37ae7-2745-5082-9dfd-9486dad41016"
+                "windows-registry-key--2ba37ae7-2745-5082-9dfd-9486dad41016",
+                "user-account--ef9bb495-faeb-5390-9330-6fa4f73a8c9f"
             ],
             "spec_version": "2.1",
             "type": "observed-data"

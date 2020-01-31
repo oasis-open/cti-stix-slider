@@ -36,6 +36,7 @@ from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
 from stix.threat_actor import AssociatedActors, ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
+from stix.ttp.infrastructure import Infrastructure
 from stix.ttp.malware_instance import MalwareInstance
 from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
@@ -50,6 +51,7 @@ from stix2slider.options import (debug, error, get_option_value,
 from stix2slider.utils import set_default_namespace
 from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         INDICATOR_LABEL_MAP,
+                                        INFRASTRUCTURE_LABELS_MAP,
                                         MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
                                         SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
                                         THREAT_ACTOR_SOPHISTICATION_MAP)
@@ -194,12 +196,22 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": Campaign,
          "stix1x_target_type": TTP},
+    ("campaign", "infrastructure", "compromises"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": Campaign,
+         "stix1x_target_type": TTP},
     ("campaign", "malware", "uses"):
         {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
          "reverse": False,
          "stix1x_source_type": Campaign,
          "stix1x_target_type": TTP},
     ("campaign", "tool", "uses"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": Campaign,
+         "stix1x_target_type": TTP},
+    ("campaign", "infrastructure", "uses"):
         {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
          "reverse": False,
          "stix1x_source_type": Campaign,
@@ -244,6 +256,11 @@ _RELATIONSHIP_MAP = {
          "stix1x_source_type": Indicator,
          "stix1x_target_type": Campaign},
     # ("indicator", "CourseOfAction"): Indicator.suggested_coas,
+    ("indicator", "infrastructure", "indicates"):
+        {"method": Indicator.add_indicated_ttp,
+         "reverse": False,
+         "stix1x_source_type": Indicator,
+         "stix1x_target_type": TTP},
     ("indicator", "malware", "indicates"):
         {"method": Indicator.add_indicated_ttp,
          "reverse": False,
@@ -260,12 +277,82 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": Indicator,
          "stix1x_target_type": Indicator},
+    ("infrastructure", "infrastructure", "communicates-with"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "infrastructure", "consists-of"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "infrastructure", "controls"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "malware", "controls"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "malware", "delivers"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "malware", "hosts"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "tool", "hosts"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "infrastructure", "uses"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
     ("malware", "vulnerability", "targets"):
         {"method": create_exploit_target_to_ttps,
          "reverse": False,
          "stix1x_source_type": TTP,
          "stix1x_target_type": ExploitTarget},
+    ("malware", "infrastructure", "uses"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "tool", "downloads"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "tool", "drops"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
     ("malware", "tool", "uses"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "infrastructure", "beacons-to"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "infrastructure", "exfiltrates-to"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "infrastructure", "targets"):
         {"method": TTP.add_related_ttp,
          "reverse": False,
          "stix1x_source_type": TTP,
@@ -291,7 +378,27 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": ThreatActor,
          "stix1x_target_type": Identity},
+    ("threat-actor", "infrastructure", "compromises"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": TTP},
+    ("threat-actor", "infrastructure", "hosts"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": TTP},
+    ("threat-actor", "infrastructure", "owns"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": TTP},
     # TODO: threat-actor targets vulnerability (not in 1.x)
+    ("threat-actor", "infrastructure", "uses"):
+        {"method": lambda source, target_ref: source.observed_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": TTP},
     ("threat-actor", "malware", "uses"):
         {"method": lambda source, target_ref: source.observed_ttps.append(target_ref),
          "reverse": False,
@@ -307,6 +414,26 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": ThreatActor,
          "stix1x_target_type": ThreatActor},
+    ("tool", "malware", "delivers"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("tool", "malware", "drops"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("tool", "infrastructure", "targets"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("tool", "infrastructure", "uses"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP}
 }
 
 
@@ -629,6 +756,47 @@ def convert_indicator(indicator2x):
     return indicator1x
 
 
+def convert_infrastructure(infrastructure2x):
+    infrastructure1x = Infrastructure()
+    if "name" in infrastructure2x:
+        infrastructure1x.title = infrastructure2x["name"]
+    if "description" in infrastructure2x:
+        if _STIX_1_VERSION == "1.2":
+            infrastructure1x.add_description(infrastructure2x["description"])
+        else:
+            infrastructure1x.description = infrastructure2x["description"]
+
+    if get_option_value("version_of_stix2x") == "2.0":
+        types = convert_open_vocabs_to_controlled_vocabs(infrastructure2x["labels"], INFRASTRUCTURE_LABELS_MAP)
+    else:
+        types = convert_open_vocabs_to_controlled_vocabs(infrastructure2x["infrastructure_types"], INFRASTRUCTURE_LABELS_MAP)
+        if "labels" in infrastructure2x:
+            add_missing_list_property_to_description(infrastructure1x, "labels", infrastructure2x["labels"])
+    for t in types:
+        infrastructure1x.add_type(t)
+    if "aliases" in infrastructure2x:
+        add_missing_list_property_to_description(infrastructure1x, "aliases", infrastructure2x["aliases"])
+    if "first_seen" in infrastructure2x:
+        add_missing_property_to_description(infrastructure1x, "first_seen", infrastructure2x["first_seen"])
+    if "last_seen" in infrastructure2x:
+        add_missing_property_to_description(infrastructure1x, "last_seen", infrastructure2x["last_seen"])
+    ttp = TTP(id_=convert_id2x(infrastructure2x["id"]),
+              timestamp=text_type(infrastructure2x["modified"]))
+    ttp.resources = Resource()
+    ttp.resources.infrastructure = infrastructure1x
+    if "kill_chain_phases" in infrastructure2x:
+        process_kill_chain_phases(infrastructure2x["kill_chain_phases"], ttp)
+    if "object_marking_refs" in infrastructure2x:
+        for m_id in infrastructure2x["object_marking_refs"]:
+            ms = create_marking_specification(m_id)
+            if ms:
+                CONTAINER.add_marking(ttp, ms, descendants=True)
+    if "granular_markings" in infrastructure2x:
+        error("Granular Markings present in '%s' are not supported by stix2slider", 604, infrastructure2x["id"])
+    record_id_object_mapping(infrastructure2x["id"], ttp)
+    return ttp
+
+
 def convert_malware(malware2x):
     malware1x = MalwareInstance()
     if "name" in malware2x:
@@ -647,6 +815,8 @@ def convert_malware(malware2x):
             add_missing_list_property_to_description(malware1x, "labels", malware2x["labels"])
     for t in types:
         malware1x.add_type(t)
+    if "aliases" in malware2x:
+        add_missing_list_property_to_description(malware1x, "aliases", malware2x["aliases"])
     ttp = TTP(id_=convert_id2x(malware2x["id"]),
               timestamp=text_type(malware2x["modified"]))
     ttp.behavior = Behavior()
@@ -1195,10 +1365,7 @@ def create_object_ref_graph(object_refs, stix2x_objs):
 def handle_ref_as_related_object(obj2x, object_root, prop2x, relationship_name, stix2x_objs):
     if prop2x in obj2x:
         child_obj = get_stix1x_obj_from_stix2x_id(obj2x[prop2x])
-        # add_related changes the parent, so we must save and reset it
-        saved_parent = child_obj.parent
         object_root.add_related(child_obj, relationship_name, True)
-        child_obj.parent = saved_parent
 
 
 def handle_refs_as_related_object(obj2x, object_root, prop2x, relationship_name, stix2x_objs):
@@ -1214,10 +1381,11 @@ def add_any_related_objects(root_id, object_root, stix2x_objs, child_graph):
 
     if root_type == "email-message":
         if "body_multipart" in stix2x_obj:
-            object_root.attachments = Attachments()
+            object_root.properties.attachments = Attachments()
             for part in stix2x_obj["body_multipart"]:
                 handle_ref_as_related_object(part, object_root, "body_raw_ref", "Contains", stix2x_objs)
-                object_root.attachments.append(part["body_raw_ref"])
+                if "body_raw_ref" in part:
+                    object_root.properties.attachments.append(part["body_raw_ref"])
     elif root_type == "email-addr":
         handle_ref_as_related_object(stix2x_obj, object_root, "belongs_to_ref", "Related_To", stix2x_objs)
     elif root_type == "file" or root_type == "directory":
@@ -1231,13 +1399,10 @@ def add_object_refs(o, stix2x_objs, stix1x_obs_list):
         if v == []:
             root_id = k
             break
-    object_root = get_stix1x_obj_from_stix2x_id(root_id)
+    root = get_stix1x_obj_from_stix2x_id(root_id)
     obs = stix1x_obs_list[o["id"]]
-    # assignment changes the parent, so we must save and reset it
-    #saved_parent = object_root.parent
-    obs.object_ = object_root
-    #object_root.parent = saved_parent
-    add_any_related_objects(root_id, object_root, stix2x_objs, child_graph)
+    add_any_related_objects(root_id, root.parent, stix2x_objs, child_graph)
+    obs.object_ = root.parent
 
 
 def convert_bundle(bundle_obj):
@@ -1292,19 +1457,21 @@ def convert_bundle(bundle_obj):
         elif o["type"] == 'course-of-action':
             pkg.add_course_of_action(convert_coa(o))
         elif o["type"] == "grouping":
-            error("Cannot convert STIX 2.x content that contains %s", 524, "grouping")
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "grouping")
             return None
         elif o["type"] == "indicator":
             pkg.add_indicator(convert_indicator(o))
+        elif o["type"] == "infrastructure":
+            pkg.add_ttp(convert_infrastructure(o))
         elif o["type"] == "intrusion-set":
-            error("Cannot convert STIX 2.x content that contains %s", 524, "intrusion-set")
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "intrusion-set")
             return None
         elif o["type"] == "location":
             _LOCATIONS[o["id"]] = o
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
         elif o["type"] == "malware_analysis":
-            error("Cannot convert STIX 2.x content that contains %s", 524, "malware_analysis")
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "malware_analysis")
             return None
         elif o["type"] == "note":
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "note")

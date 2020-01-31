@@ -13,6 +13,28 @@
             "spec_version": "2.1",
             "type": "indicator",
             "valid_from": "2014-05-08T09:00:00.000000Z"
+        },
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "first_seen": "2014-05-08T09:00:00.000Z",
+            "id": "infrastructure--dd955e08-16d0-4f08-a064-50d9e7a3104d",
+            "infrastructure_types": [
+                "malware-c2"
+            ],
+            "modified": "2014-05-08T09:00:00.000Z",
+            "name": "Malware C2 Channel",
+            "spec_version": "2.1",
+            "type": "infrastructure"
+        },
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "id": "relationship--ac095811-e68b-4a33-818b-9a49c52cd702",
+            "modified": "2014-05-08T09:00:00.000Z",
+            "relationship_type": "indicates",
+            "source_ref": "indicator--53fe3b22-0201-47cf-85d0-97c02164528d",
+            "spec_version": "2.1",
+            "target_ref": "infrastructure--dd955e08-16d0-4f08-a064-50d9e7a3104d",
+            "type": "relationship"
         }
     ],
     "type": "bundle"

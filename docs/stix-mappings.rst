@@ -33,10 +33,14 @@ Top Level Object Mappings
 +-------------------------+---------------------------+
 | ``course-of-action``    | ``Course_Of_Action``      |
 +-------------------------+---------------------------+
+| ``grouping``            | *not converted*           |
++-------------------------+---------------------------+
 | ``identity``            | ``Information_Source`` or |
 |                         | ``ttp:Victim_Targeting``  |
 +-------------------------+---------------------------+
 | ``indicator``           | ``Indicator``             |
++-------------------------+---------------------------+
+| ``infrastructure``      | ``ttp:Infrastructure``    |
 +-------------------------+---------------------------+
 | ``intrusion-set``       | *not converted*           |
 +-------------------------+---------------------------+
@@ -44,7 +48,13 @@ Top Level Object Mappings
 +-------------------------+---------------------------+
 | ``malware``             | ``ttp:MalwareInstance``   |
 +-------------------------+---------------------------+
+| ``malware-analysis``    | *not converted*           |
++-------------------------+---------------------------+
+| ``note``                | *not converted*           |
++-------------------------+---------------------------+
 | ``observed-data``       | ``Observable``            |
++-------------------------+---------------------------+
+| ``opinion``             | *not converted*           |
 +-------------------------+---------------------------+
 | ``report``              | ``Report``                |
 +-------------------------+---------------------------+
@@ -136,7 +146,7 @@ Attack Pattern
 
 **STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
-- ``labels``
+- ``labels``  (in 2.1)
 
 **STIX 2.x Properties Not Mapped**
 
@@ -217,7 +227,7 @@ Campaigns
 
 -  ``first_seen``
 -  ``last_seen``
--  ``labels``
+-  ``labels``  (in 2.1)
 
 **STIX 2.x Properties Not Mapped**
 
@@ -284,11 +294,7 @@ properties that were found in STIX 1.x.
 
 **STIX 2.x Properties Translated to STIX 1.x Properties**
 
-+-------------------------+------------------------+
-| **STIX 2.x property**   | **STIX 1.x property**  |
-+=========================+========================+
-| ``labels``              | ``Type``               |
-+-------------------------+------------------------+
+*none*
 
 **STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
@@ -300,7 +306,7 @@ properties that were found in STIX 1.x.
 
 **STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
-*none*
+- ``labels``  (in 2.1)
 
 **STIX Properties Not Mapped**
 
@@ -363,13 +369,15 @@ Indicator
 
 +-------------------------+---------------------------------------------+
 |**STIX 2.x property**    | **STIX 1.x property**                       |
-+=========================+=============================================+
-| ``kill_chain_phases``   | ``Kill_Chain_Phases``                       |
-+-------------------------+---------------------------------------------+
-| ``pattern``             | ``IndicatorExpression``                     |
-+-------------------------+---------------------------------------------+
-| ``labels``              | ``Type``                                    |
-+-------------------------+---------------------------------------------+
++===============================+=======================================+
+| ``kill_chain_phases``         | ``Kill_Chain_Phases``                 |
++-------------------------------+---------------------------------------+
+| ``pattern``                   | ``IndicatorExpression``               |
++-------------------------------+---------------------------------------+
+| ``indicator_types`` (in 2.1)  | ``Type``                              |
++-------------------------------+---------------------------------------+
+| ``labels`` (in 2.0)           | ``Type``                              |
++-------------------------------+---------------------------------------+
 
 **STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
@@ -387,7 +395,7 @@ Indicator
 
 **STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
-*none*
+- ``labels``  (in 2.1)
 
 **STIX 2.x Properties Not Mapped**
 
@@ -443,6 +451,89 @@ STIX 1.x in XML
                 <stixCommon:TTP idref="example:ttp-73fe3b22-0201-47cf-85d0-97c02164528d" xsi:type='ttp:TTPType'/>
             </indicator:Indicated_TTP>
         </stix:Indicator>
+
+Infrastructure
+------------------
+
+
+**STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
+
+*none*
+
+**STIX 2.x  Properties Translated to STIX 1.x Properties**
+
++----------------------------------+------------------------------------+
+|**STIX 2.x property**             | **STIX 1.x property**              |
++==================================+====================================+
+| ``kill_chain_phases``            | ``ttp:Kill_Chain_Phases``          |
++----------------------------------+------------------------------------+
+| ``infrastructure_types`` (in 2.1)| ``Type``                           |
++----------------------------------+------------------------------------+
+| ``labels`` (in 2.0)              | ``Type``                           |
++----------------------------------+------------------------------------+
+
+**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
+
++----------------------------------------------+-----------------------+
+| **STIX 2.x relationship type**               | **STIX 1.x property** |
++==============================================+=======================+
+| ``communicates-with`` (infrastructure)       |  ``ttp:Related_TTPs`` |
++----------------------------------------------+-----------------------+
+| ``consists-of`` (infrastructure)             |  ``ttp:Related_TTPs`` |
++----------------------------------------------+-----------------------+
+| ``controls`` (infrastructure, malware)       |  ``ttp:Related_TTPs`` |
++----------------------------------------------+-----------------------+
+| ``delivers`` (malware)                       |  ``ttp:Related_TTPs`` |
++----------------------------------------------+-----------------------+
+| ``hosts`` (malware, tool)                    |  ``ttp:Related_TTPs`` |
++----------------------------------------------+-----------------------+
+| ``uses`` (infrastructure)                    |  ``ttp:Related_TTPs`` |
++----------------------------------------------+-----------------------+
+
+
+**STIX 2.x Properties Recorded in the STIX 1.x Description Property**
+
+- ``aliases``
+- ``first_seen``
+- ``labels``   (in 2.1)
+- ``last_seen``
+
+**STIX 2.x Properties Not Mapped**
+
+*none*
+
+**An Example**
+
+STIX 2.x in JSON
+
+.. code-block:: json
+
+        {
+            "created": "2014-05-08T09:00:00.000Z",
+            "first_seen": "2014-05-08T09:00:00.000Z",
+            "id": "infrastructure--dd955e08-16d0-4f08-a064-50d9e7a3104d",
+            "infrastructure_types": [
+                "malware-c2"
+            ],
+            "modified": "2014-05-08T09:00:00.000Z",
+            "name": "Malware C2 Channel",
+            "spec_version": "2.1",
+            "type": "infrastructure"
+        }
+
+STIX 1.x in XML
+
+.. code-block:: xml
+
+    <stix:TTP id="example:infrastructure-dd955e08-16d0-4f08-a064-50d9e7a3104d"
+              timestamp="2014-05-08T09:00:00+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Resources>
+                <ttp:Infrastructure>
+                    <ttp:Title>Malware C2 Channel</ttp:Title>
+                    <ttp:Type>malware-c2</ttp:Type>
+                </ttp:Infrastructure>
+            </ttp:Resources>
+        </stix:TTP>
 
 Location
 ------------------
@@ -526,13 +617,15 @@ The Malware object in STIX 2.x is a stub.
 
 **STIX 2.x Properties Translated to STIX 1.x Properties**
 
-+---------------------------+-------------------------------+
-| **STIX 2.x property**     | **STIX 1.x property**         |
-+===========================+===============================+
-|  ``kill_chain_phases``    | ``ttp:Kill_Chain_Phases``     |
-+---------------------------+-------------------------------+
-|  ``labels``               | ``Type``                      |
-+---------------------------+-------------------------------+
++-----------------------------+-------------------------------+
+| **STIX 2.x property**       | **STIX 1.x property**         |
++=============================+===============================+
+|  ``kill_chain_phases``      | ``ttp:Kill_Chain_Phases``     |
++-----------------------------+-------------------------------+
+|  ``malware_types`` (in 2.1) | ``Type``                      |
++-----------------------------+-------------------------------+
+|  ``labels`` (in 2.0)        | ``Type``                      |
++-----------------------------+-------------------------------+
 
 **STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
@@ -550,7 +643,8 @@ The Malware object in STIX 2.x is a stub.
 
 **STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
-*none*
+- ``aliases``
+- ``labels``  (in 2.1)
 
 **STIX 2.x Properties Not Mapped**
 
@@ -632,7 +726,7 @@ object reference in the STIX 2.x report.
 +--------------------------------------------------------+-----------------------+
 | ``object_refs`` (identity, intrusion-set, relationship)| *not converted*       |
 +--------------------------------------------------------+-----------------------+
-| ``labels``                                             | ``Header.Intent``     |
+| ``report_types``                                       | ``Header.Intent``     |
 +--------------------------------------------------------+-----------------------+
 
 ​**STIX 2.x Properties Mapped Using STIX 1.x Relationships**
@@ -641,6 +735,7 @@ object reference in the STIX 2.x report.
 
 **STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
+- ``labels``  (in 2.1)
 - ``published``
 
 **STIX 2.x Properties Not Mapped**
@@ -712,7 +807,9 @@ Threat Actor
 +-------------------------------------+--------------------------------------+
 | ``sophistication``                  | ``Sophistication``                   |
 +-------------------------------------+--------------------------------------+
-| ``labels``                          | ``Type``                             |
+| ``threat_actor_types`` (in 2.1)     | ``Type``                             |
++-------------------------------------+--------------------------------------+
+| ``labels`` (in 2.0)                 | ``Type``                             |
 +-------------------------------------+--------------------------------------+
 
 ​**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
@@ -729,10 +826,13 @@ Threat Actor
 
 **STIX 2.x Properties Recorded in the STIX 1.x Description Property**
 
-- ``name``
+
 - ``aliases``
-- ``roles``
+- ``labels`` (in 2.1)
+- ``name``
 - ``resource_level``
+- ``roles``
+
 
 **STIX 2.x Properties Not Mapped**
 
@@ -782,8 +882,6 @@ Tool
 +==========================+================================+
 | ``name``                 | ``Name`` (from CybOX)          |
 +--------------------------+--------------------------------+
-| ``labels``               | ``Type`` (from CybOX)          |
-+--------------------------+--------------------------------+
 | ``description``          | ``Description`` (from CybOX)   |
 +--------------------------+--------------------------------+
 | ``tool_version``         | ``Version`` (from CybOX)       |
@@ -798,6 +896,10 @@ Tool
 | ``external_references``           | ``References`` (from CybOX)   |
 +-----------------------------------+-------------------------------+
 | ``kill_chain_phases``             | ``ttp:Kill_Chain_Phases``     |
++-----------------------------------+-------------------------------+
+| ``tool_types`` (in 2.1)           | ``Type`` (from CybOX)         |
++-----------------------------------+-------------------------------+
+| ``labels`` (in 2.0)     ,         | ``Type`` (from CybOX)         |
 +-----------------------------------+-------------------------------+
 
 ​**STIX 2.x Relationships Mapped Using STIX 1.x Relationships**

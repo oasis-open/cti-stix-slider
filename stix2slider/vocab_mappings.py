@@ -21,18 +21,6 @@ COA_LABEL_MAP = \
         "other": "Other",
     }
 
-# Not in STIX 2.0
-INCIDENT_LABEL_MAP = \
-    {
-        "Denial of Service": "denial-of-service",
-        "Exercise/Network Defense Testing": "exercise-and-network-defense-testing",
-        "Improper Usage": "improper-usage",
-        "Investigation": "investigation",
-        "Malicious Code": "malicious-code",
-        "Scans/Probes/Attempted Access": "scans-probes-attempted-access",
-        "Unauthorized Access": "unauthorized-access",
-    }
-
 INDICATOR_LABEL_MAP = \
     {
         "anonymization": "Anonymization",
@@ -50,6 +38,20 @@ INDICATOR_LABEL_MAP = \
         "imsi-watchlist": "IMSI Watchlist",
         "host-characteristics": "Host Characteristics",
     }
+
+INFRASTRUCTURE_LABELS_MAP = {
+    # "amplification": "",
+    "anonymization": "Anonymization",
+    # "botnet": ,
+    "command-and-control": "Hosting - Compromised Server",
+    # "exfiltration"
+    # "hosting-malware": "Hosting",
+    # "hosting-target-lists": "Hosting",
+    # phishing
+    # reconnaissance
+    # staging
+    # undefined
+}
 
 MALWARE_LABELS_MAP = \
     {

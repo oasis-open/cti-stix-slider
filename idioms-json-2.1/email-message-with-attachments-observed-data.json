@@ -13,7 +13,8 @@
           "email-addr--d1b3bf0c-f02a-51a1-8102-11aba7959868",
           "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194",
           "artifact--12d1aa30-54ab-54a9-98d7-49dd1781fdea",
-          "file--3657ed4d-3fed-5c67-92ba-09b3ccc3c072"
+          "file--3657ed4d-3fed-5c67-92ba-09b3ccc3c072",
+          "email-message--cf9b4b7f-14c8-5955-8065-020e0316b559"
       ],
       "spec_version": "2.1",
       "type": "observed-data"
@@ -47,6 +48,7 @@
       "content_type": "multipart/mixed",
       "date": "2016-06-19T14:20:40.000Z",
       "from_ref": "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+      "id": "email-message--cf9b4b7f-14c8-5955-8065-020e0316b559",
       "is_multipart": true,
       "received_lines": [
         "from mail.example.com ([198.51.100.3]) by smtp.gmail.com with ESMTPSA id q23sm23309939wme.17.2016.07.19.07.20.32 (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Tue, 19 Jul 2016 07:20:40 -0700 (PDT)"

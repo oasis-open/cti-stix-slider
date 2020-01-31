@@ -11,6 +11,7 @@
 	xmlns:stixCommon="http://stix.mitre.org/common-1"
 	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
 	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+    xmlns:ttp="http://stix.mitre.org/TTP-1"
 	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Indicators>
@@ -33,6 +34,19 @@
                     </cybox:Properties>
                 </cybox:Object>
             </indicator:Observable>
+            <indicator:Indicated_TTP>
+                <stixCommon:TTP idref="example:infrastructure-dd955e08-16d0-4f08-a064-50d9e7a3104d" xsi:type='ttp:TTPType'/>
+            </indicator:Indicated_TTP>
         </stix:Indicator>
     </stix:Indicators>
+    <stix:TTPs>
+        <stix:TTP id="example:infrastructure-dd955e08-16d0-4f08-a064-50d9e7a3104d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Resources>
+                <ttp:Infrastructure>
+                    <ttp:Title>Malware C2 Channel</ttp:Title>
+                    <ttp:Type>malware-c2</ttp:Type>
+                </ttp:Infrastructure>
+            </ttp:Resources>
+        </stix:TTP>
+    </stix:TTPs>
 </stix:STIX_Package>

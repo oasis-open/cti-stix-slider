@@ -14,6 +14,7 @@
             <cybox:Object id="example:X509Certificate-237e5d1e-aa10-40d8-9875-dcf4f50829e8">
                 <cybox:Properties xsi:type="X509CertificateObj:X509CertificateObjectType">
                     <X509CertificateObj:Certificate>
+                        <X509CertificateObj:Serial_Number>36:f7:d4:32:f4:ab:70:ea:d3:ce:98:6e:ea:99:93:49:32:0a:b7:06</X509CertificateObj:Serial_Number>
                         <X509CertificateObj:Issuer>C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com</X509CertificateObj:Issuer>
                         <X509CertificateObj:Validity>
                             <X509CertificateObj:Not_Before>2016-03-12T12:00:00+00:00</X509CertificateObj:Not_Before>
