@@ -1471,21 +1471,21 @@ def convert_bundle(bundle_obj):
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
         elif o["type"] == "malware_analysis":
-            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "malware_analysis")
+            warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "malware_analysis")
             return None
         elif o["type"] == "note":
-            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "note")
+            warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "note")
         elif o["type"] == "observed-data":
             obs1x = convert_observed_data(o)
             pkg.add_observable(obs1x)
             stix1x_obs_list[o["id"]] = obs1x
         elif o["type"] == "opinion":
-            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "opinion")
+            warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "opinion")
         elif o["type"] == "report":
             if _STIX_1_VERSION == "1.2":
                 pkg.add_report(convert_report(o))
             else:
-                warn("Ignoring %s, because %ss cannot be represented in STIX 1.1.1", 509, o["id"], "report")
+                warn("Ignoring %s, because a %s object cannot be represented in STIX 1.1.1", 509, o["id"], "report")
 
         elif o["type"] == "threat-actor":
             pkg.add_threat_actor(convert_threat_actor(o))

@@ -63,7 +63,7 @@ Multiple File Extensions in *[id]* not supported yet                            
 ``account_type`` property of *[id]* in STIX 2.x is not directly represented as a property in STIX 1.x                        506     Warn
 Received Line *[line]* in *[id]* has a prefix that is not representable in STIX 1.x                                          507     Warn
 Unable to convert STIX 2.x sighting *[id]* because it doesn't refer to an indicator                                          508     Warn
-Ignoring *[id]*, because a *[type]* cannot be represented in STIX 1.1.1                                                      509     Warn
+Ignoring *[id]*, because a *[type]* object cannot be represented in STIX 1.1.1                                               509     Warn
 Identity has no property to store ``external-references`` from *[id]*                                                        510     Warn
 pe_type SYS in *[id]* is valid in STIX 2.x, but not in STIX 1.x                                                              511     Warn
 pe_type [pe_type] in *[id]* is allowed in STIX 2.x, but not in STIX 1.x                                                      512     Warn
@@ -82,7 +82,7 @@ STIX 1.x can only store the body and headers of an email message in *[id]* indep
 *[id]* is not explicitly a member of a STIX 1.x ``Report``                                                                   525     Warn
 *[id]* cannot be represented in STIX 1.x                                                                                     526     Warn
 Relationship between *[id]* and a location is not supported in STIX 1.x                                                      527     Warn
-Ignoring *[id]*, because a *[type]* cannot be represented in STIX 1.x                                                        528     Warn
+Ignoring *[id]*, because a *[type]* object cannot be represented in STIX 1.x                                                 528     Warn
 ============================================================================================================================ ====   =====
 
 STIX Slider currently doesn't process this content
