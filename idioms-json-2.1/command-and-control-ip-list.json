@@ -18,7 +18,7 @@
         {
             "id": "ipv4-addr--7e4a9c21-50df-5298-97ce-42044f79472e",
             "resolves_to_refs": [
-                        "1"
+                        "mac-addr--7743b2c8-45bc-5cf3-abe8-d87556783f1e"
                     ],
             "type": "ipv4-addr",
             "value": "198.51.100.2"

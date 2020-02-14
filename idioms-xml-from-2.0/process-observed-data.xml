@@ -16,6 +16,9 @@
                     <ProcessObj:PID>1221</ProcessObj:PID>
                     <ProcessObj:Name>gedit-bin</ProcessObj:Name>
                     <ProcessObj:Creation_Time>2016-01-20T14:11:25.550000+00:00</ProcessObj:Creation_Time>
+                    <ProcessObj:Image_Info>
+                        <ProcessObj:File_Name>gedit</ProcessObj:File_Name>
+                    </ProcessObj:Image_Info>
                     <ProcessObj:Argument_List>
                         <ProcessObj:Argument>--new-window</ProcessObj:Argument>
                     </ProcessObj:Argument_List>

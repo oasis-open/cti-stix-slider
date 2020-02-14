@@ -44,8 +44,7 @@ import stixmarx
 
 
 from stix2slider.common import convert_id2x, create_id1x
-from stix2slider.convert_cyber_observables import (convert_cyber_observables, convert_sco, add_refs, get_stix1x_obj_from_stix2x_id,
-                                                   get_refs)
+from stix2slider.convert_cyber_observables import (convert_cyber_observables, convert_sco, add_refs, add_object_refs)
 from stix2slider.options import (debug, error, get_option_value,
                                  set_option_value, warn)
 from stix2slider.utils import set_default_namespace
@@ -465,7 +464,7 @@ def map_vocabs_to_label(t, vocab_map):
         return VocabString(t)
 
 
-def convert_open_vocabs_to_controlled_vocabs(old_vocabs, vocab_mapping, only_one=False, required=True):
+def convert_open_vocabs_to_controlled_vocabs(old_vocabs, vocab_mapping, required=True):
     results = []
     if isinstance(old_vocabs, list):
         for t in old_vocabs:
@@ -673,7 +672,7 @@ def convert_identity(ident2x):
                 for s in ident2x["sectors"]:
                     if first:
                         ident1x.specification.organisation_info = \
-                            OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP, False)[0]))
+                            OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP)[0]))
                         first = False
                     else:
                         warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
@@ -1347,62 +1346,7 @@ def sco_type(type_name):
                          "windows-registry-key", "x509-certificate"]
 
 
-def create_object_ref_graph(object_refs, stix2x_objs):
-    parent_graph = dict()
-    child_graph = dict()
-    for ref in object_refs:
-        obj = stix2x_objs[ref]
-        parent_graph[ref] = list()
-        obs_refs = get_refs(obj)
-        child_graph[ref] = obs_refs
-        for o_id in obs_refs:
-            if o_id not in parent_graph:
-                parent_graph[o_id] = list()
-            parent_graph[o_id].append(ref)
-    return parent_graph, child_graph
 
-
-def handle_ref_as_related_object(obj2x, object_root, prop2x, relationship_name, stix2x_objs):
-    if prop2x in obj2x:
-        child_obj = get_stix1x_obj_from_stix2x_id(obj2x[prop2x])
-        object_root.add_related(child_obj, relationship_name, True)
-
-
-def handle_refs_as_related_object(obj2x, object_root, prop2x, relationship_name, stix2x_objs):
-    pass
-
-
-def add_any_related_objects(root_id, object_root, stix2x_objs, child_graph):
-    if root_id in child_graph:
-        for c in child_graph[root_id]:
-            add_any_related_objects(c, get_stix1x_obj_from_stix2x_id(c), stix2x_objs, child_graph)
-    stix2x_obj = stix2x_objs[root_id]
-    root_type = stix2x_obj["type"]
-
-    if root_type == "email-message":
-        if "body_multipart" in stix2x_obj:
-            object_root.properties.attachments = Attachments()
-            for part in stix2x_obj["body_multipart"]:
-                handle_ref_as_related_object(part, object_root, "body_raw_ref", "Contains", stix2x_objs)
-                if "body_raw_ref" in part:
-                    object_root.properties.attachments.append(part["body_raw_ref"])
-    elif root_type == "email-addr":
-        handle_ref_as_related_object(stix2x_obj, object_root, "belongs_to_ref", "Related_To", stix2x_objs)
-    elif root_type == "file" or root_type == "directory":
-        handle_refs_as_related_object(stix2x_obj, object_root, "contains_ref", "Contains", stix2x_objs)
-
-
-def add_object_refs(o, stix2x_objs, stix1x_obs_list):
-    parent_graph, child_graph = create_object_ref_graph(o["object_refs"], stix2x_objs)
-    for k, v in parent_graph.items():
-        # find the root - it has no parents!
-        if v == []:
-            root_id = k
-            break
-    root = get_stix1x_obj_from_stix2x_id(root_id)
-    obs = stix1x_obs_list[o["id"]]
-    add_any_related_objects(root_id, root.parent, stix2x_objs, child_graph)
-    obs.object_ = root.parent
 
 
 def convert_bundle(bundle_obj):
@@ -1511,10 +1455,13 @@ def convert_bundle(bundle_obj):
     if get_option_value("version_of_stix2x") == "2.1":
         for o in bundle_obj["objects"]:
             if sco_type(o["type"]):
+                # add STIX 1.x embedded properties
                 add_refs(o)
+        objects_inline = dict()
         for o in bundle_obj["objects"]:
             if o["type"] == "observed-data":
-                add_object_refs(o, stix2x_objs, stix1x_obs_list)
+                # add related objects
+                add_object_refs(o, stix2x_objs, stix1x_obs_list, objects_inline)
     for k, v in _KILL_CHAINS.items():
         pkg.ttps.kill_chains.append(v["kill_chain"])
     CONTAINER.flush()

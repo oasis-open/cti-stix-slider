@@ -9,6 +9,7 @@
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
             "object_refs": [
+                "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
                 "ipv4-addr--7e4a9c21-50df-5298-97ce-42044f79472e"
             ],
             "spec_version": "2.1",
@@ -22,7 +23,7 @@
         {
             "id": "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
             "resolves_to_refs": [
-                        "1"
+                "ipv4-addr--7e4a9c21-50df-5298-97ce-42044f79472e"
             ],
             "type": "domain-name",
             "value": "example.com"

@@ -4,6 +4,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+    xmlns:ttp="http://stix.mitre.org/TTP-1"
 	xmlns:example="http://example.com"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
@@ -30,4 +31,16 @@
             </cybox:Object>
         </cybox:Observable>
     </stix:Observables>
+    <stix:TTPs>
+        <stix:TTP id="example:infrastructure-dd955e08-16d0-4f08-a064-50d9e7a3104d" timestamp="2019-08-21T11:06:15.318000+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Resources>
+                <ttp:Infrastructure>
+                    <ttp:Title>Malware C2 Channel</ttp:Title>
+                    <ttp:Type>malware-c2</ttp:Type>
+                    <ttp:Description>first_seen: 2019-08-21 11:06:15.318000+00:00</ttp:Description>
+                </ttp:Infrastructure>
+            </ttp:Resources>
+        </stix:TTP>
+    </stix:TTPs>
+
 </stix:STIX_Package>
