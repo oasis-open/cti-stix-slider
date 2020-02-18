@@ -37,6 +37,7 @@ The *[property1]* property in *[id]* should be '*[boolean]*' if the *[property2]
 Cannot convert *[id]* because it doesn't contain both a source_ref and a target_ref                            314     Warn
 No *[ref_property]* object exists for *[id]* in relationship *[rel-id]*                                        315     Warn
 ref type *[type]* in *[id]* is not known                                                                       316     Warn
+*[id]* referenced in *[id]* is not found                                                                       317     Warn
 ============================================================================================================== ====    =====
 
 Multiple values are not supported in STIX 1.x
@@ -57,7 +58,7 @@ Message                                                                         
 ============================================================================================================================ ====   =====
 The *[relationship]* relationship between *[id1]* and *[id2]* is not supported in STIX 1.x                                   501     Warn
 Multiple File Extensions in *[id]* not supported yet                                                                         502     Warn
-*[property]* not representable in a STIX 1.x *[type]*.  Found in *[id]*                                                      503     Warn
+*[property]* is not representable in a STIX 1.x *[type]*.  Found in *[id]*                                                   503     Warn
 *[property]* not representable in a STIX 1.x *[type]*.  Found in the pattern of *[id]*                                       504     Warn
 *[op]* cannot be converted to a STIX 1.x operator in the pattern of *[id]*                                                   505     Warn
 ``account_type`` property of *[id]* in STIX 2.x is not directly represented as a property in STIX 1.x                        506     Warn

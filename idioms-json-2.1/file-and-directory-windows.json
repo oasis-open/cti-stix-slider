@@ -18,7 +18,10 @@
         {
             "id": "directory--c2ce9c3a-d375-58fa-931e-ffab11d8b609",
             "path": "c:\\system32",
-            "type": "directory"
+            "type": "directory",
+            "contains_refs": [
+                "file--957a7c3b-2c14-5f47-a174-38661fc51c00"
+            ]
         },
         {
             "hashes": {

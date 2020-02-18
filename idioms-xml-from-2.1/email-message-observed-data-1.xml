@@ -1,25 +1,29 @@
 <stix:STIX_Package
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:UnixUserAccountObj="http://cybox.mitre.org/objects#UnixUserAccountObject-2"
+	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
 	xmlns:stix="http://stix.mitre.org/stix-1"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:example="http://example.com"
-	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
-	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 id="example:STIXPackage-864148ad-415d-4141-8e32-81490a8aa325" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-02aa2e18-55fc-44dd-be68-cf83c58f87ac">
-            <cybox:Object id="example:EmailMessage-d0a842d4-be3c-4379-9e0a-19e4da7de15e">
+            <cybox:Object id="example:EmailMessage-72b7698f-10c2-565a-a2a6-b4996a2f2265">
                 <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
                     <EmailMessageObj:Header>
                         <EmailMessageObj:To>
                             <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
                                 <AddressObj:Address_Value>mary@example.com</AddressObj:Address_Value>
                             </EmailMessageObj:Recipient>
-                             <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                            <EmailMessageObj:Recipient xsi:type="AddressObj:AddressObjectType" category="e-mail">
                                 <AddressObj:Address_Value>jdoe@example.com</AddressObj:Address_Value>
                             </EmailMessageObj:Recipient>
                         </EmailMessageObj:To>
@@ -30,6 +34,23 @@
                         <EmailMessageObj:Date>1997-11-21T15:55:06+00:00</EmailMessageObj:Date>
                     </EmailMessageObj:Header>
                 </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-a3e84a74-b5b9-4709-82c8-0442201cbe2e">
+            <cybox:Object id="example:EmailAddress-89f52ea8-d6ef-51e9-8fce-6a29236436ed">
+                <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                    <AddressObj:Address_Value>jdoe@example.com</AddressObj:Address_Value>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:UnixUserAccount-0d5b424b-93b8-5cd8-ac36-306e1789d63c">
+                        <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                            <AccountObj:Creation_Date>2016-01-20T12:31:12+00:00</AccountObj:Creation_Date>
+                            <UserAccountObj:Last_Login>2016-07-22T16:08:28+00:00</UserAccountObj:Last_Login>
+                            <UserAccountObj:Username>jdoe</UserAccountObj:Username>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Related_To</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
             </cybox:Object>
         </cybox:Observable>
     </stix:Observables>

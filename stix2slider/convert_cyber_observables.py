@@ -117,7 +117,7 @@ def get_stix1x_obj_from_stix2x_id(id2x):
     return STIX1X_OBS_GLOBAL[id2x]
 
 
-def sort_objects_into_processing_order(objs):
+def sort_objects_into_processing_order_for_hashes(objs):
     tuple_list = [(k, v) for k, v in objs.items()]
     return sorted(tuple_list, key=lambda x: x[0])
 
@@ -214,7 +214,7 @@ def warn_about_missing_ref(ref, id):
     if get_option_value("version_of_stix2x") == "2.0":
         warn("%s is not an index found in %s", 306, ref, id)
     else:
-        warn("%s referenced in %s is not found ", 0, ref, id)
+        warn("%s referenced in %s is not found", 317, ref, id)
 
 
 def handle_ref(obj2x, obj1x, prop2x, prop1x, obj_map, sub_obj1x=None, accessor=None, obs2x_id=None):
@@ -351,7 +351,7 @@ def convert_image_file_extension(image_ext, file1x, obs2x_id):
         if "Compression" in exif_tags:
             file1x.image_is_compressed = (exif_tags["Compression"] != 1)
         else:
-            warn("%s not representable in a STIX 1.x %s.  Found in %s", 503,
+            warn("%s is not representable in a STIX 1.x %s.  Found in %s", 503,
                  "exif_tags",
                  "ImageFile",
                  obs2x_id)
@@ -380,7 +380,7 @@ def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs2x_id):
         convert_obj(pe_bin_ext, file1x.headers.file_header, PE_BINARY_FILE_HEADER_MAP, obs2x_id)
     if "file_header_hashes" in pe_bin_ext:
         file1x.headers.file_header.hashes = HashList()
-        for k, v in sort_objects_into_processing_order(pe_bin_ext["file_header_hashes"]):
+        for k, v in sort_objects_into_processing_order_for_hashes(pe_bin_ext["file_header_hashes"]):
             add_hashes_property(file1x.headers.file_header.hashes, k, v)
     if "optional_header" in pe_bin_ext:
         op_header2x = pe_bin_ext["optional_header"]
@@ -388,7 +388,7 @@ def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs2x_id):
         convert_obj(op_header2x, file1x.headers.optional_header, PE_BINARY_OPTIONAL_HEADER_MAP, obs2x_id)
         if "hashes" in op_header2x:
             file1x.headers.optional_header.hashes = HashList()
-            for k, v in sort_objects_into_processing_order(op_header2x["hashes"]):
+            for k, v in sort_objects_into_processing_order_for_hashes(op_header2x["hashes"]):
                 add_hashes_property(file1x.headers.optional_header.hashes, k, v)
     if "sections" in pe_bin_ext:
         file1x.sections = PESectionList()
@@ -406,7 +406,7 @@ def convert_windows_pe_binary_file_extension(pe_bin_ext, file1x, obs2x_id):
                 section.entropy.value = s["entropy"]
             if "hashes" in s:
                 section.data_hashes = HashList()
-                for k, v in sort_objects_into_processing_order(s["hashes"]):
+                for k, v in sort_objects_into_processing_order_for_hashes(s["hashes"]):
                     add_hashes_property(section.data_hashes, k, v)
 
 
@@ -423,7 +423,7 @@ def convert_ntfs_file_extension(ntfs_ext, file1x, obs2x_id):
             if "size" in ads2x:
                 ads1x.size_in_bytes = ads2x["size"]
             if "hashes" in ads2x:
-                for k, v in sort_objects_into_processing_order(ads2x["hashes"]):
+                for k, v in sort_objects_into_processing_order_for_hashes(ads2x["hashes"]):
                     add_hashes_property(ads1x, k, v)
             file1x.stream_list.append(ads1x)
 
@@ -448,13 +448,13 @@ def handle_parent_directory_ref(file2x, file1x, obj_map, obs2x_id=None):
             directory_object = obj_map[file2x["parent_directory_ref"]]
             directory_string = str(directory_object.full_path)
             file1x.full_path = directory_string + ("\\" if is_windows_directory(directory_string) else "/") + file2x["name"]
-        else:
-            warn_about_missing_ref(file2x["parent_directory_ref"], obs2x_id if obs2x_id else file2x["id"])
+        # else:
+        #     warn_about_missing_ref(file2x["parent_directory_ref"], obs2x_id if obs2x_id else file2x["id"])
 
 
 def convert_file_c_o(file2x, file1x, obs2x_id):
     if "hashes" in file2x:
-        for k, v in sort_objects_into_processing_order(file2x["hashes"]):
+        for k, v in sort_objects_into_processing_order_for_hashes(file2x["hashes"]):
             add_hashes_property(file1x, k, v)
     convert_obj(file2x, file1x, FILE_MAP, obs2x_id)
     if get_option_value("version_of_stix2x") == "2.0":
@@ -486,6 +486,8 @@ def convert_file_c_o(file2x, file1x, obs2x_id):
 
 def convert_directory_c_o(directory2x, file1x, obs2x_id):
     convert_obj(directory2x, file1x, DIRECTORY_MAP, obs2x_id)
+    if "contains_refs" in directory2x:
+        add_related_objects(file1x, directory2x, "contains_refs", "Contains")
 
 
 def populate_received_line(rl2x, rl1x, obs2x_id):
@@ -624,7 +626,7 @@ def convert_process_extensions(process2x, process1x, obs2x_id):
             process1x.startup_info = StartupInfo()
             convert_obj(windows_process["startup_info"], process1x.startup_info, STARTUP_INFO_MAP)
         elif "integrity_level" in windows_process and get_option_value("version_of_stix2x") == "2.1":
-            warn("%s not representable in a STIX 1.x %s.  Found in  %s", 503, "WinProcess",
+            warn("%s is not representable in a STIX 1.x %s.  Found in  %s", 503, "WinProcess",
                  "integrity_level",
                  obs2x_id)
     if "windows-service-ext" in extensions:
@@ -798,7 +800,7 @@ def convert_network_traffic_to_network_socket(socket_ext, nc, obs2x_id):
                     SOCKET_OPTIONS_MAP,
                     obs2x_id)
     if "socket_handle" in socket_ext:
-        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, "socket_handle", "NetworkSocket", obs2x_id)
+        warn("%s is not representable in a STIX 1.x %s.  Found in %s", 503, "socket_handle", "NetworkSocket", obs2x_id)
     nc.add_related(obj1x, VocabString("Related_Socket"), inline=True)
     # obj1x.local_address = convert_address_ref(obj2x, "src")
     # obj1x.remote_address = convert_address_ref(obj2x, "dst")
@@ -830,7 +832,7 @@ def convert_network_traffic_c_o(obj2x, obj1x, obs2x_id):
     for name in ("start", "end", "src_byte_count", "dst_byte_count", "src_packets", "dst_packets", "ipfix",
                  "src_payload_ref", "dst_payload_ref", "encapsulates_refs", "encapsulated_by_ref"):
         if name in obj2x:
-            warn("%s not representable in a STIX 1.x %s.  Found in %s",
+            warn("%s is not representable in a STIX 1.x %s.  Found in %s",
                  503,
                  name, "NetworkConnection", obs2x_id)
 
@@ -838,7 +840,7 @@ def convert_network_traffic_c_o(obj2x, obj1x, obs2x_id):
 def convert_software_c_o(soft2x, prod1x, obs2x_id):
     prod1x.product = soft2x["name"]
     if "cpe" in soft2x:
-        warn("cpe not representable in a STIX 1.x Product.  Found in %s", 503, obs2x_id)
+        warn("cpe is not representable in a STIX 1.x Product.  Found in %s", 503, obs2x_id)
     if "languages" in soft2x:
         prod1x.language = soft2x["languages"][0]
         if len(soft2x["languages"]) > 1:
@@ -1025,17 +1027,25 @@ def convert_sco(c_o_object):
     return o1x
 
 
+# avoid circularities in the graph by choosing one relationship direction only
+def possible_circularity(obj, k):
+    if "type" in obj:
+        if obj["type"] == "file" and k == "parent_directory_ref":
+            return True
+
+
 def get_refs(obj):
     refs = list()
     type2x = obj["type"] if "type" in obj else None
     for k, v in obj.items():
         if k.endswith("ref"):
-            if not obj[k] in refs:
+            if not obj[k] in refs and not possible_circularity(obj, k):
                 refs.append(obj[k])
         if k.endswith("refs"):
-            for ref in obj[k]:
-                if not ref in refs:
-                    refs.append(ref)
+            if not possible_circularity(obj, k):
+                for ref in obj[k]:
+                    if not ref in refs:
+                        refs.append(ref)
         if k == "extensions":
             for e_k, e_v in v.items():
                 ext_refs = get_refs(e_v)
@@ -1089,6 +1099,7 @@ def add_refs_email_message(obj2x, obj1x):
 
 
 def add_refs_file(obj2x, obj1x):
+    # TODO: check for consistency of contains_refs and parent_directory_refs
     handle_parent_directory_ref(obj2x, obj1x, STIX1X_OBS_GLOBAL)
     if "extensions" in obj2x:
         extensions = obj2x["extensions"]
@@ -1147,7 +1158,8 @@ def create_object_ref_graph(object_refs, stix2x_objs):
     child_graph = dict()
     for ref in object_refs:
         obj = stix2x_objs[ref]
-        parent_graph[ref] = list()
+        if ref not in parent_graph:
+            parent_graph[ref] = list()
         obs_refs = get_refs(obj)
         child_graph[ref] = obs_refs
         for o_id in obs_refs:
@@ -1161,13 +1173,15 @@ def add_related(parent_prop, child_prop, relationship_name, inline):
     parent_obj = parent_prop.parent
     # save already generated related objects - they will be lost in the RelatedObject constructor
     related_objects = child_prop.parent.related_objects
-    ro = RelatedObject(child_prop,
-                       relationship=relationship_name,
-                       inline=inline,
-                       id_=child_prop.parent.id_)
-    # re-establish related_objects
-    ro.related_objects = related_objects
-    parent_obj.related_objects.append(ro)
+    # parent might occur in more than one observed-data, so avoid adding it more than once.
+    if not any([ child_prop.parent.id_ == x.id_ for x in parent_obj.related_objects]):
+        ro = RelatedObject(child_prop,
+                           relationship=relationship_name,
+                           inline=inline,
+                           id_=child_prop.parent.id_)
+        # re-establish related_objects
+        ro.related_objects = related_objects
+        parent_obj.related_objects.append(ro)
 
 
 def handle_ref_as_related_object(obj2x, object_root, prop2x, relationship_name, objects_inline):
@@ -1185,10 +1199,12 @@ def handle_refs_as_related_object(obj2x, object_root, prop2x, relationship_name,
             objects_inline[child_obj.parent.id_] = True
 
 
-def add_any_related_objects(root_id, object_root, stix2x_objs, child_graph, objects_inline):
+def add_any_related_objects(root_id, object_root, stix2x_objs, child_graph, objects_inline, visited):
     if root_id in child_graph:
         for c in child_graph[root_id]:
-            add_any_related_objects(c, get_stix1x_obj_from_stix2x_id(c), stix2x_objs, child_graph, objects_inline)
+            if not c in visited:
+                visited[c] = True
+                add_any_related_objects(c, get_stix1x_obj_from_stix2x_id(c), stix2x_objs, child_graph, objects_inline, visited)
     stix2x_obj = stix2x_objs[root_id]
     root_type = stix2x_obj["type"]
 
@@ -1201,6 +1217,9 @@ def add_any_related_objects(root_id, object_root, stix2x_objs, child_graph, obje
                     object_root.parent.properties.attachments.append(part["body_raw_ref"])
     elif root_type == "email-addr":
         handle_ref_as_related_object(stix2x_obj, object_root, "belongs_to_ref", "Related_To", objects_inline)
+        # TODO: find a way to determine when this warning should be generated
+        # elif "belongs_to_ref" in stix2x_obj:
+        #     warn("%s is not representable in a STIX 1.x %s. Found in %s", 503, "belongs_to_ref", "email-addr", stix2x_obj["id"])
     elif root_type == "file" or root_type == "directory":
         handle_refs_as_related_object(stix2x_obj, object_root, "contains_refs", "Contains", objects_inline)
         handle_ref_as_related_object(stix2x_obj, object_root, "content_ref", "Contains", objects_inline)
@@ -1228,9 +1247,11 @@ def add_object_refs(o, stix2x_objs, stix1x_obs_list, objects_inline):
     root = get_stix1x_obj_from_stix2x_id(root_id)
     objects_inline[root.parent.id_] = True
     obs = stix1x_obs_list[o["id"]]
+    visited = dict()
     add_any_related_objects(root_id,
                             root,
                             stix2x_objs,
                             child_graph,
-                            objects_inline)
+                            objects_inline,
+                            visited)
     obs.object_ = root.parent

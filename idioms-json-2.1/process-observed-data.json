@@ -10,7 +10,8 @@
             "number_observed": 1,
             "object_refs": [
                 "file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
-                "process--85ef7684-85b1-4bec-b60a-d367d00fd64d"
+                "process--85ef7684-85b1-4bec-b60a-d367d00fd64d",
+                "user-account--ef9bb495-faeb-5390-9330-6fa4f73a8c9f"
             ],
             "spec_version": "2.1",
             "type": "observed-data"
@@ -25,10 +26,26 @@
         },
         {
             "created": "2016-01-20T14:11:25.55Z",
+            "creator_user_ref": "user-account--ef9bb495-faeb-5390-9330-6fa4f73a8c9f",
             "id": "process--85ef7684-85b1-4bec-b60a-d367d00fd64d",
             "image_ref": "file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
             "pid": 1221,
             "type": "process"
+        },
+        {
+            "account_created": "2016-01-20T12:31:12Z",
+            "account_first_login": "2016-01-20T14:26:07Z",
+            "account_last_login": "2016-07-22T16:08:28Z",
+            "account_login": "fred",
+            "account_type": "windows",
+            "can_escalate_privs": true,
+            "credential_last_changed": "2016-01-20T14:27:43Z",
+            "display_name": "Fred Flintstone",
+            "id": "user-account--ef9bb495-faeb-5390-9330-6fa4f73a8c9f",
+            "is_privileged": false,
+            "is_service_account": false,
+            "type": "user-account",
+            "user_id": "1002"
         }
     ],
     "type": "bundle"

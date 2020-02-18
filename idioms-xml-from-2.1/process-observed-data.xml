@@ -18,6 +18,7 @@
                     <ProcessObj:Image_Info>
                         <ProcessObj:File_Name>some.file</ProcessObj:File_Name>
                     </ProcessObj:Image_Info>
+                     <ProcessObj:Username>fred</ProcessObj:Username>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

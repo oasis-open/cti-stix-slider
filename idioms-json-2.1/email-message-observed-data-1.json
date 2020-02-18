@@ -17,6 +17,20 @@
             "type": "observed-data"
         },
         {
+            "created": "2017-05-22T13:03:55.429Z",
+            "first_observed": "2017-05-22T13:03:55.429Z",
+            "id": "observed-data--a3e84a74-b5b9-4709-82c8-0442201cbe2e",
+            "last_observed": "2017-05-22T13:03:55.429Z",
+            "modified": "2017-05-22T13:03:55.429Z",
+            "number_observed": 1,
+            "object_refs": [
+                "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+                "user-account--0d5b424b-93b8-5cd8-ac36-306e1789d63c"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
             "account_created": "2016-01-20T12:31:12Z",
             "account_first_login": "2016-01-20T14:26:07Z",
             "account_last_login": "2016-07-22T16:08:28Z",
