@@ -6,7 +6,7 @@ from cybox.common.environment_variable import (EnvironmentVariable,
 from cybox.common.hashes import HashList
 from cybox.common.structured_text import StructuredText
 from cybox.common.vocabs import VocabString
-from cybox.core import Observable, Object, RelatedObject
+from cybox.core import Object, Observable, RelatedObject
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact, Encoding, Packaging
@@ -29,7 +29,8 @@ from cybox.objects.network_connection_object import (Layer7Connections,
                                                      NetworkConnection,
                                                      SocketAddress)
 from cybox.objects.network_packet_object import (ICMPv4Header, ICMPv4Packet,
-                                                 InternetLayer, NetworkPacket, TransportLayer)
+                                                 InternetLayer, NetworkPacket,
+                                                 TransportLayer)
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
                                            PDFFile, PDFFileID, PDFFileMetadata,
@@ -77,14 +78,11 @@ from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
                                 WINDOWS_PROCESS_EXTENSION_MAP,
                                 WINDOWS_SERVICE_EXTENSION_MAP,
                                 X509_CERTIFICATE_MAP,
-                                X509_V3_EXTENSIONS_TYPE_MAP,
-                                add_host,
-                                convert_id2x,
-                                convert_pe_type,
+                                X509_V3_EXTENSIONS_TYPE_MAP, add_host,
+                                convert_id2x, convert_pe_type,
                                 is_windows_directory)
 from stix2slider.options import error, get_option_value, info, warn
 from stix2slider.utils import decode_base64
-
 
 _EXTENSIONS_MAP = {
     "archive-ext": ArchiveFile,
@@ -446,7 +444,7 @@ def handle_parent_directory_ref(file2x, file1x, obj_map, obs2x_id=None):
     if "parent_directory_ref" in file2x:
         if file2x["parent_directory_ref"] in obj_map:
             directory_object = obj_map[file2x["parent_directory_ref"]]
-            directory_string = str(directory_object.full_path)
+            directory_string = text_type(directory_object.full_path)
             file1x.full_path = directory_string + ("\\" if is_windows_directory(directory_string) else "/") + file2x["name"]
         # else:
         #     warn_about_missing_ref(file2x["parent_directory_ref"], obs2x_id if obs2x_id else file2x["id"])

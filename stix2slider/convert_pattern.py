@@ -57,6 +57,7 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, X509Cert,
                                                    X509Certificate,
                                                    X509V3Extensions)
+from six import text_type
 import stix2
 from stix2.patterns import (BasicObjectPathComponent, ListObjectPathComponent,
                             ObjectPath, _ComparisonExpression)
@@ -552,8 +553,8 @@ def add_scalar_file_property_pattern(file_obj, properties, rhs, op, id2x):
     elif prop_name == 'parent_directory_ref':
         if properties[1].property_name == 'path':
             # TODO: what if name isn't available
-            directory_string = str(rhs.value)
-            file_obj.full_path = rhs.value + ("\\\\" if is_windows_directory(directory_string) else "/") + str(file_obj.file_name)
+            directory_string = text_type(rhs.value)
+            file_obj.full_path = rhs.value + ("\\\\" if is_windows_directory(directory_string) else "/") + text_type(file_obj.file_name)
             convert_operator(op, file_obj.full_path, id2x)
         else:
             warn("The path property in %s is the only directory property supportable in STIX 1.x. %s is ignored", 521, id2x, properties[1].property_name)

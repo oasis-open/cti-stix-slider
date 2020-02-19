@@ -28,8 +28,10 @@ from stix.extensions.marking.ais import (AISConsentType, AISMarkingStructure,
 from stix.extensions.marking.terms_of_use_marking import \
     TermsOfUseMarkingStructure
 from stix.extensions.marking.tlp import TLPMarkingStructure
-from stix.extensions.test_mechanism.snort_test_mechanism import SnortTestMechanism
-from stix.extensions.test_mechanism.yara_test_mechanism import YaraTestMechanism
+from stix.extensions.test_mechanism.snort_test_mechanism import \
+    SnortTestMechanism
+from stix.extensions.test_mechanism.yara_test_mechanism import \
+    YaraTestMechanism
 from stix.indicator import Indicator, RelatedIndicators, ValidTime
 from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
                                       Sighting, Sightings)
@@ -42,9 +44,10 @@ from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
 import stixmarx
 
-
 from stix2slider.common import convert_id2x, create_id1x
-from stix2slider.convert_cyber_observables import (convert_cyber_observables, convert_sco, add_refs, add_object_refs)
+from stix2slider.convert_cyber_observables import (add_object_refs, add_refs,
+                                                   convert_cyber_observables,
+                                                   convert_sco)
 from stix2slider.options import (debug, error, get_option_value,
                                  set_option_value, warn)
 from stix2slider.utils import set_default_namespace

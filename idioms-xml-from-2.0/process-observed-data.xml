@@ -1,17 +1,17 @@
 <stix:STIX_Package
-	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
 	xmlns:example="http://example.com"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 id="example:STIXPackage-5a31ef7e-8856-473b-9004-9615f8eb56ac" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-c554b0f3-1107-4963-8b77-27c518cac165">
-            <cybox:Object id="example:Process-268e8e06-1dd9-484a-a756-40a99d883ab0">
+            <cybox:Object id="example:Process-e5e31d31-149c-4dbf-bad0-5d71da781ae0">
                 <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
                     <ProcessObj:PID>1221</ProcessObj:PID>
                     <ProcessObj:Name>gedit-bin</ProcessObj:Name>
@@ -22,6 +22,7 @@
                     <ProcessObj:Argument_List>
                         <ProcessObj:Argument>--new-window</ProcessObj:Argument>
                     </ProcessObj:Argument_List>
+                    <ProcessObj:Username>fred</ProcessObj:Username>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
