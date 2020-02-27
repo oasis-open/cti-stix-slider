@@ -21,7 +21,7 @@ Possible issue in original STIX 2.x content
 ============================================================================================================== ====    =====
 Message                                                                                                        Code    Level
 ============================================================================================================== ====    =====
-No source object exists for *[id]* to add the relationship *[relationship]*                                    301     Warn
+No source object exists for *[id]*. Dropping the relationship *[relationship]*                                 301     Warn
 Unknown hash type *[hash_type]* used in *[id]*                                                                 302     Warn
 *[property]* is not a legal property in the pattern of *[id]*                                                  303     Warn
 Unknown address type *[type]* used in *[id]*                                                                   304     Warn

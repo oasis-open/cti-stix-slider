@@ -80,7 +80,7 @@ def choose_full_object_or_idref(identity_ref_2x, target_obj_idref_1x):
 def set_ta_identity(source, target_ref, target_obj_idref_1x):
     target, identity1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
     if source.identity:
-        warn("Threat Actor in STIX 2.0 has multiple attributed-to relationships, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+        warn("Threat Actor in STIX 2.x has multiple attributed-to relationships, only one is allowed in STIX 1.x. Using first in list - %s omitted",
              401,
              target_ref)
         # Remove marking to CIQ identity if any.
@@ -624,7 +624,7 @@ def convert_coa(coa2x):
         coa_types = convert_open_vocabs_to_controlled_vocabs(coa2x["labels"], COA_LABEL_MAP)
         coa1x.type_ = coa_types[0]
         for l in coa_types[1:]:
-            warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+            warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
                  401, "labels", l)
     if "object_marking_refs" in coa2x:
         for m_id in coa2x["object_marking_refs"]:
@@ -678,7 +678,7 @@ def convert_identity(ident2x):
                             OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP)[0]))
                         first = False
                     else:
-                        warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+                        warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
                              401,
                              "Identity", "sectors", s)
             # Identity in 1.x has no description property, use free-text-lines
@@ -1098,7 +1098,7 @@ def process_relationships(rel):
     if rel["source_ref"] in _ID_OBJECT_MAPPING:
         source_obj = _ID_OBJECT_MAPPING[rel["source_ref"]]
     else:
-        warn("No source object exists for %s to add the relationship %s", 301, rel["source_ref"], rel["id"])
+        warn("No source object exists for %s. Dropping the relationship %s", 301, rel["source_ref"], rel["id"])
         return
     if rel["target_ref"] in _ID_OBJECT_MAPPING:
         target_obj = _ID_OBJECT_MAPPING[rel["target_ref"]]
@@ -1270,7 +1270,7 @@ def process_sighting(o):
         if "last_seen" in o:
             warn("last_seen not representable in a STIX 1.x Sightings.  Found in %s", 503, o["id"])
     else:
-        warn("Unable to convert STIX 2.0 sighting %s because it doesn't refer to an indicator", 508, o["sighting_of_ref"])
+        warn("Unable to convert STIX 2.x sighting %s because it doesn't refer to an indicator", 508, o["sighting_of_ref"])
 
 
 def convert_marking_definition(marking2x):
@@ -1405,21 +1405,18 @@ def convert_bundle(bundle_obj):
             pkg.add_course_of_action(convert_coa(o))
         elif o["type"] == "grouping":
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "grouping")
-            return None
         elif o["type"] == "indicator":
             pkg.add_indicator(convert_indicator(o))
         elif o["type"] == "infrastructure":
             pkg.add_ttp(convert_infrastructure(o))
         elif o["type"] == "intrusion-set":
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "intrusion-set")
-            return None
         elif o["type"] == "location":
             _LOCATIONS[o["id"]] = o
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
         elif o["type"] == "malware_analysis":
             warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "malware_analysis")
-            return None
         elif o["type"] == "note":
             warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "note")
         elif o["type"] == "observed-data":
@@ -1433,7 +1430,6 @@ def convert_bundle(bundle_obj):
                 pkg.add_report(convert_report(o))
             else:
                 warn("Ignoring %s, because a %s object cannot be represented in STIX 1.1.1", 509, o["id"], "report")
-
         elif o["type"] == "threat-actor":
             pkg.add_threat_actor(convert_threat_actor(o))
         elif o["type"] == "tool":

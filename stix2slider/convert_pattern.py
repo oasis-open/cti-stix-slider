@@ -383,7 +383,7 @@ def add_scalar_artifact_property_pattern(obj, properties, rhs, op, id2x):
             warn("%s is an XML attribute of %s in STIX 1.x, so the operator 'equals' is assumed in %s",
                  513,
                  "mime_type", "Artifact", id2x)
-    # it is illegal in STIX 2.0 to have both a payload_bin and url property - be we don't warn about it here
+    # it is illegal in STIX 2.x to have both a payload_bin and url property - be we don't warn about it here
     elif prop_name == "payload_bin":
         obj.packed_data = rhs.value
         warn("Operator %s for Artifact.Raw_Artifact in %s not handled yet", 610, op, id2x)
@@ -986,7 +986,7 @@ def add_scalar_process_property_pattern(process_obj, properties, rhs, op, id2x):
         convert_operator(op, process_obj.image_info.command_line, id2x)
     elif prop_name0 == "creator_user_ref":
         prop_name1 = properties[1].property_name
-        if prop_name1 == 'account_login':
+        if prop_name1 == 'account_login' or prop_name1 == "user_id":
             process_obj.username = rhs.value
             convert_operator(op, process_obj.username, id2x)
         else:
@@ -1169,7 +1169,7 @@ def convert_user_account_pattern(exp2x, obj1x, id2x):
         obj1x.username = rhs_value
         convert_operator(op, obj1x.username, id2x)
     elif prop_name == "account_type":
-        warn("account_type property of %s in STIX 2.0 is not directly represented as a property in STIX 1.x", 506, id2x)
+        warn("account_type property of %s in STIX 2.x is not directly represented as a property in STIX 1.x", 506, id2x)
     # TODO: account_type -> Account.Domain??
     # TODO: display_name
     # TODO: is_service_account
@@ -1196,7 +1196,7 @@ def convert_user_account_pattern(exp2x, obj1x, id2x):
             obj1x.user_id = int(rhs_value)
             convert_operator(op, obj1x.user_id, id2x)
         else:
-            warn("The user_id property of %s in STIX 2.0 is only represented as a property in STIX 1.x on UnixUserAccount objects")
+            warn("The user_id property of %s in STIX 2.x is only represented as a property in STIX 1.x on UnixUserAccount objects")
     elif prop_name == "extensions":
         convert_unix_account_extensions_pattern(obj1x, properties, rhs_value, op, id2x)
     else:

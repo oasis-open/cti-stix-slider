@@ -205,7 +205,7 @@ def handle_service_dll_refs(windows_service, process1x, stix1x_objects, obs2x_id
         if len(windows_service["service_dll_refs"]) > 1:
             for dll_ref in windows_service["service_dll_refs"][1:]:
                 warn(
-                    "%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+                    "%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
                     401,
                     obs2x_id, "service_dll_refs", dll_ref)
 
@@ -224,7 +224,7 @@ def handle_ref(obj2x, obj1x, prop2x, prop1x, obj_map, sub_obj1x=None, accessor=N
                 value = accessor(obj_map[obj2x[prop2x]])
                 if not value:
                     warn("Unable to populate sub-property %s of %s, therefore %s cannot be represented in the STIX 1.x object",
-                         0,
+                         529,
                          prop1x,
                          obj_map[obj2x[prop2x]].parent.id_,
                          prop2x)
@@ -280,7 +280,7 @@ def add_hashes_property(obj, hash_type, value):
 def convert_artifact_c_o(art2x, art1x, obs2x_id):
     if "mime_type" in art2x:
         art1x.content_type = art2x["mime_type"]
-    # it is illegal in STIX 2.0 to have both a payload_bin and url property - but we don't warn about it here
+    # it is illegal in STIX 2.x to have both a payload_bin and url property - but we don't warn about it here
     if "payload_bin" in art2x:
         art1x.packed_data = art2x["payload_bin"]
     if "url" in art2x:
@@ -478,7 +478,7 @@ def convert_file_c_o(file2x, file1x, obs2x_id):
                 info("is_encrypted in %s is false, but decryption_key is given", 312, obs2x_id)
     if "extensions" in file2x:
         convert_file_extensions(file2x, file1x, obs2x_id)
-    # in STIX 2.0, there are two contains_ref properties, one in the basic File object, and one on the Archive File extension
+    # in STIX 2.x, there are two contains_ref properties, one in the basic File object, and one on the Archive File extension
     # the slider does not handle the one in the basic File object
     if "contains_refs" in file2x:
         warn("contains_refs in %s not handled", 607, obs2x_id)
@@ -532,7 +532,8 @@ def convert_email_message_c_o(em2x, em1x, obs2x_id):
             populate_received_line(rl2x, rl1x, obs2x_id)
     if "additional_header_fields" in em2x:
         convert_obj(em2x["additional_header_fields"], em1x.header, OTHER_EMAIL_HEADERS_MAP, obs2x_id)
-        warn("STIX 1.x can only store the body and headers of an email message in %s independently", 523, obs2x_id)
+        # TODO: what was the purpose of this warning??
+        # warn("STIX 1.x can only store the body and headers of an email message in %s independently", 523, obs2x_id)
     if "raw_email_ref" in em2x:
             handle_ref(em2x, em1x, "raw_email_ref", "raw_body", _STIX1X_OBJS,
                        accessor=lambda x: decode_base64(x.packed_data))
@@ -819,7 +820,7 @@ def convert_software_c_o(soft2x, prod1x, obs2x_id):
         prod1x.language = soft2x["languages"][0]
         if len(soft2x["languages"]) > 1:
             for l in soft2x["languages"][1:]:
-                warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+                warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
                      401, obs2x_id, "languages", l)
 
     if "vendor" in soft2x:
@@ -1005,7 +1006,7 @@ def convert_sco(c_o_object):
 # not always reliable, because bi-directional relationships may not be populated
 def possible_circularity(obj, k):
     if "type" in obj:
-        if obj["type"] == "file" and k == "parent_directory_ref":
+        if obj["type"] == "file" and k == "contains_refs":
             return True
 
 
@@ -1040,13 +1041,18 @@ def get_refs(obj):
 def process_before(key_obj1, key_obj2):
     # if the key of obj2 is referenced by obj1, obj2 must be processed before
     # if obj1 has no references, then process first
-    refs = get_refs(key_obj1[1])
-    if refs and key_obj2[0] in refs:
+    refs1 = get_refs(key_obj1[1])
+    refs2 = get_refs(key_obj2[1])
+    if refs1 and key_obj2[0] in refs1:
         return 1  # order correct
-    elif refs:
-        return 0  # same
-    else:
+    elif refs2 and key_obj1[0] in refs2:
         return -1  # switch
+    elif refs1 and not refs2:
+        return 1  # order correct
+    elif not refs1 and refs2:
+        return -1  # switch
+    else:
+        return 0 # doesn't matter
 
 
 def sort_objects_into_obj_processing_order(objs):
