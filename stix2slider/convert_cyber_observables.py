@@ -13,7 +13,7 @@ from cybox.objects.artifact_object import Artifact, Encoding, Packaging
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
 from cybox.objects.email_message_object import (Attachments, EmailHeader,
-                                                EmailMessage, ReceivedLine,
+                                                EmailMessage, EmailRecipients, ReceivedLine,
                                                 ReceivedLineList)
 from cybox.objects.file_object import File
 from cybox.objects.hostname_object import Hostname
@@ -60,6 +60,9 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, Validity,
                                                    X509Cert, X509Certificate,
                                                    X509V3Extensions)
+
+from mixbox.fields import TypedList
+
 from six import text_type
 
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
@@ -147,7 +150,6 @@ def determine_1x_object_type(c_o_object):
             return Process
     if basic_type in ["user-account"]:
         if "extensions" in c_o_object or c_o_object.get("account_type") == "unix":
-            # extensions = list(c_o_object["extensions"].keys())
             # only one extension is defined, for UNIX, which is cover by the basic user account in STIX 1.x
             return UnixUserAccount
         else:
@@ -192,20 +194,20 @@ def convert_obj(obj2x, obj1x, mapping_table, obs2x_id):
         #    warn("%s property in %s is not not representable in STIX 1.x", 0, key, obs2x_id)
 
 
-# def add_missing_property_to_description(obj1x, property_name, property_value):
-#     if not get_option_value("no_squirrel_gaps"):
-#         if not obj1x.parent.description:
-#             obj1x.parent.description = StructuredText("")
-#         new_text = property_name + ": " + text_type(property_value)
-#         obj1x.parent.description.value = obj1x.parent.description.value + "\n" if obj1x.parent.description.value else "" + new_text
-#
-#
-# def add_missing_list_property_to_description(obj1x, property_name, property_values):
-#     if not get_option_value("no_squirrel_gaps"):
-#         if not obj1x.parent.description:
-#             obj1x.parent.description = StructuredText("")
-#         new_text = property_name + ": " + ", ".join(text_type(x) for x in property_values)
-#         obj1x.parent.description.value = obj1x.parent.description.value + "\n" + new_text
+def handle_service_dll_refs(windows_service, process1x, stix1x_objects, obs2x_id):
+    if "service_dll_refs" in windows_service:
+        if windows_service["service_dll_refs"][0] in stix1x_objects:
+            file_object = stix1x_objects[windows_service["service_dll_refs"][0]]
+            if file_object.file_name:
+                process1x.service_dll = file_object.file_name
+        else:
+            warn("%s is not an index found in %s", 306, windows_service["service_dll_refs"][0], obs2x_id)
+        if len(windows_service["service_dll_refs"]) > 1:
+            for dll_ref in windows_service["service_dll_refs"][1:]:
+                warn(
+                    "%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+                    401,
+                    obs2x_id, "service_dll_refs", dll_ref)
 
 
 def warn_about_missing_ref(ref, id):
@@ -237,15 +239,19 @@ def handle_ref(obj2x, obj1x, prop2x, prop1x, obj_map, sub_obj1x=None, accessor=N
             warn_about_missing_ref(obj2x[prop2x], obs2x_id if obs2x_id else obj2x["id"])
 
 
-def handle_refs(obj2x, obj1x, prop2x, prop1x, obj_map, sub_obj1x=None, obs2x_id=None, preprocessor=None):
+def handle_refs(obj2x, obj1x, prop2x, prop1x, obj_map, list_type=None, sub_obj1x=None, obs2x_id=None, accessor=None):
     if prop2x in obj2x:
-        if sub_obj1x:
-            sub_obj1x.__setattr__(prop1x, list())
-        else:
-            obj1x.__setattr__(prop1x, list())
+        if list_type:
+            if sub_obj1x:
+                sub_obj1x.__setattr__(prop1x, list_type())
+            else:
+                obj1x.__setattr__(prop1x, list_type())
         for ref in obj2x[prop2x]:
             if ref in obj_map:
-                ref_obj = obj_map[ref]
+                if accessor:
+                    ref_obj = accessor(obj_map[ref])
+                else:
+                    ref_obj = obj_map[ref]
                 if sub_obj1x:
                     getattr(sub_obj1x, prop1x).append(ref_obj)
                 else:
@@ -446,8 +452,6 @@ def handle_parent_directory_ref(file2x, file1x, obj_map, obs2x_id=None):
             directory_object = obj_map[file2x["parent_directory_ref"]]
             directory_string = text_type(directory_object.full_path)
             file1x.full_path = directory_string + ("\\" if is_windows_directory(directory_string) else "/") + file2x["name"]
-        # else:
-        #     warn_about_missing_ref(file2x["parent_directory_ref"], obs2x_id if obs2x_id else file2x["id"])
 
 
 def convert_file_c_o(file2x, file1x, obs2x_id):
@@ -509,30 +513,15 @@ def populate_received_line(rl2x, rl1x, obs2x_id):
         warn("Received Line %s in %s has a prefix that is not representable in STIX 1.x", 507, rl2x), obs2x_id
 
 
-def populate_other_header_fields(headers2x, header1x, obs2x_id):
-    # keys must match the ones from RFC 2822
-    for k, v in headers2x.items():
-        # delimiter is used
-
-        # if isinstance(v, list):
-        #     v = v[0]
-        #     if len(v) > 1:
-        #         for h in v[1:]:
-        #             warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
-        #                  401,
-        #                  obs2x_id, k, h)
-        convert_obj(headers2x, header1x, OTHER_EMAIL_HEADERS_MAP, obs2x_id)
-
-
 def convert_email_message_c_o(em2x, em1x, obs2x_id):
     em1x.header = EmailHeader()
     convert_obj(em2x, em1x, EMAIL_MESSAGE_MAP, obs2x_id)
     if get_option_value("version_of_stix2x") == "2.0":
         handle_ref(em2x, em1x, "from_ref", "from_", _STIX1X_OBJS, em1x.header)
         handle_ref(em2x, em1x, "sender_ref", "sender", _STIX1X_OBJS, em1x.header)
-        handle_refs(em2x, em1x, "to_refs", "to", _STIX1X_OBJS, em1x.header)
-        handle_refs(em2x, em1x, "cc_refs", "cc", _STIX1X_OBJS, em1x.header)
-        handle_refs(em2x, em1x, "bcc_refs", "bcc", _STIX1X_OBJS, em1x.header)
+        handle_refs(em2x, em1x, "to_refs", "to", _STIX1X_OBJS, sub_obj1x=em1x.header, list_type=EmailRecipients)
+        handle_refs(em2x, em1x, "cc_refs", "cc", _STIX1X_OBJS, sub_obj1x=em1x.header, list_type=EmailRecipients)
+        handle_refs(em2x, em1x, "bcc_refs", "bcc", _STIX1X_OBJS, sub_obj1x=em1x.header, list_type=EmailRecipients)
     if "content_type" in em2x:
         em1x.header.content_type = em2x["content_type"]
     if "received_lines" in em2x:
@@ -542,7 +531,7 @@ def convert_email_message_c_o(em2x, em1x, obs2x_id):
             em1x.header.received_lines.append(rl1x)
             populate_received_line(rl2x, rl1x, obs2x_id)
     if "additional_header_fields" in em2x:
-        populate_other_header_fields(em2x["additional_header_fields"], em1x.header, obs2x_id)
+        convert_obj(em2x["additional_header_fields"], em1x.header, OTHER_EMAIL_HEADERS_MAP, obs2x_id)
         warn("STIX 1.x can only store the body and headers of an email message in %s independently", 523, obs2x_id)
     if "raw_email_ref" in em2x:
             handle_ref(em2x, em1x, "raw_email_ref", "raw_body", _STIX1X_OBJS,
@@ -612,7 +601,6 @@ def convert_addr_c_o(addr2x, addr1x, obs2x_id):
         add_related_objects(addr1x, addr2x, "resolves_to_refs", "Resolved_To")
     if "belongs_to_refs" in addr2x:
         add_related_objects(addr1x, addr2x, "belongs_to_refs", "Belongs_To")
-        # warn("%s property in %s not handled yet", 606, "belongs_to_refs", obs2x_id)
 
 
 def convert_process_extensions(process2x, process1x, obs2x_id):
@@ -630,18 +618,7 @@ def convert_process_extensions(process2x, process1x, obs2x_id):
     if "windows-service-ext" in extensions:
         windows_service = extensions["windows-service-ext"]
         convert_obj(windows_service, process1x, WINDOWS_SERVICE_EXTENSION_MAP, obs2x_id)
-        if "service_dll_refs" in windows_service:
-            if windows_service["service_dll_refs"][0] in _STIX1X_OBJS:
-                file_object = _STIX1X_OBJS[windows_service["service_dll_refs"][0]]
-                if "name" in file_object:
-                    process1x.service_dll = file_object.file_name
-            else:
-                warn("%s is not an index found in %s", 306, windows_service["service_dll_refs"][0], obs2x_id)
-            if len(windows_service["service_dll_refs"]) > 1:
-                for dll_ref in windows_service["service_dll_refs"][1:]:
-                    warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
-                         401,
-                         obs2x_id, "service_dll_refs", dll_ref)
+        handle_service_dll_refs(windows_service, process1x, _STIX1X_OBJS, obs2x_id)
         if "descriptions" in windows_service:
             process1x.description_list = ServiceDescriptionList()
             for d in windows_service["descriptions"]:
@@ -679,8 +656,6 @@ def convert_process_c_o(process2x, process1x, obs2x_id):
                 process1x.network_connection_list.append(_STIX1X_OBJS[conn_ref])
             else:
                 warn("%s is not an index found in %s", 306, conn_ref, obs2x_id)
-    if get_option_value("version_of_stix2x") == "2.0":
-        handle_ref(process2x, process1x, "creator_user_ref", "username", _STIX1X_OBJS, accessor=lambda x: x.username)
     if ("binary_ref" in process2x and get_option_value("version_of_stix2x") == "2.0" or
             "image_ref" in process2x and get_option_value("version_of_stix2x") == "2.1"):
         if "binary_ref" in process2x:
@@ -696,8 +671,9 @@ def convert_process_c_o(process2x, process1x, obs2x_id):
             if not process1x.image_info.file_name:
                 process1x.image_info = None
     if get_option_value("version_of_stix2x") == "2.0":
-        handle_ref(process2x, process1x, "parent_ref", "parent_pid", _STIX1X_OBJS)
-        handle_refs(process2x, process1x, "child_refs", "child_pid_list", _STIX1X_OBJS)
+        handle_ref(process2x, process1x, "parent_ref", "parent_pid", _STIX1X_OBJS, accessor=lambda x: x.parent_pid)
+        handle_refs(process2x, process1x, "child_refs", "child_pid_list", _STIX1X_OBJS, list_type=ChildPIDList, accessor=lambda x: x.pid)
+        handle_ref(process2x, process1x, "creator_user_ref", "username", _STIX1X_OBJS, accessor=lambda x: x.username)
     if "extensions" in process2x:
         convert_process_extensions(process2x, process1x, obs2x_id)
 
@@ -1026,6 +1002,7 @@ def convert_sco(c_o_object):
 
 
 # avoid circularities in the graph by choosing one relationship direction only
+# not always reliable, because bi-directional relationships may not be populated
 def possible_circularity(obj, k):
     if "type" in obj:
         if obj["type"] == "file" and k == "parent_directory_ref":
@@ -1090,9 +1067,9 @@ def convert_cyber_observables(c_o_objects, obs2x_id):
 def add_refs_email_message(obj2x, obj1x):
     handle_ref(obj2x, obj1x, "from_ref", "from_", STIX1X_OBS_GLOBAL, obj1x.header)
     handle_ref(obj2x, obj1x, "sender_ref", "sender", STIX1X_OBS_GLOBAL, obj1x.header)
-    handle_refs(obj2x, obj1x, "to_refs", "to", STIX1X_OBS_GLOBAL, obj1x.header)
-    handle_refs(obj2x, obj1x, "cc_refs", "cc", STIX1X_OBS_GLOBAL, obj1x.header)
-    handle_refs(obj2x, obj1x, "bcc_refs", "bcc", STIX1X_OBS_GLOBAL, obj1x.header)
+    handle_refs(obj2x, obj1x, "to_refs", "to", STIX1X_OBS_GLOBAL, list_type=EmailRecipients, sub_obj1x=obj1x.header)
+    handle_refs(obj2x, obj1x, "cc_refs", "cc", STIX1X_OBS_GLOBAL, list_type=EmailRecipients, sub_obj1x=obj1x.header)
+    handle_refs(obj2x, obj1x, "bcc_refs", "bcc", STIX1X_OBS_GLOBAL, list_type=EmailRecipients, sub_obj1x= obj1x.header)
     handle_ref(obj2x, obj1x, "raw_email_ref", "raw_body", STIX1X_OBS_GLOBAL, accessor=lambda x: decode_base64(x.packed_data))
 
 
@@ -1117,18 +1094,16 @@ def add_refs_network_traffic(obj2x, obj1x):
 
 
 def add_refs_process(obj2x, obj1x):
-    handle_refs(obj2x, obj1x, "opened_connection_refs", "network_connection_list", STIX1X_OBS_GLOBAL)
+    handle_refs(obj2x, obj1x, "opened_connection_refs", "network_connection_list", STIX1X_OBS_GLOBAL, NetworkConnectionList)
     handle_ref(obj2x, obj1x, "creator_user_ref", "username", STIX1X_OBS_GLOBAL, accessor=lambda x: x.username)
-     #if not obj1x.image_info:
-
     handle_ref(obj2x, obj1x, "image_ref", "file_name", STIX1X_OBS_GLOBAL, obj1x.image_info, accessor=lambda x: x.file_name)
-    handle_ref(obj2x, obj1x, "parent_ref", "parent_pid", STIX1X_OBS_GLOBAL)
-    handle_refs(obj2x, obj1x, "child_refs", "child_pid_list", STIX1X_OBS_GLOBAL)
+    handle_ref(obj2x, obj1x, "parent_ref", "parent_pid", STIX1X_OBS_GLOBAL, accessor=lambda x: x.pid)
+    handle_refs(obj2x, obj1x, "child_refs", "child_pid_list", STIX1X_OBS_GLOBAL, list_type=ChildPIDList, accessor=lambda x: x.pid)
     if "extensions" in obj2x:
         extensions = obj2x["extensions"]
         if "windows-service-ext" in extensions:
-            # TODO: multiple -> single
-            handle_refs(extensions["windows-service-ext"], obj1x, "service_dll_refs", "service_dll", STIX1X_OBS_GLOBAL)
+            service_ext = extensions["windows-service-ext"]
+            handle_service_dll_refs(service_ext, obj1x, STIX1X_OBS_GLOBAL, obj2x["id"])
 
 
 def add_refs_registry_key(obj2x, obj1x):

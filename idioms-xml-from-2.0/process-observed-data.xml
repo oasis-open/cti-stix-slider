@@ -1,8 +1,10 @@
 <stix:STIX_Package
+	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
+	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
 	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
-	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:example="http://example.com"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
@@ -11,8 +13,8 @@
 	 id="example:STIXPackage-5a31ef7e-8856-473b-9004-9615f8eb56ac" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-c554b0f3-1107-4963-8b77-27c518cac165">
-            <cybox:Object id="example:Process-e5e31d31-149c-4dbf-bad0-5d71da781ae0">
-                <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+            <cybox:Object id="example:WinService-32b3cbd6-d390-4d17-b691-06c8dd8af6fc">
+                <cybox:Properties xsi:type="WinServiceObj:WindowsServiceObjectType">
                     <ProcessObj:PID>1221</ProcessObj:PID>
                     <ProcessObj:Name>gedit-bin</ProcessObj:Name>
                     <ProcessObj:Creation_Time>2016-01-20T14:11:25.550000+00:00</ProcessObj:Creation_Time>
@@ -23,6 +25,8 @@
                         <ProcessObj:Argument>--new-window</ProcessObj:Argument>
                     </ProcessObj:Argument_List>
                     <ProcessObj:Username>fred</ProcessObj:Username>
+                    <WinServiceObj:Service_Name>iprip32</WinServiceObj:Service_Name>
+                    <WinServiceObj:Service_DLL>iprip32.dll</WinServiceObj:Service_DLL>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

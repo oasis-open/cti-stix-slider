@@ -26,7 +26,15 @@
           "arguments": [
             "--new-window"
           ],
-          "binary_ref": "0"
+          "binary_ref": "0",
+          "extensions": {
+            "windows-service-ext": {
+              "service_dll_refs": [
+                "3"
+              ],
+              "service_name": "iprip32"
+            }
+          }
         },
         "2": {
             "account_created": "2016-01-20T12:31:12Z",
@@ -41,7 +49,14 @@
             "is_service_account": false,
             "type": "user-account",
             "user_id": "1002"
-        }
+        },
+        "3": {
+                    "name": "iprip32.dll",
+                    "hashes": {
+                        "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                    },
+                    "type": "file"
+                }
       }
     }
   ],

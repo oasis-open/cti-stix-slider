@@ -231,9 +231,9 @@ HTTP_REQUEST_HEADERS_MAP = {
     "Content-Type": HTTPRequestHeaderFields.content_type,
     "Date": HTTPRequestHeaderFields.date,
     "Expect": HTTPRequestHeaderFields.expect,
-    # From handled elsewhere
+    # From - handled elsewhere
     # Forwarded? - no cybox
-    # Host handled elsewhere
+    # Host - handled elsewhere
     "If-Match": HTTPRequestHeaderFields.if_match,
     "If-Modified-Since": HTTPRequestHeaderFields.if_modified_since,
     "If-None-Match": HTTPRequestHeaderFields.if_none_match,
@@ -245,7 +245,7 @@ HTTP_REQUEST_HEADERS_MAP = {
     "Proxy-Authorization": HTTPRequestHeaderFields.proxy_authorization,
     # Proxy-Connection? - no cybox
     "Range": HTTPRequestHeaderFields.range_,
-    # Referer handled elsewhere
+    # Referer - handled elsewhere
     "TE": HTTPRequestHeaderFields.te,
     # Upgrade? - no cybox
     "User-Agent": HTTPRequestHeaderFields.user_agent,
@@ -257,7 +257,7 @@ HTTP_REQUEST_HEADERS_MAP = {
     "X-Forward-Pronto": HTTPRequestHeaderFields.x_forwarded_proto,
     "X-ATT-DeviceId": HTTPRequestHeaderFields.x_att_deviceid
     # X-Request_ID? - no cybox
-    # X_Wap_Profile handled elsewhere
+    # X_Wap_Profile - handled elsewhere
 }
 
 

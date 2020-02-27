@@ -30,6 +30,13 @@
             "id": "process--85ef7684-85b1-4bec-b60a-d367d00fd64d",
             "image_ref": "file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
             "pid": 1221,
+            "extensions": {
+            "windows-service-ext": {
+              "service_dll_refs": [
+                "file--957a7c3b-2c14-5f47-a174-38661fc51c00"
+              ]
+            }
+          },
             "type": "process"
         },
         {
@@ -46,6 +53,14 @@
             "is_service_account": false,
             "type": "user-account",
             "user_id": "1002"
+        },
+        {
+            "name": "iprip32.dll",
+            "id": "file--957a7c3b-2c14-5f47-a174-38661fc51c00",
+            "hashes": {
+                "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "type": "file"
         }
     ],
     "type": "bundle"

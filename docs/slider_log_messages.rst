@@ -84,6 +84,7 @@ STIX 1.x can only store the body and headers of an email message in *[id]* indep
 *[id]* cannot be represented in STIX 1.x                                                                                     526     Warn
 Relationship between *[id]* and a location is not supported in STIX 1.x                                                      527     Warn
 Ignoring *[id]*, because a *[type]* object cannot be represented in STIX 1.x                                                 528     Warn
+Unable to populate sub-property *[property]* of *[id]*, therefore *[property]* cannot be represented in the STIX 1.x object  529     Warn
 ============================================================================================================================ ====   =====
 
 STIX Slider currently doesn't process this content

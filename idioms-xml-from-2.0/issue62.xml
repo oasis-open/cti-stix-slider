@@ -1,0 +1,470 @@
+<stix:STIX_Package
+	xmlns:PortObj="http://cybox.mitre.org/objects#PortObject-2"
+	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
+	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-6116aed6-a7e9-41e3-a82f-000c29b241af" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-65492fbc-5d48-49bf-83b8-33c965e36066">
+            <cybox:Object id="example:NetworkConnection-00116b8e-ffe9-42f0-8e0b-aa305d429b30">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.49.123.10</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                        <SocketAddressObj:Port xsi:type="PortObj:PortObjectType">
+                            <PortObj:Port_Value>80</PortObj:Port_Value>
+                        </SocketAddressObj:Port>
+                    </NetworkConnectionObj:Destination_Socket_Address>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-6116b44e-a7e9-41e3-a82f-000c29b241af" timestamp="2020-02-11T14:25:20.680000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Type>unknown</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2020-02-11T14:25:20.680000+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-178e19f0-e244-47a6-950e-1045b96c5d3c">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-fb121cd4-b392-4e06-9c8e-7922793baa0a">
+                        <cybox:Observable_Composition operator="OR">
+                            <cybox:Observable id="example:Observable-45ffd1c5-acde-44be-aa94-3bb5107c013b">
+                                <cybox:Object id="example:File-b1bc9447-27f4-4d70-99a2-76670aa9b0df">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                                <cyboxCommon:Simple_Hash_Value condition="Equals">5d8129be965fab8115eca34fc84bd7f0</cyboxCommon:Simple_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-1dabfef4-f089-4c7a-b248-9f929f769102">
+                                <cybox:Object id="example:File-305af4c9-e13b-4029-a98e-6847ab660554">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                                                <cyboxCommon:Simple_Hash_Value condition="Equals">2b999e7db890cc77f0098a091de756a1803a3c2b</cyboxCommon:Simple_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-46f65c35-b0ec-49a4-b449-1c2ff6cf7d6e">
+                                <cybox:Object id="example:File-5b00f2d0-1a15-46da-a1a9-2bd6384e1c0f">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                                <cyboxCommon:Simple_Hash_Value condition="Equals">2c5dd8a64437cb2dd4b6747139c61d2d7f53ab3ddedbf22df3cb01bae170715b</cyboxCommon:Simple_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-c7c7e990-3d39-43d9-b05a-91bbf2bf6b8f">
+                                <cybox:Object id="example:File-9a70e503-5b09-40e6-a9ef-5fff4f8ac745">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SSDEEP</cyboxCommon:Type>
+                                                <cyboxCommon:Fuzzy_Hash_Value condition="Equals">768:mvAFYk0IOqi7RKW1RD1ZCrm82+AnbaAOdoOKL70ehP:cDIOqctz2rBmbZoa71hP</cyboxCommon:Fuzzy_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-7c829da5-aa5f-4129-beeb-8506ce77fefc">
+                        <cybox:Object id="example:File-50af1293-38b5-4713-912d-d971ca7bd176">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:File_Name condition="Equals">VirusShare_5d8129be965fab8115eca34fc84bd7f0</FileObj:File_Name>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-8bf42b4a-9893-4807-a414-ba36f13781f4">
+                        <cybox:Object id="example:File-119f2270-1d4c-4967-a825-aa84f514bbed">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:Size_In_Bytes condition="Equals">40654</FileObj:Size_In_Bytes>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-acd49e54-f329-4d8b-b8b2-15e5f0bb56a2">
+                        <cybox:Object id="example:WinExecutableFile-cb432cdd-f8b1-47a5-8b62-dba1893389af">
+                            <cybox:Properties xsi:type="WinExecutableFileObj:WindowsExecutableFileObjectType">
+                                <WinExecutableFileObj:Sections>
+                                    <WinExecutableFileObj:Section>
+                                        <WinExecutableFileObj:Section_Header>
+                                            <WinExecutableFileObj:Name condition="Equals">.rdata</WinExecutableFileObj:Name>
+                                        </WinExecutableFileObj:Section_Header>
+                                    </WinExecutableFileObj:Section>
+                                    <WinExecutableFileObj:Section>
+                                        <WinExecutableFileObj:Entropy>
+                                            <WinExecutableFileObj:Value condition="Equals">7.74202363178</WinExecutableFileObj:Value>
+                                        </WinExecutableFileObj:Entropy>
+                                    </WinExecutableFileObj:Section>
+                                    <WinExecutableFileObj:Section>
+                                        <WinExecutableFileObj:Section_Header>
+                                            <WinExecutableFileObj:Name condition="Equals">.data</WinExecutableFileObj:Name>
+                                        </WinExecutableFileObj:Section_Header>
+                                    </WinExecutableFileObj:Section>
+                                    <WinExecutableFileObj:Section>
+                                        <WinExecutableFileObj:Entropy>
+                                            <WinExecutableFileObj:Value condition="Equals">7.89204688601</WinExecutableFileObj:Value>
+                                        </WinExecutableFileObj:Entropy>
+                                    </WinExecutableFileObj:Section>
+                                    <WinExecutableFileObj:Section>
+                                        <WinExecutableFileObj:Section_Header>
+                                            <WinExecutableFileObj:Name condition="Equals">.upx</WinExecutableFileObj:Name>
+                                        </WinExecutableFileObj:Section_Header>
+                                    </WinExecutableFileObj:Section>
+                                    <WinExecutableFileObj:Section>
+                                        <WinExecutableFileObj:Entropy>
+                                            <WinExecutableFileObj:Value condition="Equals">7.31815613066</WinExecutableFileObj:Value>
+                                        </WinExecutableFileObj:Entropy>
+                                    </WinExecutableFileObj:Section>
+                                </WinExecutableFileObj:Sections>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-6116cf88-a7e9-41e3-a82f-000c29b241af" timestamp="2020-02-11T14:25:20.680000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Type>unknown</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2020-02-11T14:25:20.680000+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-7b211804-0b16-412e-835a-465dee78681c">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-0c06ac06-7b72-4599-b2da-1103e9ed95fa">
+                        <cybox:Observable_Composition operator="OR">
+                            <cybox:Observable id="example:Observable-56a9e23b-45d7-42fb-9439-fec951743824">
+                                <cybox:Object id="example:File-9b8331d5-4801-4032-a0ab-289818319505">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                                <cyboxCommon:Simple_Hash_Value condition="Equals">d41d8cd98f00b204e9800998ecf8427e</cyboxCommon:Simple_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-0730ae18-919e-4fb0-9825-989cfa6907b3">
+                                <cybox:Object id="example:File-a0f8fa8c-ffa7-41ad-a8bb-7360df79a52f">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                                                <cyboxCommon:Simple_Hash_Value condition="Equals">da39a3ee5e6b4b0d3255bfef95601890afd80709</cyboxCommon:Simple_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-d0b32fe6-4247-4249-a708-e9efae844e3d">
+                                <cybox:Object id="example:File-11972235-109f-43f0-982a-e59c595ba064">
+                                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                        <FileObj:Hashes>
+                                            <cyboxCommon:Hash>
+                                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                                <cyboxCommon:Simple_Hash_Value condition="Equals">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</cyboxCommon:Simple_Hash_Value>
+                                            </cyboxCommon:Hash>
+                                        </FileObj:Hashes>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-b89df0a7-4640-4f32-abfa-6dd94db22d33">
+                        <cybox:Object id="example:File-4b9cd2cd-2c3a-4c57-86e6-a8f8118982c0">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:File_Name condition="Equals">autoexec.bat</FileObj:File_Name>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-9616816a-6b1e-43ec-abae-f8829e6405f4">
+                        <cybox:Object id="example:File-cdffe6a9-0769-4dc8-a19f-8042649dd34f">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:Size_In_Bytes condition="Equals">0</FileObj:Size_In_Bytes>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-6116d730-a7e9-41e3-a82f-000c29b241af" timestamp="2020-02-11T14:25:20.680000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Type>unknown</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2020-02-11T14:25:20.680000+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-ba971e5c-0320-41e7-b9a5-c013bf55b994">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-3bc664f4-3f72-4158-a26e-fd24b05e2956">
+                        <cybox:Object id="example:Process-b621e809-2de6-4c58-876b-8755b35ca830">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:PID condition="Equals">1700</ProcessObj:PID>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-4b962031-0864-4a18-8de8-9d3f3baea44c">
+                        <cybox:Object id="example:Process-b3b59ca8-6d01-4138-aacf-ec238e10226d">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Name condition="Equals">VirusShare_5d8129be965fab8115eca34fc84bd7f0</ProcessObj:Name>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-a21860e0-d52a-4c69-8d6e-22060f7548b6">
+                        <cybox:Object id="example:Process-655b70a0-4564-4f6f-9e7e-9e2d07aa70f0">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Parent_PID condition="Equals">1616</ProcessObj:Parent_PID>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-adfacd51-4652-4f1b-a00e-010c221b0307">
+                        <cybox:Object id="example:Process-cdae0169-258f-40bd-b76b-9630452573a3">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-7ba04f59-15a0-4f62-a02f-8bd1f1b46f41">
+                        <cybox:Object id="example:Process-421fcd1e-76b4-4c0a-8d34-1a5951f028ac">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Creation_Time condition="Equals">2010-12-09T20:17:34.934295+00:00</ProcessObj:Creation_Time>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-aa53c2e4-2735-4388-a23c-334c27151224">
+                        <cybox:Object id="example:Process-321f7bb5-754c-4c4f-a7ba-75f00ff65723">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Image_Info>
+                                    <ProcessObj:Command_Line condition="Equals">bash some.sh</ProcessObj:Command_Line>
+                                </ProcessObj:Image_Info>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-a12361bd-7be4-4fbc-8d94-40d16ca5cc57">
+                        <cybox:Object id="example:Process-74f121a8-8846-4ff9-a307-d55909eeb020">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Argument_List>
+                                    <ProcessObj:Argument>--p</ProcessObj:Argument>
+                                    <ProcessObj:Argument>some_file.txt</ProcessObj:Argument>
+                                </ProcessObj:Argument_List>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-42e6656f-2bf0-4808-9ef8-5987a4ffefe9">
+                        <cybox:Object id="example:Process-afe1c82c-a57d-403b-8058-756d5a11b9e0">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Environment_Variable_List>
+                                    <cyboxCommon:Environment_Variable>
+                                        <cyboxCommon:Name>PROXY</cyboxCommon:Name>
+                                        <cyboxCommon:Value>123.456.0.1</cyboxCommon:Value>
+                                    </cyboxCommon:Environment_Variable>
+                                </ProcessObj:Environment_Variable_List>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-6ded2a10-4eba-4a55-a405-d25dc1f991b4">
+                        <cybox:Object id="example:Process-95db8254-70fa-4a55-8f41-1ba863d6ee70">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Child_PID_List>
+                                    <ProcessObj:Child_PID>4567</ProcessObj:Child_PID>
+                                </ProcessObj:Child_PID_List>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-3396b8e1-03c6-4943-9cb8-3814659bda8b">
+                        <cybox:Object id="example:Process-c058f8f5-a508-4feb-b989-055bc97be23e">
+                            <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Network_Connection_List>
+                                    <ProcessObj:Network_Connection xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                                        <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                                            <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                                <AddressObj:Address_Value condition="Equals">198.49.123.10</AddressObj:Address_Value>
+                                            </SocketAddressObj:IP_Address>
+                                        </NetworkConnectionObj:Destination_Socket_Address>
+                                    </ProcessObj:Network_Connection>
+                                </ProcessObj:Network_Connection_List>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-9b0cc49e-e001-4b17-a4de-7c06257b2b1e">
+                        <cybox:Object id="example:WinProcess-4bfa2a71-0c28-430a-8148-529724c94a4b">
+                            <cybox:Properties xsi:type="WinProcessObj:WindowsProcessObjectType">
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-6116dcbc-a7e9-41e3-a82f-000c29b241af" timestamp="2020-02-11T14:25:20.680000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Type>unknown</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2020-02-11T14:25:20.680000+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-08acad27-77c1-4ab3-afc6-4db4a82a8b9d">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-a4342377-c9ca-49dd-8de9-138de557cec5">
+                        <cybox:Observable_Composition operator="AND">
+                            <cybox:Observable id="example:Observable-10ac19c4-9e70-4c3f-9b29-c8872b9f9401">
+                                <cybox:Observable_Composition operator="AND">
+                                    <cybox:Observable id="example:Observable-af1cdb7d-5471-49ec-972a-5b3757d94955">
+                                        <cybox:Observable_Composition operator="AND">
+                                            <cybox:Observable id="example:Observable-829646a9-2cc9-4fd2-a58a-608b4035e350">
+                                                <cybox:Observable_Composition operator="AND">
+                                                    <cybox:Observable id="example:Observable-2095fc44-9542-478c-9a43-fd87d1290620">
+                                                        <cybox:Observable_Composition operator="AND">
+                                                            <cybox:Observable id="example:Observable-c8989812-f6a1-45c6-83be-9244887188ac">
+                                                                <cybox:Observable_Composition operator="AND">
+                                                                    <cybox:Observable id="example:Observable-ad14af91-8a0b-4875-846a-cbdc9f865919">
+                                                                        <cybox:Observable_Composition operator="AND">
+                                                                            <cybox:Observable id="example:Observable-79905861-4233-4191-89b9-d37c7adf7655">
+                                                                                <cybox:Observable_Composition operator="AND">
+                                                                                    <cybox:Observable id="example:Observable-7eb04b77-72b2-465f-a142-4e618b9c47ff">
+                                                                                        <cybox:Observable_Composition operator="AND">
+                                                                                            <cybox:Observable id="example:Observable-d2b350b4-1490-4aa7-a8d6-d232ce1af884">
+                                                                                                <cybox:Observable_Composition operator="AND">
+                                                                                                    <cybox:Observable id="example:Observable-c144c36e-3455-4257-be28-5cf9154d1889">
+                                                                                                        <cybox:Observable_Composition operator="AND">
+                                                                                                            <cybox:Observable id="example:Observable-8cb4decd-639d-4c0e-9a74-df0dae493ee1">
+                                                                                                                <cybox:Object id="example:WinRegistryKey-1c089d1c-91a8-44ed-a00f-205d6f132c62">
+                                                                                                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                                                        <WinRegistryKeyObj:Key condition="Equals">HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</WinRegistryKeyObj:Key>
+                                                                                                                    </cybox:Properties>
+                                                                                                                </cybox:Object>
+                                                                                                            </cybox:Observable>
+                                                                                                            <cybox:Observable id="example:Observable-6f0f3f1a-7ae9-42d5-8d61-6fc8ca22552a">
+                                                                                                                <cybox:Object id="example:WinRegistryKey-8f8aba61-9877-4d6d-a3f7-248b34c8e244">
+                                                                                                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                                                        <WinRegistryKeyObj:Key condition="Equals">HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</WinRegistryKeyObj:Key>
+                                                                                                                    </cybox:Properties>
+                                                                                                                </cybox:Object>
+                                                                                                            </cybox:Observable>
+                                                                                                        </cybox:Observable_Composition>
+                                                                                                    </cybox:Observable>
+                                                                                                    <cybox:Observable id="example:Observable-16cd73b4-5adb-4712-9f76-862a35df61c2">
+                                                                                                        <cybox:Object id="example:WinRegistryKey-ae2f0e18-05b5-4f7a-962f-bbfe51a9a947">
+                                                                                                            <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                                                <WinRegistryKeyObj:Key condition="Equals">HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Tracing</WinRegistryKeyObj:Key>
+                                                                                                            </cybox:Properties>
+                                                                                                        </cybox:Object>
+                                                                                                    </cybox:Observable>
+                                                                                                </cybox:Observable_Composition>
+                                                                                            </cybox:Observable>
+                                                                                            <cybox:Observable id="example:Observable-b78543a2-aa4b-44fa-815d-8b0f2673e7d9">
+                                                                                                <cybox:Object id="example:WinRegistryKey-8b15e686-fa4e-4eef-ae4e-6723e57946a7">
+                                                                                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                                        <WinRegistryKeyObj:Key condition="Equals">HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</WinRegistryKeyObj:Key>
+                                                                                                    </cybox:Properties>
+                                                                                                </cybox:Object>
+                                                                                            </cybox:Observable>
+                                                                                        </cybox:Observable_Composition>
+                                                                                    </cybox:Observable>
+                                                                                    <cybox:Observable id="example:Observable-d38ca77e-a958-4636-b465-5dd3302e5e4d">
+                                                                                        <cybox:Object id="example:WinRegistryKey-6a07e702-1af2-4590-8004-7b97a8f1deeb">
+                                                                                            <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                                <WinRegistryKeyObj:Key condition="Equals">Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon</WinRegistryKeyObj:Key>
+                                                                                            </cybox:Properties>
+                                                                                        </cybox:Object>
+                                                                                    </cybox:Observable>
+                                                                                </cybox:Observable_Composition>
+                                                                            </cybox:Observable>
+                                                                            <cybox:Observable id="example:Observable-b859c05e-1eba-440f-ab43-d127852b0aa0">
+                                                                                <cybox:Object id="example:WinRegistryKey-836bf836-f935-4686-9360-f43b2d59b2b3">
+                                                                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                        <WinRegistryKeyObj:Key condition="Equals">HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</WinRegistryKeyObj:Key>
+                                                                                    </cybox:Properties>
+                                                                                </cybox:Object>
+                                                                            </cybox:Observable>
+                                                                        </cybox:Observable_Composition>
+                                                                    </cybox:Observable>
+                                                                    <cybox:Observable id="example:Observable-ed681251-4655-4ff1-8d64-4ba0c375db5f">
+                                                                        <cybox:Object id="example:WinRegistryKey-791918a9-3097-4379-bb3f-bf422f59572f">
+                                                                            <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                                <WinRegistryKeyObj:Key condition="Equals">Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders</WinRegistryKeyObj:Key>
+                                                                            </cybox:Properties>
+                                                                        </cybox:Object>
+                                                                    </cybox:Observable>
+                                                                </cybox:Observable_Composition>
+                                                            </cybox:Observable>
+                                                            <cybox:Observable id="example:Observable-c3b462fc-cd2f-4245-905e-987da5b7a8d4">
+                                                                <cybox:Object id="example:WinRegistryKey-04ee4cbe-1fe1-47bc-9d77-4799fadcc1b2">
+                                                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                        <WinRegistryKeyObj:Key condition="Equals">Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders</WinRegistryKeyObj:Key>
+                                                                    </cybox:Properties>
+                                                                </cybox:Object>
+                                                            </cybox:Observable>
+                                                        </cybox:Observable_Composition>
+                                                    </cybox:Observable>
+                                                    <cybox:Observable id="example:Observable-87bf8362-5283-4782-b8b1-0cc9409ba893">
+                                                        <cybox:Object id="example:WinRegistryKey-29011726-4aa6-4ceb-90db-3ff72291671a">
+                                                            <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                                <WinRegistryKeyObj:Key condition="Equals">Software\\Microsoft\\windows\\CurrentVersion\\Internet Settings</WinRegistryKeyObj:Key>
+                                                            </cybox:Properties>
+                                                        </cybox:Object>
+                                                    </cybox:Observable>
+                                                </cybox:Observable_Composition>
+                                            </cybox:Observable>
+                                            <cybox:Observable id="example:Observable-152e99bd-c20b-4aad-9fa0-6799bc183e9e">
+                                                <cybox:Object id="example:WinRegistryKey-81a16a1a-7174-48a7-8bad-325c9389bb86">
+                                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                        <WinRegistryKeyObj:Key condition="Equals">Software\\Microsoft\\windows\\CurrentVersion\\Internet Settings\\Connections</WinRegistryKeyObj:Key>
+                                                    </cybox:Properties>
+                                                </cybox:Object>
+                                            </cybox:Observable>
+                                        </cybox:Observable_Composition>
+                                    </cybox:Observable>
+                                    <cybox:Observable id="example:Observable-df527beb-f2c2-4a67-9f02-b50b81381937">
+                                        <cybox:Object id="example:WinRegistryKey-87968b5a-b6a9-4997-842b-0b8a9b934a7f">
+                                            <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                                <WinRegistryKeyObj:Key condition="Equals">HKEY_CURRENT_CONFIG\\Software\\Microsoft\\windows\\CurrentVersion\\Internet Settings</WinRegistryKeyObj:Key>
+                                            </cybox:Properties>
+                                        </cybox:Object>
+                                    </cybox:Observable>
+                                </cybox:Observable_Composition>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-5a6351fb-b9f5-413f-97e6-652c80ff07cc">
+                                <cybox:Object id="example:WinRegistryKey-231fb84d-647e-475e-b70e-6de8b475ea7e">
+                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                        <WinRegistryKeyObj:Key condition="Equals">Software\\Microsoft\\SystemCertificates\\MY</WinRegistryKeyObj:Key>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-2acbecdf-edfb-4e94-832b-44125e6d760c">
+                        <cybox:Object id="example:WinRegistryKey-d4383f4e-5fbf-442f-9802-21301206a953">
+                            <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                <WinRegistryKeyObj:Key condition="Equals">HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Services\\Tcpip\\Parameters</WinRegistryKeyObj:Key>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>
