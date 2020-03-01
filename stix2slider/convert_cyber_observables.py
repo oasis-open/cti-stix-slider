@@ -201,7 +201,8 @@ def handle_service_dll_refs(windows_service, process1x, stix1x_objects, obs2x_id
             if file_object.file_name:
                 process1x.service_dll = file_object.file_name
         else:
-            warn("%s is not an index found in %s", 306, windows_service["service_dll_refs"][0], obs2x_id)
+            if stix1x_objects:
+                warn("%s is not an index found in %s", 306, windows_service["service_dll_refs"][0], obs2x_id)
         if len(windows_service["service_dll_refs"]) > 1:
             for dll_ref in windows_service["service_dll_refs"][1:]:
                 warn(
@@ -696,7 +697,8 @@ def convert_address_ref(obj2x, obj1x, direction, obj_map):
                 sa.hostname = Hostname()
                 sa.hostname.hostname_value = obj.value
         else:
-            warn("%s is not an index found in %s", 306, obj2x[add_property2], obj2x["id"])
+            if obj_map:
+                warn("%s is not an index found in %s", 306, obj2x[add_property2], obj2x["id"])
     if port_property2 in obj2x:
         if not sa:
             sa = SocketAddress()
@@ -850,6 +852,10 @@ def convert_unix_account_extensions(ua2x, ua1x, obs2x_id):
 
 def convert_user_account_c_o(ua2x, ua1x, obs2x_id):
     convert_obj(ua2x, ua1x, USER_ACCOUNT_MAP, obs2x_id)
+    # prefer account_login, but accept user_id
+    if not ua1x.username:
+        if "user_id" in ua2x:
+            ua1x.username = ua2x["user_id"]
     convert_unix_account_extensions(ua2x, ua1x, obs2x_id)
 
 
@@ -1006,7 +1012,7 @@ def convert_sco(c_o_object):
 # not always reliable, because bi-directional relationships may not be populated
 def possible_circularity(obj, k):
     if "type" in obj:
-        if obj["type"] == "file" and k == "contains_refs":
+        if obj["type"] == "file" and k == "parent_directory_ref":
             return True
 
 

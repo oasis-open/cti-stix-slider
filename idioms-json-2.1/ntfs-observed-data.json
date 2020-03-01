@@ -2,34 +2,36 @@
     "id": "bundle--f68d008b-4602-4d47-a9f6-fe8563107764",
     "objects": [
         {
+            "id": "file--73c4cd13-7206-5100-88ef-822c42d3f02c",
+            "extensions": {
+                "ntfs-ext": {
+                    "alternate_data_streams": [
+                        {
+                            "name": "second.stream",
+                            "size": 25536
+                        }
+                    ]
+                }
+            },
+            "hashes": {
+                "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+            },
+            "type": "file"
+        },
+        {
             "created": "2017-05-22T13:03:55.429Z",
             "first_observed": "2017-05-22T13:03:55.429Z",
             "id": "observed-data--10ee8b81-a999-4d6d-af49-93256aef5152",
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": ,
+            "object_refs": [
+                "file--73c4cd13-7206-5100-88ef-822c42d3f02c"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
-        },
-            {
-                    "extensions": {
-                        "ntfs-ext": {
-                            "alternate_data_streams": [
-                                {
-                                    "name": "second.stream",
-                                    "size": 25536
-                                }
-                            ]
-                        }
-                    },
-                    "hashes": {
-                        "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
-                    },
-                    "type": "file"
-                }
-            }
+        }
+
     ],
     "type": "bundle"
 }

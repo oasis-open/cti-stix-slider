@@ -45,6 +45,7 @@
                             </NetworkConnectionObj:Destination_Socket_Address>
                         </ProcessObj:Network_Connection>
                     </ProcessObj:Network_Connection_List>
+                    <ProcessObj:Username>admin</ProcessObj:Username>
                     <WinProcessObj:Window_Title>Some Title</WinProcessObj:Window_Title>
                 </cybox:Properties>
             </cybox:Object>
@@ -260,9 +261,10 @@
                             </cybox:Properties>
                         </cybox:Object>
                     </cybox:Observable>
-                    <cybox:Observable id="example:Observable-f16d188b-75ca-4905-9286-d33a62ae0b6b">
-                        <cybox:Object id="example:Process-e157b7cb-d2d9-4aea-819a-04bf0d3b48d0">
+                    <cybox:Observable id="example:Observable-25a2350b-ce8d-4a74-8711-dc52be4028d0">
+                        <cybox:Object id="example:Process-5e1d82b0-fb6c-410e-83ea-7b5aaf60a364">
                             <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                                <ProcessObj:Username condition="Equals">admin</ProcessObj:Username>
                             </cybox:Properties>
                         </cybox:Object>
                     </cybox:Observable>
