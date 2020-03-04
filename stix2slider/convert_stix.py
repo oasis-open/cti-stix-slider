@@ -371,9 +371,9 @@ def convert_to_valid_time(start_time, end_time):
                      DateTimeWithPrecision(end_time) if end_time else None)
 
 
-def extract_external_id(external_id, ex_refs):
+def extract_external_id(external_id, ex_refs, convert_fn=None):
     for ref in ex_refs:
-        if ref["source_name"] == external_id:
+        if external_id == (convert_fn(ref["source_name"]) if convert_fn else ref["source_name"]):
             return ref["external_id"]
     return None
 
@@ -963,18 +963,17 @@ def id_of_type(ref, type):
     return ref.startswith(type)
 
 
-def create_references_for_vulnerability(obj):
-    if obj["id"] in _ID_OBJECT_MAPPING:
-        obj1x = _ID_OBJECT_MAPPING[obj["id"]]
-        v = obj1x.vulnerabilities[0]
-    for er in obj["external_references"]:
-        if er["source_name"] != 'cve' and ("url" in er or "external_id" in er):
-            if "url" in er:
-                v.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
-            if "external_id" in er:
-                v.add_reference("SOURCE: " + er["source_name"] + " - " + er["external_id"])
-        if er["source_name"] == 'cve' and "url" in er:
-            v.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
+def create_references_for_vulnerability(obj1x, obj2x):
+    # assume only ine
+    v = obj1x.vulnerabilities[0]
+    not_urls = []
+    for er in obj2x["external_references"]:
+        # cve and osvdb handled elsewhere
+        if "url" in er:
+            v.add_reference(er["url"])
+        else:
+            not_urls.append(er)
+    return not_urls
 
 
 def get_info_source(ob1x, obj):
@@ -995,21 +994,25 @@ def create_references(obj):
     if id_of_type(obj["id"], "identity"):
         warn("Identity has no property to store external-references from %s", 510, obj["id"])
         return
-    elif id_of_type(obj["id"], "vulnerability"):
-        create_references_for_vulnerability(obj)
-        return
     if obj["id"] in _ID_OBJECT_MAPPING:
         ob1x = _ID_OBJECT_MAPPING[obj["id"]]
     else:
         warn("No object %s is found to add the reference to", 307, obj["id"])
         return
-    for er in obj["external_references"]:
-        # capec and cve handled elsewhere
-        if (er["source_name"] != 'capec' and er["source_name"] != 'cve') and ("url" in er or "external_id" in er):
-            ref_texts = []
-            if "url" in er:
-                ref_texts.append("SOURCE: " + er["source_name"] + " - " + er["url"])
-            if "external_id" in er:
+    if id_of_type(obj["id"], "vulnerability"):
+        er_for_info_source = create_references_for_vulnerability(ob1x, obj)
+    else:
+        er_for_info_source = obj["external_references"]
+    if er_for_info_source:
+        ref_texts = []
+        info_source = None
+        for er in er_for_info_source:
+            # capec and cve handled elsewhere
+            if "url" in er and er["source_name"] != "capec" and er["source_name"] != "cve":
+                if not info_source:
+                    info_source = get_info_source(ob1x, obj)
+                info_source.add_reference(er["url"])
+            if "external_id" in er and er["source_name"] != "capec":
                 ref_texts.append("SOURCE: " + er["source_name"] + " - " + "EXTERNAL ID: " + er["external_id"])
             if "hashes" in er:
                 warn("hashes not representable in a STIX 1.x %s.  Found in %s", 503, "InformationSource", obj["id"])
@@ -1018,22 +1021,12 @@ def create_references(obj):
                     ob1x.add_description(er["description"])
                 else:
                     ob1x.description = er["description"]
-            if ref_texts != []:
-                if isinstance(ob1x, Indicator):
-                    for rt in ref_texts:
-                        if _STIX_1_VERSION == "1.2":
-                            ob1x.add_description(rt)
-                        else:
-                            ob1x.description = ob1x.description + " " + rt
+        if ref_texts != []:
+            for rt in ref_texts:
+                if _STIX_1_VERSION == "1.2":
+                    ob1x.add_description(rt)
                 else:
-                    info_source = get_info_source(ob1x, obj)
-                    for rt in ref_texts:
-                        info_source.add_reference(rt)
-        elif (er["source_name"] != 'capec' and er["source_name"] != 'cve'):
-            warn("Source name %s in external references of %s not handled, yet", 605, er["source_name"], obj["id"])
-        if (er["source_name"] == 'capec' or er["source_name"] == 'cve') and "url" in er:
-            info_source = get_info_source(ob1x, obj)
-            info_source.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
+                    ob1x.description = ob1x.description + " " + rt
 
 
 def create_information_source(identity2x_tuple):

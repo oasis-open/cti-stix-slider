@@ -32,11 +32,6 @@
 </stix-ciqidentity:Specification>
                 </ttp:Identity>
             </ttp:Victim_Targeting>
-            <ttp:Information_Source>
-                <stixCommon:References>
-                    <stixCommon:Reference>SOURCE: capec - https://capec.mitre.org/data/definitions/148.html</stixCommon:Reference>
-                </stixCommon:References>
-            </ttp:Information_Source>
         </stix:TTP>
         <stix:TTP id="example:ttp-f6050ea6-a9a3-4524-93ed-c27858d6cb3c" timestamp="2017-01-30T21:15:04.127000+00:00" xsi:type='ttp:TTPType'>
             <ttp:Behavior>
@@ -67,7 +62,7 @@
                 <et:Title>Cisco Unified Communications Manager causes file-descriptor exhaustion</et:Title>
                 <et:CVE_ID>CVE-2009-2054</et:CVE_ID>
                 <et:References>
-                    <stixCommon:Reference>SOURCE: cve - http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-CVE-2009-2054</stixCommon:Reference>
+                    <stixCommon:Reference>http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-CVE-2009-2054</stixCommon:Reference>
                 </et:References>
             </et:Vulnerability>
         </stixCommon:Exploit_Target>
