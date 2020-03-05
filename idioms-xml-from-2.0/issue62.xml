@@ -47,6 +47,7 @@
                             </NetworkConnectionObj:Destination_Socket_Address>
                         </ProcessObj:Network_Connection>
                     </ProcessObj:Network_Connection_List>
+                    <ProcessObj:Username>admin</ProcessObj:Username>
                     <WinProcessObj:Window_Title>Some Title</WinProcessObj:Window_Title>
                 </cybox:Properties>
             </cybox:Object>

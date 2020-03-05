@@ -1183,10 +1183,17 @@ def create_references(obj):
         info_source = None
         for er in er_for_info_source:
             # capec and cve handled elsewhere
-            if "url" in er and er["source_name"] != "capec" and er["source_name"] != "cve":
-                if not info_source:
-                    info_source = get_info_source(ob1x, obj)
-                info_source.add_reference(er["url"])
+            if "url" in er: # and er["source_name"] != "capec" and er["source_name"] != "cve":
+                if obj["type"] == "indicator":
+                    desc = "SOURCE: " +  er["source_name"] + " - " + er["url"]
+                    if _STIX_1_VERSION == "1.2":
+                        ob1x.add_description(desc)
+                    else:
+                        ob1x.description = ob1x.description + "\n" + desc
+                else:
+                    if not info_source:
+                        info_source = get_info_source(ob1x, obj)
+                    info_source.add_reference(er["url"])
             if "external_id" in er and er["source_name"] != "capec":
                 ref_texts.append("SOURCE: " + er["source_name"] + " - " + "EXTERNAL ID: " + er["external_id"])
             if "hashes" in er:
@@ -1195,7 +1202,7 @@ def create_references(obj):
                 if _STIX_1_VERSION == "1.2":
                     ob1x.add_description(er["description"])
                 else:
-                    ob1x.description = er["description"]
+                    ob1x.description = ob1x.description + "\n" + er["description"]
         if ref_texts != []:
             for rt in ref_texts:
                 if _STIX_1_VERSION == "1.2":
