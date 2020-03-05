@@ -1,20 +1,18 @@
-import copy
 from functools import cmp_to_key
 
 from cybox.common.environment_variable import (EnvironmentVariable,
                                                EnvironmentVariableList)
 from cybox.common.hashes import HashList
-from cybox.common.structured_text import StructuredText
 from cybox.common.vocabs import VocabString
-from cybox.core import Object, Observable, RelatedObject
+from cybox.core import Observable, RelatedObject
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact, Encoding, Packaging
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
 from cybox.objects.email_message_object import (Attachments, EmailHeader,
-                                                EmailMessage, EmailRecipients, ReceivedLine,
-                                                ReceivedLineList)
+                                                EmailMessage, EmailRecipients,
+                                                ReceivedLine, ReceivedLineList)
 from cybox.objects.file_object import File
 from cybox.objects.hostname_object import Hostname
 from cybox.objects.http_session_object import (HTTPClientRequest, HTTPMessage,
@@ -29,8 +27,7 @@ from cybox.objects.network_connection_object import (Layer7Connections,
                                                      NetworkConnection,
                                                      SocketAddress)
 from cybox.objects.network_packet_object import (ICMPv4Header, ICMPv4Packet,
-                                                 InternetLayer, NetworkPacket,
-                                                 TransportLayer)
+                                                 InternetLayer, NetworkPacket)
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
                                            PDFFile, PDFFileID, PDFFileMetadata,
@@ -60,9 +57,6 @@ from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, Validity,
                                                    X509Cert, X509Certificate,
                                                    X509V3Extensions)
-
-from mixbox.fields import TypedList
-
 from six import text_type
 
 from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
@@ -536,8 +530,8 @@ def convert_email_message_c_o(em2x, em1x, obs2x_id):
         # TODO: what was the purpose of this warning??
         # warn("STIX 1.x can only store the body and headers of an email message in %s independently", 523, obs2x_id)
     if "raw_email_ref" in em2x:
-            handle_ref(em2x, em1x, "raw_email_ref", "raw_body", _STIX1X_OBJS,
-                       accessor=lambda x: decode_base64(x.packed_data))
+        handle_ref(em2x, em1x, "raw_email_ref", "raw_body", _STIX1X_OBJS,
+                   accessor=lambda x: decode_base64(x.packed_data))
     if "body" in em2x:
         if em2x["is_multipart"]:
             warn("The is_multipart property in %s should be 'false' if the body property is present",
@@ -958,7 +952,6 @@ def convert_cyber_observable(c_o_object, obs2x_id):
 def convert_sco(c_o_object):
     global STIX1X_OBS_GLOBAL
     o1x = Observable()
-    obs1x_id = o1x.id_
     type1x = determine_1x_object_type(c_o_object)
     type_name2x = c_o_object["type"]
     obs2x_id = c_o_object["id"]
@@ -1026,14 +1019,14 @@ def get_refs(obj):
         if k.endswith("refs"):
             if not possible_circularity(obj, k):
                 for ref in obj[k]:
-                    if not ref in refs:
+                    if ref not in refs:
                         refs.append(ref)
         if k == "extensions":
             for e_k, e_v in v.items():
                 ext_refs = get_refs(e_v)
                 if ext_refs:
                     for ref in ext_refs:
-                        if not ref in refs:
+                        if ref not in refs:
                             refs.append(ref)
     # TODO: other similiar types?
     if type2x == "email-message":
@@ -1058,7 +1051,7 @@ def process_before(key_obj1, key_obj2):
     elif not refs1 and refs2:
         return -1  # switch
     else:
-        return 0 # doesn't matter
+        return 0  # doesn't matter
 
 
 def sort_objects_into_obj_processing_order(objs):
@@ -1081,7 +1074,7 @@ def add_refs_email_message(obj2x, obj1x):
     handle_ref(obj2x, obj1x, "sender_ref", "sender", STIX1X_OBS_GLOBAL, obj1x.header)
     handle_refs(obj2x, obj1x, "to_refs", "to", STIX1X_OBS_GLOBAL, list_type=EmailRecipients, sub_obj1x=obj1x.header)
     handle_refs(obj2x, obj1x, "cc_refs", "cc", STIX1X_OBS_GLOBAL, list_type=EmailRecipients, sub_obj1x=obj1x.header)
-    handle_refs(obj2x, obj1x, "bcc_refs", "bcc", STIX1X_OBS_GLOBAL, list_type=EmailRecipients, sub_obj1x= obj1x.header)
+    handle_refs(obj2x, obj1x, "bcc_refs", "bcc", STIX1X_OBS_GLOBAL, list_type=EmailRecipients, sub_obj1x=obj1x.header)
     handle_ref(obj2x, obj1x, "raw_email_ref", "raw_body", STIX1X_OBS_GLOBAL, accessor=lambda x: decode_base64(x.packed_data))
 
 
@@ -1095,7 +1088,7 @@ def add_refs_file(obj2x, obj1x):
 
 
 def add_refs_network_traffic(obj2x, obj1x):
-    obj1x.source_socket_address = convert_address_ref(obj2x, obj1x, "src",STIX1X_OBS_GLOBAL)
+    obj1x.source_socket_address = convert_address_ref(obj2x, obj1x, "src", STIX1X_OBS_GLOBAL)
     obj1x.destination_socket_address = convert_address_ref(obj2x, obj1x, "dst", STIX1X_OBS_GLOBAL)
     # TODO: payload refs, encapsulates
     if "extensions" in obj2x:
@@ -1159,7 +1152,7 @@ def add_related(parent_prop, child_prop, relationship_name, inline):
     # save already generated related objects - they will be lost in the RelatedObject constructor
     related_objects = child_prop.parent.related_objects
     # parent might occur in more than one observed-data, so avoid adding it more than once.
-    if not any([ child_prop.parent.id_ == x.id_ for x in parent_obj.related_objects]):
+    if not any([child_prop.parent.id_ == x.id_ for x in parent_obj.related_objects]):
         ro = RelatedObject(child_prop,
                            relationship=relationship_name,
                            inline=inline,
@@ -1187,7 +1180,7 @@ def handle_refs_as_related_object(obj2x, object_root, prop2x, relationship_name,
 def add_any_related_objects(root_id, object_root, stix2x_objs, child_graph, objects_inline, visited):
     if root_id in child_graph:
         for c in child_graph[root_id]:
-            if not c in visited:
+            if c not in visited:
                 visited[c] = True
                 add_any_related_objects(c, get_stix1x_obj_from_stix2x_id(c), stix2x_objs, child_graph, objects_inline, visited)
     stix2x_obj = stix2x_objs[root_id]

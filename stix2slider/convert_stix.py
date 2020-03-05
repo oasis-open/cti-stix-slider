@@ -1,5 +1,4 @@
 from cybox.core import Observable
-from cybox.objects.email_message_object import Attachments
 from six import text_type
 from stix2.pattern_visitor import create_pattern_object
 from stix.campaign import AssociatedCampaigns, Campaign, Names
@@ -1183,9 +1182,9 @@ def create_references(obj):
         info_source = None
         for er in er_for_info_source:
             # capec and cve handled elsewhere
-            if "url" in er: # and er["source_name"] != "capec" and er["source_name"] != "cve":
+            if "url" in er:
                 if obj["type"] == "indicator":
-                    desc = "SOURCE: " +  er["source_name"] + " - " + er["url"]
+                    desc = "SOURCE: " + er["source_name"] + " - " + er["url"]
                     if _STIX_1_VERSION == "1.2":
                         ob1x.add_description(desc)
                     else:
@@ -1347,9 +1346,6 @@ def sco_type(type_name):
                          "email-message", "file", "ipv4-addr", "ipv6-addr", "mac-addr", "mutex",
                          "network-traffic", "process", "software", "url", "user-account",
                          "windows-registry-key", "x509-certificate"]
-
-
-
 
 
 def convert_bundle(bundle_obj):

@@ -8,10 +8,7 @@ from sdv import codes, errors, scripts
 import stix2
 
 from stix2slider.convert_stix import convert_bundle
-from stix2slider.options import (get_option_value, get_validator_options,
-                                 setup_logger)
-
-# import stix2slider.utils  # flake8: noqa
+from stix2slider.options import get_validator_options, setup_logger
 
 # Module-level logger
 log = logging.getLogger(__name__)

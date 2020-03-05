@@ -39,7 +39,6 @@ from cybox.objects.product_object import Product
 from cybox.objects.unix_user_account_object import UnixUserAccount
 from cybox.objects.uri_object import URI
 from cybox.objects.user_account_object import UserAccount
-
 from cybox.objects.win_executable_file_object import (Entropy, PEFileHeader,
                                                       PEHeaders,
                                                       PEOptionalHeader,
@@ -47,7 +46,6 @@ from cybox.objects.win_executable_file_object import (Entropy, PEFileHeader,
                                                       PESectionHeaderStruct,
                                                       PESectionList,
                                                       WinExecutableFile)
-
 from cybox.objects.win_file_object import Stream, StreamList, WinFile
 from cybox.objects.win_process_object import StartupInfo, WinProcess
 from cybox.objects.win_registry_key_object import (RegistryValue,

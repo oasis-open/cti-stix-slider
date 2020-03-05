@@ -56,7 +56,7 @@ def set_default_namespace(prefix, ns_uri, schemaLocation=None):
     idgen.set_id_namespace(new_namespace)
 
 
-def decode_base64(base64_message ):
+def decode_base64(base64_message):
     base64_bytes = base64_message.encode('utf-8')
     message_bytes = base64.b64decode(base64_bytes)
     return message_bytes.decode('utf-8')
