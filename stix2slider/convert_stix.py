@@ -548,6 +548,16 @@ def process_kill_chain_phases(phases, obj1x):
                                                                "kill_chain"].name))
 
 
+def process_markings(o1x, o2x):
+    if "object_marking_refs" in o2x:
+        for m_id in o2x["object_marking_refs"]:
+            ms = create_marking_specification(m_id)
+            if ms:
+                CONTAINER.add_marking(o1x, ms, descendants=True)
+    if "granular_markings" in o2x:
+        error("Granular Markings present in '%s' are not supported by stix2slider", 604, o2x["id"])
+
+
 def convert_attack_pattern(ap2x):
     ap1x = AttackPattern()
     if "name" in ap2x:
@@ -565,13 +575,7 @@ def convert_attack_pattern(ap2x):
     ttp.behavior.add_attack_pattern(ap1x)
     if "kill_chain_phases" in ap2x:
         process_kill_chain_phases(ap2x["kill_chain_phases"], ttp)
-    if "object_marking_refs" in ap2x:
-        for m_id in ap2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ttp, ms, descendants=True)
-    if "granular_markings" in ap2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, ap2x["id"])
+    process_markings(ttp, ap2x)
     # if "kill_chain_phases" in ap2x:
     #     process_kill_chain_phases(ap2x["kill_chain_phases"], ttp)
     add_missing_properties_to_description(ap1x, ap2x, ["labels", "aliases"])
@@ -599,14 +603,8 @@ def convert_campaign(c2x):
         c1x.names = names
     if "objective" in c2x:
         c1x.intended_effects = [Statement(description=c2x["objective"])]
-    if "object_marking_refs" in c2x:
-        for m_id in c2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(c1x, ms, descendants=True)
-    if "granular_markings" in c2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, c2x["id"])
     add_missing_properties_to_description(c1x, c2x, ["first_seen", "last_seen"])
+    process_markings(c1x, c2x)
     record_id_object_mapping(c2x["id"], c1x)
     return c1x
 
@@ -627,13 +625,7 @@ def convert_coa(coa2x):
         for l in coa_types[1:]:
             warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
                  401, "labels", l)
-    if "object_marking_refs" in coa2x:
-        for m_id in coa2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(coa1x, ms, descendants=True)
-    if "granular_markings" in coa2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, coa2x["id"])
+    process_markings(coa1x, coa2x)
     record_id_object_mapping(coa2x["id"], coa1x)
     return coa1x
 
@@ -699,13 +691,7 @@ def convert_identity(ident2x):
     else:
         ident1x = Identity(id_=convert_id2x(ident2x["id"]),
                            name=ident2x["name"])
-    if "object_marking_refs" in ident2x:
-        for m_id in ident2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ident1x, ms, descendants=True)
-    if "granular_markings" in ident2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, ident2x["id"])
+    process_markings(ident1x, ident2x)
     return ident1x
 
 
@@ -748,13 +734,7 @@ def convert_indicator(indicator2x):
         warn("%s pattern type in %s cannot be represented in STIX 1.x", 0, indicator2x["pattern_type"], indicator2x["id"])
     if "kill_chain_phases" in indicator2x:
         process_kill_chain_phases(indicator2x["kill_chain_phases"], indicator1x)
-    if "object_marking_refs" in indicator2x:
-        for m_id in indicator2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(indicator1x, ms, descendants=True)
-    if "granular_markings" in indicator2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, indicator2x["id"])
+    process_markings(indicator1x, indicator2x)
     record_id_object_mapping(indicator2x["id"], indicator1x)
     return indicator1x
 
@@ -784,13 +764,7 @@ def convert_infrastructure(infrastructure2x):
     if "kill_chain_phases" in infrastructure2x:
         process_kill_chain_phases(infrastructure2x["kill_chain_phases"], ttp)
     add_missing_properties_to_description(infrastructure1x, infrastructure2x, ["aliases", "first_seen", "last_seen"])
-    if "object_marking_refs" in infrastructure2x:
-        for m_id in infrastructure2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ttp, ms, descendants=True)
-    if "granular_markings" in infrastructure2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, infrastructure2x["id"])
+    process_markings(infrastructure1x, infrastructure2x)
     record_id_object_mapping(infrastructure2x["id"], ttp)
     return ttp
 
@@ -819,18 +793,11 @@ def convert_malware(malware2x):
     ttp.behavior.add_malware_instance(malware1x)
     if "kill_chain_phases" in malware2x:
         process_kill_chain_phases(malware2x["kill_chain_phases"], ttp)
-    if "object_marking_refs" in malware2x:
-        for m_id in malware2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ttp, ms, descendants=True)
-
-    if "granular_markings" in malware2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, malware2x["id"])
     add_missing_properties_to_description(malware1x, malware2x, ["aliases", "is_family", "first_seen", "last_seen",
                                                                  "operating_system_refs", "architecture_execution_envs",
                                                                  "implementation_languages", "capabilities",
                                                                  "sample_refs"])
+    process_markings(malware1x, malware2x)
     record_id_object_mapping(malware2x["id"], ttp)
     return ttp
 
@@ -895,13 +862,7 @@ def convert_report(r2x):
                 warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r2x["id"])
             else:
                 warn("ref type %s in %s is not known", 316, ref_type, r2x["id"])
-        if "object_marking_refs" in r2x:
-            for m_id in r2x["object_marking_refs"]:
-                ms = create_marking_specification(m_id)
-                if ms:
-                    CONTAINER.add_marking(r1x, ms, descendants=True)
-        if "granular_markings" in r2x:
-            error("Granular Markings present in '%s' are not supported by stix2slider", 604, r2x["id"])
+        process_markings(r1x, r2x)
         return r1x
     else:
         return None
@@ -941,14 +902,8 @@ def convert_threat_actor(ta2x):
     motivations = convert_open_vocabs_to_controlled_vocabs(all_motivations, ATTACK_MOTIVATION_MAP)
     for m in motivations:
         ta1x.add_motivation(m)
-    if "object_marking_refs" in ta2x:
-        for m_id in ta2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ta1x, ms, descendants=True)
     add_missing_properties_to_description(ta1x, ta2x, ["resource_level", "last_seen", "first_seen", "roles", "aliases"])
-    if "granular_markings" in ta2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, ta2x["id"])
+    process_markings(ta1x, ta2x)
     record_id_object_mapping(ta2x["id"], ta1x)
     return ta1x
 
@@ -974,13 +929,7 @@ def convert_tool(tool2x):
     ttp.resources.tools.append(tool1x)
     if "kill_chain_phases" in tool2x:
         process_kill_chain_phases(tool2x["kill_chain_phases"], ttp)
-    if "object_marking_refs" in tool2x:
-        for m_id in tool2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ttp, ms, descendants=True)
-    if "granular_markings" in tool2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, tool2x["id"])
+    process_markings(tool1x, tool2x)
     record_id_object_mapping(tool2x["id"], ttp)
     return ttp
 
@@ -1002,13 +951,7 @@ def convert_vulnerability(v2x):
     et.add_vulnerability(v1x)
     if "kill_chain_phases" in v2x:
         process_kill_chain_phases(v2x["kill_chain_phases"], et)
-    if "object_marking_refs" in v2x:
-        for m_id in v2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(et, ms, descendants=True)
-    if "granular_markings" in v2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, v2x["id"])
+    process_markings(v1x, v2x)
     record_id_object_mapping(v2x["id"], et)
     return et
 
@@ -1396,6 +1339,7 @@ def convert_bundle(bundle_obj):
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "intrusion-set")
         elif o["type"] == "location":
             _LOCATIONS[o["id"]] = o
+            # TODO: anything about the markings on the location that we should remember?
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
         elif o["type"] == "malware_analysis":
