@@ -812,6 +812,8 @@ def convert_software_c_o(soft2x, prod1x, obs2x_id):
     prod1x.product = soft2x["name"]
     if "cpe" in soft2x:
         warn("cpe is not representable in a STIX 1.x Product.  Found in %s", 503, obs2x_id)
+    if "swid" in soft2x:
+        warn("cpe is not representable in a STIX 1.x Product.  Found in %s", 503, obs2x_id)
     if "languages" in soft2x:
         prod1x.language = soft2x["languages"][0]
         if len(soft2x["languages"]) > 1:

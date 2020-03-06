@@ -1125,7 +1125,7 @@ def add_scalar_software_property_pattern(software_obj, properties, rhs, op, id2x
     elif prop_name == "version":
         software_obj.version = rhs.value
         convert_operator(op, software_obj.version, id2x)
-    elif prop_name == "cpe":
+    elif prop_name in ["cpe", "swid"]:
         warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, "Product",
              prop_name,
              id2x)
