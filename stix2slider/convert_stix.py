@@ -493,12 +493,14 @@ def get_type_from_id(id_):
     return parts[0]
 
 
-def add_missing_property_to_description(obj1x, property_name, property_value):
+def add_missing_property_to_description(obj1x, property_name, obj2x):
     if not get_option_value("no_squirrel_gaps"):
         if _STIX_1_VERSION == "1.2":
-            obj1x.add_description(property_name + ": " + text_type(property_value))
+            obj1x.add_description(property_name + ": " + text_type(obj2x[property_name]))
         else:
-            obj1x.description = property_name + ": " + text_type(property_value)
+            obj1x.description = property_name + ": " + text_type(obj2x[property_name])
+    else:
+        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, property_name, obj2x["type"], obj2x["id"])
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
@@ -507,6 +509,12 @@ def add_missing_list_property_to_description(obj1x, property_name, property_valu
             obj1x.add_description(property_name + ": " + ", ".join(property_values))
         else:
             obj1x.description = property_name + ": " + ", ".join(property_values)
+
+
+def add_missing_properties_to_description(obj1x, obj2x, property_names):
+    for prop_name in property_names:
+        if prop_name in obj2x:
+            add_missing_property_to_description(obj1x, prop_name, obj2x)
 
 
 _KILL_CHAINS = {}
@@ -549,10 +557,6 @@ def convert_attack_pattern(ap2x):
             ap1x.add_description(ap2x["description"])
         else:
             ap1x.description = ap2x["description"]
-    if "labels" in ap2x:
-        add_missing_list_property_to_description(ap1x, "labels", ap2x["labels"])
-    if "aliases" in ap2x:
-        add_missing_list_property_to_description(ap1x, "aliases", ap2x["aliases"])
     if "external_references" in ap2x:
         ap1x.capec_id = extract_external_id("capec", ap2x["external_references"])
     ttp = TTP(id_=convert_id2x(ap2x["id"]),
@@ -570,6 +574,7 @@ def convert_attack_pattern(ap2x):
         error("Granular Markings present in '%s' are not supported by stix2slider", 604, ap2x["id"])
     # if "kill_chain_phases" in ap2x:
     #     process_kill_chain_phases(ap2x["kill_chain_phases"], ttp)
+    add_missing_properties_to_description(ap1x, ap2x, ["labels", "aliases"])
     record_id_object_mapping(ap2x["id"], ttp)
     return ttp
 
@@ -592,10 +597,6 @@ def convert_campaign(c2x):
             names.name.append(VocabString(a))
     if names:
         c1x.names = names
-    if "first_seen" in c2x:
-        add_missing_property_to_description(c1x, "first_seen", text_type(c2x["first_seen"]))
-    if "last_seen" in c2x:
-        add_missing_property_to_description(c1x, "last_seen", text_type(c2x["last_seen"]))
     if "objective" in c2x:
         c1x.intended_effects = [Statement(description=c2x["objective"])]
     if "object_marking_refs" in c2x:
@@ -605,6 +606,7 @@ def convert_campaign(c2x):
                 CONTAINER.add_marking(c1x, ms, descendants=True)
     if "granular_markings" in c2x:
         error("Granular Markings present in '%s' are not supported by stix2slider", 604, c2x["id"])
+    add_missing_properties_to_description(c1x, c2x, ["first_seen", "last_seen"])
     record_id_object_mapping(c2x["id"], c1x)
     return c1x
 
@@ -775,18 +777,13 @@ def convert_infrastructure(infrastructure2x):
             add_missing_list_property_to_description(infrastructure1x, "labels", infrastructure2x["labels"])
     for t in types:
         infrastructure1x.add_type(t)
-    if "aliases" in infrastructure2x:
-        add_missing_list_property_to_description(infrastructure1x, "aliases", infrastructure2x["aliases"])
-    if "first_seen" in infrastructure2x:
-        add_missing_property_to_description(infrastructure1x, "first_seen", infrastructure2x["first_seen"])
-    if "last_seen" in infrastructure2x:
-        add_missing_property_to_description(infrastructure1x, "last_seen", infrastructure2x["last_seen"])
     ttp = TTP(id_=convert_id2x(infrastructure2x["id"]),
               timestamp=text_type(infrastructure2x["modified"]))
     ttp.resources = Resource()
     ttp.resources.infrastructure = infrastructure1x
     if "kill_chain_phases" in infrastructure2x:
         process_kill_chain_phases(infrastructure2x["kill_chain_phases"], ttp)
+    add_missing_properties_to_description(infrastructure1x, infrastructure2x, ["aliases", "first_seen", "last_seen"])
     if "object_marking_refs" in infrastructure2x:
         for m_id in infrastructure2x["object_marking_refs"]:
             ms = create_marking_specification(m_id)
@@ -816,8 +813,6 @@ def convert_malware(malware2x):
             add_missing_list_property_to_description(malware1x, "labels", malware2x["labels"])
     for t in types:
         malware1x.add_type(t)
-    if "aliases" in malware2x:
-        add_missing_list_property_to_description(malware1x, "aliases", malware2x["aliases"])
     ttp = TTP(id_=convert_id2x(malware2x["id"]),
               timestamp=text_type(malware2x["modified"]))
     ttp.behavior = Behavior()
@@ -829,8 +824,13 @@ def convert_malware(malware2x):
             ms = create_marking_specification(m_id)
             if ms:
                 CONTAINER.add_marking(ttp, ms, descendants=True)
+
     if "granular_markings" in malware2x:
         error("Granular Markings present in '%s' are not supported by stix2slider", 604, malware2x["id"])
+    add_missing_properties_to_description(malware1x, malware2x, ["aliases", "is_family", "first_seen", "last_seen",
+                                                                 "operating_system_refs", "architecture_execution_envs",
+                                                                 "implementation_languages", "capabilities",
+                                                                 "sample_refs"])
     record_id_object_mapping(malware2x["id"], ttp)
     return ttp
 
@@ -867,7 +867,7 @@ def convert_report(r2x):
         for i in intents:
             r1x.header.add_intent(i)
         if "published" in r2x:
-            add_missing_property_to_description(r1x.header, "published", r2x["published"])
+            add_missing_properties_to_description(r1x.header, r2x, ["published"])
         for ref in r2x["object_refs"]:
             ref_type = get_type_from_id(ref)
             ref1x = convert_id2x(ref)
@@ -924,14 +924,6 @@ def convert_threat_actor(ta2x):
             ta1x.add_description(ta2x["description"])
         else:
             ta1x.description = ta2x["description"]
-    if "aliases" in ta2x:
-        add_missing_list_property_to_description(ta1x, "aliases", ta2x["aliases"])
-    if "roles" in ta2x:
-        add_missing_list_property_to_description(ta1x, "roles", ta2x["roles"])
-    if "first_seen" in ta2x:
-        add_missing_property_to_description(ta1x, "first_seen", ta2x["first_seen"])
-    if "last_seen" in ta2x:
-        add_missing_property_to_description(ta1x, "last_seen", ta2x["last_seen"])
     if "goals" in ta2x:
         for g in ta2x["goals"]:
             ta1x.add_intended_effect(g)
@@ -939,8 +931,6 @@ def convert_threat_actor(ta2x):
         sophistications = convert_open_vocabs_to_controlled_vocabs([ta2x["sophistication"]], THREAT_ACTOR_SOPHISTICATION_MAP)
         for s in sophistications:
             ta1x.add_sophistication(s)
-    if "resource_level" in ta2x:
-        add_missing_list_property_to_description(ta1x, "resource_level", ta2x["resource_level"])
     all_motivations = []
     if "primary_motivation" in ta2x:
         all_motivations = [ta2x["primary_motivation"]]
@@ -956,6 +946,7 @@ def convert_threat_actor(ta2x):
             ms = create_marking_specification(m_id)
             if ms:
                 CONTAINER.add_marking(ta1x, ms, descendants=True)
+    add_missing_properties_to_description(ta1x, ta2x, ["resource_level", "last_seen", "first_seen", "roles", "aliases"])
     if "granular_markings" in ta2x:
         error("Granular Markings present in '%s' are not supported by stix2slider", 604, ta2x["id"])
     record_id_object_mapping(ta2x["id"], ta1x)
@@ -1263,11 +1254,7 @@ def process_sighting(o):
                         ro = RelatedObservable()
                         s.related_observables.append(ro)
                         ro.item = Observable(idref=convert_id2x(od_ref))
-
-        if "first_seen" in o:
-            warn("first_seen not representable in a STIX 1.x Sightings.  Found in %s", 503, o["id"])
-        if "last_seen" in o:
-            warn("last_seen not representable in a STIX 1.x Sightings.  Found in %s", 503, o["id"])
+        add_missing_properties_to_description(s, o, ["first_seen", "last_seen"])
     else:
         warn("Unable to convert STIX 2.x sighting %s because it doesn't refer to an indicator", 508, o["sighting_of_ref"])
 

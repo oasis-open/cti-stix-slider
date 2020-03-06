@@ -17,7 +17,7 @@ from cybox.objects.win_executable_file_object import (PEFileHeader,
 from cybox.objects.win_process_object import StartupInfo, WinProcess
 from cybox.objects.win_registry_key_object import RegistryValue, WinRegistryKey
 from cybox.objects.win_service_object import WinService
-from cybox.objects.win_user_object import UserAccount
+from cybox.objects.win_user_account_object import UserAccount
 from cybox.objects.x509_certificate_object import X509Cert, X509V3Extensions
 
 from stix2slider.options import warn
@@ -420,3 +420,5 @@ def convert_id2x(id2x, sco_type_name=None):
 
 def create_id1x(type_name_1x):
     return "%s:%s-%s" % (_ID_NAMESPACE, type_name_1x, uuid.uuid4())
+
+

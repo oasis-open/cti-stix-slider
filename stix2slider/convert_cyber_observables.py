@@ -52,7 +52,7 @@ from cybox.objects.win_registry_key_object import (RegistryValue,
                                                    RegistryValues,
                                                    WinRegistryKey)
 from cybox.objects.win_service_object import ServiceDescriptionList, WinService
-from cybox.objects.win_user_object import UserAccount, WinUser
+from cybox.objects.win_user_account_object import UserAccount, WinUser
 from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, Validity,
                                                    X509Cert, X509Certificate,

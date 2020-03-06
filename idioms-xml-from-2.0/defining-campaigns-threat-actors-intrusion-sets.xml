@@ -77,8 +77,8 @@
     <stix:Threat_Actors>
         <stix:Threat_Actor id="example:threat-actor-56f3f0db-b5d5-431c-ae56-c18f02caf500" timestamp="2016-08-08T15:50:10.983000+00:00" xsi:type='ta:ThreatActorType'>
             <ta:Title>Fake BPP (Branistan Peoples Party)</ta:Title>
-            <ta:Description ordinality="1">roles: director</ta:Description>
-            <ta:Description ordinality="2">resource_level: g, o, v, e, r, n, m, e, n, t</ta:Description>
+            <ta:Description ordinality="1">resource_level: government</ta:Description>
+            <ta:Description ordinality="2">roles: ['director']</ta:Description>
             <ta:Identity id="example:identity-8c6af861-7b20-41ef-9b59-6344fd872a8f" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
                 <stixCommon:Name>Franistan Intelligence</stixCommon:Name>
                 <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
