@@ -299,12 +299,13 @@ def convert_domain_name_c_o(dn2x, dn1x, obs2x_id):
     dn1x.value = dn2x["value"]
     dn1x.type_ = "FQDN"
     if "resolves_to_refs" in dn2x:
-        for ref in dn2x["resolves_to_refs"]:
-            if ref in _STIX1X_OBJS:
-                obj = _STIX1X_OBJS[ref]
-                dn1x.add_related(obj, "Resolved_To", inline=True)
-            else:
-                warn("%s is not an index found in %s", 306, ref, obs2x_id)
+        if get_option_value("version_of_stix2x") == "2.0":
+            for ref in dn2x["resolves_to_refs"]:
+                if ref in _STIX1X_OBJS:
+                    obj = _STIX1X_OBJS[ref]
+                    dn1x.add_related(obj, "Resolved_To", inline=True)
+                else:
+                    warn("%s is not an index found in %s", 306, ref, obs2x_id)
 
 
 def convert_archive_file_extension(archive_ext, file1x, obs2x_id):
@@ -554,13 +555,14 @@ def convert_email_message_c_o(em2x, em1x, obs2x_id):
             # content_disposition is optional, so we can't depend upon it
             # if "content_disposition" in part and part["content_disposition"].find("attachment"):
             if "body_raw_ref" in part:
-                if part["body_raw_ref"] in _STIX1X_OBJS:
-                    obj = _STIX1X_OBJS[part["body_raw_ref"]]
-                    # TODO: can we handle other object/content types?
-                    if isinstance(obj, File) or isinstance(obj, Artifact):
-                        attachments.append(obj)
-                else:
-                    warn("%s is not an index found in %s", 306, part["body_raw_ref"], obs2x_id)
+                if get_option_value("version_of_stix2x") == "2.0":
+                    if part["body_raw_ref"] in _STIX1X_OBJS:
+                        obj = _STIX1X_OBJS[part["body_raw_ref"]]
+                        # TODO: can we handle other object/content types?
+                        if isinstance(obj, File) or isinstance(obj, Artifact):
+                            attachments.append(obj)
+                    else:
+                        warn("%s is not an index found in %s", 306, part["body_raw_ref"], obs2x_id)
             if "body" in part:
                 em1x.raw_body = part["body"]
         if attachments:
@@ -594,9 +596,11 @@ def convert_addr_c_o(addr2x, addr1x, obs2x_id):
     elif addr2x["type"] == 'mac-addr':
         addr1x.category = Address.CAT_MAC
     if "resolves_to_refs" in addr2x:
-        add_related_objects(addr1x, addr2x, "resolves_to_refs", "Resolved_To")
+        if get_option_value("version_of_stix2x") == "2.0":
+            add_related_objects(addr1x, addr2x, "resolves_to_refs", "Resolved_To")
     if "belongs_to_refs" in addr2x:
-        add_related_objects(addr1x, addr2x, "belongs_to_refs", "Belongs_To")
+        if get_option_value("version_of_stix2x") == "2.0":
+            add_related_objects(addr1x, addr2x, "belongs_to_refs", "Belongs_To")
 
 
 def convert_process_extensions(process2x, process1x, obs2x_id):
@@ -646,12 +650,13 @@ def convert_process_c_o(process2x, process1x, obs2x_id):
             ev.name = k
             ev.value = v
     if "opened_connection_refs" in process2x:
-        process1x.network_connection_list = NetworkConnectionList()
-        for conn_ref in process2x["opened_connection_refs"]:
-            if conn_ref in _STIX1X_OBJS:
-                process1x.network_connection_list.append(_STIX1X_OBJS[conn_ref])
-            else:
-                warn("%s is not an index found in %s", 306, conn_ref, obs2x_id)
+        if get_option_value("version_of_stix2x") == "2.0":
+            process1x.network_connection_list = NetworkConnectionList()
+            for conn_ref in process2x["opened_connection_refs"]:
+                if conn_ref in _STIX1X_OBJS:
+                    process1x.network_connection_list.append(_STIX1X_OBJS[conn_ref])
+                else:
+                    warn("%s is not an index found in %s", 306, conn_ref, obs2x_id)
     if ("binary_ref" in process2x and get_option_value("version_of_stix2x") == "2.0" or
             "image_ref" in process2x and get_option_value("version_of_stix2x") == "2.1"):
         if "binary_ref" in process2x:
@@ -738,11 +743,12 @@ def convert_network_traffic_to_http_session(http_request_ext, nc, obs2x_id):
         if "message_body_length" in http_request_ext:
             body.length = http_request_ext["message_body_length"]
         if "message_body_data_ref" in http_request_ext:
-            if http_request_ext["message_body_data_ref"] in _STIX1X_OBJS:
-                artifact_obj = _STIX1X_OBJS[http_request_ext["message_body_data_ref"]]
-                body.message_body = artifact_obj.packed_data
-            else:
-                warn("%s is not an index found in %s", 306, http_request_ext["message_body_length"], obs2x_id)
+            if get_option_value("version_of_stix2x") == "2.0":
+                if http_request_ext["message_body_data_ref"] in _STIX1X_OBJS:
+                    artifact_obj = _STIX1X_OBJS[http_request_ext["message_body_data_ref"]]
+                    body.message_body = artifact_obj.packed_data
+                else:
+                    warn("%s is not an index found in %s", 306, http_request_ext["message_body_length"], obs2x_id)
         rr.http_client_request.http_message_body = body
 
 
@@ -793,12 +799,13 @@ def convert_network_traffic_c_o(obj2x, obj1x, obs2x_id):
     if "protocols" in obj2x:
         warn("%s property in %s not handled, yet", 608, "protocols", obs2x_id)
     if "src_payload_ref" in obj2x:
-        ref = obj2x["src_payload_ref"]
-        if ref in _STIX1X_OBJS:
-            obj = _STIX1X_OBJS[ref]
-            obj1x.add_related(convert_artifact_c_o(obj), "Contains", inline=True)
-        else:
-            warn("%s is not an index found in %s", 306, ref, obs2x_id)
+        if get_option_value("version_of_stix2x") == "2.0":
+            ref = obj2x["src_payload_ref"]
+            if ref in _STIX1X_OBJS:
+                obj = _STIX1X_OBJS[ref]
+                obj1x.add_related(convert_artifact_c_o(obj), "Contains", inline=True)
+            else:
+                warn("%s is not an index found in %s", 306, ref, obs2x_id)
     # how is is_active related to tcp_state?
     for name in ("start", "end", "src_byte_count", "dst_byte_count", "src_packets", "dst_packets", "ipfix",
                  "src_payload_ref", "dst_payload_ref", "encapsulates_refs", "encapsulated_by_ref"):
