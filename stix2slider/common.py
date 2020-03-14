@@ -420,5 +420,3 @@ def convert_id2x(id2x, sco_type_name=None):
 
 def create_id1x(type_name_1x):
     return "%s:%s-%s" % (_ID_NAMESPACE, type_name_1x, uuid.uuid4())
-
-

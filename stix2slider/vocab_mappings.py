@@ -92,23 +92,23 @@ ROLES_MAP = \
 
 SECTORS_MAP = \
     {
-        "chemical-sector": "Chemical Sector",
-        "commercial-facilities-sector": "Commercial Facilities Sector",
-        "communications-sector": "Communications Sector",
-        "critical-manufacturing-sector": "Critical Manufacturing Sector",
-        "dams-sector": "Dams Sector",
-        "defense-industrial-base-sector": "Defense Industrial Base Sector",
-        "emergency-services-sector": "Emergency Services Sector",
-        "energy-sector": "Energy Sector",
-        "financial-services-sector": "Financial Services Sector",
-        "food-and-agriculture-sector": "Food and Agriculture Sector",
+        "chemical": "Chemical Sector",
+        "commercial": "Commercial Facilities Sector",
+        "communications": "Communications Sector",
+        "manufacturing": "Critical Manufacturing Sector",
+        "dams": "Dams Sector",
+        "defense": "Defense Industrial Base Sector",
+        "emergency-services": "Emergency Services Sector",
+        "energy": "Energy Sector",
+        "financial-services": "Financial Services Sector",
+        "agriculture": "Food and Agriculture Sector",
         "government-facilities-sector": "Government Facilities Sector",
-        "healthcare-and-public-health-sector": "Healthcare and Public Health Sector",
-        "information-technology-sector": "Information Technology Sector",
-        "nuclear-reactors-materials-and-waste-sector": "Nuclear Reactors, Materials, and Waste Sector",
+        "healthcare": "Healthcare and Public Health Sector",
+        "technology": "Information Technology Sector",
+        "nuclear": "Nuclear Reactors, Materials, and Waste Sector",
         "other": "Other",
-        "transportation-systems-sector": "Transportation Systems Sector",
-        "water-and-wastewater-systems-sector": "Water and Wastewater Systems Sector",
+        "transportation": "Transportation Systems Sector",
+        "water": "Water and Wastewater Systems Sector",
     }
 
 THREAT_ACTOR_LABEL_MAP = \

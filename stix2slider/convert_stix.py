@@ -514,7 +514,10 @@ def add_missing_list_property_to_description(obj1x, property_name, property_valu
 def add_missing_properties_to_description(obj1x, obj2x, property_names):
     for prop_name in property_names:
         if prop_name in obj2x:
-            add_missing_property_to_description(obj1x, prop_name, obj2x)
+            if isinstance(obj2x[prop_name], list):
+                add_missing_list_property_to_description(obj1x, prop_name, obj2x[prop_name])
+            else:
+                add_missing_property_to_description(obj1x, prop_name, obj2x)
 
 
 _KILL_CHAINS = {}
