@@ -19,14 +19,16 @@ def get_version():
         raise AttributeError("Package does not have a __version__")
 
 
-with open('README.rst') as f:
-    readme = f.read()
+def get_long_description():
+    with open('README.rst') as f:
+        return f.read()
+
 
 setup(
     name="stix2-slider",
     version=get_version(),
     description="Utilities to downgrade STIX and CybOX content to 1.X",
-    long_description=readme,
+    long_description=get_long_description(),
     url="http://stixproject.github.io/",
     author='OASIS Cyber Threat Intelligence Technical Committee',
     author_email='cti-users@lists.oasis-open.org',

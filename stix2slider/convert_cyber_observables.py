@@ -7,7 +7,7 @@ from cybox.common.structured_text import StructuredText
 from cybox.common.vocabs import VocabString
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
-from cybox.objects.artifact_object import Artifact, Encoding
+from cybox.objects.artifact_object import Artifact, Encoding, Packaging
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
 from cybox.objects.email_message_object import (Attachments, EmailHeader,
@@ -39,6 +39,7 @@ from cybox.objects.process_object import (ArgumentList, ChildPIDList,
 from cybox.objects.product_object import Product
 from cybox.objects.unix_user_account_object import UnixUserAccount
 from cybox.objects.uri_object import URI
+from cybox.objects.user_account_object import UserAccount
 from cybox.objects.win_executable_file_object import (Entropy, PEFileHeader,
                                                       PEHeaders,
                                                       PEOptionalHeader,
@@ -52,7 +53,7 @@ from cybox.objects.win_registry_key_object import (RegistryValue,
                                                    RegistryValues,
                                                    WinRegistryKey)
 from cybox.objects.win_service_object import ServiceDescriptionList, WinService
-from cybox.objects.win_user_object import UserAccount, WinUser
+from cybox.objects.win_user_object import WinUser
 from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, Validity,
                                                    X509Cert, X509Certificate,
@@ -219,10 +220,9 @@ def convert_artifact_c_o(art2x, art1x, obs2x_id):
         art1x.hashes = HashList()
         for k, v in art2x["hashes"].items():
             add_hashes_property(art1x.hashes, k, v)
-    encoding = Encoding()
-    encoding.algorithm = "Base64"
-    art1x.packaging.append(encoding)
-    # art1x.packaging.encoding.algorithm = "Base64"
+    encoding = Encoding(algorithm="Base64")
+    packaging = Packaging(is_compressed=False, encoding=encoding)
+    art1x.packaging = packaging
 
 
 def convert_autonomous_system_c_o(as2x, as1x, obs2x_id):

@@ -10,12 +10,12 @@ from cybox.objects.pdf_file_object import PDFDocumentInformationDictionary
 from cybox.objects.port_object import Port
 from cybox.objects.process_object import Process
 from cybox.objects.uri_object import URI
+from cybox.objects.user_account_object import UserAccount
 from cybox.objects.win_executable_file_object import (PEFileHeader,
                                                       PEOptionalHeader)
 from cybox.objects.win_process_object import StartupInfo, WinProcess
 from cybox.objects.win_registry_key_object import RegistryValue, WinRegistryKey
 from cybox.objects.win_service_object import WinService
-from cybox.objects.win_user_object import UserAccount
 from cybox.objects.x509_certificate_object import X509Cert, X509V3Extensions
 
 from stix2slider.options import warn

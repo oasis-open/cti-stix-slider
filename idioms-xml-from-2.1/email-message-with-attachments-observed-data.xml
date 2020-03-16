@@ -59,7 +59,7 @@
                                     <cyboxCommon:Simple_Hash_Value>effb46bba03f6c8aea5c653f9cf984f170dcdd3bbbe2ff6843c3e5da0e698766</cyboxCommon:Simple_Hash_Value>
                                 </cyboxCommon:Hash>
                             </ArtifactObj:Hashes>
-                            <ArtifactObj:Packaging>
+                            <ArtifactObj:Packaging is_compressed="false" is_encrypted="false">
                                 <ArtifactObj:Encoding algorithm="Base64"/>
                             </ArtifactObj:Packaging>
                             <ArtifactObj:Raw_Artifact><![CDATA[VBORw0KGgoAAAANSUhEUgAAADI== ...]]></ArtifactObj:Raw_Artifact>

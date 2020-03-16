@@ -70,8 +70,8 @@ def _get_arg_parser(is_script=True):
         help="A comma-separated list of the stix2-slider messages to enable. "
              "If the --disable option is not used, no other messages will be "
              "shown. \n\nExample: stix2_slider <file> --enable 250",
-        dest="enable",
-        default=""
+        dest="enabled",
+        default=None
     )
 
     parser.add_argument(
@@ -79,8 +79,8 @@ def _get_arg_parser(is_script=True):
         "--disable",
         help="A comma-separated list of the stix2-slider messages to disable. \n\n"
              "Example: stix2_slider <file> --disable 212,220",
-        dest="disable",
-        default=""
+        dest="disabled",
+        default=None
     )
 
     parser.add_argument(
