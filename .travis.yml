@@ -13,7 +13,6 @@ install:
   - pip install -U pip setuptools
   - pip install tox-travis
   - pip install codecov
-  - pip install readme_renderer
   - if [[ $TRAVIS_PYTHON_VERSION != 3.4 ]]; then pip install pre-commit; fi
 script:
   - tox
