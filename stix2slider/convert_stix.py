@@ -43,6 +43,7 @@ from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
 import stixmarx
 
+from stix2slider import common
 from stix2slider.common import convert_id2x, create_id1x
 from stix2slider.convert_cyber_observables import (add_object_refs, add_refs,
                                                    convert_cyber_observables,
@@ -63,9 +64,6 @@ try:
     _STIX_1_VERSION = "1.2"
 except ImportError:
     _STIX_1_VERSION = "1.1.1"
-
-
-CONTAINER = None
 
 
 def choose_full_object_or_idref(identity_ref_2x, target_obj_idref_1x):
@@ -1275,16 +1273,15 @@ _LOCATIONS = {}
 
 
 def sco_type(type_name):
-    return type_name in ["artifact", "autonomous-system", "directory", "domain-name", "email-addr",
+    return type_name in {"artifact", "autonomous-system", "directory", "domain-name", "email-addr",
                          "email-message", "file", "ipv4-addr", "ipv6-addr", "mac-addr", "mutex",
                          "network-traffic", "process", "software", "url", "user-account",
-                         "windows-registry-key", "x509-certificate"]
+                         "windows-registry-key", "x509-certificate"}
 
 
 def convert_bundle(bundle_obj):
     global _ID_OBJECT_MAPPING
     global _EXPLICIT_OBJECT_USED
-    global _ID_NAMESPACE
     global _VICTIM_TARGET_TTPS
     global _KILL_CHAINS
     global CONTAINER
@@ -1304,7 +1301,7 @@ def convert_bundle(bundle_obj):
 
     if get_option_value("use_namespace"):
         option_value = get_option_value("use_namespace").split(" ")
-        _ID_NAMESPACE = option_value[0]
+        common._ID_NAMESPACE = option_value[0]
         set_default_namespace(*option_value)
 
     CONTAINER = stixmarx.new()
@@ -1345,8 +1342,8 @@ def convert_bundle(bundle_obj):
             # TODO: anything about the markings on the location that we should remember?
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
-        elif o["type"] == "malware_analysis":
-            warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "malware_analysis")
+        elif o["type"] == "malware-analysis":
+            warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "malware-analysis")
         elif o["type"] == "note":
             warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "note")
         elif o["type"] == "observed-data":
