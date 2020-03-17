@@ -40,7 +40,8 @@
                     <ttp:Malware_Instance>
                         <ttp:Type>dropper</ttp:Type>
                         <ttp:Name>emotet,word macro</ttp:Name>
-                        <ttp:Description>Malware tries to download additional payload from remote server</ttp:Description>
+                        <ttp:Description ordinality="1">Malware tries to download additional payload from remote server</ttp:Description>
+                        <ttp:Description ordinality="2">is_family: False</ttp:Description>
                     </ttp:Malware_Instance>
                 </ttp:Malware>
             </ttp:Behavior>

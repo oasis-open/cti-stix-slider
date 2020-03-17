@@ -8,32 +8,38 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "type": "ipv4-addr",
-                    "value": "198.51.100.9"
-                },
-                "1": {
-                    "type": "ipv4-addr",
-                    "value": "203.0.113.5"
-                },
-                "2": {
-                    "dst_ref": "1",
-                    "extensions": {
-                        "icmp-ext": {
-                            "icmp_code_hex": "00",
-                            "icmp_type_hex": "08"
-                        }
-                    },
-                    "protocols": [
-                        "icmp"
-                    ],
-                    "src_ref": "0",
-                    "type": "network-traffic"
-                }
-            },
+            "object_refs": [
+                "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+                "ipv4-addr--d7177770-fc12-586b-9244-426596a7008e",
+                "network-traffic--e7a939ca-78c6-5f27-8ae0-4ad112454626"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "ipv4-addr--d7177770-fc12-586b-9244-426596a7008e",
+            "type": "ipv4-addr",
+            "value": "198.51.100.9"
+        },
+        {
+            "id": "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+            "type": "ipv4-addr",
+            "value": "203.0.113.5"
+        },
+        {
+            "dst_ref": "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+            "extensions": {
+                "icmp-ext": {
+                    "icmp_code_hex": "00",
+                    "icmp_type_hex": "08"
+                }
+            },
+            "id": "network-traffic--e7a939ca-78c6-5f27-8ae0-4ad112454626",
+            "protocols": [
+                "icmp"
+            ],
+            "src_ref": "ipv4-addr--d7177770-fc12-586b-9244-426596a7008e",
+            "type": "network-traffic"
         }
     ],
     "type": "bundle"

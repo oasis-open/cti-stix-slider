@@ -4,7 +4,7 @@ Installing
 Requirements
 ------------
 
-- Python 2.7, or 3.3+
+- Python 2.7, or 3.4+
 - `python-stix <https://stix.readthedocs.io/en/stable/>`_ and its dependencies
 
   .. note::
@@ -14,8 +14,8 @@ Requirements
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 1.1.0
--  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.3
+-  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 1.3.0
+-  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.6
 -  `stix-validator <https://pypi.org/project/stix-validator>`_ >= 2.5.0
 
 Installation Steps

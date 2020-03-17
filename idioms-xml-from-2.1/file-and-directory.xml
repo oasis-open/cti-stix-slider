@@ -1,29 +1,62 @@
 <stix:STIX_Package
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:stix="http://stix.mitre.org/stix-1"
-	xmlns:cybox="http://cybox.mitre.org/cybox-2"
-	xmlns:example="http://example.com"
-	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
-	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-c8c32b6e-2ea8-41c4-a446-7f5218072f27">
-            <cybox:Object id="example:File-0b102a37-c3d3-4472-a4ea-7aa336a0709e">
+            <cybox:Object id="example:File-4aa982e3-4aac-5d5b-a699-d08c8c11f5f3">
                 <cybox:Properties xsi:type="FileObj:FileObjectType">
-                    <FileObj:File_Name>iprip32.dll</FileObj:File_Name>
-                    <FileObj:Full_Path>/usr/local/iprip32.dll</FileObj:Full_Path>
-                    <FileObj:Hashes>
-                        <cyboxCommon:Hash>
-                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
-                            <cyboxCommon:Simple_Hash_Value>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</cyboxCommon:Simple_Hash_Value>
-                        </cyboxCommon:Hash>
-                    </FileObj:Hashes>
+                    <FileObj:Full_Path>/usr/local</FileObj:Full_Path>
                 </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:File-88a04250-a572-5393-bd4e-27f54f56c67a">
+                        <cybox:Properties xsi:type="FileObj:FileObjectType">
+                            <FileObj:File_Name>iprip32.dll</FileObj:File_Name>
+                            <FileObj:Full_Path>/usr/local/iprip32.dll</FileObj:Full_Path>
+                            <FileObj:Hashes>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>5d8129be965fab8115eca34fc84bd7f0</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                                <cyboxCommon:Hash>
+                                    <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                    <cyboxCommon:Simple_Hash_Value>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</cyboxCommon:Simple_Hash_Value>
+                                </cyboxCommon:Hash>
+                            </FileObj:Hashes>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                    </cybox:Related_Object>
+                    <cybox:Related_Object id="example:File-f1d5fe45-c6a6-46eb-96cf-f20bee7cb095">
+                        <cybox:Properties xsi:type="FileObj:FileObjectType">
+                            <FileObj:File_Name>some-file.txt</FileObj:File_Name>
+                            <FileObj:Full_Path>/usr/local/some-file.txt</FileObj:Full_Path>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Contains</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
             </cybox:Object>
         </cybox:Observable>
     </stix:Observables>
+    <stix:TTPs>
+        <stix:TTP id="example:infrastructure-dd955e08-16d0-4f08-a064-50d9e7a3104d" timestamp="2019-08-21T11:06:15.318000+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Resources>
+                <ttp:Infrastructure>
+                    <ttp:Title>Malware C2 Channel</ttp:Title>
+                    <ttp:Type>malware-c2</ttp:Type>
+                    <ttp:Description>first_seen: 2019-08-21 11:06:15.318000+00:00</ttp:Description>
+                </ttp:Infrastructure>
+            </ttp:Resources>
+        </stix:TTP>
+    </stix:TTPs>
 </stix:STIX_Package>
+

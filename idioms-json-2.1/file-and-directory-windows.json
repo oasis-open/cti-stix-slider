@@ -8,22 +8,29 @@
             "last_observed": "2017-01-27T13:49:41.345Z",
             "modified": "2017-01-27T13:49:41.345Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "hashes": {
-                        "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-                    },
-                    "name": "iprip32.dll",
-                    "parent_directory_ref": "1",
-                    "type": "file"
-                },
-                "1": {
-                    "path": "c:\\system32",
-                    "type": "directory"
-                }
-            },
+            "object_refs": [
+                "directory--c2ce9c3a-d375-58fa-931e-ffab11d8b609",
+                "file--957a7c3b-2c14-5f47-a174-38661fc51c00"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "directory--c2ce9c3a-d375-58fa-931e-ffab11d8b609",
+            "path": "c:\\system32",
+            "type": "directory",
+            "contains_refs": [
+                "file--957a7c3b-2c14-5f47-a174-38661fc51c00"
+            ]
+        },
+        {
+            "hashes": {
+                "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "id": "file--957a7c3b-2c14-5f47-a174-38661fc51c00",
+            "name": "iprip32.dll",
+            "parent_directory_ref": "directory--c2ce9c3a-d375-58fa-931e-ffab11d8b609",
+            "type": "file"
         }
     ],
     "type": "bundle"

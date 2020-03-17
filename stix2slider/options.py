@@ -285,7 +285,7 @@ def _set_validation_options(args):
     if options.schema_validate and args.profile:
         options.profile_validate = True
 
-    # best practice options
+    # best practice options, for stix1.x validator
     options.best_practice_validate = args.best_practices
 
     # input options
@@ -417,16 +417,15 @@ def _get_validator_arg_parser():
     return parser
 
 
-# These codes are aligned with elevator_log_messages spreadsheet.
 CHECK_CODES = [0,
                201, 202, 203, 204,
 
-               301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316,
+               301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317,
 
                401, 402,
 
                501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521,
-               522, 523, 524, 525, 526, 527, 528,
+               522, 523, 524, 525, 526, 527, 528, 529,
 
                601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611, 612,
 

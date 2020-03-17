@@ -10,6 +10,7 @@
             "modified": "2014-05-08T09:00:00.000Z",
             "name": "IP Address for known C2 channel",
             "pattern": "[user-account:account_type = 'unix' AND user-account:user_id = '1007' AND user-account:account_login = 'Peter' AND user-account:credential = 'PaSSw0rD'] AND [user-account:account_type = 'unix' AND user-account:user_id = '1008' AND user-account:account_login = 'Paul'] AND [user-account:account_type = 'unix' AND user-account:user_id = '1009' AND user-account:account_login = 'Mary' AND user-account:extensions.'unix-account-ext'.gid = '1003']",
+            "pattern_type": "stix",
             "spec_version": "2.1",
             "type": "indicator",
             "valid_from": "2014-05-08T09:00:00.000000Z"

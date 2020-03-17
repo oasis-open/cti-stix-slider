@@ -10,8 +10,6 @@ import stix2
 from stix2slider.convert_stix import convert_bundle
 from stix2slider.options import get_validator_options, setup_logger
 
-# import stix2slider.utils  # flake8: noqa
-
 # Module-level logger
 log = logging.getLogger(__name__)
 

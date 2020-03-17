@@ -1,0 +1,74 @@
+{
+    "id": "bundle--6116aed6-a7e9-41e3-a82f-000c29b241af",
+    "objects": [
+        {
+            "id": "domain-name--fbf2f00f-3906-51fe-99b1-00623576a34a",
+            "resolves_to_refs": [
+                "ipv4-addr--d9076a7c-dc16-56f6-8e50-15430bfd3be9",
+                "ipv4-addr--61ef0108-6383-55b0-b9d5-b6c399816481"
+            ],
+            "type": "domain-name",
+            "value": "www.dhcpserver.ns01.us"
+        },
+        {
+            "id": "ipv4-addr--d9076a7c-dc16-56f6-8e50-15430bfd3be9",
+            "resolves_to_refs": [
+                "mac-addr--f631863e-ba0a-59c1-98b8-4511cc383dfa"
+            ],
+            "belongs_to_refs": [
+                "autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74"
+            ],
+            "type": "ipv4-addr",
+            "value": "219.90.112.203"
+        },
+        {
+            "id": "mac-addr--f631863e-ba0a-59c1-98b8-4511cc383dfa",
+            "type": "mac-addr",
+            "value": "d4:be:d9:17:d8:59"
+        },
+        {
+            "id": "autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74",
+            "name": "Slime Industries",
+            "number": 15139,
+            "rir": "ARIN",
+            "type": "autonomous-system"
+        },
+
+        {
+            "id": "ipv4-addr--61ef0108-6383-55b0-b9d5-b6c399816481",
+            "type": "ipv4-addr",
+            "value": "202.65.220.64"
+        },
+        {
+            "created": "2020-02-07T16:58:05.185Z",
+            "first_observed": "2020-02-07T16:58:05.185Z",
+            "id": "observed-data--464e70d7-13e1-405f-b389-8f246bd81dec",
+            "last_observed": "2020-02-07T16:58:05.185Z",
+            "modified": "2020-02-07T16:58:05.185Z",
+            "number_observed": 1,
+            "object_refs": [
+                "ipv4-addr--61ef0108-6383-55b0-b9d5-b6c399816481"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "created": "2020-02-07T16:58:05.185Z",
+            "first_observed": "2020-02-07T16:58:05.185Z",
+            "id": "observed-data--42f1ec7e-2a32-4ff7-84a7-fbcb6288c8c9",
+            "last_observed": "2020-02-07T16:58:05.185Z",
+            "modified": "2020-02-07T16:58:05.185Z",
+            "number_observed": 1,
+            "object_refs": [
+                "domain-name--fbf2f00f-3906-51fe-99b1-00623576a34a",
+                "ipv4-addr--d9076a7c-dc16-56f6-8e50-15430bfd3be9",
+                "mac-addr--f631863e-ba0a-59c1-98b8-4511cc383dfa",
+                "autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        }
+
+    ],
+    "type": "bundle"
+}

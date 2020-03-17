@@ -12,6 +12,7 @@
       "objects": {
         "0": {
           "type": "email-addr",
+          "belongs_to_ref": "3",
           "value": "jdoe@example.com",
           "display_name": "John Doe"
         },
@@ -23,13 +24,30 @@
         "2": {
           "type": "email-message",
           "from_ref": "0",
-          "to_refs": ["1"],
+          "to_refs": [
+            "1"
+          ],
           "is_multipart": false,
           "date": "1997-11-21T15:55:06.000Z",
           "subject": "Saying Hello"
+        },
+        "3": {
+          "account_created": "2016-01-20T12:31:12Z",
+          "account_first_login": "2016-01-20T14:26:07Z",
+          "account_last_login": "2016-07-22T16:08:28Z",
+          "account_login": "jdoe",
+          "account_type": "unix",
+          "can_escalate_privs": true,
+          "credential_last_changed": "2016-01-20T14:27:43Z",
+          "display_name": "John Doe",
+          "is_privileged": false,
+          "is_service_account": false,
+          "type": "user-account",
+          "user_id": "1001"
         }
       }
-    }],
+    }
+  ],
   "spec_version": "2.0",
   "type": "bundle"
 }

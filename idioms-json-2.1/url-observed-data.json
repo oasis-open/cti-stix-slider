@@ -1,22 +1,24 @@
 {
-    "id": "bundle--f8f94f34-623f-4e61-805e-9e4302f84ab6",
-    "objects": [
-        {
-            "created": "2017-05-22T13:03:55.429Z",
-            "first_observed": "2017-05-22T13:03:55.429Z",
-            "id": "observed-data--973b8552-3b78-4122-9b1e-61d69133607c",
-            "last_observed": "2017-05-22T13:03:55.429Z",
-            "modified": "2017-05-22T13:03:55.429Z",
-            "number_observed": 1,
-            "objects": {
-                "0": {
-                    "type": "url",
-                    "value": "https://example.com/research/index.html"
-                }
-            },
-            "spec_version": "2.1",
-            "type": "observed-data"
-        }
-    ],
-    "type": "bundle"
+  "id": "bundle--f8f94f34-623f-4e61-805e-9e4302f84ab6",
+  "objects": [
+    {
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--973b8552-3b78-4122-9b1e-61d69133607c",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "object_refs": [
+        "url--c1477287-23ac-5971-a010-5c287877fa60"
+      ],
+      "spec_version": "2.1",
+      "type": "observed-data"
+    },
+    {
+      "id": "url--c1477287-23ac-5971-a010-5c287877fa60",
+      "type": "url",
+      "value": "https://example.com/research/index.html"
+    }
+  ],
+  "type": "bundle"
 }

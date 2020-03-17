@@ -8,30 +8,32 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "account_login": "jdoe",
-                    "account_type": "unix",
-                    "can_escalate_privs": true,
-                    "display_name": "John Doe",
-                    "extensions": {
-                        "unix-account-ext": {
-                            "gid": 1001,
-                            "groups": [
-                                "wheel"
-                            ],
-                            "home_dir": "/home/jdoe",
-                            "shell": "/bin/bash"
-                        }
-                    },
-                    "is_privileged": false,
-                    "is_service_account": false,
-                    "type": "user-account",
-                    "user_id": "1001"
-                }
-            },
+            "object_refs": [
+                "user-account--0d5b424b-93b8-5cd8-ac36-306e1789d63c"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "account_login": "jdoe",
+            "account_type": "unix",
+            "can_escalate_privs": true,
+            "display_name": "John Doe",
+            "extensions": {
+                "unix-account-ext": {
+                    "gid": 1001,
+                    "groups": [
+                        "wheel"
+                    ],
+                    "home_dir": "/home/jdoe",
+                    "shell": "/bin/bash"
+                }
+            },
+            "id": "user-account--0d5b424b-93b8-5cd8-ac36-306e1789d63c",
+            "is_privileged": false,
+            "is_service_account": false,
+            "type": "user-account",
+            "user_id": "1001"
         }
     ],
     "type": "bundle"

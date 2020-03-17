@@ -52,11 +52,12 @@ from cybox.objects.win_registry_key_object import (RegistryValue,
                                                    RegistryValues,
                                                    WinRegistryKey)
 from cybox.objects.win_service_object import ServiceDescriptionList, WinService
-from cybox.objects.win_user_object import WinUser
+from cybox.objects.win_user_account_object import WinUser
 from cybox.objects.x509_certificate_object import (RSAPublicKey,
                                                    SubjectPublicKey, X509Cert,
                                                    X509Certificate,
                                                    X509V3Extensions)
+from six import text_type
 import stix2
 from stix2.patterns import (BasicObjectPathComponent, ListObjectPathComponent,
                             ObjectPath, _ComparisonExpression)
@@ -105,6 +106,8 @@ _CYBOX_OBJECT_MAP = {
     # "socket-ext": NetworkSocket,
     # "tcp-ext": NetworkPacket,
     "process": Process,
+    "windows-process-ext": WinProcess,
+    "windows-service-ext": WinService,
     "software": Product,
     "url": URI,
     "user-account": WinUser,
@@ -317,6 +320,10 @@ def map_extensions_to_cybox_class(types):
             types = types - set(["network-traffic"])
             stix2_type_name = types.pop()
             return _CYBOX_OBJECT_MAP[stix2_type_name]
+        elif "process" in types:
+            types = types - set(["process"])
+            stix2_type_name = types.pop()
+            return _CYBOX_OBJECT_MAP[stix2_type_name]
     else:
         pass
         # warn: don't handle more than one extension yet
@@ -374,13 +381,12 @@ def add_scalar_artifact_property_pattern(obj, properties, rhs, op, id2x):
             warn("%s is an XML attribute of %s in STIX 1.x, so the operator 'equals' is assumed in %s",
                  513,
                  "mime_type", "Artifact", id2x)
-    # it is illegal in STIX 2.0 to have both a payload_bin and url property - be we don't warn about it here
+    # it is illegal in STIX 2.x to have both a payload_bin and url property - be we don't warn about it here
     elif prop_name == "payload_bin":
         obj.packed_data = rhs.value
         warn("Operator %s for Artifact.Raw_Artifact in %s not handled yet", 610, op, id2x)
     elif prop_name == "url":
         obj.raw_artifact_reference = rhs.value
-    # TODO: art1x.packaging.encoding.algorithm = "Base64"
     elif get_option_value("version_of_stix2x") == "2.1" and (prop_name == "encryption_algorithm" or prop_name == "decryption_key"):
         warn("%s property in %s not handled yet", 606, prop_name, id2x)
     else:
@@ -552,13 +558,13 @@ def add_scalar_file_property_pattern(file_obj, properties, rhs, op, id2x):
     elif prop_name == 'parent_directory_ref':
         if properties[1].property_name == 'path':
             # TODO: what if name isn't available
-            directory_string = str(rhs.value)
-            file_obj.full_path = rhs.value + ("\\\\" if is_windows_directory(directory_string) else "/") + str(file_obj.file_name)
+            directory_string = text_type(rhs.value)
+            file_obj.full_path = rhs.value + ("\\\\" if is_windows_directory(directory_string) else "/") + text_type(file_obj.file_name)
             convert_operator(op, file_obj.full_path, id2x)
         else:
             warn("The path property in %s is the only directory property supportable in STIX 1.x. %s is ignored", 521, id2x, properties[1].property_name)
     elif prop_name == 'content_ref':
-        # TODO: what if there are mutiple references to the same object?
+        # TODO: what if there are multiple references to the same object?
         obs = Artifact()
         convert_artifact_c_o({properties[1].property_name: rhs.value}, obs)
         # TODO: determine which property needs the operator
@@ -725,26 +731,32 @@ def add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, i
         if properties[1].index == "*":
             if not file_obj.sections:
                 file_obj.sections = PESectionList()
-                section = PESection()
-                file_obj.sections.section.append(section)
+            section = PESection()
+            propulated_property = False
             prop_name2 = properties[2].property_name
             if prop_name2 == "name" or prop_name2 == "size":
-                if not file_obj.sections.section.section_header:
-                    file_obj.sections.section.section_header = PESectionHeaderStruct()
+                if not section.section_header:
+                    section.section_header = PESectionHeaderStruct()
                     if prop_name2 == "name":
                         section.section_header.name = rhs.value
                         convert_operator(op, section.section_header.name, id2x)
+                        propulated_property = True
                     elif prop_name2 == "size":
                         section.section_header.size_of_raw_data = rhs.value
                         convert_operator(op, section.section_header.size_of_raw_data, id2x)
+                        propulated_property = True
             elif prop_name2 == "entropy":
                 section.entropy = Entropy()
                 section.entropy.value = rhs.value
                 convert_operator(op, section.entropy.value, id2x)
+                propulated_property = True
             elif prop_name2 == "hashes":
                 if section.data_hashes:
                     section.data_hashes = HashList()
                 add_hashes_pattern(section.data_hashes, properties[3].property_name, rhs, op, id2x)
+                propulated_property = True
+            if propulated_property:
+                file_obj.sections.section.append(section)
         else:
             warn("number indicies in %s not handled, yet", 601, id2x)
     else:
@@ -972,7 +984,7 @@ def add_scalar_process_property_pattern(process_obj, properties, rhs, op, id2x):
         convert_operator(op, process_obj.image_info.command_line, id2x)
     elif prop_name0 == "creator_user_ref":
         prop_name1 = properties[1].property_name
-        if prop_name1 == 'account_login':
+        if prop_name1 == 'account_login' or prop_name1 == "user_id":
             process_obj.username = rhs.value
             convert_operator(op, process_obj.username, id2x)
         else:
@@ -1030,7 +1042,6 @@ def add_list_process_property_pattern(process_obj, exp2x, id2x):
             nc = NetworkConnection()
             convert_network_connection_pattern_1(rhs, op, properties[1:], nc, id2x)
             process_obj.network_connection_list.network_connection.append(nc)
-            # obs = convert_network_traffic_c_o({prop_name1: rhs.value}, nc, id2x)
         else:
             warn("number indicies in %s not handled, yet", 601, id2x)
     elif prop_name == "child_refs":
@@ -1114,7 +1125,7 @@ def add_scalar_software_property_pattern(software_obj, properties, rhs, op, id2x
     elif prop_name == "version":
         software_obj.version = rhs.value
         convert_operator(op, software_obj.version, id2x)
-    elif prop_name == "cpe":
+    elif prop_name in ["cpe", "swid"]:
         warn("%s not representable in a STIX 1.x %s.  Found in the pattern of %s", 504, "Product",
              prop_name,
              id2x)
@@ -1156,7 +1167,7 @@ def convert_user_account_pattern(exp2x, obj1x, id2x):
         obj1x.username = rhs_value
         convert_operator(op, obj1x.username, id2x)
     elif prop_name == "account_type":
-        warn("account_type property of %s in STIX 2.0 is not directly represented as a property in STIX 1.x", 506, id2x)
+        warn("account_type property of %s in STIX 2.x is not directly represented as a property in STIX 1.x", 506, id2x)
     # TODO: account_type -> Account.Domain??
     # TODO: display_name
     # TODO: is_service_account
@@ -1183,7 +1194,7 @@ def convert_user_account_pattern(exp2x, obj1x, id2x):
             obj1x.user_id = int(rhs_value)
             convert_operator(op, obj1x.user_id, id2x)
         else:
-            warn("The user_id property of %s in STIX 2.0 is only represented as a property in STIX 1.x on UnixUserAccount objects")
+            warn("The user_id property of %s in STIX 2.x is only represented as a property in STIX 1.x on UnixUserAccount objects")
     elif prop_name == "extensions":
         convert_unix_account_extensions_pattern(obj1x, properties, rhs_value, op, id2x)
     else:

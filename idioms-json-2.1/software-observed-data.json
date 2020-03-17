@@ -8,17 +8,19 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "cpe": "cpe:2.3:a:microsoft:word:2000:*:*:*:*:*:*:*",
-                    "name": "Word",
-                    "type": "software",
-                    "vendor": "Microsoft",
-                    "version": "2002"
-                }
-            },
+            "object_refs": [
+               "software--a1827f6d-ca53-5605-9e93-4316cd22a00a"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "cpe": "cpe:2.3:a:microsoft:word:2000:*:*:*:*:*:*:*",
+            "id": "software--a1827f6d-ca53-5605-9e93-4316cd22a00a",
+            "name": "Word",
+            "type": "software",
+            "vendor": "Microsoft",
+            "version": "2002"
         }
     ],
     "type": "bundle"

@@ -8,22 +8,59 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "hashes": {
-                        "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
-                    },
-                    "type": "file"
-                },
-                "1": {
-                    "created": "2016-01-20T14:11:25.55Z",
-                    "image_ref": "0",
-                    "pid": 1221,
-                    "type": "process"
-                }
-            },
+            "object_refs": [
+                "file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
+                "process--85ef7684-85b1-4bec-b60a-d367d00fd64d",
+                "user-account--ef9bb495-faeb-5390-9330-6fa4f73a8c9f"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "hashes": {
+                "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+            },
+            "id": "file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
+            "name": "some.file",
+            "type": "file"
+        },
+        {
+            "created": "2016-01-20T14:11:25.55Z",
+            "creator_user_ref": "user-account--ef9bb495-faeb-5390-9330-6fa4f73a8c9f",
+            "id": "process--85ef7684-85b1-4bec-b60a-d367d00fd64d",
+            "image_ref": "file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
+            "pid": 1221,
+            "extensions": {
+            "windows-service-ext": {
+              "service_dll_refs": [
+                "file--957a7c3b-2c14-5f47-a174-38661fc51c00"
+              ]
+            }
+          },
+            "type": "process"
+        },
+        {
+            "account_created": "2016-01-20T12:31:12Z",
+            "account_first_login": "2016-01-20T14:26:07Z",
+            "account_last_login": "2016-07-22T16:08:28Z",
+            "account_login": "fred",
+            "account_type": "windows",
+            "can_escalate_privs": true,
+            "credential_last_changed": "2016-01-20T14:27:43Z",
+            "display_name": "Fred Flintstone",
+            "id": "user-account--ef9bb495-faeb-5390-9330-6fa4f73a8c9f",
+            "is_privileged": false,
+            "is_service_account": false,
+            "type": "user-account",
+            "user_id": "1002"
+        },
+        {
+            "name": "iprip32.dll",
+            "id": "file--957a7c3b-2c14-5f47-a174-38661fc51c00",
+            "hashes": {
+                "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "type": "file"
         }
     ],
     "type": "bundle"

@@ -1,0 +1,59 @@
+<stix:STIX_Package
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-6116aed6-a7e9-41e3-a82f-000c29b241af" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-42f1ec7e-2a32-4ff7-84a7-fbcb6288c8c9">
+            <cybox:Object id="example:DomainName-82a92341-3fab-437b-b400-98fc6fc33362">
+                <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
+                    <DomainNameObj:Value>www.dhcpserver.ns01.us</DomainNameObj:Value>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:Address-a1ef1247-bbd5-49a5-a0ea-97efcecb71f1">
+                        <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>219.90.112.203</AddressObj:Address_Value>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Resolved_To</cybox:Relationship>
+                    </cybox:Related_Object>
+                    <cybox:Related_Object id="example:Address-718ebe81-37d2-4b7e-8d45-821a715fd40e">
+                        <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>202.65.220.64</AddressObj:Address_Value>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Resolved_To</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-a9579acb-62fb-4c4f-9af3-5571c0600edc">
+            <cybox:Object id="example:Address-db109f13-b07a-4c2d-8ad0-09399b801147">
+                <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                    <AddressObj:Address_Value>219.90.112.203</AddressObj:Address_Value>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:Address-185d810a-7562-4816-81ae-9d220db19c27">
+                        <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="mac">
+                            <AddressObj:Address_Value>d4:be:d9:17:d8:59</AddressObj:Address_Value>
+                        </cybox:Properties>
+                        <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Resolved_To</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:observable-4b3b859b-d682-47e7-8e27-fbadca8e3b72">
+            <cybox:Object id="example:Address-9d89f500-df1d-4497-ab51-78c3eeb3769a">
+                <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                    <AddressObj:Address_Value>202.65.220.64</AddressObj:Address_Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+</stix:STIX_Package>

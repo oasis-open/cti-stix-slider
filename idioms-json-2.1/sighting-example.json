@@ -12,6 +12,7 @@
             "modified": "2016-04-06T20:03:48.000Z",
             "name": "Poison Ivy Malware",
             "pattern": "[ file:hashes.'SHA-256' = '4bac27393bdd9777ce02453256c5577cd02275510b2227f473d03f533924f877' ]",
+            "pattern_type": "stix",
             "spec_version": "2.1",
             "type": "indicator",
             "valid_from": "2016-01-01T00:00:00Z"
@@ -22,7 +23,7 @@
             "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
             "first_seen": "2015-12-21T19:00:00Z",
             "id": "sighting--ee20065d-2555-424f-ad9e-0f8428623c75",
-            "last_seen": "2015-12-21T19:00:00Z",
+            "last_seen": "2015-12-25T19:00:00Z",
             "modified": "2016-04-06T20:08:31.000Z",
             "observed_data_refs": [
                 "observed-data--b67d30ff-02ac-498a-92f9-32f845f448cf"
@@ -42,14 +43,9 @@
             "last_observed": "2016-04-06T19:58:16Z",
             "modified": "2016-04-06T19:58:16.000Z",
             "number_observed": 50,
-            "objects": {
-                "0": {
-                    "hashes": {
-                        "SHA-256": "4bac27393bdd9777ce02453256c5577cd02275510b2227f473d03f533924f877"
-                    },
-                    "type": "file"
-                }
-            },
+            "object_refs": [
+                "file--7c4f41d8-8a13-535b-9564-d8b6764db42f"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
         },
@@ -61,6 +57,13 @@
             "name": "ACME Inc.",
             "spec_version": "2.1",
             "type": "identity"
+        },
+        {
+            "hashes": {
+                "SHA-256": "4bac27393bdd9777ce02453256c5577cd02275510b2227f473d03f533924f877"
+            },
+            "id": "file--7c4f41d8-8a13-535b-9564-d8b6764db42f",
+            "type": "file"
         }
     ],
     "type": "bundle"

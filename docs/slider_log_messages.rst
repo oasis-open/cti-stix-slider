@@ -21,7 +21,7 @@ Possible issue in original STIX 2.x content
 ============================================================================================================== ====    =====
 Message                                                                                                        Code    Level
 ============================================================================================================== ====    =====
-No source object exists for *[id]* to add the relationship *[relationship]*                                    301     Warn
+No source object exists for *[id]*. Dropping the relationship *[relationship]*                                 301     Warn
 Unknown hash type *[hash_type]* used in *[id]*                                                                 302     Warn
 *[property]* is not a legal property in the pattern of *[id]*                                                  303     Warn
 Unknown address type *[type]* used in *[id]*                                                                   304     Warn
@@ -37,6 +37,7 @@ The *[property1]* property in *[id]* should be '*[boolean]*' if the *[property2]
 Cannot convert *[id]* because it doesn't contain both a source_ref and a target_ref                            314     Warn
 No *[ref_property]* object exists for *[id]* in relationship *[rel-id]*                                        315     Warn
 ref type *[type]* in *[id]* is not known                                                                       316     Warn
+*[id]* referenced in *[id]* is not found                                                                       317     Warn
 ============================================================================================================== ====    =====
 
 Multiple values are not supported in STIX 1.x
@@ -57,13 +58,13 @@ Message                                                                         
 ============================================================================================================================ ====   =====
 The *[relationship]* relationship between *[id1]* and *[id2]* is not supported in STIX 1.x                                   501     Warn
 Multiple File Extensions in *[id]* not supported yet                                                                         502     Warn
-*[property]* not representable in a STIX 1.x *[type]*.  Found in *[id]*                                                      503     Warn
+*[property]* is not representable in a STIX 1.x *[type]*.  Found in *[id]*                                                   503     Warn
 *[property]* not representable in a STIX 1.x *[type]*.  Found in the pattern of *[id]*                                       504     Warn
 *[op]* cannot be converted to a STIX 1.x operator in the pattern of *[id]*                                                   505     Warn
 ``account_type`` property of *[id]* in STIX 2.x is not directly represented as a property in STIX 1.x                        506     Warn
 Received Line *[line]* in *[id]* has a prefix that is not representable in STIX 1.x                                          507     Warn
 Unable to convert STIX 2.x sighting *[id]* because it doesn't refer to an indicator                                          508     Warn
-Ignoring *[id]*, because a *[type]* cannot be represented in STIX 1.1.1                                                      509     Warn
+Ignoring *[id]*, because a *[type]* object cannot be represented in STIX 1.1.1                                               509     Warn
 Identity has no property to store ``external-references`` from *[id]*                                                        510     Warn
 pe_type SYS in *[id]* is valid in STIX 2.x, but not in STIX 1.x                                                              511     Warn
 pe_type [pe_type] in *[id]* is allowed in STIX 2.x, but not in STIX 1.x                                                      512     Warn
@@ -78,11 +79,12 @@ The user_id property of *[id]* in STIX 2.x is only represented as a property in 
 The ``path`` property in *[id]* is the only directory property supportable in STIX 1.x. *[property]* is ignored              521     Warn
 Nested Archive Files in *[id]* not handled yet                                                                               522     Warn
 STIX 1.x can only store the body and headers of an email message in *[id]* independently                                     523     Warn
-Cannot convert STIX 2.x content that contains ``intrusion-sets``                                                             524     Error
+``NO MESSAGE ASSIGNED``                                                                                                      524
 *[id]* is not explicitly a member of a STIX 1.x ``Report``                                                                   525     Warn
 *[id]* cannot be represented in STIX 1.x                                                                                     526     Warn
 Relationship between *[id]* and a location is not supported in STIX 1.x                                                      527     Warn
-Ignoring *[id]*, because a *[type]* cannot be represented in STIX 1.x                                                        528     Warn
+Ignoring *[id]*, because a *[type]* object cannot be represented in STIX 1.x                                                 528     Warn
+Unable to populate sub-property *[property]* of *[id]*, therefore *[property]* cannot be represented in the STIX 1.x object  529     Warn
 ============================================================================================================================ ====   =====
 
 STIX Slider currently doesn't process this content

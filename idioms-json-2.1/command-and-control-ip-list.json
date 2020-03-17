@@ -8,21 +8,25 @@
             "last_observed": "2017-01-27T13:49:41.329Z",
             "modified": "2017-01-27T13:49:41.329Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "resolves_to_refs": [
-                        "1"
-                    ],
-                    "type": "ipv4-addr",
-                    "value": "198.51.100.2"
-                },
-                "1": {
-                    "type": "mac-addr",
-                    "value": "6a:00:02:5c:e3:c0"
-                }
-            },
+            "object_refs": [
+                "ipv4-addr--7e4a9c21-50df-5298-97ce-42044f79472e",
+                "mac-addr--7743b2c8-45bc-5cf3-abe8-d87556783f1e"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "ipv4-addr--7e4a9c21-50df-5298-97ce-42044f79472e",
+            "resolves_to_refs": [
+                        "mac-addr--7743b2c8-45bc-5cf3-abe8-d87556783f1e"
+                    ],
+            "type": "ipv4-addr",
+            "value": "198.51.100.2"
+        },
+        {
+            "id": "mac-addr--7743b2c8-45bc-5cf3-abe8-d87556783f1e",
+            "type": "mac-addr",
+            "value": "6a:00:02:5c:e3:c0"
         },
         {
             "created": "2017-01-27T13:49:41.329Z",
@@ -31,14 +35,16 @@
             "last_observed": "2017-01-27T13:49:41.329Z",
             "modified": "2017-01-27T13:49:41.329Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "type": "ipv4-addr",
-                    "value": "198.51.100.17"
-                }
-            },
+            "object_refs": [
+                "ipv4-addr--aa3e1cc2-0c65-5358-82ae-9a7e508e939f"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "ipv4-addr--aa3e1cc2-0c65-5358-82ae-9a7e508e939f",
+            "type": "ipv4-addr",
+            "value": "198.51.100.17"
         },
         {
             "created": "2017-01-27T13:49:41.329Z",
@@ -47,14 +53,16 @@
             "last_observed": "2017-01-27T13:49:41.329Z",
             "modified": "2017-01-27T13:49:41.329Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "type": "ipv4-addr",
-                    "value": "203.0.113.19"
-                }
-            },
+            "object_refs": [
+                "ipv4-addr--179b9f2b-745f-5421-a6d1-701872c15d4c"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "ipv4-addr--179b9f2b-745f-5421-a6d1-701872c15d4c",
+            "type": "ipv4-addr",
+            "value": "203.0.113.19"
         }
     ],
     "type": "bundle"
