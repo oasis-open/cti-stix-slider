@@ -1,11 +1,14 @@
+# Standard Library
 from argparse import Namespace
 
-from stix2slider import options
-from stix2slider.options import (SliderOptions,
-                                 get_option_value,
-                                 initialize_options)
-
+# external
 import pytest
+
+# internal
+from stix2slider import options
+from stix2slider.options import (
+    SliderOptions, get_option_value, initialize_options
+)
 
 
 @pytest.mark.parametrize("opts", [

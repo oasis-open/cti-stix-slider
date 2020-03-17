@@ -4,10 +4,12 @@ current version of the stix2-slider will provide insight to issues that might ne
 to be mitigated so you can use an application that supports only STIX 1.x content.
 """
 
+# Standard Library
 import argparse
 import sys
 import textwrap
 
+# internal
 from stix2slider import slide_file
 from stix2slider.options import initialize_options
 from stix2slider.version import __version__

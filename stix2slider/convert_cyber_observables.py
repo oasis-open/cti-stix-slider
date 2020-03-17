@@ -1,7 +1,10 @@
+# Standard Library
 from functools import cmp_to_key
 
-from cybox.common.environment_variable import (EnvironmentVariable,
-                                               EnvironmentVariableList)
+# external
+from cybox.common.environment_variable import (
+    EnvironmentVariable, EnvironmentVariableList
+)
 from cybox.common.hashes import HashList
 from cybox.common.vocabs import VocabString
 from cybox.core import Observable, RelatedObject
@@ -10,75 +13,67 @@ from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact, Encoding, Packaging
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.domain_name_object import DomainName
-from cybox.objects.email_message_object import (Attachments, EmailHeader,
-                                                EmailMessage, EmailRecipients,
-                                                ReceivedLine, ReceivedLineList)
+from cybox.objects.email_message_object import (
+    Attachments, EmailHeader, EmailMessage, EmailRecipients, ReceivedLine,
+    ReceivedLineList
+)
 from cybox.objects.file_object import File
 from cybox.objects.hostname_object import Hostname
-from cybox.objects.http_session_object import (HTTPClientRequest, HTTPMessage,
-                                               HTTPRequestHeader,
-                                               HTTPRequestHeaderFields,
-                                               HTTPRequestLine,
-                                               HTTPRequestResponse,
-                                               HTTPSession)
+from cybox.objects.http_session_object import (
+    HTTPClientRequest, HTTPMessage, HTTPRequestHeader, HTTPRequestHeaderFields,
+    HTTPRequestLine, HTTPRequestResponse, HTTPSession
+)
 from cybox.objects.image_file_object import ImageFile
 from cybox.objects.mutex_object import Mutex
-from cybox.objects.network_connection_object import (Layer7Connections,
-                                                     NetworkConnection,
-                                                     SocketAddress)
-from cybox.objects.network_packet_object import (ICMPv4Header, ICMPv4Packet,
-                                                 InternetLayer, NetworkPacket)
+from cybox.objects.network_connection_object import (
+    Layer7Connections, NetworkConnection, SocketAddress
+)
+from cybox.objects.network_packet_object import (
+    ICMPv4Header, ICMPv4Packet, InternetLayer, NetworkPacket
+)
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
-from cybox.objects.pdf_file_object import (PDFDocumentInformationDictionary,
-                                           PDFFile, PDFFileID, PDFFileMetadata,
-                                           PDFTrailer, PDFTrailerList)
+from cybox.objects.pdf_file_object import (
+    PDFDocumentInformationDictionary, PDFFile, PDFFileID, PDFFileMetadata,
+    PDFTrailer, PDFTrailerList
+)
 from cybox.objects.port_object import Port
-from cybox.objects.process_object import (ArgumentList, ChildPIDList,
-                                          ImageInfo, NetworkConnectionList,
-                                          Process)
+from cybox.objects.process_object import (
+    ArgumentList, ChildPIDList, ImageInfo, NetworkConnectionList, Process
+)
 from cybox.objects.product_object import Product
 from cybox.objects.unix_user_account_object import UnixUserAccount
 from cybox.objects.uri_object import URI
 from cybox.objects.user_account_object import UserAccount
-from cybox.objects.win_executable_file_object import (Entropy, PEFileHeader,
-                                                      PEHeaders,
-                                                      PEOptionalHeader,
-                                                      PESection,
-                                                      PESectionHeaderStruct,
-                                                      PESectionList,
-                                                      WinExecutableFile)
+from cybox.objects.win_executable_file_object import (
+    Entropy, PEFileHeader, PEHeaders, PEOptionalHeader, PESection,
+    PESectionHeaderStruct, PESectionList, WinExecutableFile
+)
 from cybox.objects.win_file_object import Stream, StreamList, WinFile
 from cybox.objects.win_process_object import StartupInfo, WinProcess
-from cybox.objects.win_registry_key_object import (RegistryValue,
-                                                   RegistryValues,
-                                                   WinRegistryKey)
+from cybox.objects.win_registry_key_object import (
+    RegistryValue, RegistryValues, WinRegistryKey
+)
 from cybox.objects.win_service_object import ServiceDescriptionList, WinService
 from cybox.objects.win_user_account_object import WinUser
-from cybox.objects.x509_certificate_object import (RSAPublicKey,
-                                                   SubjectPublicKey, Validity,
-                                                   X509Cert, X509Certificate,
-                                                   X509V3Extensions)
+from cybox.objects.x509_certificate_object import (
+    RSAPublicKey, SubjectPublicKey, Validity, X509Cert, X509Certificate,
+    X509V3Extensions
+)
 from six import text_type
 
-from stix2slider.common import (AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP,
-                                EMAIL_MESSAGE_MAP, FILE_MAP,
-                                HTTP_REQUEST_HEADERS_MAP,
-                                IMAGE_FILE_EXTENSION_MAP_2_0,
-                                IMAGE_FILE_EXTENSION_MAP_2_1,
-                                OTHER_EMAIL_HEADERS_MAP,
-                                PDF_DOCUMENT_INFORMATION_DICT_MAP,
-                                PE_BINARY_FILE_HEADER_MAP,
-                                PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP_2_0,
-                                PROCESS_MAP_2_1, REGISTRY_KEY_MAP,
-                                REGISTRY_VALUE_MAP, SOCKET_MAP_2_0,
-                                SOCKET_MAP_2_1, SOCKET_OPTIONS_MAP,
-                                STARTUP_INFO_MAP, USER_ACCOUNT_MAP,
-                                WINDOWS_PROCESS_EXTENSION_MAP,
-                                WINDOWS_SERVICE_EXTENSION_MAP,
-                                X509_CERTIFICATE_MAP,
-                                X509_V3_EXTENSIONS_TYPE_MAP, add_host,
-                                convert_id2x, convert_pe_type,
-                                is_windows_directory)
+# internal
+from stix2slider.common import (
+    AUTONOMOUS_SYSTEM_MAP, DIRECTORY_MAP, EMAIL_MESSAGE_MAP, FILE_MAP,
+    HTTP_REQUEST_HEADERS_MAP, IMAGE_FILE_EXTENSION_MAP_2_0,
+    IMAGE_FILE_EXTENSION_MAP_2_1, OTHER_EMAIL_HEADERS_MAP,
+    PDF_DOCUMENT_INFORMATION_DICT_MAP, PE_BINARY_FILE_HEADER_MAP,
+    PE_BINARY_OPTIONAL_HEADER_MAP, PROCESS_MAP_2_0, PROCESS_MAP_2_1,
+    REGISTRY_KEY_MAP, REGISTRY_VALUE_MAP, SOCKET_MAP_2_0, SOCKET_MAP_2_1,
+    SOCKET_OPTIONS_MAP, STARTUP_INFO_MAP, USER_ACCOUNT_MAP,
+    WINDOWS_PROCESS_EXTENSION_MAP, WINDOWS_SERVICE_EXTENSION_MAP,
+    X509_CERTIFICATE_MAP, X509_V3_EXTENSIONS_TYPE_MAP, add_host, convert_id2x,
+    convert_pe_type, is_windows_directory
+)
 from stix2slider.options import error, get_option_value, info, warn
 from stix2slider.utils import decode_base64
 

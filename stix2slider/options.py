@@ -1,9 +1,11 @@
+# Standard Library
 import argparse
 import copy
 import logging
 import os
 import shlex
 
+# external
 import sdv
 from sdv import scripts, validators
 from six import string_types

@@ -1,11 +1,14 @@
+# Standard Library
 import uuid
 
+# external
 from cybox.objects.account_object import Account
 from cybox.objects.as_object import AutonomousSystem
 from cybox.objects.email_message_object import EmailHeader, EmailMessage
 from cybox.objects.file_object import File
-from cybox.objects.http_session_object import (HostField,
-                                               HTTPRequestHeaderFields)
+from cybox.objects.http_session_object import (
+    HostField, HTTPRequestHeaderFields
+)
 from cybox.objects.image_file_object import ImageFile
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.objects.pdf_file_object import PDFDocumentInformationDictionary
@@ -13,13 +16,15 @@ from cybox.objects.port_object import Port
 from cybox.objects.process_object import Process
 from cybox.objects.uri_object import URI
 from cybox.objects.user_account_object import UserAccount
-from cybox.objects.win_executable_file_object import (PEFileHeader,
-                                                      PEOptionalHeader)
+from cybox.objects.win_executable_file_object import (
+    PEFileHeader, PEOptionalHeader
+)
 from cybox.objects.win_process_object import StartupInfo, WinProcess
 from cybox.objects.win_registry_key_object import RegistryValue, WinRegistryKey
 from cybox.objects.win_service_object import WinService
 from cybox.objects.x509_certificate_object import X509Cert, X509V3Extensions
 
+# internal
 from stix2slider.options import warn
 
 AUTONOMOUS_SYSTEM_MAP = {

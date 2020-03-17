@@ -1,5 +1,7 @@
+# Standard Library
 from os.path import abspath, dirname, join
 
+# external
 from setuptools import find_packages, setup
 
 CUR_DIR = dirname(abspath(__file__))
