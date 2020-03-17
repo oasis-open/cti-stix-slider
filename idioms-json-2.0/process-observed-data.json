@@ -12,6 +12,7 @@
       "objects": {
         "0": {
           "type": "file",
+          "name": "gedit",
           "hashes": {
             "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
           }
@@ -21,11 +22,41 @@
           "pid": 1221,
           "name": "gedit-bin",
           "created": "2016-01-20T14:11:25.55Z",
+          "creator_user_ref": "2",
           "arguments": [
             "--new-window"
           ],
-          "binary_ref": "0"
-        }
+          "binary_ref": "0",
+          "extensions": {
+            "windows-service-ext": {
+              "service_dll_refs": [
+                "3"
+              ],
+              "service_name": "iprip32"
+            }
+          }
+        },
+        "2": {
+            "account_created": "2016-01-20T12:31:12Z",
+            "account_first_login": "2016-01-20T14:26:07Z",
+            "account_last_login": "2016-07-22T16:08:28Z",
+            "account_login": "fred",
+            "account_type": "windows",
+            "can_escalate_privs": true,
+            "credential_last_changed": "2016-01-20T14:27:43Z",
+            "display_name": "Fred Flintstone",
+            "is_privileged": false,
+            "is_service_account": false,
+            "type": "user-account",
+            "user_id": "1002"
+        },
+        "3": {
+                    "name": "iprip32.dll",
+                    "hashes": {
+                        "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                    },
+                    "type": "file"
+                }
       }
     }
   ],

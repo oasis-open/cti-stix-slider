@@ -1,88 +1,100 @@
 {
-    "id": "bundle--a50ebeb7-0fa1-4eb0-b2ff-7d36d5d82369",
-    "objects": [
+  "id": "bundle--a50ebeb7-0fa1-4eb0-b2ff-7d36d5d82369",
+  "objects": [
+    {
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--9a28189d-2670-4ba6-b968-d3c475b1ec0a",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "object_refs": [
+          "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+          "email-addr--d1b3bf0c-f02a-51a1-8102-11aba7959868",
+          "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194",
+          "artifact--12d1aa30-54ab-54a9-98d7-49dd1781fdea",
+          "file--3657ed4d-3fed-5c67-92ba-09b3ccc3c072",
+          "email-message--cf9b4b7f-14c8-5955-8065-020e0316b559"
+      ],
+      "spec_version": "2.1",
+      "type": "observed-data"
+    },
+    {
+      "additional_header_fields": {
+        "Content-Disposition": "inline",
+        "X-Mailer": "Mutt/1.5.23",
+        "X-Originating-IP": "198.51.100.3"
+      },
+      "body_multipart": [
         {
-            "created": "2017-05-22T13:03:55.429Z",
-            "first_observed": "2017-05-22T13:03:55.429Z",
-            "id": "observed-data--9a28189d-2670-4ba6-b968-d3c475b1ec0a",
-            "last_observed": "2017-05-22T13:03:55.429Z",
-            "modified": "2017-05-22T13:03:55.429Z",
-            "number_observed": 1,
-            "objects": {
-                "0": {
-                    "additional_header_fields": {
-                        "Content-Disposition": "inline",
-                        "X-Mailer": "Mutt/1.5.23",
-                        "X-Originating-IP": "198.51.100.3"
-                    },
-                    "body_multipart": [
-                        {
-                            "body": "Cats are funny!",
-                            "content_disposition": "inline",
-                            "content_type": "text/plain; charset=utf-8"
-                        },
-                        {
-                            "body_raw_ref": "4",
-                            "content_disposition": "attachment; filename=\"tabby.png\"",
-                            "content_type": "image/png"
-                        },
-                        {
-                            "body_raw_ref": "5",
-                            "content_disposition": "attachment; filename=\"tabby_pics.zip\"",
-                            "content_type": "application/zip"
-                        }
-                    ],
-                    "cc_refs": [
-                        "3"
-                    ],
-                    "content_type": "multipart/mixed",
-                    "date": "2016-06-19T14:20:40.000Z",
-                    "from_ref": "1",
-                    "is_multipart": true,
-                    "received_lines": [
-                        "from mail.example.com ([198.51.100.3]) by smtp.gmail.com with ESMTPSA id q23sm23309939wme.17.2016.07.19.07.20.32 (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Tue, 19 Jul 2016 07:20:40 -0700 (PDT)"
-                    ],
-                    "subject": "Check out this picture of a cat!",
-                    "to_refs": [
-                        "2"
-                    ],
-                    "type": "email-message"
-                },
-                "1": {
-                    "display_name": "John Doe",
-                    "type": "email-addr",
-                    "value": "jdoe@example.com"
-                },
-                "2": {
-                    "display_name": "Bob Smith",
-                    "type": "email-addr",
-                    "value": "bob@example.com"
-                },
-                "3": {
-                    "display_name": "Mary Jones",
-                    "type": "email-addr",
-                    "value": "mary@example.com"
-                },
-                "4": {
-                    "hashes": {
-                        "SHA-256": "effb46bba03f6c8aea5c653f9cf984f170dcdd3bbbe2ff6843c3e5da0e698766"
-                    },
-                    "mime_type": "image/jpeg",
-                    "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI== ...",
-                    "type": "artifact"
-                },
-                "5": {
-                    "hashes": {
-                        "SHA-256": "fe90a7e910cb3a4739bed9180e807e93fa70c90f25a8915476f5e4bfbac681db"
-                    },
-                    "magic_number_hex": "504B0304",
-                    "name": "tabby_pics.zip",
-                    "type": "file"
-                }
-            },
-            "spec_version": "2.1",
-            "type": "observed-data"
+          "body": "Cats are funny!",
+          "content_disposition": "inline",
+          "content_type": "text/plain; charset=utf-8"
+        },
+        {
+          "body_raw_ref": "artifact--12d1aa30-54ab-54a9-98d7-49dd1781fdea",
+          "content_disposition": "attachment; filename=\"tabby.png\"",
+          "content_type": "image/png"
+        },
+        {
+          "body_raw_ref": "file--3657ed4d-3fed-5c67-92ba-09b3ccc3c072",
+          "content_disposition": "attachment; filename=\"tabby_pics.zip\"",
+          "content_type": "application/zip"
         }
-    ],
-    "type": "bundle"
+      ],
+      "cc_refs": [
+        "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194"
+      ],
+      "content_type": "multipart/mixed",
+      "date": "2016-06-19T14:20:40.000Z",
+      "from_ref": "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+      "id": "email-message--cf9b4b7f-14c8-5955-8065-020e0316b559",
+      "is_multipart": true,
+      "received_lines": [
+        "from mail.example.com ([198.51.100.3]) by smtp.gmail.com with ESMTPSA id q23sm23309939wme.17.2016.07.19.07.20.32 (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Tue, 19 Jul 2016 07:20:40 -0700 (PDT)"
+      ],
+      "subject": "Check out this picture of a cat!",
+      "to_refs": [
+        "email-addr--d1b3bf0c-f02a-51a1-8102-11aba7959868"
+      ],
+      "type": "email-message"
+    },
+    {
+      "display_name": "John Doe",
+        "id": "email-addr--89f52ea8-d6ef-51e9-8fce-6a29236436ed",
+      "type": "email-addr",
+      "value": "jdoe@example.com"
+    },
+    {
+      "display_name": "Bob Smith",
+        "id": "email-addr--d1b3bf0c-f02a-51a1-8102-11aba7959868",
+      "type": "email-addr",
+      "value": "bob@example.com"
+    },
+    {
+      "display_name": "Mary Jones",
+        "id": "email-addr--e4ee5301-b52d-59cd-a8fa-8036738c7194",
+      "type": "email-addr",
+      "value": "mary@example.com"
+    },
+    {
+      "hashes": {
+        "SHA-256": "effb46bba03f6c8aea5c653f9cf984f170dcdd3bbbe2ff6843c3e5da0e698766"
+      },
+        "id": "artifact--12d1aa30-54ab-54a9-98d7-49dd1781fdea",
+      "mime_type": "image/jpeg",
+      "payload_bin": "VBORw0KGgoAAAANSUhEUgAAADI== ...",
+      "type": "artifact"
+    },
+    {
+      "hashes": {
+        "SHA-256": "fe90a7e910cb3a4739bed9180e807e93fa70c90f25a8915476f5e4bfbac681db"
+      },
+        "id": "file--3657ed4d-3fed-5c67-92ba-09b3ccc3c072",
+      "magic_number_hex": "504B0304",
+      "name": "tabby_pics.zip",
+      "type": "file"
+    }
+  ],
+  "type": "bundle"
 }

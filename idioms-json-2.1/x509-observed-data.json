@@ -8,17 +8,20 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "issuer": "C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com",
-                    "subject": "C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org",
-                    "type": "x509-certificate",
-                    "validity_not_after": "2016-08-21T12:00:00Z",
-                    "validity_not_before": "2016-03-12T12:00:00Z"
-                }
-            },
+            "object_refs": [
+                "x509-certificate--463d7b2a-8516-5a50-a3d7-6f801465d5de"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "x509-certificate--463d7b2a-8516-5a50-a3d7-6f801465d5de",
+            "issuer": "C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com",
+            "serial_number": "36:f7:d4:32:f4:ab:70:ea:d3:ce:98:6e:ea:99:93:49:32:0a:b7:06",
+            "subject": "C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org",
+            "type": "x509-certificate",
+            "validity_not_after": "2016-08-21T12:00:00Z",
+            "validity_not_before": "2016-03-12T12:00:00Z"
         }
     ],
     "type": "bundle"

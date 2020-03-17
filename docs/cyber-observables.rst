@@ -8,7 +8,7 @@ CybOX object types not listed have no corresponding STIX 2.x cyber observable ty
 converted by the slider.
 
 ============================================= ============================================= ==============================================
-**STIX 2.x Cyber Observable Type**            **CybOX 2.x Type**                            **Converted in version 2.0.0 of the Slider**
+**STIX 2.x Cyber Observable Type**            **CybOX 2.x Type**                            **Converted in version 2.1.0 of the Slider**
 ============================================= ============================================= ==============================================
 ``artifact``                                  Artifact                                      yes
 ``autonomous-system``                         AutonomousSystem                              yes

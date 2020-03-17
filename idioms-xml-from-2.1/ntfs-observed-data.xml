@@ -1,19 +1,19 @@
 <stix:STIX_Package
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:stix="http://stix.mitre.org/stix-1"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
 	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
-	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 id="example:STIXPackage-f68d008b-4602-4d47-a9f6-fe8563107764" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-10ee8b81-a999-4d6d-af49-93256aef5152">
-            <cybox:Object id="example:WinFile-cd93effa-0c03-481d-b829-ec02a0b73020">
+            <cybox:Object id="example:WinFile-73c4cd13-7206-5100-88ef-822c42d3f02c">
                 <cybox:Properties xsi:type="WinFileObj:WindowsFileObjectType">
                     <FileObj:Hashes>
                         <cyboxCommon:Hash>

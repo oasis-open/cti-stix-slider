@@ -8,33 +8,38 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "type": "ipv4-addr",
-                    "value": "198.51.100.2"
-                },
-                "1": {
-                    "extensions": {
-                        "socket-ext": {
-                            "address_family": "AF_INET",
-                            "is_listening": true,
-                            "options": {
-                                "SO_LINGER": 5
-                            },
-                            "socket_type": "SOCK_STREAM"
-                        }
-                    },
-                    "protocols": [
-                        "ip",
-                        "tcp"
-                    ],
-                    "src_port": 223,
-                    "src_ref": "0",
-                    "type": "network-traffic"
-                }
-            },
+            "object_refs": [
+                "ipv4-addr--7e4a9c21-50df-5298-97ce-42044f79472e",
+                "network-traffic--53d82f4c-6b1b-51eb-b8af-eed35505dde6"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "ipv4-addr--7e4a9c21-50df-5298-97ce-42044f79472e",
+            "type": "ipv4-addr",
+            "value": "198.51.100.2"
+        },
+        {
+            "extensions": {
+                "socket-ext": {
+                    "address_family": "AF_INET",
+                    "is_listening": true,
+                    "options": {
+                        "SO_LINGER": 5
+                    },
+                    "socket_type": "SOCK_STREAM"
+                }
+            },
+            "id": "network-traffic--53d82f4c-6b1b-51eb-b8af-eed35505dde6",
+            "protocols": [
+                "ip",
+                "tcp"
+            ],
+            "src_port": 223,
+            "src_ref": "ipv4-addr--7e4a9c21-50df-5298-97ce-42044f79472e",
+            "type": "network-traffic"
+
         }
     ],
     "type": "bundle"

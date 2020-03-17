@@ -53,6 +53,7 @@
             "created": "2017-01-27T13:49:53.872Z",
             "description": "\n\nTITLE:\n\tPoison Ivy Variant d1c6",
             "id": "malware--69e5b41b-b715-41f1-a5cd-f308f1005ef7",
+            "is_family": false,
             "malware_types": [
                 "remote-access-trojan"
             ],

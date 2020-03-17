@@ -1,0 +1,65 @@
+{
+  "id": "bundle--cc0ca596-70e6-4dac-9bef-603166d17db8",
+  "objects": [
+    {
+      "type": "observed-data",
+      "created": "2017-05-22T13:03:55.429Z",
+      "first_observed": "2017-05-22T13:03:55.429Z",
+      "id": "observed-data--28c92b74-879a-43d3-ab74-f64db0f8fab9",
+      "last_observed": "2017-05-22T13:03:55.429Z",
+      "modified": "2017-05-22T13:03:55.429Z",
+      "number_observed": 1,
+      "object_marking_refs": [
+        "marking-definition--28b1f7ef-75ac-4c00-94a8-badd6a5baf81"
+      ],
+      "object_refs": [
+        "file--019fde1c-94ca-5967-8b3c-a906a51d87ac",
+        "file--94fc2163-dec3-5715-b824-6e689c4de865",
+        "file--d07ff290-d7e0-545b-a2ff-04602a9e0b73",
+        "file--2fe4cb95-bb7b-5d55-baeb-cf1cb62208de"
+      ],
+      "spec_version": "2.1"
+    },
+    {
+      "id": "file--019fde1c-94ca-5967-8b3c-a906a51d87ac",
+      "type": "file",
+      "hashes": {
+        "SHA-256": "ceafbfd424be2ca4a5f0402cae090dda2fb0526cf521b60b60077c0f622b285a"
+      }
+    },
+    {
+      "id": "file--94fc2163-dec3-5715-b824-6e689c4de865",
+      "type": "file",
+      "hashes": {
+        "SHA-256": "19c549ec2628b989382f6b280cbd7bb836a0b461332c0fe53511ce7d584b89d3"
+      }
+    },
+    {
+      "id": "file--d07ff290-d7e0-545b-a2ff-04602a9e0b73",
+      "type": "file",
+      "hashes": {
+        "SHA-256": "0969de02ecf8a5f003e3f6d063d848c8a193aada092623f8ce408c15bcb5f038"
+      }
+    },
+    {
+      "id": "file--2fe4cb95-bb7b-5d55-baeb-cf1cb62208de",
+      "type": "file",
+      "name": "foo.zip",
+      "hashes": {
+        "SHA-256": "35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f"
+      },
+      "mime_type": "application/zip",
+      "extensions": {
+        "archive-ext": {
+          "contains_refs": [
+            "file--019fde1c-94ca-5967-8b3c-a906a51d87ac",
+            "file--94fc2163-dec3-5715-b824-6e689c4de865",
+            "file--d07ff290-d7e0-545b-a2ff-04602a9e0b73"
+          ],
+          "version": "5.0"
+        }
+      }
+    }
+  ],
+  "type": "bundle"
+}

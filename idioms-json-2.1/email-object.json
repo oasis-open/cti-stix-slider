@@ -11,35 +11,42 @@
             "object_marking_refs": [
                 "marking-definition--28b1f7ef-75ac-4c00-94a8-badd6a5baf81"
             ],
-            "objects": {
-                "0": {
-                    "body_multipart": [
-                        {
-                            "body_raw_ref": "2"
-                        }
-                    ],
-                    "from_ref": "1",
-                    "is_multipart": true,
-                    "subject": "ATTACHED BILL OF LADING INVOICE DOCUMENT",
-                    "type": "email-message"
-                },
-                "1": {
-                    "type": "email-addr",
-                    "value": "ibibo@srv1.ibibojobs.com"
-                },
-                "2": {
-                    "hashes": {
-                        "MD5": "d5cdbf6c69bbde9bec36419bd74cfbb5",
-                        "SHA-1": "cbff65ef086f0adb9acc1a217b419d7d9bf06041",
-                        "SHA-256": "2c1aa3d24631289b2df5ede075b47b31553d89e85f9219236d7056d504d88a66"
-                    },
-                    "name": "BL-Copy1.html",
-                    "size": 374,
-                    "type": "file"
-                }
-            },
+            "object_refs": [
+                "file--b37d5b95-6690-545e-8775-0c60f3407f37",
+                "email-addr--e69706a4-2a63-595b-b8f6-a73e4bc23ecb",
+                "email-message--c67f26a9-7da8-5588-88cd-024f2fa8e220"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "hashes": {
+                "MD5": "d5cdbf6c69bbde9bec36419bd74cfbb5",
+                "SHA-1": "cbff65ef086f0adb9acc1a217b419d7d9bf06041",
+                "SHA-256": "2c1aa3d24631289b2df5ede075b47b31553d89e85f9219236d7056d504d88a66"
+            },
+            "id": "file--b37d5b95-6690-545e-8775-0c60f3407f37",
+            "name": "BL-Copy1.html",
+            "size": 374,
+            "type": "file"
+        },
+        {
+            "id": "email-addr--e69706a4-2a63-595b-b8f6-a73e4bc23ecb",
+            "type": "email-addr",
+            "value": "ibibo@srv1.ibibojobs.com"
+        },
+        {
+            "body_multipart": [
+                {
+                    "body_raw_ref": "file--b37d5b95-6690-545e-8775-0c60f3407f37"
+                }
+            ],
+            "from_ref": "email-addr--e69706a4-2a63-595b-b8f6-a73e4bc23ecb",
+            "id": "email-message--c67f26a9-7da8-5588-88cd-024f2fa8e220",
+            "is_multipart": true,
+            "spec_version": "2.1",
+            "subject": "ATTACHED BILL OF LADING INVOICE DOCUMENT",
+            "type": "email-message"
         }
     ],
     "type": "bundle"

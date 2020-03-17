@@ -8,15 +8,17 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "display_name": "John Doe",
-                    "type": "email-addr",
-                    "value": "john@example.com"
-                }
-            },
+            "object_refs": [
+                "email-addr--2d77a846-6264-5d51-b586-e43822ea1ea3"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "email-addr--2d77a846-6264-5d51-b586-e43822ea1ea3",
+            "display_name": "John Doe",
+            "type": "email-addr",
+            "value": "john@example.com"
         }
     ],
     "type": "bundle"

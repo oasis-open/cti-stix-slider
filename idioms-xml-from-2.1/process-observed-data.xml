@@ -1,20 +1,27 @@
 <stix:STIX_Package
-	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
+	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:example="http://example.com"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 id="example:STIXPackage-5a31ef7e-8856-473b-9004-9615f8eb56ac" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-c554b0f3-1107-4963-8b77-27c518cac165">
-            <cybox:Object id="example:Process-268e8e06-1dd9-484a-a756-40a99d883ab0">
-                <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+            <cybox:Object id="example:WinService-85ef7684-85b1-4bec-b60a-d367d00fd64d">
+                <cybox:Properties xsi:type="WinServiceObj:WindowsServiceObjectType">
                     <ProcessObj:PID>1221</ProcessObj:PID>
                     <ProcessObj:Creation_Time>2016-01-20T14:11:25.550000+00:00</ProcessObj:Creation_Time>
+                    <ProcessObj:Image_Info>
+                        <ProcessObj:File_Name>some.file</ProcessObj:File_Name>
+                    </ProcessObj:Image_Info>
+                    <ProcessObj:Username>fred</ProcessObj:Username>
+                    <WinServiceObj:Service_DLL>iprip32.dll</WinServiceObj:Service_DLL>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

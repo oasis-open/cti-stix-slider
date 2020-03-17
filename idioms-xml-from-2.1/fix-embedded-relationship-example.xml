@@ -32,10 +32,11 @@
                     <ttp:Malware_Instance>
                         <ttp:Type xsi:type="stixVocabs:MalwareTypeVocab-1.0">Remote Access Trojan</ttp:Type>
                         <ttp:Name>Poison Ivy Variant d1c6</ttp:Name>
-                        <ttp:Description>
+                         <ttp:Description ordinality="1">
 
 TITLE:
 	Poison Ivy Variant d1c6</ttp:Description>
+                        <ttp:Description ordinality="2">is_family: False</ttp:Description>
                     </ttp:Malware_Instance>
                 </ttp:Malware>
             </ttp:Behavior>

@@ -1,5 +1,3 @@
-import uuid
-
 from cybox.core import Observable
 from six import text_type
 from stix2.pattern_visitor import create_pattern_object
@@ -29,23 +27,33 @@ from stix.extensions.marking.ais import (AISConsentType, AISMarkingStructure,
 from stix.extensions.marking.terms_of_use_marking import \
     TermsOfUseMarkingStructure
 from stix.extensions.marking.tlp import TLPMarkingStructure
+from stix.extensions.test_mechanism.snort_test_mechanism import \
+    SnortTestMechanism
+from stix.extensions.test_mechanism.yara_test_mechanism import \
+    YaraTestMechanism
 from stix.indicator import Indicator, RelatedIndicators, ValidTime
 from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
                                       Sighting, Sightings)
 from stix.threat_actor import AssociatedActors, ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
+from stix.ttp.infrastructure import Infrastructure
 from stix.ttp.malware_instance import MalwareInstance
 from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
 import stixmarx
 
-from stix2slider.convert_cyber_observables import convert_cyber_observables
+from stix2slider import common
+from stix2slider.common import convert_id2x, create_id1x
+from stix2slider.convert_cyber_observables import (add_object_refs, add_refs,
+                                                   convert_cyber_observables,
+                                                   convert_sco)
 from stix2slider.options import (debug, error, get_option_value,
                                  set_option_value, warn)
 from stix2slider.utils import set_default_namespace
 from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
                                         INDICATOR_LABEL_MAP,
+                                        INFRASTRUCTURE_LABELS_MAP,
                                         MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
                                         SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
                                         THREAT_ACTOR_SOPHISTICATION_MAP)
@@ -56,19 +64,6 @@ try:
     _STIX_1_VERSION = "1.2"
 except ImportError:
     _STIX_1_VERSION = "1.1.1"
-
-
-CONTAINER = None
-
-_ID_NAMESPACE = "example"
-
-_TYPE_MAP_FROM_2_0_TO_1_x = {"attack-pattern": "ttp",
-                             "observed-data": "observable",
-                             "bundle": "STIXPackage",
-                             "malware": "ttp",
-                             "marking-definition": "markingstructure",
-                             "toolinformation": "tool",
-                             "vulnerability": "et"}
 
 
 def choose_full_object_or_idref(identity_ref_2x, target_obj_idref_1x):
@@ -82,7 +77,7 @@ def choose_full_object_or_idref(identity_ref_2x, target_obj_idref_1x):
 def set_ta_identity(source, target_ref, target_obj_idref_1x):
     target, identity1x_tuple = choose_full_object_or_idref(target_ref, target_obj_idref_1x)
     if source.identity:
-        warn("Threat Actor in STIX 2.0 has multiple attributed-to relationships, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+        warn("Threat Actor in STIX 2.x has multiple attributed-to relationships, only one is allowed in STIX 1.x. Using first in list - %s omitted",
              401,
              target_ref)
         # Remove marking to CIQ identity if any.
@@ -200,12 +195,22 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": Campaign,
          "stix1x_target_type": TTP},
+    ("campaign", "infrastructure", "compromises"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": Campaign,
+         "stix1x_target_type": TTP},
     ("campaign", "malware", "uses"):
         {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
          "reverse": False,
          "stix1x_source_type": Campaign,
          "stix1x_target_type": TTP},
     ("campaign", "tool", "uses"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": Campaign,
+         "stix1x_target_type": TTP},
+    ("campaign", "infrastructure", "uses"):
         {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
          "reverse": False,
          "stix1x_source_type": Campaign,
@@ -250,6 +255,11 @@ _RELATIONSHIP_MAP = {
          "stix1x_source_type": Indicator,
          "stix1x_target_type": Campaign},
     # ("indicator", "CourseOfAction"): Indicator.suggested_coas,
+    ("indicator", "infrastructure", "indicates"):
+        {"method": Indicator.add_indicated_ttp,
+         "reverse": False,
+         "stix1x_source_type": Indicator,
+         "stix1x_target_type": TTP},
     ("indicator", "malware", "indicates"):
         {"method": Indicator.add_indicated_ttp,
          "reverse": False,
@@ -266,12 +276,82 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": Indicator,
          "stix1x_target_type": Indicator},
+    ("infrastructure", "infrastructure", "communicates-with"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "infrastructure", "consists-of"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "infrastructure", "controls"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "malware", "controls"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "malware", "delivers"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "malware", "hosts"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "tool", "hosts"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("infrastructure", "infrastructure", "uses"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
     ("malware", "vulnerability", "targets"):
         {"method": create_exploit_target_to_ttps,
          "reverse": False,
          "stix1x_source_type": TTP,
          "stix1x_target_type": ExploitTarget},
+    ("malware", "infrastructure", "uses"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "tool", "downloads"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "tool", "drops"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
     ("malware", "tool", "uses"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "infrastructure", "beacons-to"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "infrastructure", "exfiltrates-to"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("malware", "infrastructure", "targets"):
         {"method": TTP.add_related_ttp,
          "reverse": False,
          "stix1x_source_type": TTP,
@@ -297,7 +377,27 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": ThreatActor,
          "stix1x_target_type": Identity},
+    ("threat-actor", "infrastructure", "compromises"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": TTP},
+    ("threat-actor", "infrastructure", "hosts"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": TTP},
+    ("threat-actor", "infrastructure", "owns"):
+        {"method": lambda source, target_ref: source.related_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": TTP},
     # TODO: threat-actor targets vulnerability (not in 1.x)
+    ("threat-actor", "infrastructure", "uses"):
+        {"method": lambda source, target_ref: source.observed_ttps.append(target_ref),
+         "reverse": False,
+         "stix1x_source_type": ThreatActor,
+         "stix1x_target_type": TTP},
     ("threat-actor", "malware", "uses"):
         {"method": lambda source, target_ref: source.observed_ttps.append(target_ref),
          "reverse": False,
@@ -313,6 +413,26 @@ _RELATIONSHIP_MAP = {
          "reverse": False,
          "stix1x_source_type": ThreatActor,
          "stix1x_target_type": ThreatActor},
+    ("tool", "malware", "delivers"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("tool", "malware", "drops"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("tool", "infrastructure", "targets"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP},
+    ("tool", "infrastructure", "uses"):
+        {"method": TTP.add_related_ttp,
+         "reverse": False,
+         "stix1x_source_type": TTP,
+         "stix1x_target_type": TTP}
 }
 
 
@@ -324,20 +444,8 @@ def get_relationship_adder(type_of_source, type_of_target, type_of_relationship)
         return None
 
 
-def create_id1x(type_name_1x):
-    return "%s:%s-%s" % (_ID_NAMESPACE, type_name_1x, uuid.uuid4())
-
-
-def convert_id2x(id2x):
-    id_parts = id2x.split("--")
-    if id_parts[0] in _TYPE_MAP_FROM_2_0_TO_1_x:
-        type_name = _TYPE_MAP_FROM_2_0_TO_1_x[id_parts[0]]
-    else:
-        type_name = id_parts[0]
-    return "%s:%s-%s" % (_ID_NAMESPACE, type_name, id_parts[1])
-
-
 _ID_OBJECT_MAPPING = {}
+
 
 _EXPLICIT_OBJECT_USED = {}
 
@@ -356,7 +464,7 @@ def map_vocabs_to_label(t, vocab_map):
         return VocabString(t)
 
 
-def convert_open_vocabs_to_controlled_vocabs(old_vocabs, vocab_mapping, only_one=False, required=True):
+def convert_open_vocabs_to_controlled_vocabs(old_vocabs, vocab_mapping, required=True):
     results = []
     if isinstance(old_vocabs, list):
         for t in old_vocabs:
@@ -371,9 +479,9 @@ def convert_to_valid_time(start_time, end_time):
                      DateTimeWithPrecision(end_time) if end_time else None)
 
 
-def extract_external_id(external_id, ex_refs):
+def extract_external_id(external_id, ex_refs, convert_fn=None):
     for ref in ex_refs:
-        if ref["source_name"] == external_id:
+        if external_id == (convert_fn(ref["source_name"]) if convert_fn else ref["source_name"]):
             return ref["external_id"]
     return None
 
@@ -383,12 +491,14 @@ def get_type_from_id(id_):
     return parts[0]
 
 
-def add_missing_property_to_description(obj1x, property_name, property_value):
+def add_missing_property_to_description(obj1x, property_name, obj2x):
     if not get_option_value("no_squirrel_gaps"):
         if _STIX_1_VERSION == "1.2":
-            obj1x.add_description(property_name + ": " + text_type(property_value))
+            obj1x.add_description(property_name + ": " + text_type(obj2x[property_name]))
         else:
-            obj1x.description = property_name + ": " + text_type(property_value)
+            obj1x.description = property_name + ": " + text_type(obj2x[property_name])
+    else:
+        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, property_name, obj2x["type"], obj2x["id"])
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
@@ -397,6 +507,15 @@ def add_missing_list_property_to_description(obj1x, property_name, property_valu
             obj1x.add_description(property_name + ": " + ", ".join(property_values))
         else:
             obj1x.description = property_name + ": " + ", ".join(property_values)
+
+
+def add_missing_properties_to_description(obj1x, obj2x, property_names):
+    for prop_name in property_names:
+        if prop_name in obj2x:
+            if isinstance(obj2x[prop_name], list):
+                add_missing_list_property_to_description(obj1x, prop_name, obj2x[prop_name])
+            else:
+                add_missing_property_to_description(obj1x, prop_name, obj2x)
 
 
 _KILL_CHAINS = {}
@@ -430,6 +549,16 @@ def process_kill_chain_phases(phases, obj1x):
                                                                "kill_chain"].name))
 
 
+def process_markings(o1x, o2x):
+    if "object_marking_refs" in o2x:
+        for m_id in o2x["object_marking_refs"]:
+            ms = create_marking_specification(m_id)
+            if ms:
+                CONTAINER.add_marking(o1x, ms, descendants=True)
+    if "granular_markings" in o2x:
+        error("Granular Markings present in '%s' are not supported by stix2slider", 604, o2x["id"])
+
+
 def convert_attack_pattern(ap2x):
     ap1x = AttackPattern()
     if "name" in ap2x:
@@ -439,8 +568,6 @@ def convert_attack_pattern(ap2x):
             ap1x.add_description(ap2x["description"])
         else:
             ap1x.description = ap2x["description"]
-    if "labels" in ap2x:
-        add_missing_list_property_to_description(ap1x, "labels", ap2x["labels"])
     if "external_references" in ap2x:
         ap1x.capec_id = extract_external_id("capec", ap2x["external_references"])
     ttp = TTP(id_=convert_id2x(ap2x["id"]),
@@ -449,15 +576,10 @@ def convert_attack_pattern(ap2x):
     ttp.behavior.add_attack_pattern(ap1x)
     if "kill_chain_phases" in ap2x:
         process_kill_chain_phases(ap2x["kill_chain_phases"], ttp)
-    if "object_marking_refs" in ap2x:
-        for m_id in ap2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ttp, ms, descendants=True)
-    if "granular_markings" in ap2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, ap2x["id"])
+    process_markings(ttp, ap2x)
     # if "kill_chain_phases" in ap2x:
     #     process_kill_chain_phases(ap2x["kill_chain_phases"], ttp)
+    add_missing_properties_to_description(ap1x, ap2x, ["labels", "aliases"])
     record_id_object_mapping(ap2x["id"], ttp)
     return ttp
 
@@ -480,19 +602,10 @@ def convert_campaign(c2x):
             names.name.append(VocabString(a))
     if names:
         c1x.names = names
-    if "first_seen" in c2x:
-        add_missing_property_to_description(c1x, "first_seen", text_type(c2x["first_seen"]))
-    if "last_seen" in c2x:
-        add_missing_property_to_description(c1x, "last_seen", text_type(c2x["last_seen"]))
     if "objective" in c2x:
         c1x.intended_effects = [Statement(description=c2x["objective"])]
-    if "object_marking_refs" in c2x:
-        for m_id in c2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(c1x, ms, descendants=True)
-    if "granular_markings" in c2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, c2x["id"])
+    add_missing_properties_to_description(c1x, c2x, ["first_seen", "last_seen"])
+    process_markings(c1x, c2x)
     record_id_object_mapping(c2x["id"], c1x)
     return c1x
 
@@ -511,15 +624,9 @@ def convert_coa(coa2x):
         coa_types = convert_open_vocabs_to_controlled_vocabs(coa2x["labels"], COA_LABEL_MAP)
         coa1x.type_ = coa_types[0]
         for l in coa_types[1:]:
-            warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+            warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
                  401, "labels", l)
-    if "object_marking_refs" in coa2x:
-        for m_id in coa2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(coa1x, ms, descendants=True)
-    if "granular_markings" in coa2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, coa2x["id"])
+    process_markings(coa1x, coa2x)
     record_id_object_mapping(coa2x["id"], coa1x)
     return coa1x
 
@@ -562,10 +669,10 @@ def convert_identity(ident2x):
                 for s in ident2x["sectors"]:
                     if first:
                         ident1x.specification.organisation_info = \
-                            OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP, False)[0]))
+                            OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP)[0]))
                         first = False
                     else:
-                        warn("%s in STIX 2.0 has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
+                        warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
                              401,
                              "Identity", "sectors", s)
             # Identity in 1.x has no description property, use free-text-lines
@@ -585,13 +692,7 @@ def convert_identity(ident2x):
     else:
         ident1x = Identity(id_=convert_id2x(ident2x["id"]),
                            name=ident2x["name"])
-    if "object_marking_refs" in ident2x:
-        for m_id in ident2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ident1x, ms, descendants=True)
-    if "granular_markings" in ident2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, ident2x["id"])
+    process_markings(ident1x, ident2x)
     return ident1x
 
 
@@ -617,18 +718,56 @@ def convert_indicator(indicator2x):
     indicator1x.add_valid_time_position(
         convert_to_valid_time(text_type(indicator2x["valid_from"]),
                               text_type(indicator2x["valid_until"]) if "valid_until" in indicator2x else None))
-    indicator1x.add_observable(create_pattern_object(indicator2x["pattern"], "Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
+    if get_option_value("version_of_stix2x") == "2.0" or ("pattern_type" in indicator2x and indicator2x["pattern_type"] == "stix"):
+        indicator1x.add_observable(create_pattern_object(indicator2x["pattern"], "Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
+    elif indicator2x["pattern_type"] == "snort":
+        tm = SnortTestMechanism()
+        tm.rule = indicator2x["pattern"]
+        if "pattern_version" in indicator2x:
+            tm.version = indicator2x["pattern_version"]
+    elif indicator2x["pattern_type"] == "yara":
+        tm = YaraTestMechanism()
+        tm.rule = indicator2x["pattern"]
+        if "pattern_version" in indicator2x:
+            tm.version = indicator2x["pattern_version"]
+    elif "pattern_type" in indicator2x:
+        # not supported
+        warn("%s pattern type in %s cannot be represented in STIX 1.x", 0, indicator2x["pattern_type"], indicator2x["id"])
     if "kill_chain_phases" in indicator2x:
         process_kill_chain_phases(indicator2x["kill_chain_phases"], indicator1x)
-    if "object_marking_refs" in indicator2x:
-        for m_id in indicator2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(indicator1x, ms, descendants=True)
-    if "granular_markings" in indicator2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, indicator2x["id"])
+    process_markings(indicator1x, indicator2x)
     record_id_object_mapping(indicator2x["id"], indicator1x)
     return indicator1x
+
+
+def convert_infrastructure(infrastructure2x):
+    infrastructure1x = Infrastructure()
+    if "name" in infrastructure2x:
+        infrastructure1x.title = infrastructure2x["name"]
+    if "description" in infrastructure2x:
+        if _STIX_1_VERSION == "1.2":
+            infrastructure1x.add_description(infrastructure2x["description"])
+        else:
+            infrastructure1x.description = infrastructure2x["description"]
+
+    if get_option_value("version_of_stix2x") == "2.0":
+        types = convert_open_vocabs_to_controlled_vocabs(infrastructure2x["labels"], INFRASTRUCTURE_LABELS_MAP)
+    else:
+        types = convert_open_vocabs_to_controlled_vocabs(infrastructure2x["infrastructure_types"], INFRASTRUCTURE_LABELS_MAP)
+        if "labels" in infrastructure2x:
+            add_missing_list_property_to_description(infrastructure1x, "labels", infrastructure2x["labels"])
+    for t in types:
+        infrastructure1x.add_type(t)
+    ttp = TTP(id_=convert_id2x(infrastructure2x["id"]),
+              timestamp=text_type(infrastructure2x["modified"]))
+    ttp.resources = Resource()
+    ttp.resources.infrastructure = infrastructure1x
+    if "kill_chain_phases" in infrastructure2x:
+        process_kill_chain_phases(infrastructure2x["kill_chain_phases"], ttp)
+    add_missing_properties_to_description(infrastructure1x, infrastructure2x, ["aliases", "first_seen", "last_seen"])
+    process_markings(infrastructure1x, infrastructure2x)
+    record_id_object_mapping(infrastructure2x["id"], ttp)
+    return ttp
 
 
 def convert_malware(malware2x):
@@ -655,13 +794,11 @@ def convert_malware(malware2x):
     ttp.behavior.add_malware_instance(malware1x)
     if "kill_chain_phases" in malware2x:
         process_kill_chain_phases(malware2x["kill_chain_phases"], ttp)
-    if "object_marking_refs" in malware2x:
-        for m_id in malware2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ttp, ms, descendants=True)
-    if "granular_markings" in malware2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, malware2x["id"])
+    add_missing_properties_to_description(malware1x, malware2x, ["aliases", "is_family", "first_seen", "last_seen",
+                                                                 "operating_system_refs", "architecture_execution_envs",
+                                                                 "implementation_languages", "capabilities",
+                                                                 "sample_refs"])
+    process_markings(malware1x, malware2x)
     record_id_object_mapping(malware2x["id"], ttp)
     return ttp
 
@@ -676,7 +813,8 @@ def convert_observed_data(od2x):
     if "granular_markings" in od2x:
         error("Granular Markings present in '%s' are not supported by stix2slider", 604, od2x["id"])
     # observable-data has no description
-    o1x.object_ = convert_cyber_observables(od2x["objects"], od2x["id"])
+    if "objects" in od2x:  # deprecated in 2.1
+        o1x.object_ = convert_cyber_observables(od2x["objects"], od2x["id"])
     return o1x
 
 
@@ -697,7 +835,7 @@ def convert_report(r2x):
         for i in intents:
             r1x.header.add_intent(i)
         if "published" in r2x:
-            add_missing_property_to_description(r1x.header, "published", r2x["published"])
+            add_missing_properties_to_description(r1x.header, r2x, ["published"])
         for ref in r2x["object_refs"]:
             ref_type = get_type_from_id(ref)
             ref1x = convert_id2x(ref)
@@ -725,13 +863,7 @@ def convert_report(r2x):
                 warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r2x["id"])
             else:
                 warn("ref type %s in %s is not known", 316, ref_type, r2x["id"])
-        if "object_marking_refs" in r2x:
-            for m_id in r2x["object_marking_refs"]:
-                ms = create_marking_specification(m_id)
-                if ms:
-                    CONTAINER.add_marking(r1x, ms, descendants=True)
-        if "granular_markings" in r2x:
-            error("Granular Markings present in '%s' are not supported by stix2slider", 604, r2x["id"])
+        process_markings(r1x, r2x)
         return r1x
     else:
         return None
@@ -754,10 +886,6 @@ def convert_threat_actor(ta2x):
             ta1x.add_description(ta2x["description"])
         else:
             ta1x.description = ta2x["description"]
-    if "aliases" in ta2x:
-        add_missing_list_property_to_description(ta1x, "aliases", ta2x["aliases"])
-    if "roles" in ta2x:
-        add_missing_list_property_to_description(ta1x, "roles", ta2x["roles"])
     if "goals" in ta2x:
         for g in ta2x["goals"]:
             ta1x.add_intended_effect(g)
@@ -765,8 +893,6 @@ def convert_threat_actor(ta2x):
         sophistications = convert_open_vocabs_to_controlled_vocabs([ta2x["sophistication"]], THREAT_ACTOR_SOPHISTICATION_MAP)
         for s in sophistications:
             ta1x.add_sophistication(s)
-    if "resource_level" in ta2x:
-        add_missing_list_property_to_description(ta1x, "resource_level", ta2x["resource_level"])
     all_motivations = []
     if "primary_motivation" in ta2x:
         all_motivations = [ta2x["primary_motivation"]]
@@ -777,13 +903,8 @@ def convert_threat_actor(ta2x):
     motivations = convert_open_vocabs_to_controlled_vocabs(all_motivations, ATTACK_MOTIVATION_MAP)
     for m in motivations:
         ta1x.add_motivation(m)
-    if "object_marking_refs" in ta2x:
-        for m_id in ta2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ta1x, ms, descendants=True)
-    if "granular_markings" in ta2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, ta2x["id"])
+    add_missing_properties_to_description(ta1x, ta2x, ["resource_level", "last_seen", "first_seen", "roles", "aliases"])
+    process_markings(ta1x, ta2x)
     record_id_object_mapping(ta2x["id"], ta1x)
     return ta1x
 
@@ -809,13 +930,7 @@ def convert_tool(tool2x):
     ttp.resources.tools.append(tool1x)
     if "kill_chain_phases" in tool2x:
         process_kill_chain_phases(tool2x["kill_chain_phases"], ttp)
-    if "object_marking_refs" in tool2x:
-        for m_id in tool2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(ttp, ms, descendants=True)
-    if "granular_markings" in tool2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, tool2x["id"])
+    process_markings(tool1x, tool2x)
     record_id_object_mapping(tool2x["id"], ttp)
     return ttp
 
@@ -837,13 +952,7 @@ def convert_vulnerability(v2x):
     et.add_vulnerability(v1x)
     if "kill_chain_phases" in v2x:
         process_kill_chain_phases(v2x["kill_chain_phases"], et)
-    if "object_marking_refs" in v2x:
-        for m_id in v2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
-            if ms:
-                CONTAINER.add_marking(et, ms, descendants=True)
-    if "granular_markings" in v2x:
-        error("Granular Markings present in '%s' are not supported by stix2slider", 604, v2x["id"])
+    process_markings(v1x, v2x)
     record_id_object_mapping(v2x["id"], et)
     return et
 
@@ -923,7 +1032,7 @@ def process_relationships(rel):
     if rel["source_ref"] in _ID_OBJECT_MAPPING:
         source_obj = _ID_OBJECT_MAPPING[rel["source_ref"]]
     else:
-        warn("No source object exists for %s to add the relationship %s", 301, rel["source_ref"], rel["id"])
+        warn("No source object exists for %s. Dropping the relationship %s", 301, rel["source_ref"], rel["id"])
         return
     if rel["target_ref"] in _ID_OBJECT_MAPPING:
         target_obj = _ID_OBJECT_MAPPING[rel["target_ref"]]
@@ -963,18 +1072,17 @@ def id_of_type(ref, type):
     return ref.startswith(type)
 
 
-def create_references_for_vulnerability(obj):
-    if obj["id"] in _ID_OBJECT_MAPPING:
-        obj1x = _ID_OBJECT_MAPPING[obj["id"]]
-        v = obj1x.vulnerabilities[0]
-    for er in obj["external_references"]:
-        if er["source_name"] != 'cve' and ("url" in er or "external_id" in er):
-            if "url" in er:
-                v.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
-            if "external_id" in er:
-                v.add_reference("SOURCE: " + er["source_name"] + " - " + er["external_id"])
-        if er["source_name"] == 'cve' and "url" in er:
-            v.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
+def create_references_for_vulnerability(obj1x, obj2x):
+    # assume only ine
+    v = obj1x.vulnerabilities[0]
+    not_urls = []
+    for er in obj2x["external_references"]:
+        # cve and osvdb handled elsewhere
+        if "url" in er:
+            v.add_reference(er["url"])
+        else:
+            not_urls.append(er)
+    return not_urls
 
 
 def get_info_source(ob1x, obj):
@@ -995,21 +1103,32 @@ def create_references(obj):
     if id_of_type(obj["id"], "identity"):
         warn("Identity has no property to store external-references from %s", 510, obj["id"])
         return
-    elif id_of_type(obj["id"], "vulnerability"):
-        create_references_for_vulnerability(obj)
-        return
     if obj["id"] in _ID_OBJECT_MAPPING:
         ob1x = _ID_OBJECT_MAPPING[obj["id"]]
     else:
         warn("No object %s is found to add the reference to", 307, obj["id"])
         return
-    for er in obj["external_references"]:
-        # capec and cve handled elsewhere
-        if (er["source_name"] != 'capec' and er["source_name"] != 'cve') and ("url" in er or "external_id" in er):
-            ref_texts = []
+    if id_of_type(obj["id"], "vulnerability"):
+        er_for_info_source = create_references_for_vulnerability(ob1x, obj)
+    else:
+        er_for_info_source = obj["external_references"]
+    if er_for_info_source:
+        ref_texts = []
+        info_source = None
+        for er in er_for_info_source:
+            # capec and cve handled elsewhere
             if "url" in er:
-                ref_texts.append("SOURCE: " + er["source_name"] + " - " + er["url"])
-            if "external_id" in er:
+                if obj["type"] == "indicator":
+                    desc = "SOURCE: " + er["source_name"] + " - " + er["url"]
+                    if _STIX_1_VERSION == "1.2":
+                        ob1x.add_description(desc)
+                    else:
+                        ob1x.description = ob1x.description + "\n" + desc
+                else:
+                    if not info_source:
+                        info_source = get_info_source(ob1x, obj)
+                    info_source.add_reference(er["url"])
+            if "external_id" in er and er["source_name"] != "capec":
                 ref_texts.append("SOURCE: " + er["source_name"] + " - " + "EXTERNAL ID: " + er["external_id"])
             if "hashes" in er:
                 warn("hashes not representable in a STIX 1.x %s.  Found in %s", 503, "InformationSource", obj["id"])
@@ -1017,23 +1136,13 @@ def create_references(obj):
                 if _STIX_1_VERSION == "1.2":
                     ob1x.add_description(er["description"])
                 else:
-                    ob1x.description = er["description"]
-            if ref_texts != []:
-                if isinstance(ob1x, Indicator):
-                    for rt in ref_texts:
-                        if _STIX_1_VERSION == "1.2":
-                            ob1x.add_description(rt)
-                        else:
-                            ob1x.description = ob1x.description + " " + rt
+                    ob1x.description = ob1x.description + "\n" + er["description"]
+        if ref_texts != []:
+            for rt in ref_texts:
+                if _STIX_1_VERSION == "1.2":
+                    ob1x.add_description(rt)
                 else:
-                    info_source = get_info_source(ob1x, obj)
-                    for rt in ref_texts:
-                        info_source.add_reference(rt)
-        elif (er["source_name"] != 'capec' and er["source_name"] != 'cve'):
-            warn("Source name %s in external references of %s not handled, yet", 605, er["source_name"], obj["id"])
-        if (er["source_name"] == 'capec' or er["source_name"] == 'cve') and "url" in er:
-            info_source = get_info_source(ob1x, obj)
-            info_source.add_reference("SOURCE: " + er["source_name"] + " - " + er["url"])
+                    ob1x.description = ob1x.description + " " + rt
 
 
 def create_information_source(identity2x_tuple):
@@ -1067,11 +1176,17 @@ def process_sighting(o):
             return
         if not indicator_of_sighting.sightings:
             indicator_of_sighting.sightings = Sightings()
+
         if "count" in o:
             indicator_of_sighting.sightings.sightings_count = o["count"]
         if "where_sighted_refs" in o:
             for ref in o["where_sighted_refs"]:
                 s = Sighting(timestamp=text_type(o["modified"]))
+                if "description" in o:
+                    if _STIX_1_VERSION == "1.2":
+                        s.add_description(o["description"])
+                    else:
+                        s.description = o["description"]
                 indicator_of_sighting.sightings.append(s)
                 if ref in _EXPLICIT_OBJECT_USED:
                     identity2x_tuple = _EXPLICIT_OBJECT_USED[ref]
@@ -1083,13 +1198,9 @@ def process_sighting(o):
                         ro = RelatedObservable()
                         s.related_observables.append(ro)
                         ro.item = Observable(idref=convert_id2x(od_ref))
-
-        if "first_seen" in o:
-            warn("first_seen not representable in a STIX 1.x Sightings.  Found in %s", 503, o["id"])
-        if "last_seen" in o:
-            warn("last_seen not representable in a STIX 1.x Sightings.  Found in %s", 503, o["id"])
+        add_missing_properties_to_description(s, o, ["first_seen", "last_seen"])
     else:
-        warn("Unable to convert STIX 2.0 sighting %s because it doesn't refer to an indicator", 508, o["sighting_of_ref"])
+        warn("Unable to convert STIX 2.x sighting %s because it doesn't refer to an indicator", 508, o["sighting_of_ref"])
 
 
 def convert_marking_definition(marking2x):
@@ -1161,17 +1272,27 @@ def create_marking_specification(id2x):
 _LOCATIONS = {}
 
 
+def sco_type(type_name):
+    return type_name in {"artifact", "autonomous-system", "directory", "domain-name", "email-addr",
+                         "email-message", "file", "ipv4-addr", "ipv6-addr", "mac-addr", "mutex",
+                         "network-traffic", "process", "software", "url", "user-account",
+                         "windows-registry-key", "x509-certificate"}
+
+
 def convert_bundle(bundle_obj):
     global _ID_OBJECT_MAPPING
     global _EXPLICIT_OBJECT_USED
-    global _ID_NAMESPACE
     global _VICTIM_TARGET_TTPS
     global _KILL_CHAINS
     global CONTAINER
+    global STIX1X_OBS_GLOBAL
     _ID_OBJECT_MAPPING = {}
     _EXPLICIT_OBJECT_USED = {}
     _VICTIM_TARGET_TTPS = []
     _KILL_CHAINS = {}
+    STIX1X_OBS_GLOBAL = {}
+    stix2x_objs = {}
+    stix1x_obs_list = {}
 
     if "spec_version" in bundle_obj:
         set_option_value("version_of_stix2x", "2.0")
@@ -1180,7 +1301,7 @@ def convert_bundle(bundle_obj):
 
     if get_option_value("use_namespace"):
         option_value = get_option_value("use_namespace").split(" ")
-        _ID_NAMESPACE = option_value[0]
+        common._ID_NAMESPACE = option_value[0]
         set_default_namespace(*option_value)
 
     CONTAINER = stixmarx.new()
@@ -1200,39 +1321,51 @@ def convert_bundle(bundle_obj):
         pkg.stix_header.handling.add_marking(m1x)
 
     for o in bundle_obj["objects"]:
+        # map all 2.x objects to their 2.x ids
+        stix2x_objs[o["id"]] = o
         if o["type"] == "attack-pattern":
             pkg.add_ttp(convert_attack_pattern(o))
         elif o["type"] == "campaign":
             pkg.add_campaign(convert_campaign(o))
         elif o["type"] == 'course-of-action':
             pkg.add_course_of_action(convert_coa(o))
+        elif o["type"] == "grouping":
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "grouping")
         elif o["type"] == "indicator":
             pkg.add_indicator(convert_indicator(o))
+        elif o["type"] == "infrastructure":
+            pkg.add_ttp(convert_infrastructure(o))
         elif o["type"] == "intrusion-set":
-            error("Cannot convert STIX 2.x content that contains %s", 524, "intrusion-set")
-            return None
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "intrusion-set")
         elif o["type"] == "location":
             _LOCATIONS[o["id"]] = o
+            # TODO: anything about the markings on the location that we should remember?
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
+        elif o["type"] == "malware-analysis":
+            warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "malware-analysis")
         elif o["type"] == "note":
-            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "note")
+            warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "note")
         elif o["type"] == "observed-data":
-            pkg.add_observable(convert_observed_data(o))
+            obs1x = convert_observed_data(o)
+            pkg.add_observable(obs1x)
+            stix1x_obs_list[o["id"]] = obs1x
         elif o["type"] == "opinion":
-            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "opinion")
+            warn("Ignoring %s, because a %s object cannot be represented in STIX 1.x", 528, o["id"], "opinion")
         elif o["type"] == "report":
             if _STIX_1_VERSION == "1.2":
                 pkg.add_report(convert_report(o))
             else:
-                warn("Ignoring %s, because %ss cannot be represented in STIX 1.1.1", 509, o["id"], "report")
-
+                warn("Ignoring %s, because a %s object cannot be represented in STIX 1.1.1", 509, o["id"], "report")
         elif o["type"] == "threat-actor":
             pkg.add_threat_actor(convert_threat_actor(o))
         elif o["type"] == "tool":
             pkg.add_ttp(convert_tool(o))
         elif o["type"] == "vulnerability":
             pkg.add_exploit_target(convert_vulnerability(o))
+        elif sco_type(o["type"]):
+            convert_sco(o)
+
     # second passes
     for o in bundle_obj["objects"]:
         if o["type"] == "relationship":
@@ -1245,6 +1378,16 @@ def convert_bundle(bundle_obj):
     for o in bundle_obj["objects"]:
         if o["type"] == "sighting":
             process_sighting(o)
+    if get_option_value("version_of_stix2x") == "2.1":
+        for o in bundle_obj["objects"]:
+            if sco_type(o["type"]):
+                # add STIX 1.x embedded properties
+                add_refs(o)
+        objects_inline = dict()
+        for o in bundle_obj["objects"]:
+            if o["type"] == "observed-data":
+                # add related objects
+                add_object_refs(o, stix2x_objs, stix1x_obs_list, objects_inline)
     for k, v in _KILL_CHAINS.items():
         pkg.ttps.kill_chains.append(v["kill_chain"])
     CONTAINER.flush()

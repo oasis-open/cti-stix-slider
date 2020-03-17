@@ -19,7 +19,10 @@
                 },
                 "1": {
                     "path": "/usr/local",
-                    "type": "directory"
+                    "type": "directory",
+                    "contains_refs": [
+                        "0"
+                    ]
                 }
             },
             "type": "observed-data"

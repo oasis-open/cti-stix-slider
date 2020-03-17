@@ -13,7 +13,7 @@
         <cybox:Observable id="example:observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
             <cybox:Object id="example:Artifact-5c757ae7-148b-4932-80c6-a3be38b567fe">
                 <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="image/jpeg">
-					<ArtifactObj:Packaging>
+					<ArtifactObj:Packaging is_compressed="false" is_encrypted="false">
                         <ArtifactObj:Encoding algorithm="Base64"/>
                     </ArtifactObj:Packaging>
                     <ArtifactObj:Raw_Artifact><![CDATA[VBORw0KGgoAAAANSUhEUgAAADI== ...]]></ArtifactObj:Raw_Artifact>

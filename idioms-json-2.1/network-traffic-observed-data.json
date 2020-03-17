@@ -8,35 +8,39 @@
             "last_observed": "2017-05-22T13:03:55.429Z",
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
-            "objects": {
-                "0": {
-                    "type": "domain-name",
-                    "value": "example.com"
-                },
-                "1": {
-                    "dst_ref": "0",
-                    "extensions": {
-                        "http-request-ext": {
-                            "request_header": {
-                                "Accept-Encoding": "gzip,deflate",
-                                "From": "foo@bar.com",
-                                "Host": "www.example.com",
-                                "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113"
-                            },
-                            "request_method": "get",
-                            "request_value": "/download.html",
-                            "request_version": "http/1.1"
-                        }
-                    },
-                    "protocols": [
-                        "tcp",
-                        "http"
-                    ],
-                    "type": "network-traffic"
-                }
-            },
+            "object_refs": [
+                "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
+                "network-traffic--6383d207-d98f-5992-a6fd-8e7ae5004ebb"
+            ],
             "spec_version": "2.1",
             "type": "observed-data"
+        },
+        {
+            "id": "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
+            "type": "domain-name",
+            "value": "example.com"
+        },
+        {
+            "dst_ref": "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
+            "extensions": {
+                "http-request-ext": {
+                    "request_header": {
+                        "Accept-Encoding": "gzip,deflate",
+                        "From": "foo@bar.com",
+                        "Host": "www.example.com",
+                        "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113"
+                    },
+                    "request_method": "get",
+                    "request_value": "/download.html",
+                    "request_version": "http/1.1"
+                }
+            },
+            "id": "network-traffic--6383d207-d98f-5992-a6fd-8e7ae5004ebb",
+            "protocols": [
+                "tcp",
+                "http"
+            ],
+            "type": "network-traffic"
         }
     ],
     "type": "bundle"

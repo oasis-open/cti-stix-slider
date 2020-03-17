@@ -15,7 +15,6 @@
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-1f54eaf6-9f07-4286-bdfa-c7f726c34c19">
             <cybox:Object id="example:WinExecutableFile-a97a301d-c2e5-4741-acb6-36559aeb7218">
-                <cybox:Description>number_of_sections: 4</cybox:Description>
                 <cybox:Properties xsi:type="WinExecutableFileObj:WindowsExecutableFileObjectType">
                     <FileObj:Hashes>
                         <cyboxCommon:Hash>
