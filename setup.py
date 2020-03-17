@@ -65,7 +65,7 @@ setup(
     ],
     keywords='stix stix2 json xml cti cyber threat intelligence',
     project_urls={
-        'Documentation': 'https://cti-stix-slider.readthedocs.io/en/latest/',
+        'Documentation': 'https://cti-stix-slider.readthedocs.io/',
         'Source Code': 'https://github.com/oasis-open/cti-stix-slider/',
         'Bug Tracker': 'https://github.com/oasis-open/cti-stix-slider/issues/',
     },
