@@ -1,11 +1,14 @@
 from __future__ import print_function
 
+# Standard Library
 import os
 
+# external
 from six import StringIO
 from six.moves import zip
 from stixmarx import markingmap, xml
 
+# internal
 from stix2slider.cli import slide_file
 from stix2slider.options import initialize_options
 from stix2slider.utils import find_dir

@@ -1,11 +1,14 @@
+# Standard Library
 import argparse
+import copy
 import logging
 import os
 import shlex
 
+# external
 import sdv
 from sdv import scripts, validators
-from six import text_type
+from six import string_types
 
 ALL_OPTIONS = None
 
@@ -92,6 +95,29 @@ def setup_logger(package_id):
         log.addHandler(fh)
 
 
+def _convert_to_int_list(check_codes):
+    """Takes a comma-separated string or list of strings and converts to list of ints.
+
+    Args:
+        check_codes: comma-separated string or list of strings
+
+    Returns:
+        list: the check codes as a list of integers
+
+    Raises:
+        ValueError: if conversion fails
+        RuntimeError: if cannot determine how to convert input
+    """
+    if isinstance(check_codes, list):
+        if all(isinstance(x, int) for x in check_codes):
+            return check_codes  # good input
+        else:
+            return [int(x) for x in check_codes]  # list of str
+    elif isinstance(check_codes, string_types):
+        return [int(x) for x in check_codes.split(",")]  # str, comma-separated expected
+    raise RuntimeError("Could not convert values: {} of type {}".format(check_codes, type(check_codes)))
+
+
 class SliderOptions(object):
     """Collection of stix2-slider options which can be set via command line or
     programmatically in a script.
@@ -106,8 +132,8 @@ class SliderOptions(object):
         file_: Input file to be elevated.
         validator_args: If set, these values will be used to create a
             ValidationOptions instance if requested.
-        enable: Messages to enable.
-        disable: Messages to disable.
+        enabled: Messages to enable. Expects a list of ints.
+        disabled: Messages to disable. Expects a list of ints.
         silent: If set, no stix2-slider log messages will be emitted.
         message_log_directory: If set, it will write all emitted messages to
             file. It will use the filename or package id to name the log file.
@@ -117,7 +143,7 @@ class SliderOptions(object):
     """
     def __init__(self, cmd_args=None, file_=None,
                  no_squirrel_gaps=False, validator_args="",
-                 enable="", disable="",
+                 enabled=None, disabled=None,
                  silent=False, message_log_directory=None,
                  output_directory=None, log_level="INFO", use_namespace=""):
 
@@ -127,8 +153,8 @@ class SliderOptions(object):
             self.no_squirrel_gaps = cmd_args.no_squirrel_gaps
             self.validator_args = cmd_args.validator_args
 
-            self.enable = cmd_args.enable
-            self.disable = cmd_args.disable
+            self.enabled = cmd_args.enabled
+            self.disabled = cmd_args.disabled
             self.silent = cmd_args.silent
             self.message_log_directory = cmd_args.message_log_directory
             self.log_level = cmd_args.log_level
@@ -140,39 +166,71 @@ class SliderOptions(object):
             self.file_ = file_
             self.no_squirrel_gaps = no_squirrel_gaps
             self.validator_args = validator_args
-            self.enable = enable
-            self.disable = disable
+            self.enabled = enabled
+            self.disabled = disabled
             self.silent = silent
             self.message_log_directory = message_log_directory
             self.log_level = log_level
             self.output_directory = output_directory
             self.use_namespace = use_namespace
 
-        # Convert string of comma-separated checks to a list,
-        # and convert check code numbers to names. By default all messages are
-        # enabled.
-        if self.disable:
-            self.disabled = self.disable.split(",")
-            self.disabled = [CHECK_CODES[x] if x in CHECK_CODES else x
-                             for x in self.disabled]
-        else:
-            self.disabled = []
-
-        if self.enable:
-            self.enabled = self.enable.split(",")
-            self.enabled = [CHECK_CODES[x] if x in CHECK_CODES else x
-                            for x in self.enabled]
-        else:
-            self.enabled = [text_type(x) for x in CHECK_CODES]
-
         self.marking_container = None
         self.version_of_stix2x = None
 
+    @property
+    def disabled(self):
+        return self._disabled
 
-def initialize_options(slider_args=None):
+    @disabled.setter
+    def disabled(self, disabled):
+        def remove_silent(item, elements):
+            try:
+                elements.remove(item)
+            except ValueError:
+                pass  # suppress exception if value is not present
+        # Convert string of comma-separated checks to a list,
+        # and convert check code numbers to names. By default no messages are
+        # disabled.
+        if disabled:
+            self._disabled = _convert_to_int_list(disabled)
+            self._disabled = [x for x in self._disabled if x in CHECK_CODES]
+            for x in self._disabled:
+                remove_silent(x, self._enabled)
+        else:
+            self._disabled = []
+
+    @property
+    def enabled(self):
+        return self._enabled
+
+    @enabled.setter
+    def enabled(self, enabled):
+        def remove_silent(item, elements):
+            try:
+                elements.remove(item)
+            except ValueError:
+                pass  # suppress exception if value is not present
+        # Convert string of comma-separated checks to a list,
+        # and convert check code numbers to names. By default all messages are
+        # enabled.
+        if enabled:
+            self._enabled = _convert_to_int_list(enabled)
+            self._enabled = [x for x in self._enabled if x in CHECK_CODES]
+            for x in self._enabled:
+                remove_silent(x, self._disabled)
+        else:
+            self._enabled = copy.deepcopy(CHECK_CODES)
+
+
+def initialize_options(options=None):
     global ALL_OPTIONS
     if not ALL_OPTIONS:
-        ALL_OPTIONS = SliderOptions(slider_args)
+        if isinstance(options, SliderOptions):
+            ALL_OPTIONS = options
+        elif isinstance(options, dict):
+            ALL_OPTIONS = SliderOptions(**options)
+        else:
+            ALL_OPTIONS = SliderOptions(options)
 
         if ALL_OPTIONS.silent and ALL_OPTIONS.message_log_directory:
             warn("Both console and output log have disabled messages.", 202)
@@ -206,8 +264,6 @@ def set_option_value(option_name, option_value):
 
 
 def msg_id_enabled(msg_id):
-    msg_id = text_type(msg_id)
-
     if get_option_value("silent"):
         return False
 

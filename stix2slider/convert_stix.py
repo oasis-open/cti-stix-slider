@@ -1,3 +1,4 @@
+# external
 from cybox.core import Observable
 from six import text_type
 from stix2.pattern_visitor import create_pattern_object
@@ -6,9 +7,10 @@ from stix.coa import CourseOfAction, RelatedCOAs
 from stix.common.datetimewithprecision import DateTimeWithPrecision
 from stix.common.identity import Identity, RelatedIdentities
 from stix.common.information_source import InformationSource
-from stix.common.kill_chains import (KillChain, KillChainPhase,
-                                     KillChainPhaseReference,
-                                     KillChainPhasesReference)
+from stix.common.kill_chains import (
+    KillChain, KillChainPhase, KillChainPhaseReference,
+    KillChainPhasesReference
+)
 from stix.common.references import References
 from stix.common.statement import Statement
 from stix.common.vocabs import VocabString
@@ -16,24 +18,28 @@ from stix.core import STIXHeader
 from stix.data_marking import Marking, MarkingSpecification, MarkingStructure
 from stix.exploit_target import ExploitTarget
 from stix.exploit_target.vulnerability import Vulnerability
-from stix.extensions.identity.ciq_identity_3_0 import (Address,
-                                                       CIQIdentity3_0Instance,
-                                                       OrganisationInfo,
-                                                       PartyName,
-                                                       STIXCIQIdentity3_0)
-from stix.extensions.marking.ais import (AISConsentType, AISMarkingStructure,
-                                         IsProprietary, NotProprietary,
-                                         TLPMarkingType)
-from stix.extensions.marking.terms_of_use_marking import \
+from stix.extensions.identity.ciq_identity_3_0 import (
+    Address, CIQIdentity3_0Instance, OrganisationInfo, PartyName,
+    STIXCIQIdentity3_0
+)
+from stix.extensions.marking.ais import (
+    AISConsentType, AISMarkingStructure, IsProprietary, NotProprietary,
+    TLPMarkingType
+)
+from stix.extensions.marking.terms_of_use_marking import (
     TermsOfUseMarkingStructure
+)
 from stix.extensions.marking.tlp import TLPMarkingStructure
-from stix.extensions.test_mechanism.snort_test_mechanism import \
+from stix.extensions.test_mechanism.snort_test_mechanism import (
     SnortTestMechanism
-from stix.extensions.test_mechanism.yara_test_mechanism import \
+)
+from stix.extensions.test_mechanism.yara_test_mechanism import (
     YaraTestMechanism
+)
 from stix.indicator import Indicator, RelatedIndicators, ValidTime
-from stix.indicator.sightings import (RelatedObservable, RelatedObservables,
-                                      Sighting, Sightings)
+from stix.indicator.sightings import (
+    RelatedObservable, RelatedObservables, Sighting, Sightings
+)
 from stix.threat_actor import AssociatedActors, ThreatActor
 from stix.ttp import TTP, Behavior, Resource
 from stix.ttp.attack_pattern import AttackPattern
@@ -43,20 +49,21 @@ from stix.ttp.resource import ToolInformation, Tools
 from stix.ttp.victim_targeting import VictimTargeting
 import stixmarx
 
+# internal
 from stix2slider import common
 from stix2slider.common import convert_id2x, create_id1x
-from stix2slider.convert_cyber_observables import (add_object_refs, add_refs,
-                                                   convert_cyber_observables,
-                                                   convert_sco)
-from stix2slider.options import (debug, error, get_option_value,
-                                 set_option_value, warn)
+from stix2slider.convert_cyber_observables import (
+    add_object_refs, add_refs, convert_cyber_observables, convert_sco
+)
+from stix2slider.options import (
+    debug, error, get_option_value, set_option_value, warn
+)
 from stix2slider.utils import set_default_namespace
-from stix2slider.vocab_mappings import (ATTACK_MOTIVATION_MAP, COA_LABEL_MAP,
-                                        INDICATOR_LABEL_MAP,
-                                        INFRASTRUCTURE_LABELS_MAP,
-                                        MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
-                                        SECTORS_MAP, THREAT_ACTOR_LABEL_MAP,
-                                        THREAT_ACTOR_SOPHISTICATION_MAP)
+from stix2slider.vocab_mappings import (
+    ATTACK_MOTIVATION_MAP, COA_LABEL_MAP, INDICATOR_LABEL_MAP,
+    INFRASTRUCTURE_LABELS_MAP, MALWARE_LABELS_MAP, REPORT_LABELS_MAP,
+    SECTORS_MAP, THREAT_ACTOR_LABEL_MAP, THREAT_ACTOR_SOPHISTICATION_MAP
+)
 
 try:
     from stix.report import Report

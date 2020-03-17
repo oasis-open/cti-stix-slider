@@ -4,10 +4,12 @@ current version of the stix2-slider will provide insight to issues that might ne
 to be mitigated so you can use an application that supports only STIX 1.x content.
 """
 
+# Standard Library
 import argparse
 import sys
 import textwrap
 
+# internal
 from stix2slider import slide_file
 from stix2slider.options import initialize_options
 from stix2slider.version import __version__
@@ -70,8 +72,8 @@ def _get_arg_parser(is_script=True):
         help="A comma-separated list of the stix2-slider messages to enable. "
              "If the --disable option is not used, no other messages will be "
              "shown. \n\nExample: stix2_slider <file> --enable 250",
-        dest="enable",
-        default=""
+        dest="enabled",
+        default=None
     )
 
     parser.add_argument(
@@ -79,8 +81,8 @@ def _get_arg_parser(is_script=True):
         "--disable",
         help="A comma-separated list of the stix2-slider messages to disable. \n\n"
              "Example: stix2_slider <file> --disable 212,220",
-        dest="disable",
-        default=""
+        dest="disabled",
+        default=None
     )
 
     parser.add_argument(

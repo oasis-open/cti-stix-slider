@@ -1,6 +1,8 @@
+# Standard Library
 import base64
 import os
 
+# external
 from mixbox import idgen, namespaces
 import stix2
 

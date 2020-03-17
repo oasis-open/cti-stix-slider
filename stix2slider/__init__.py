@@ -1,12 +1,15 @@
+# Standard Library
 import io
 import json
 import logging
 import sys
 
+# external
 import cybox.utils.caches
 from sdv import codes, errors, scripts
 import stix2
 
+# internal
 from stix2slider.convert_stix import convert_bundle
 from stix2slider.options import get_validator_options, setup_logger
 

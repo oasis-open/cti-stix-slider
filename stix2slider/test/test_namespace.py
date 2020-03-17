@@ -1,5 +1,7 @@
+# Standard Library
 import os
 
+# internal
 from stix2slider.cli import slide_file
 from stix2slider.options import initialize_options, set_option_value
 from stix2slider.utils import find_dir
