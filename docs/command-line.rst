@@ -69,11 +69,10 @@ optional arguments:
                 The logging output level.
 
           --use-namespace USE_NAMESPACE
-                Override the 'example' namespace with provided one.
+                Override the 'example' namespace with the provided one.
                 The format is the prefix, namespace uri and optionally
                 the schema location separated by a space. Example:
-                stix2_slider <file> --use-namespace="example
-                http://example.com"
+                stix2_slider <file> --use-namespace="example http://example.com"
 
 
 Refer to the :ref:`warning_messages` section for all stix2-slider messages. Use the associated code number

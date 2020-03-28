@@ -19,6 +19,8 @@ For each STIX 2.x object that was converted the following options are possible:
    the 2.x descriptor property to determine if it can use information found within it to populate the original 1.x properties.
  - **STIX 2.x property not mapped.**  This property will not be included in the converted 1.x object.
 
+Many of the examples below convert STIX 2.0 to STIX 1.x.  Conversions of STIX 2.1 are similar.
+
 Top Level Object Mappings
 -------------------------------
 
@@ -96,6 +98,7 @@ Common Properties
 | ``external_references`` | ``Information_Source``,                                                              |
 |                         | ``et:Vulnerability.cve_id``,                                                         |
 |                         | ``ttp:Attack_Patterns.capec.id``                                                     |
+|                         | ``Description``                                                                      |
 +-------------------------+--------------------------------------------------------------------------------------+
 | ``object_markings_refs``| ``Handling``                                                                         |
 +-------------------------+--------------------------------------------------------------------------------------+
@@ -269,13 +272,13 @@ STIX 1.x in XML
 
     <stix:Campaign id="example:campaign-e5268b6e-4931-42f1-b379-87f48eb41b1e" timestamp="2014-08-08T15:50:10.983000+00:00" xsi:type='campaign:CampaignType'>
             <campaign:Title>Compromise of ATM Machines</campaign:Title>
-            <campaign:Description>Attacking ATM machines in the Eastern US</campaign:Description>
+            <campaign:Description ordinality="1">Attacking ATM machines in the Eastern US</campaign:Description>
+            <campaign:Description ordinality="2">SOURCE: ACME Bugzilla - EXTERNAL ID: 1370</campaign:Description>
             <campaign:Information_Source>
                 <stixCommon:References>
-                    <stixCommon:Reference>SOURCE: ACME - http://foo.com/bar</stixCommon:Reference>
-                    <stixCommon:Reference>SOURCE: wikipedia - https://en.wikipedia.org/wiki/Automated_teller_machine</stixCommon:Reference>
-                    <stixCommon:Reference>SOURCE: ACME Bugzilla - https://www.example.com/bugs/1370</stixCommon:Reference>
-                    <stixCommon:Reference>SOURCE: ACME Bugzilla - EXTERNAL ID: 1370</stixCommon:Reference>
+                    <stixCommon:Reference>http://foo.com/bar</stixCommon:Reference>
+                    <stixCommon:Reference>https://en.wikipedia.org/wiki/Automated_teller_machine</stixCommon:Reference>
+                    <stixCommon:Reference>https://www.example.com/bugs/1370</stixCommon:Reference>
                 </stixCommon:References>
             </campaign:Information_Source>
         </stix:Campaign>
@@ -294,7 +297,11 @@ properties that were found in STIX 1.x.
 
 **STIX 2.x Properties Translated to STIX 1.x Properties**
 
-*none*
++-------------------------+---------------------------------------------+
+|**STIX 2.x property**    | **STIX 1.x property**                       |
++===============================+=======================================+
+| ``labels`` (in 2.0)           | ``Type``                              |
++-------------------------------+---------------------------------------+
 
 **STIX 2.x Relationships Mapped Using STIX 1.x Relationships**
 
@@ -527,13 +534,13 @@ STIX 1.x in XML
 
     <stix:TTP id="example:infrastructure-dd955e08-16d0-4f08-a064-50d9e7a3104d"
               timestamp="2014-05-08T09:00:00+00:00" xsi:type='ttp:TTPType'>
-            <ttp:Resources>
-                <ttp:Infrastructure>
-                    <ttp:Title>Malware C2 Channel</ttp:Title>
-                    <ttp:Type>malware-c2</ttp:Type>
-                </ttp:Infrastructure>
-            </ttp:Resources>
-        </stix:TTP>
+        <ttp:Resources>
+            <ttp:Infrastructure>
+                <ttp:Title>Malware C2 Channel</ttp:Title>
+                <ttp:Type>malware-c2</ttp:Type>
+            </ttp:Infrastructure>
+        </ttp:Resources>
+    </stix:TTP>
 
 Location
 ------------------
@@ -543,7 +550,7 @@ Location
 +-----------------------------------+---------------------------+
 | **STIX 2.x property**             | **STIX 1.x property**     |
 +===================================+===========================+
-| ``adminstrative_area``            | ``adminstrative_area``    |
+| ``administrative_area``           | ``administrative_area``   |
 +-----------------------------------+---------------------------+
 |  ``country``                      | ``country``               |
 +-----------------------------------+---------------------------+
@@ -609,7 +616,7 @@ STIX 1.x in XML
 Malware
 -------------
 
-The Malware object in STIX 2.x is a stub.
+The Malware object in STIX 2.0 is a stub.
 
 **STIX 2.x Properties Mapped Directly to STIX 1.x Properties**
 
