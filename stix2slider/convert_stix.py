@@ -136,6 +136,11 @@ def set_related_indicators(source, target_ref, target_obj_idref_1x):
     ta1x_tuple[1] = True
 
 
+def set_related_campaign_ref_for_indicator(source, target_obj_idref_1x):
+    # campaign refs are weird
+    source.add_related_campaign(Campaign(id_=target_obj_idref_1x.idref))
+
+
 # TODO: use _VICTIM_TARGET_TTPS
 _VICTIM_TARGET_TTPS = []
 
@@ -257,7 +262,7 @@ _RELATIONSHIP_MAP = {
          "stix1x_source_type": Indicator,
          "stix1x_target_type": TTP},
     ("indicator", "campaign", "indicates"):
-        {"method": Indicator.add_related_campaign,
+        {"method": set_related_campaign_ref_for_indicator,
          "reverse": False,
          "stix1x_source_type": Indicator,
          "stix1x_target_type": Campaign},
