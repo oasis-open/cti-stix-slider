@@ -87,6 +87,7 @@ _CYBOX_OBJECT_MAP = {
     "domain-name": DomainName,
     "directory": File,
     "email-message": EmailMessage,
+    "email-addr": Address,
     "file": File,
     "archive-ext": ArchiveFile,
     "pdf-ext": PDFFile,

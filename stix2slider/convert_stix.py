@@ -635,9 +635,9 @@ def convert_coa(coa2x):
     if "labels" in coa2x:
         coa_types = convert_open_vocabs_to_controlled_vocabs(coa2x["labels"], COA_LABEL_MAP)
         coa1x.type_ = coa_types[0]
-        for l in coa_types[1:]:
+        for lab in coa_types[1:]:
             warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
-                 401, "labels", l)
+                 401, "labels", lab)
     process_markings(coa1x, coa2x)
     record_id_object_mapping(coa2x["id"], coa1x)
     return coa1x

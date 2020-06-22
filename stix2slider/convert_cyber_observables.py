@@ -818,9 +818,9 @@ def convert_software_c_o(soft2x, prod1x, obs2x_id):
     if "languages" in soft2x:
         prod1x.language = soft2x["languages"][0]
         if len(soft2x["languages"]) > 1:
-            for l in soft2x["languages"][1:]:
+            for lang in soft2x["languages"][1:]:
                 warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
-                     401, obs2x_id, "languages", l)
+                     401, obs2x_id, "languages", lang)
 
     if "vendor" in soft2x:
         prod1x.vendor = soft2x["vendor"]

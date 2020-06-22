@@ -1,0 +1,42 @@
+<stix:STIX_Package
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-84c61aa5-0fc8-45bb-b9d8-42df3636b5b8" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-53fe3b22-0201-47cf-85d0-97c02164528d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-c893eb5c-6f75-4f31-985e-d1ae0151fc97">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-eb434f41-0faf-408b-b6c5-755066a48cdb">
+                        <cybox:Object id="example:Address-709128f5-d04b-446b-900c-839995f054de">
+                            <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                                <AddressObj:Address_Value condition="Equals">10.0.0.0</AddressObj:Address_Value>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-085f1571-861c-4d73-be8f-4c8223cc7deb">
+                        <cybox:Object id="example:Address-5b954871-3086-47b8-9055-04cbe006f036">
+                            <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="e-mail">
+                                <AddressObj:Address_Value condition="Equals">fred@bedrock.gov</AddressObj:Address_Value>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>
