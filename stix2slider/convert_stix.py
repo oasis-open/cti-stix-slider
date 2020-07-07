@@ -66,6 +66,7 @@ from stix2slider.vocab_mappings import (
 )
 
 try:
+    # external
     from stix.report import Report
     from stix.report.header import Header
     _STIX_1_VERSION = "1.2"
