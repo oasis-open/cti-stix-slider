@@ -1,6 +1,19 @@
 CHANGELOG
 =========
 
+3.0.0 - 2020-07-08
+
+    **The elevator and stepper are compliant with STIX 2.1 CS01**
+
+    **Python 2.7 and 3.4 are no longer supported**
+
+    - Handle stand-alone email-addresses in patterns
+    - Handle campaign references
+    - Handle all URLs correctly
+    - Handle circular references
+    - Handle related objects
+
+
 2.0.0 - 2019-01-14
 
     Convert STIX 2.1 content to STIX 1.x
