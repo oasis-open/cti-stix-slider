@@ -13,7 +13,7 @@ STIX 2.x content to STIX 1.x content:
                             [--use-namespace USE_NAMESPACE]
                             file
 
-        stix2-slider v2.1.0
+        stix2-slider v3.0.0
 
 The stix2-slider is a work-in-progress. It should be used to explore how
 existing STIX 2.x would potentially be represented in STIX 1.x. Using the

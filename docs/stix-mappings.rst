@@ -190,7 +190,7 @@ STIX 1.x in XML
         </ttp:Behavior>
         <ttp:Information_Source>
             <stixCommon:References>
-                <stixCommon:Reference>SOURCE: capec - https://capec.mitre.org/data/definitions/148.html</stixCommon:Reference>
+                <stixCommon:Reference>https://capec.mitre.org/data/definitions/148.html</stixCommon:Reference>
             </stixCommon:References>
         </ttp:Information_Source>
     </stix:TTP>
@@ -790,7 +790,7 @@ STIX 1.x in XML
             <report:Indicators>
                 <report:Indicator idref="example:indicator-66647c79-5766-4ca7-ab8a-a579056e3c83" xsi:type='indicator:IndicatorType'/>
             </report:Indicators>
-        </stix:Report>
+    </stix:Report>
 
 Threat Actor
 ------------------

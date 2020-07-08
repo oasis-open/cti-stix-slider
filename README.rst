@@ -35,7 +35,7 @@ ReadTheDocs.
 Requirements
 ------------
 
-- Python 2.7, or 3.3+
+- Python 3.5+
 - `python-stix <https://stix.readthedocs.io/en/stable/>`_ and its dependencies
 
   .. note::
@@ -45,8 +45,8 @@ Requirements
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 1.1.0
--  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.3
+-  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 2.0.0
+-  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.7
 -  `stix-validator <https://pypi.org/project/stix-validator>`_ >= 2.5.0
 
 Installation
@@ -91,7 +91,7 @@ STIX 2.x content to STIX 1.x content::
                             [--use-namespace USE_NAMESPACE]
                             file
 
-        stix2-slider v2.0.0
+        stix2-slider v3.0.0
 
         The stix2-slider is a work-in-progress. It should be used to explore how
         existing STIX 2.x would potentially be represented in STIX 1.x. Using the
