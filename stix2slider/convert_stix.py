@@ -65,13 +65,12 @@ from stix2slider.vocab_mappings import (
     SECTORS_MAP, THREAT_ACTOR_LABEL_MAP, THREAT_ACTOR_SOPHISTICATION_MAP
 )
 
-try:
-    # external
-    from stix.report import Report
-    from stix.report.header import Header
-    _STIX_1_VERSION = "1.2"
-except ImportError:
-    _STIX_1_VERSION = "1.1.1"
+try:  # isort:skip
+    from stix.report import Report  # isort:skip
+    from stix.report.header import Header  # isort:skip
+    _STIX_1_VERSION = "1.2"  # isort:skip
+except ImportError:  # isort:skip
+    _STIX_1_VERSION = "1.1.1"  # isort:skip
 
 
 def choose_full_object_or_idref(identity_ref_2x, target_obj_idref_1x):
