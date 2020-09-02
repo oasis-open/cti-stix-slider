@@ -157,7 +157,7 @@ tools. You can slide a STIX 2.x file::
       from stix2slider import slide_file
       from stix2slider.options import initialize_options
 
-      intialize_options()
+      initialize_options()
       results = slide_file("stix_file.json")
       print(results)
 
@@ -167,7 +167,7 @@ argument::
       from stix2slider import slide_string
       from stix2slider.options import initialize_options
 
-      intialize_options()
+      initialize_options()
       results = slide_string("...")
       print(results)
 
