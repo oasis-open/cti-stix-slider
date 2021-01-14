@@ -35,7 +35,7 @@ ReadTheDocs.
 Requirements
 ------------
 
-- Python 3.5+
+- Python 3.6+
 - `python-stix <https://stix.readthedocs.io/en/stable/>`_ and its dependencies
 
   .. note::
