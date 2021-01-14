@@ -312,8 +312,8 @@ Staff at
 repository-admin@oasis-open.org and any specific CLA-related questions
 to repository-cla@oasis-open.org.
 
-.. |Build_Status| image:: https://travis-ci.org/oasis-open/cti-stix-slider.svg?branch=master
-   :target: https://travis-ci.org/oasis-open/cti-stix-slider
+.. |Build_Status| image:: https://github.com/oasis-open/cti-stix-slider/workflows/cti-stix-slider%20test%20harness/badge.svg
+   :target: https://github.com/oasis-open/cti-stix-slider/actions?query=workflow%3A%22cti-stix-slider+test+harness%22
 .. |Coverage| image:: https://codecov.io/gh/oasis-open/cti-stix-slider/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/oasis-open/cti-stix-slider
 .. |Version| image:: https://img.shields.io/pypi/v/stix2-slider.svg?maxAge=3600
