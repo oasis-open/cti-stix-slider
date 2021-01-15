@@ -13,6 +13,7 @@ Observable Expressions should not contain placeholders                          
 Both console and output log have disabled messages                                                                  202     Warn
 silent option is not compatible with a policy                                                                       203     Warn
 options not initialized                                                                                             204     Warn
+Comparison Expressions in pattern of *[id]* should only have one type *[root-types]*                                205     Error
 =================================================================================================================== ====    =====
 
 Possible issue in original STIX 2.x content

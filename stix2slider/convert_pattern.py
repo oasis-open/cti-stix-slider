@@ -79,7 +79,7 @@ from stix2slider.convert_cyber_observables import (
     add_host, convert_addr_c_o, convert_artifact_c_o, convert_domain_name_c_o,
     convert_file_c_o
 )
-from stix2slider.options import get_option_value, info, warn
+from stix2slider.options import error, get_option_value, info, warn
 
 _CYBOX_OBJECT_MAP = {
     "artifact": Artifact,
@@ -420,7 +420,11 @@ def convert_addr_pattern(exp2x, obj1x, id2x):
     if prop_name == "value":
         obj1x.address_value = rhs_value
         convert_operator(op, obj1x, id2x)
-        ip_add_type = exp2x.root_type
+        if len(exp2x.root_types) == 1:
+            # its a set
+            ip_add_type = list(exp2x.root_types)[0]
+        else:
+            error("Comparison Expressions in pattern of %s should only have one type %s", 205, id2x, exp2x.root_types)
         if ip_add_type == 'ipv4-addr':
             obj1x.category = Address.CAT_IPV4
         elif ip_add_type == 'ipv6-addr':
