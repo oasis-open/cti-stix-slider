@@ -59,7 +59,6 @@ from cybox.objects.x509_certificate_object import (
     RSAPublicKey, SubjectPublicKey, Validity, X509Cert, X509Certificate,
     X509V3Extensions
 )
-from six import text_type
 
 # internal
 from stix2slider.common import (
@@ -440,7 +439,7 @@ def handle_parent_directory_ref(file2x, file1x, obj_map, obs2x_id=None):
     if "parent_directory_ref" in file2x:
         if file2x["parent_directory_ref"] in obj_map:
             directory_object = obj_map[file2x["parent_directory_ref"]]
-            directory_string = text_type(directory_object.full_path)
+            directory_string = str(directory_object.full_path)
             file1x.full_path = directory_string + ("\\" if is_windows_directory(directory_string) else "/") + file2x["name"]
 
 
