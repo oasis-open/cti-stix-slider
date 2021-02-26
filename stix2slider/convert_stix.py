@@ -14,9 +14,11 @@ from stix.common.references import References
 from stix.common.statement import Statement
 from stix.common.vocabs import VocabString
 from stix.core import STIXHeader
+from stix.core.ttps import TTPs
 from stix.data_marking import Marking, MarkingSpecification, MarkingStructure
 from stix.exploit_target import ExploitTarget
 from stix.exploit_target.vulnerability import Vulnerability
+from stix.extensions.marking.tlp import TLPMarkingStructure
 from stix.extensions.identity.ciq_identity_3_0 import (
     Address, CIQIdentity3_0Instance, OrganisationInfo, PartyName,
     STIXCIQIdentity3_0
@@ -560,10 +562,36 @@ def process_kill_chain_phases(phases, obj1x):
                                                                "kill_chain"].name))
 
 
+def tlp_marking(m_id):
+    return m_id in ["marking-definition--613f2e26-407d-48c7-9eca-b8e91df99dc9",   # white
+                    "marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da",   # green
+                    "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82",   # amber
+                    "marking-definition--5e57c739-391a-4eb3-b6be-7d15ca92d5ed"    # red
+                   ]
+
+
+def create_tlp_marking_specification(m_id):
+    marking_spec = MarkingSpecification()
+    marking_struct = MarkingStructure()
+    if m_id == "marking-definition--613f2e26-407d-48c7-9eca-b8e91df99dc9":
+        marking_struct = TLPMarkingStructure(color="WHITE")
+    if m_id == "marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da":
+        marking_struct = TLPMarkingStructure(color="GREEN")
+    if m_id == "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82":
+        marking_struct = TLPMarkingStructure(color="AMBER")
+    if m_id == "marking-definition--5e57c739-391a-4eb3-b6be-7d15ca92d5ed":
+        marking_struct = TLPMarkingStructure(color="RED")
+    marking_spec.marking_structures = [marking_struct]
+    return marking_spec
+
+
 def process_markings(o1x, o2x):
     if "object_marking_refs" in o2x:
         for m_id in o2x["object_marking_refs"]:
-            ms = create_marking_specification(m_id)
+            if tlp_marking(m_id):
+                ms = create_tlp_marking_specification(m_id)
+            else:
+                ms = create_marking_specification(m_id)
             if ms:
                 CONTAINER.add_marking(o1x, ms, descendants=True)
     if "granular_markings" in o2x:
@@ -1399,8 +1427,11 @@ def convert_bundle(bundle_obj):
             if o["type"] == "observed-data":
                 # add related objects
                 add_object_refs(o, stix2x_objs, stix1x_obs_list, objects_inline)
+
     for k, v in _KILL_CHAINS.items():
-        pkg.ttps.kill_chains.append(v["kill_chain"])
+        if not pkg.ttps:
+            pkg.ttps = TTPs()
+        pkg.ttps.add_kill_chain(v["kill_chain"])
     CONTAINER.flush()
     CONTAINER = None
     return pkg

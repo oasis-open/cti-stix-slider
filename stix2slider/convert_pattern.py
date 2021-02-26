@@ -809,7 +809,7 @@ def convert_url_pattern(exp2x, obj1x, id2x):
 
 
 def convert_mutex_pattern(exp2x, obj1x, id2x):
-    prop_name = exp2x.lhs.properties[0].property_name
+    prop_name = exp2x.lhs.property_path[0].property_name
     if prop_name == "name":
         obj1x.name = exp2x.rhs.value
         convert_operator(exp2x.operator, obj1x.name, id2x)
