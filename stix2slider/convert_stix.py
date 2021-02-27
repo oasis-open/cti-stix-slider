@@ -18,7 +18,6 @@ from stix.core.ttps import TTPs
 from stix.data_marking import Marking, MarkingSpecification, MarkingStructure
 from stix.exploit_target import ExploitTarget
 from stix.exploit_target.vulnerability import Vulnerability
-from stix.extensions.marking.tlp import TLPMarkingStructure
 from stix.extensions.identity.ciq_identity_3_0 import (
     Address, CIQIdentity3_0Instance, OrganisationInfo, PartyName,
     STIXCIQIdentity3_0
@@ -566,8 +565,7 @@ def tlp_marking(m_id):
     return m_id in ["marking-definition--613f2e26-407d-48c7-9eca-b8e91df99dc9",   # white
                     "marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da",   # green
                     "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82",   # amber
-                    "marking-definition--5e57c739-391a-4eb3-b6be-7d15ca92d5ed"    # red
-                   ]
+                    "marking-definition--5e57c739-391a-4eb3-b6be-7d15ca92d5ed"]    # red
 
 
 def create_tlp_marking_specification(m_id):
