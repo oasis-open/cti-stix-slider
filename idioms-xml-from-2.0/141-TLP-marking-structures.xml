@@ -1,0 +1,110 @@
+<stix:STIX_Package
+	xmlns:URIObj="http://cybox.mitre.org/objects#URIObject-2"
+	xmlns:tlpMarking="http://data-marking.mitre.org/extensions/MarkingStructure#TLP-1"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:EmailMessageObj="http://cybox.mitre.org/objects#EmailMessageObject-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:marking="http://data-marking.mitre.org/Marking-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-88139233-3c7d-4913-bb5e-d2aeb079d029" version="1.2">
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-8a822399-5d8a-44e4-abeb-15d480ea93c5" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>Malicious site hosting downloader</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">URL Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-5d62a5b7-d532-44e8-ab7e-e4ae4f63bb00">
+                <cybox:Object id="example:URI-092d0753-2cb1-4370-852f-c3152612ee72">
+                    <cybox:Properties xsi:type="URIObj:URIObjectType">
+                        <URIObj:Value condition="Equals">http://x4z9arb.cn/4712</URIObj:Value>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+            <indicator:Handling>
+                <marking:Marking>
+                    <marking:Controlled_Structure>../../../descendant-or-self::node() | ../../../descendant-or-self::node()/@*</marking:Controlled_Structure>
+                    <marking:Marking_Structure xsi:type='tlpMarking:TLPMarkingStructureType' color="WHITE"/>
+                </marking:Marking>
+            </indicator:Handling>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-53fe3b22-0201-47cf-85d0-97c02164528d" timestamp="2014-05-08T09:00:00+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>IP Address for known C2 channel</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-05-08T09:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-5c1a74c6-2941-47e2-b17b-577f6bfe4193">
+                <cybox:Object id="example:Address-1d2e696e-381f-43ea-aa58-0611bc39975f">
+                    <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                        <AddressObj:Address_Value condition="Equals">10.0.0.0</AddressObj:Address_Value>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+            <indicator:Handling>
+                <marking:Marking>
+                    <marking:Controlled_Structure>../../../descendant-or-self::node() | ../../../descendant-or-self::node()/@*</marking:Controlled_Structure>
+                    <marking:Marking_Structure xsi:type='tlpMarking:TLPMarkingStructureType' color="GREEN"/>
+                </marking:Marking>
+            </indicator:Handling>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-14975dea-86cd-4211-a5f8-9c2e4daab69a" timestamp="2015-07-20T19:52:13.853000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>File Reputation for SHA256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">File Hash Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2015-07-20T19:52:13.853585+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-9fed29f9-8a5f-498a-b856-6bbcc7f7f937">
+                <cybox:Object id="example:File-530a7305-c2b8-476e-aacb-f41c662a89c0">
+                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value condition="Equals">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+            <indicator:Handling>
+                <marking:Marking>
+                    <marking:Controlled_Structure>../../../descendant-or-self::node() | ../../../descendant-or-self::node()/@*</marking:Controlled_Structure>
+                    <marking:Marking_Structure xsi:type='tlpMarking:TLPMarkingStructureType' color="AMBER"/>
+                </marking:Marking>
+            </indicator:Handling>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-8cf9236f-1b96-493d-98be-0c1c1e8b62d7" timestamp="2014-10-31T15:52:13.127000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>Malicious E-mail</indicator:Title>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Malicious E-mail</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2014-10-31T15:52:13.127931+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-2fdc3cf2-082b-469d-94b7-e0841058f6ea">
+                <cybox:Object id="example:EmailMessage-407b8650-0778-4101-98af-7bdf3da91fe0">
+                    <cybox:Properties xsi:type="EmailMessageObj:EmailMessageObjectType">
+                        <EmailMessageObj:Header>
+                            <EmailMessageObj:Subject pattern_type="Regex" condition="FitsPattern">^[IMPORTANT] Please Review Before</EmailMessageObj:Subject>
+                        </EmailMessageObj:Header>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+            <indicator:Handling>
+                <marking:Marking>
+                    <marking:Controlled_Structure>../../../descendant-or-self::node() | ../../../descendant-or-self::node()/@*</marking:Controlled_Structure>
+                    <marking:Marking_Structure xsi:type='tlpMarking:TLPMarkingStructureType' color="RED"/>
+                </marking:Marking>
+            </indicator:Handling>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>
