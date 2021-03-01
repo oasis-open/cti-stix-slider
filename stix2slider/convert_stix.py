@@ -1,6 +1,5 @@
 # external
 from cybox.core import Observable
-from six import text_type
 from stix2.pattern_visitor import create_pattern_object
 from stix.campaign import AssociatedCampaigns, Campaign, Names
 from stix.coa import CourseOfAction, RelatedCOAs
@@ -506,9 +505,9 @@ def get_type_from_id(id_):
 def add_missing_property_to_description(obj1x, property_name, obj2x):
     if not get_option_value("no_squirrel_gaps"):
         if _STIX_1_VERSION == "1.2":
-            obj1x.add_description(property_name + ": " + text_type(obj2x[property_name]))
+            obj1x.add_description(property_name + ": " + str(obj2x[property_name]))
         else:
-            obj1x.description = property_name + ": " + text_type(obj2x[property_name])
+            obj1x.description = property_name + ": " + str(obj2x[property_name])
     else:
         warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, property_name, obj2x["type"], obj2x["id"])
 
@@ -583,7 +582,7 @@ def convert_attack_pattern(ap2x):
     if "external_references" in ap2x:
         ap1x.capec_id = extract_external_id("capec", ap2x["external_references"])
     ttp = TTP(id_=convert_id2x(ap2x["id"]),
-              timestamp=text_type(ap2x["modified"]))
+              timestamp=str(ap2x["modified"]))
     ttp.behavior = Behavior()
     ttp.behavior.add_attack_pattern(ap1x)
     if "kill_chain_phases" in ap2x:
@@ -598,7 +597,7 @@ def convert_attack_pattern(ap2x):
 
 def convert_campaign(c2x):
     c1x = Campaign(id_=convert_id2x(c2x["id"]),
-                   timestamp=text_type(c2x["modified"]))
+                   timestamp=str(c2x["modified"]))
     if "name" in c2x:
         c1x.title = c2x["name"]
     if "description" in c2x:
@@ -624,7 +623,7 @@ def convert_campaign(c2x):
 
 def convert_coa(coa2x):
     coa1x = CourseOfAction(id_=convert_id2x(coa2x["id"]),
-                           timestamp=text_type(coa2x["modified"]))
+                           timestamp=str(coa2x["modified"]))
     if "name" in coa2x:
         coa1x.title = coa2x["name"]
     if "description" in coa2x:
@@ -674,14 +673,14 @@ def convert_identity(ident2x):
             ident1x.specification = STIXCIQIdentity3_0()
             if ident2x["identity_class"] == "organization":
                 party_name = PartyName()
-                party_name.add_organisation_name(text_type(ident2x["name"]))
+                party_name.add_organisation_name(str(ident2x["name"]))
                 ident1x.specification.party_name = party_name
             if "sectors" in ident2x:
                 first = True
                 for s in ident2x["sectors"]:
                     if first:
                         ident1x.specification.organisation_info = \
-                            OrganisationInfo(text_type(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP)[0]))
+                            OrganisationInfo(str(convert_open_vocabs_to_controlled_vocabs(s, SECTORS_MAP)[0]))
                         first = False
                     else:
                         warn("%s in STIX 2.x has multiple %s, only one is allowed in STIX 1.x. Using first in list - %s omitted",
@@ -710,7 +709,7 @@ def convert_identity(ident2x):
 
 def convert_indicator(indicator2x):
     indicator1x = Indicator(id_=convert_id2x(indicator2x["id"]),
-                            timestamp=text_type(indicator2x["modified"]))
+                            timestamp=str(indicator2x["modified"]))
     if "name" in indicator2x:
         indicator1x.title = indicator2x["name"]
     if "description" in indicator2x:
@@ -728,8 +727,8 @@ def convert_indicator(indicator2x):
         if "labels" in indicator2x:
             add_missing_list_property_to_description(indicator1x, "labels", indicator2x["labels"])
     indicator1x.add_valid_time_position(
-        convert_to_valid_time(text_type(indicator2x["valid_from"]),
-                              text_type(indicator2x["valid_until"]) if "valid_until" in indicator2x else None))
+        convert_to_valid_time(str(indicator2x["valid_from"]),
+                              str(indicator2x["valid_until"]) if "valid_until" in indicator2x else None))
     if get_option_value("version_of_stix2x") == "2.0" or ("pattern_type" in indicator2x and indicator2x["pattern_type"] == "stix"):
         indicator1x.add_observable(create_pattern_object(indicator2x["pattern"], "Slider", "stix2slider.convert_pattern").toSTIX1x(indicator2x["id"]))
     elif indicator2x["pattern_type"] == "snort":
@@ -771,7 +770,7 @@ def convert_infrastructure(infrastructure2x):
     for t in types:
         infrastructure1x.add_type(t)
     ttp = TTP(id_=convert_id2x(infrastructure2x["id"]),
-              timestamp=text_type(infrastructure2x["modified"]))
+              timestamp=str(infrastructure2x["modified"]))
     ttp.resources = Resource()
     ttp.resources.infrastructure = infrastructure1x
     if "kill_chain_phases" in infrastructure2x:
@@ -801,7 +800,7 @@ def convert_malware(malware2x):
     for t in types:
         malware1x.add_type(t)
     ttp = TTP(id_=convert_id2x(malware2x["id"]),
-              timestamp=text_type(malware2x["modified"]))
+              timestamp=str(malware2x["modified"]))
     ttp.behavior = Behavior()
     ttp.behavior.add_malware_instance(malware1x)
     if "kill_chain_phases" in malware2x:
@@ -833,7 +832,7 @@ def convert_observed_data(od2x):
 def convert_report(r2x):
     if _STIX_1_VERSION == "1.2":
         r1x = Report(id_=convert_id2x(r2x["id"]),
-                     timestamp=text_type(r2x["modified"]))
+                     timestamp=str(r2x["modified"]))
         r1x.header = Header()
         if "name" in r2x:
             r1x.header.title = r2x["name"]
@@ -883,7 +882,7 @@ def convert_report(r2x):
 
 def convert_threat_actor(ta2x):
     ta1x = ThreatActor(id_=convert_id2x(ta2x["id"]),
-                       timestamp=text_type(ta2x["modified"]))
+                       timestamp=str(ta2x["modified"]))
     ta1x.title = ta2x["name"]
     if get_option_value("version_of_stix2x") == "2.0":
         types = convert_open_vocabs_to_controlled_vocabs(ta2x["labels"], THREAT_ACTOR_LABEL_MAP)
@@ -934,7 +933,7 @@ def convert_tool(tool2x):
         # bug in python_stix prevents using next line of code
         # tool1x.type_ = convert_open_vocabs_to_controlled_vocabs(tool2x["labels"], TOOL_LABELS_MAP)
     ttp = TTP(id_=convert_id2x(tool2x["id"]),
-              timestamp=text_type(tool2x["modified"]))
+              timestamp=str(tool2x["modified"]))
     if not ttp.resources:
         ttp.resources = Resource()
     if not ttp.resources.tools:
@@ -960,7 +959,7 @@ def convert_vulnerability(v2x):
         add_missing_list_property_to_description(v1x, "labels", v2x["labels"])
     v1x.cve_id = extract_external_id("cve", v2x["external_references"])
     et = ExploitTarget(id_=convert_id2x(v2x["id"]),
-                       timestamp=text_type(v2x["modified"]))
+                       timestamp=str(v2x["modified"]))
     et.add_vulnerability(v1x)
     if "kill_chain_phases" in v2x:
         process_kill_chain_phases(v2x["kill_chain_phases"], et)
@@ -1193,7 +1192,7 @@ def process_sighting(o):
             indicator_of_sighting.sightings.sightings_count = o["count"]
         if "where_sighted_refs" in o:
             for ref in o["where_sighted_refs"]:
-                s = Sighting(timestamp=text_type(o["modified"]))
+                s = Sighting(timestamp=str(o["modified"]))
                 if "description" in o:
                     if _STIX_1_VERSION == "1.2":
                         s.add_description(o["description"])
