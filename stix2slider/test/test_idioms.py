@@ -5,7 +5,6 @@ import io
 import os
 
 # external
-
 from stixmarx import markingmap, xml
 
 # internal
