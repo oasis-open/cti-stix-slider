@@ -1,0 +1,77 @@
+{
+    "id": "bundle--4f213f30-9fa0-460f-a541-df4793a88677",
+    "objects": [
+        {
+            "created": "9999-12-31T00:00:00.000Z",
+            "created_by_ref": "identity--d9401b9e-6fd2-4341-9dc2-078fd51ebb89",
+            "definition": {
+                "consent": "everyone",
+                "is_cisa_proprietary": "false",
+                "is_proprietary": "false",
+                "tlp": "white"
+            },
+            "definition_type": "ais",
+            "id": "marking-definition--3e64bb4f-9b5c-4a39-8b7f-3dcfacda0334",
+            "type": "marking-definition"
+        },
+        {
+            "created": "9999-12-31T00:00:00.000Z",
+            "id": "identity--d9401b9e-6fd2-4341-9dc2-078fd51ebb89",
+            "identity_class": "organization",
+            "modified": "9999-12-31T00:00:00.000Z",
+            "name": "ACME",
+            "object_marking_refs": [
+                "marking-definition--3e64bb4f-9b5c-4a39-8b7f-3dcfacda0334"
+            ],
+            "sectors": [
+                "technology"
+            ],
+            "type": "identity"
+        },
+        {
+            "created": "2016-03-29T20:52:52.716Z",
+            "created_by_ref": "identity--d9401b9e-6fd2-4341-9dc2-078fd51ebb89",
+            "description": "Send Device for forensic analysis",
+            "id": "course-of-action--e9f31688-d744-48f4-9320-e6a9bd136f44",
+            "modified": "2016-03-29T20:52:52.716Z",
+            "name": "Bricked Computer",
+            "object_marking_refs": [
+                "marking-definition--3e64bb4f-9b5c-4a39-8b7f-3dcfacda0334"
+            ],
+            "type": "course-of-action"
+        },
+        {
+            "created": "2016-03-29T20:52:52.716Z",
+            "created_by_ref": "identity--d9401b9e-6fd2-4341-9dc2-078fd51ebb89",
+            "id": "indicator--0c277b59-f5a9-4530-8861-82588719ec0c",
+            "labels": [
+              "ip-watchlist"
+            ],
+            "kill_chain_phases": [
+                {
+                    "kill_chain_name": "LM Cyber Kill Chain",
+                    "phase_name": "Actions on Objectives"
+                }
+            ],
+            "modified": "2016-03-29T20:52:52.716Z",
+            "object_marking_refs": [
+                "marking-definition--3e64bb4f-9b5c-4a39-8b7f-3dcfacda0334"
+            ],
+            "pattern": "[mutex:name = 'To0o0o0o0o0o0o0o0ooLate'] AND [(windows-registry-key:key MATCHES 'HKEY_CURRENT_CONFIG\\\\J@k3d' AND windows-registry-key:values[*].data = '0')] AND [file:hashes.MD5 = 'd41d8cd98f00b204e9800998ecf8427e']",
+            "type": "indicator",
+            "valid_from": "2016-03-29T20:52:52.716000Z"
+        },
+        {
+            "created": "2016-03-29T20:52:52.716Z",
+            "created_by_ref": "identity--d9401b9e-6fd2-4341-9dc2-078fd51ebb89",
+            "id": "relationship--00149ee6-fdd8-4760-93c2-a80496bf29f8",
+            "modified": "2016-03-29T20:52:52.716Z",
+            "relationship_type": "investigates",
+            "source_ref": "course-of-action--e9f31688-d744-48f4-9320-e6a9bd136f44",
+            "target_ref": "indicator--0c277b59-f5a9-4530-8861-82588719ec0c",
+            "type": "relationship"
+        }
+    ],
+    "spec_version": "2.0",
+    "type": "bundle"
+}
