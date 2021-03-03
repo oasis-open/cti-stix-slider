@@ -17,7 +17,7 @@ import stix2
     ("tlp", stix2.properties.EnumProperty(required=True,
                                           allowed=["white", "green", "amber"]))
 ])
-class AISMarking(object):
+class AISMarkingV20(object):
     pass
 
 
@@ -29,7 +29,7 @@ class AISMarking(object):
     ("tlp", stix2.properties.EnumProperty(required=True,
                                           allowed=["white", "green", "amber"]))
 ])
-class AISMarking(object):
+class AISMarkingV21(object):
     pass
 
 
