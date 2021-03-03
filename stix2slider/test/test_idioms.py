@@ -1,11 +1,10 @@
 from __future__ import print_function
 
 # Standard Library
+import io
 import os
 
 # external
-from six import StringIO
-from six.moves import zip
 from stixmarx import markingmap, xml
 
 # internal
@@ -134,7 +133,7 @@ def test_idiom_mapping(test_file, stored_master):
 
     converted_new_xml = slide_file(test_file)
     print(converted_new_xml)
-    converted_new_xml = StringIO(converted_new_xml)
+    converted_new_xml = io.StringIO(converted_new_xml)
     converted_new_xml = xml.to_etree(converted_new_xml)
 
     assert xml_compare(converted_new_xml.getroot(), stored_master.getroot(), reporter=print)

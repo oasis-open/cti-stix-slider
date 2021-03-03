@@ -42,7 +42,6 @@ setup(
         'stix>=1.1.1.9,<=1.2.1.0',
         'stix-validator>=2.5.0',
         'stixmarx>=1.0.7',
-        'six>=1.10.0',
         'stix2>=1.4.0',
     ],
     entry_points={

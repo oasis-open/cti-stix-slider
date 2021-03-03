@@ -9,7 +9,7 @@ import stix2
 
 # This is not a final representation of an AIS marking in STIX 2.0
 # Only a match from what stix2-elevator creates.
-@stix2.CustomMarking(type="ais", properties=[
+@stix2.v20.CustomMarking(type="ais", properties=[
     ("is_proprietary", stix2.properties.BooleanProperty(required=True)),
     ("is_cisa_proprietary", stix2.properties.BooleanProperty(required=True)),
     ("consent", stix2.properties.EnumProperty(required=True,
@@ -17,7 +17,19 @@ import stix2
     ("tlp", stix2.properties.EnumProperty(required=True,
                                           allowed=["white", "green", "amber"]))
 ])
-class AISMarking(object):
+class AISMarkingV20(object):
+    pass
+
+
+@stix2.v21.CustomMarking(type="ais", properties=[
+    ("is_proprietary", stix2.properties.BooleanProperty(required=True)),
+    ("is_cisa_proprietary", stix2.properties.BooleanProperty(required=True)),
+    ("consent", stix2.properties.EnumProperty(required=True,
+                                              allowed=["everyone", "usg", "none"])),
+    ("tlp", stix2.properties.EnumProperty(required=True,
+                                          allowed=["white", "green", "amber"]))
+])
+class AISMarkingV21(object):
     pass
 
 

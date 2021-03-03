@@ -11,7 +11,9 @@ import stix2
 
 # internal
 from stix2slider.convert_stix import convert_bundle
-from stix2slider.options import get_validator_options, setup_logger
+from stix2slider.options import (
+    get_option_value, get_validator_options, setup_logger
+)
 
 # Module-level logger
 log = logging.getLogger(__name__)
@@ -26,7 +28,7 @@ def slide_file(fn, encoding="utf-8"):
     with io.open(fn, "r", encoding=encoding) as json_data:
         json_content = json.load(json_data)
 
-    obj = stix2.parse(json_content, allow_custom=True)
+    obj = stix2.parse(json_content, allow_custom=True, version=get_option_value("version_of_stix2x"))
     stix_package = convert_bundle(obj)
 
     if stix_package:
