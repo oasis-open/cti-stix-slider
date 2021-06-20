@@ -1366,6 +1366,8 @@ def convert_bundle(bundle_obj):
             pkg.add_campaign(convert_campaign(o))
         elif o["type"] == 'course-of-action':
             pkg.add_course_of_action(convert_coa(o))
+        elif o["type"] == "extension-definition":
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "extension-definition")
         elif o["type"] == "grouping":
             warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "grouping")
         elif o["type"] == "indicator":
