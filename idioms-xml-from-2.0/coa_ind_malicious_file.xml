@@ -1,0 +1,118 @@
+<stix:STIX_Package
+	xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:MutexObj="http://cybox.mitre.org/objects#MutexObject-2"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:AIS="http://www.us-cert.gov/STIXMarkingStructure#AISConsentMarking-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:xnl="urn:oasis:names:tc:ciq:xnl:3"
+	xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:marking="http://data-marking.mitre.org/Marking-1"
+	xmlns:coa="http://stix.mitre.org/CourseOfAction-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-4f213f30-9fa0-460f-a541-df4793a88677" version="1.2">
+    <stix:STIX_Header>
+        <stix:Handling>
+            <marking:Marking>
+                <marking:Controlled_Structure>//node() | //@*</marking:Controlled_Structure>
+                <marking:Marking_Structure id="example:markingstructure-3e64bb4f-9b5c-4a39-8b7f-3dcfacda0334" xsi:type='AIS:AISMarkingStructure'>
+                    <AIS:Not_Proprietary CISA_Proprietary="false">
+                        <AIS:AISConsent consent="EVERYONE"/>
+                        <AIS:TLPMarking color="WHITE"/>
+                    </AIS:Not_Proprietary>
+                </marking:Marking_Structure>
+                <marking:Information_Source>
+                    <stixCommon:Identity id="example:identity-d9401b9e-6fd2-4341-9dc2-078fd51ebb89" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
+                        <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
+  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xpil:FreeTextLine>identity_class: organization</xpil:FreeTextLine>
+  </xpil:FreeTextLines>
+  <xpil:PartyName xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+    <xnl:OrganisationName xmlns:xnl="urn:oasis:names:tc:ciq:xnl:3">
+      <xnl:NameElement>ACME</xnl:NameElement>
+    </xnl:OrganisationName>
+  </xpil:PartyName>
+  <xpil:OrganisationInfo xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3" xpil:IndustryType="Information Technology Sector"/>
+</stix-ciqidentity:Specification>
+                    </stixCommon:Identity>
+                </marking:Information_Source>
+            </marking:Marking>
+        </stix:Handling>
+    </stix:STIX_Header>
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-0c277b59-f5a9-4530-8861-82588719ec0c" timestamp="2016-03-29T20:52:52.716000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">IP Watchlist</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2016-03-29T20:52:52.716000+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-249da91f-d35e-4d12-a57f-a4ca12bad303">
+                <cybox:Observable_Composition operator="AND">
+                    <cybox:Observable id="example:Observable-4c397b88-d539-4661-a5e6-9ea5bd23de01">
+                        <cybox:Observable_Composition operator="AND">
+                            <cybox:Observable id="example:Observable-a85240cb-5ad5-4340-9004-57d8ac95f254">
+                                <cybox:Object id="example:Mutex-1627d084-34c5-4f85-b5e9-e863c467c2d7">
+                                    <cybox:Properties xsi:type="MutexObj:MutexObjectType" named="true">
+                                        <MutexObj:Name condition="Equals">To0o0o0o0o0o0o0o0ooLate</MutexObj:Name>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                            <cybox:Observable id="example:Observable-06900e93-c9ee-44b0-86ea-0c7be8c83de3">
+                                <cybox:Object id="example:WinRegistryKey-4e407cd4-218b-4869-87a2-409a846b5ff9">
+                                    <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                                        <WinRegistryKeyObj:Key pattern_type="Regex" condition="FitsPattern">HKEY_CURRENT_CONFIG\\J@k3d</WinRegistryKeyObj:Key>
+                                        <WinRegistryKeyObj:Values>
+                                            <WinRegistryKeyObj:Value>
+                                                <WinRegistryKeyObj:Data condition="Equals">0</WinRegistryKeyObj:Data>
+                                            </WinRegistryKeyObj:Value>
+                                        </WinRegistryKeyObj:Values>
+                                    </cybox:Properties>
+                                </cybox:Object>
+                            </cybox:Observable>
+                        </cybox:Observable_Composition>
+                    </cybox:Observable>
+                    <cybox:Observable id="example:Observable-693fefe7-938a-4eb9-8b51-1bc2b2c66055">
+                        <cybox:Object id="example:File-b362c1cb-fbfe-4a15-a92f-f0fede21b15c">
+                            <cybox:Properties xsi:type="FileObj:FileObjectType">
+                                <FileObj:Hashes>
+                                    <cyboxCommon:Hash>
+                                        <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                        <cyboxCommon:Simple_Hash_Value condition="Equals">d41d8cd98f00b204e9800998ecf8427e</cyboxCommon:Simple_Hash_Value>
+                                    </cyboxCommon:Hash>
+                                </FileObj:Hashes>
+                            </cybox:Properties>
+                        </cybox:Object>
+                    </cybox:Observable>
+                </cybox:Observable_Composition>
+            </indicator:Observable>
+            <indicator:Kill_Chain_Phases>
+                <stixCommon:Kill_Chain_Phase name="Actions on Objectives" phase_id="example:TTP-0b546f36-58c4-491a-8371-75d095c33920" kill_chain_name="LM Cyber Kill Chain" kill_chain_id="example:TTP-5288a00d-ba76-4f43-82c9-620335b466a2"/>
+            </indicator:Kill_Chain_Phases>
+        </stix:Indicator>
+    </stix:Indicators>
+    <stix:TTPs>
+        <stix:Kill_Chains>
+            <stixCommon:Kill_Chain id="example:TTP-5288a00d-ba76-4f43-82c9-620335b466a2" name="LM Cyber Kill Chain">
+                <stixCommon:Kill_Chain_Phase name="Actions on Objectives" phase_id="example:TTP-0b546f36-58c4-491a-8371-75d095c33920"/>
+            </stixCommon:Kill_Chain>
+        </stix:Kill_Chains>
+    </stix:TTPs>
+    <stix:Courses_Of_Action>
+        <stix:Course_Of_Action id="example:course-of-action-e9f31688-d744-48f4-9320-e6a9bd136f44" timestamp="2016-03-29T20:52:52.716000+00:00" xsi:type='coa:CourseOfActionType'>
+            <coa:Title>Bricked Computer</coa:Title>
+            <coa:Description>Send Device for forensic analysis</coa:Description>
+            <coa:Information_Source>
+                <stixCommon:Identity idref="example:identity-d9401b9e-6fd2-4341-9dc2-078fd51ebb89"/>
+            </coa:Information_Source>
+        </stix:Course_Of_Action>
+    </stix:Courses_Of_Action>
+</stix:STIX_Package>
