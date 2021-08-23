@@ -41,8 +41,8 @@ setup(
     install_requires=[
         'stix>=1.1.1.9,<=1.2.1.0',
         'stix-validator>=2.5.0',
-        'stixmarx>=1.0.7',
-        'stix2>=1.4.0',
+        'stixmarx>=1.0.8',
+        'stix2>=3.0.0',
     ],
     entry_points={
         'console_scripts': [
