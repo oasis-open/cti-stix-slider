@@ -13,7 +13,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:observable-c8c32b6e-2ea8-41c4-a446-7f5218072f27">
+        <cybox:Observable id="example:observable--c8c32b6e-2ea8-41c4-a446-7f5218072f27">
             <cybox:Object id="example:File-4aa982e3-4aac-5d5b-a699-d08c8c11f5f3">
                 <cybox:Properties xsi:type="FileObj:FileObjectType">
                     <FileObj:Full_Path>/usr/local</FileObj:Full_Path>

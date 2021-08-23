@@ -1,0 +1,753 @@
+{
+    "id": "bundle--fdd39a2e-b67c-41e3-bcc9-f01faf20d111",
+    "objects": [
+        {
+            "created": "2016-08-01T00:00:00.000Z",
+            "definition": {
+                "statement": "Copyright 2016, Example Corp"
+            },
+            "definition_type": "statement",
+            "id": "marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da",
+            "spec_version": "2.1",
+            "type": "marking-definition"
+        },
+        {
+            "a": "56",
+            "b": "fred",
+            "c": {
+                "a": "1",
+                "b": "2"
+            },
+            "created": "2017-02-08T21:31:22.007Z",
+            "extensions": {
+                "extension-definition--a54cf90d-3f65-4e81-b1bd-2f2e8d3c759f" : {
+                    "extension_type" : "new-sdo"
+                }
+            },
+            "id": "bar--7fde8283-feaf-4177-a1ca-03a05961890f",
+            "modified": "2017-02-08T21:31:22.007Z",
+            "object_marking_refs": [
+                "marking-definition--0ee0838b-d40a-4c01-bde5-d0e502691764"
+            ],
+            "spec_version": "2.1",
+            "type": "bar"
+        },
+        {
+            "created": "2017-02-08T21:31:22.007Z",
+            "id": "x-bar--7fde8283-feaf-4177-a1ca-03a05961890f",
+            "modified": "2017-02-08T21:31:22.007Z",
+            "object_marking_refs": [
+                "marking-definition--0ee0838b-d40a-4c01-bde5-d0e502691764"
+            ],
+            "spec_version": "2.1",
+            "type": "x-bar",
+            "x_a": "56",
+            "x_b": "fred",
+            "x_c": {
+                "a": "1",
+                "b": "2"
+            }
+        },
+        {
+            "created": "2017-02-08T21:31:22.007Z",
+            "id": "x-foo--93c17947-b99b-4306-b3a6-84243e80356f",
+            "modified": "2017-02-08T21:31:22.007Z",
+            "spec_version": "2.1",
+            "type": "x-foo"
+        },
+        {
+            "contents": {
+                "de": {
+                    "description": "Weitere Informationen über Banküberfal",
+                    "name": "Bank Angriff"
+                },
+                "fr": {
+                    "description": "Plus d'informations sur la crise bancaire",
+                    "name": "Attaque Bank"
+                }
+            },
+            "created": "2017-02-08T21:31:22.007Z",
+            "id": "language-content--b86bd89f-98bb-4fa9-8cb2-9ad421da981d",
+            "modified": "2017-02-08T21:31:22.007Z",
+            "object_modified": "2017-02-08T21:31:22.007Z",
+            "object_ref": "campaign--12a111f0-b824-4baf-a224-83b80237a094",
+            "spec_version": "2.1",
+            "type": "language-content"
+        },
+        {
+            "created": "2016-11-01T14:26:28.455Z",
+            "id": "indicator--a932fcc6-e032-476c-b26f-ab970a5a1ade",
+            "indicator_types": [
+                "benign"
+            ],
+            "modified": "2016-11-01T14:26:28.455Z",
+            "name": "File hash for Poison Ivy variant",
+            "pattern": "[file:hashes.'SHA-256' = 'ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c']",
+            "pattern_type": "stix",
+            "spec_version": "2.1",
+            "type": "indicator",
+            "valid_from": "2016-11-01T14:26:28.380460Z",
+            "x_baz": "3",
+            "x_fooz": "56"
+        },
+        {
+            "created": "2016-04-06T20:03:48.000Z",
+            "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+            "description": "This file is part of Poison Ivy",
+            "id": "indicator--de2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
+            "indicator_types": [
+                "malicious-activity"
+            ],
+            "kill_chain_phases": [
+                {
+                    "kill_chain_name": "lockheed-martin-cyber-kill-chain",
+                    "phase_name": "reconnaissance"
+                }
+            ],
+            "modified": "2016-04-06T20:03:48.000Z",
+            "name": "Poison Ivy Malware",
+            "pattern": "[ file:hashes.MD5 = '3773a88f65a5e780c8dff9cdc3a056f3' ]",
+            "pattern_type": "stix",
+            "spec_version": "2.1",
+            "type": "indicator",
+            "valid_from": "2016-01-01T00:00:00Z"
+        },
+        {
+            "created": "2016-11-01T14:26:28.455Z",
+            "id": "malware--fdd60b30-b67c-11e3-b0b9-f01faf20d111",
+            "is_family": false,
+            "labels": [
+                "remote-access-trojan"
+            ],
+            "malware_types": [
+                "Poison Ivy"
+            ],
+            "modified": "2016-11-01T14:26:28.455Z",
+            "spec_version": "2.1",
+            "type": "malware"
+        },
+        {
+            "created": "2016-04-06T20:07:09.000Z",
+            "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+            "id": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b",
+            "is_family": false,
+            "malware_types": [
+                "trojan"
+            ],
+            "modified": "2016-04-06T20:07:09.000Z",
+            "name": "Poison Ivy",
+            "spec_version": "2.1",
+            "type": "malware"
+        },
+        {
+            "created": "2016-11-01T14:26:28.455Z",
+            "id": "relationship--876f777d-7fbc-42f0-b494-691922ce69ce",
+            "modified": "2016-11-01T14:26:28.455Z",
+            "object_marking_refs": [
+                "marking-definition--5e57c739-391a-4eb3-b6be-7d15ca92d5ed",
+                "marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da"
+            ],
+            "relationship_type": "indicates",
+            "source_ref": "indicator--a932fcc6-e032-476c-b26f-ab970a5a1ade",
+            "spec_version": "2.1",
+            "target_ref": "malware--fdd60b30-b67c-11e3-b0b9-f01faf20d111",
+            "type": "relationship"
+        },
+        {
+            "created": "2016-04-06T20:06:37.000Z",
+            "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+            "id": "relationship--44298a74-ba52-4f0c-87a3-1824e67d7fad",
+            "modified": "2016-04-06T20:06:37.000Z",
+            "relationship_type": "mitigates",
+            "source_ref": "course-of-action--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
+            "spec_version": "2.1",
+            "target_ref": "malware--31b940d4-6f7f-459a-80ea-9c1f17b5891b",
+            "type": "relationship"
+        },
+        {
+            "id": "directory--70c88107-e29a-5151-b976-6ec9c405dd14",
+            "path": "/usr/bin",
+            "type": "directory"
+        },
+        {
+            "id": "file--eeee988a-e0dc-5ac9-a6f9-c222584337b3",
+            "name": "iprip32.dll",
+            "parent_directory_ref": "directory--70c88107-e29a-5151-b976-6ec9c405dd14",
+            "type": "file"
+        },
+        {
+            "extensions": {
+                "archive-ext": {
+                    "contains_refs": [
+                        "file--e04f22d1-be2c-59de-add8-10f61d15fe20",
+                        "file--eeee988a-e0dc-5ac9-a6f9-c222584337b3"
+                    ]
+                },
+                "x-file-ext": {
+                    "x_a": "45",
+                    "x_d": ["1", "2"]
+                }
+            },
+            "id": "file--e198be9e-18e2-5988-94a5-81a6ed5c6d57",
+            "name": "foo.zip",
+            "type": "file"
+        },
+        {
+            "extensions": {
+                "windows-pebinary-ext": {
+                    "characteristics_hex": "818f",
+                    "machine_hex": "014c",
+                    "number_of_sections": 4,
+                    "number_of_symbols": 4542568,
+                    "optional_header": {
+                        "address_of_entry_point": 4096,
+                        "base_of_code": 4096,
+                        "base_of_data": 8192,
+                        "checksum_hex": "00",
+                        "dll_characteristics_hex": "00",
+                        "file_alignment": 4096,
+                        "image_base": 14548992,
+                        "loader_flags_hex": "abdbffde",
+                        "magic_hex": "010b",
+                        "major_image_version": 0,
+                        "major_linker_version": 2,
+                        "major_os_version": 1,
+                        "major_subsystem_version": 4,
+                        "minor_image_version": 0,
+                        "minor_linker_version": 25,
+                        "minor_os_version": 0,
+                        "minor_subsystem_version": 0,
+                        "number_of_rva_and_sizes": 3758087646,
+                        "section_alignment": 4096,
+                        "size_of_headers": 4096,
+                        "size_of_heap_commit": 4096,
+                        "size_of_heap_reserve": 100000,
+                        "size_of_image": 299008,
+                        "size_of_initialized_data": 283648,
+                        "size_of_stack_commit": 8192,
+                        "size_of_stack_reserve": 100000,
+                        "size_of_uninitialized_data": 0,
+                        "subsystem_hex": "03",
+                        "win32_version_value_hex": "00"
+                    },
+                    "pe_type": "exe",
+                    "pointer_to_symbol_table_hex": "74726144",
+                    "sections": [
+                        {
+                            "entropy": 0.061089,
+                            "name": "CODE"
+                        },
+                        {
+                            "entropy": 7.980693,
+                            "name": "DATA"
+                        },
+                        {
+                            "entropy": 0.607433,
+                            "name": "NicolasB"
+                        },
+                        {
+                            "entropy": 0.607433,
+                            "name": ".idata"
+                        }
+                    ],
+                    "size_of_optional_header": 224,
+                    "time_date_stamp": "2016-01-22T12:31:12Z"
+                }
+            },
+            "hashes": {
+                "MD5": "66e2ea40dc71d5ba701574ea215a81f1"
+            },
+            "id": "file--0ec1e323-5c1e-5e12-b03d-f900c4f2eebd",
+            "name": "fred.exe",
+            "type": "file"
+        },
+        {
+            "hashes": {
+                "SHA-256": "aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f"
+            },
+            "id": "file--e04f22d1-be2c-59de-add8-10f61d15fe20",
+            "type": "file"
+        },
+        {
+            "hashes": {
+                "MD5": "66e2ea40dc71d5ba701574ea215a81f1",
+                "SHA-256": "bf07a7fbb825fc0aae7bf4a1177b2b31fcf8a3feeaf7092761e18c859ee52a9c"
+            },
+            "id": "file--3916128d-69af-5525-be7a-99fac2383a59",
+            "name": "sirvizio.exe",
+            "type": "file"
+        },
+        {
+            "extensions": {
+                "x-foo-ext": {
+                    "baz": "3"
+                }
+            },
+            "id": "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5",
+            "type": "domain-name",
+            "value": "example.com"
+        },
+        {
+            "created": "2016-11-18T13:12:26.437Z",
+            "first_observed": "2016-11-18T13:12:26.437888Z",
+            "granular_markings": [
+                {
+                    "marking_ref": "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82",
+                    "selectors": [
+                        "number_observed",
+                        "object_refs.[0]"
+                    ]
+                },
+                {
+                    "marking_ref": "marking-definition--5e57c739-391a-4eb3-b6be-7d15ca92d5ed",
+                    "selectors": [
+                        "object_refs.[1]",
+                        "object_refs.[2]"
+                    ]
+                }
+            ],
+            "id": "observed-data--c8c32b6e-2ea8-41c4-a446-7f5218072f27",
+            "last_observed": "2016-11-18T13:12:26.437888Z",
+            "modified": "2016-11-18T13:12:26.437Z",
+            "number_observed": 1,
+            "object_refs": [
+                "file--eeee988a-e0dc-5ac9-a6f9-c222584337b3",
+                "file--e04f22d1-be2c-59de-add8-10f61d15fe20",
+                "file--e198be9e-18e2-5988-94a5-81a6ed5c6d57",
+                "domain-name--3c10e93f-798e-5a26-a0c1-08156efab7f5"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "created": "2016-11-18T13:12:26.437Z",
+            "first_observed": "2016-11-18T13:12:26.437888Z",
+            "id": "observed-data--e37882f5-1b85-4d1e-aa20-9bb3dc7d7a9e",
+            "last_observed": "2016-11-18T13:12:26.437888Z",
+            "modified": "2016-11-18T13:12:26.437Z",
+            "number_observed": 1,
+            "object_marking_refs": [
+                "marking-definition--0ee0838b-d40a-4c01-bde5-d0e502691764"
+            ],
+            "object_refs": [
+                "artifact--ca17bcf8-9846-5ab4-8662-75c1bf6e63ee",
+                "autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74",
+                "file--0ec1e323-5c1e-5e12-b03d-f900c4f2eebd",
+                "ipv4-addr--5853f6a4-638f-5b4e-9b0f-ded361ae3812",
+                "mac-addr--65cfcf98-8a6e-5a1b-8f61-379ac4f92d00"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "created": "2016-11-18T13:12:26.437Z",
+            "first_observed": "2016-11-18T13:12:26.437888Z",
+            "id": "observed-data--98284b9e-acd4-409c-8088-02b67af7ec65",
+            "last_observed": "2016-11-18T13:12:26.437888Z",
+            "modified": "2016-11-18T13:12:26.437Z",
+            "number_observed": 1,
+            "object_refs": [
+                "ipv4-addr--e42c19c8-f9fe-5ae9-9fc8-22c398f78fb7",
+                "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+                "network-traffic--630d7bb1-0bbc-53a6-a6d4-f3c2d35c2734"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "created": "2016-11-18T13:12:26.437Z",
+            "first_observed": "2016-11-18T13:12:26.437888Z",
+            "id": "observed-data--8eda1b08-a14b-4eb5-a49e-e5aae0941b9d",
+            "last_observed": "2016-11-18T13:12:26.437888Z",
+            "modified": "2016-11-18T13:12:26.437Z",
+            "number_observed": 1,
+            "object_refs": [
+                "ipv4-addr--6da8dad3-4de3-5f8e-ab23-45d0b8f12f16",
+                "network-traffic--c8b5f360-032e-5745-8cda-c1d9b56f8ee4"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "created": "2016-11-18T13:12:26.437Z",
+            "first_observed": "2016-11-18T13:12:26.437888Z",
+            "id": "observed-data--0d0430d5-31b0-4f2d-a922-0b6198e0774b",
+            "last_observed": "2016-11-18T13:12:26.437888Z",
+            "modified": "2016-11-18T13:12:26.437Z",
+            "number_observed": 1,
+            "object_refs": [
+                "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+                "network-traffic--6db5a8c9-ab7e-5df8-ae56-5746b25f76a6"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "created": "2016-11-18T13:12:26.437Z",
+            "first_observed": "2016-11-18T13:12:26.437888Z",
+            "id": "observed-data--2da56783-bbca-4400-8481-94ea5ce303bb",
+            "last_observed": "2016-11-18T13:12:26.437888Z",
+            "modified": "2016-11-18T13:12:26.437Z",
+            "number_observed": 1,
+            "object_refs": [
+                "ipv4-addr--89830c10-2e94-57fa-8ca6-e0537d2719d1",
+                "ipv4-addr--45f4c6fb-2d7d-576a-a571-edc78d899a72",
+                "network-traffic--09ca55c3-97e5-5966-bad0-1d41d557ae13"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "created": "2016-11-18T13:12:26.437Z",
+            "first_observed": "2016-11-18T13:12:26.437888Z",
+            "id": "observed-data--c03b6157-36d8-48cb-9f03-4d9d35c9d430",
+            "last_observed": "2016-11-18T13:12:26.437888Z",
+            "modified": "2016-11-18T13:12:26.437Z",
+            "number_observed": 1,
+            "object_refs": [
+                "file--e04f22d1-be2c-59de-add8-10f61d15fe20",
+                "process--f52a906a-0dfc-40bd-92f1-e7778ead38a9"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "created": "2016-11-18T13:12:26.437Z",
+            "first_observed": "2016-11-18T13:12:26.437888Z",
+            "id": "observed-data--af8aaf1a-1bc8-41f8-ad1b-269cd61678cc",
+            "last_observed": "2016-11-18T13:12:26.437888Z",
+            "modified": "2016-11-18T13:12:26.437Z",
+            "number_observed": 1,
+            "object_refs": [
+                "file--3916128d-69af-5525-be7a-99fac2383a59",
+                "process--99ab297d-4c39-48ea-9d64-052d596864df"
+            ],
+            "spec_version": "2.1",
+            "type": "observed-data"
+        },
+        {
+            "aliases": [
+                "fred"
+            ],
+            "created": "2016-05-12T08:17:27.000Z",
+            "external_references": [
+                {
+                    "external_id": "CAPEC-163",
+                    "source_name": "capec"
+                }
+            ],
+            "id": "attack-pattern--0c7b5b88-8ff7-4a4d-aa9d-feb398cd0061",
+            "modified": "2016-05-12T08:17:27.000Z",
+            "name": "Spear Phishing",
+            "spec_version": "2.1",
+            "type": "attack-pattern"
+        },
+        {
+            "created": "2016-04-06T20:03:00.000Z",
+            "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+            "description": "Campaign by Green Group against a series of targets in the financial services sector.",
+            "id": "campaign--9a01a8c4-bb39-4433-9584-8617001fa351",
+            "modified": "2016-04-06T20:03:00.000Z",
+            "name": "Green Group Attacks Against Finance",
+            "spec_version": "2.1",
+            "type": "campaign"
+        },
+        {
+            "created": "2016-04-06T20:03:48.000Z",
+            "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+            "description": "This is how to add a filter rule to block inbound access to TCP port 80 to the existing UDP 1434 filter ...",
+            "id": "course-of-action--8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
+            "modified": "2016-04-06T20:03:48.000Z",
+            "name": "Add TCP port 80 Filter Rule to the existing Block UDP 1434 Filter",
+            "spec_version": "2.1",
+            "type": "course-of-action"
+        },
+        {
+            "created": "2016-04-06T20:07:09.000Z",
+            "id": "identity--7e64066a-ea28-4d70-9f72-4609a8313a52",
+            "identity_class": "individual",
+            "modified": "2016-04-06T20:07:09.000Z",
+            "name": "John Smith",
+            "spec_version": "2.1",
+            "type": "identity"
+        },
+        {
+            "created": "2016-04-06T20:07:09.000Z",
+            "id": "identity--582e5637-310a-49bf-9eb8-3f737afda1ed",
+            "identity_class": "organization",
+            "modified": "2016-04-06T20:07:09.000Z",
+            "name": "ACME Widget, Inc.",
+            "spec_version": "2.1",
+            "type": "identity"
+        },
+        {
+            "aliases": [
+                "Zookeeper"
+            ],
+            "created": "2016-04-06T20:03:48.000Z",
+            "created_by_ref": "identity--f431f809-377b-45e0-aa1c-6a4751cae5ff",
+            "description": "Incidents usually feature a shared TTP of a bobcat being released within the building containing network access, scaring users to leave their computers without locking them first. Still determining where the threat actors are getting the bobcats.",
+            "goals": [
+                "acquisition-theft",
+                "harassment",
+                "damage"
+            ],
+            "id": "intrusion-set--4e78f46f-a023-4e5f-bc24-71b3ca22ec29",
+            "modified": "2016-04-06T20:03:48.000Z",
+            "name": "Bobcat Breakin",
+            "spec_version": "2.1",
+            "type": "intrusion-set"
+        },
+        {
+            "created": "2015-12-21T19:59:11.000Z",
+            "external_references": [
+                {
+                    "description": "Threat report",
+                    "source_name": "ACME Threat Intel",
+                    "url": "http://www.example.com/threat-report.pdf"
+                }
+            ],
+            "id": "report--84e4d88f-44ea-4bcd-bbf3-b2c1c320bcb3",
+            "modified": "2015-12-21T19:59:11.000Z",
+            "name": "The Black Vine Cyberespionage Group",
+            "object_refs": [
+                "indicator--26ffb872-1dd9-446e-b6f5-d58527e5b5d2",
+                "campaign--83422c77-904c-4dc1-aff5-5c38f3a2c55c",
+                "relationship--f82356ae-fe6c-437c-9c24-6b64314ae68a"
+            ],
+            "published": "2016-01-20T17:00:00Z",
+            "report_types": [
+                "threat-report"
+            ],
+            "spec_version": "2.1",
+            "type": "report"
+        },
+        {
+            "count": 50,
+            "created": "2016-04-06T20:08:31.000Z",
+            "first_seen": "2015-12-21T19:00:00Z",
+            "id": "sighting--ee20065d-2555-424f-ad9e-0f8428623c75",
+            "last_seen": "2015-12-22T19:00:00Z",
+            "modified": "2016-04-06T20:08:31.000Z",
+            "sighting_of_ref": "indicator--de2e2d2b-17d4-4cbf-938f-98ee46b3cd3f",
+            "spec_version": "2.1",
+            "type": "sighting",
+            "where_sighted_refs": [
+                "identity--b67d30ff-02ac-498a-92f9-32f845f448ff"
+            ]
+        },
+        {
+            "id": "artifact--ca17bcf8-9846-5ab4-8662-75c1bf6e63ee",
+            "mime_type": "image/jpeg",
+            "payload_bin": "UmljaGFyZCBQaWF6emEK",
+            "type": "artifact"
+        },
+        {
+            "id": "autonomous-system--f720c34b-98ae-597f-ade5-27dc241e8c74",
+            "name": "Slime Industries",
+            "number": 15139,
+            "rir": "ARIN",
+            "type": "autonomous-system"
+        },
+        {
+            "id": "ipv4-addr--5853f6a4-638f-5b4e-9b0f-ded361ae3812",
+            "type": "ipv4-addr",
+            "value": "198.51.100.0/24"
+        },
+        {
+            "id": "ipv4-addr--e42c19c8-f9fe-5ae9-9fc8-22c398f78fb7",
+            "type": "ipv4-addr",
+            "value": "203.0.113.1"
+        },
+        {
+            "id": "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+            "type": "ipv4-addr",
+            "value": "203.0.113.5"
+        },
+        {
+            "id": "ipv4-addr--6da8dad3-4de3-5f8e-ab23-45d0b8f12f16",
+            "type": "ipv4-addr",
+            "value": "198.51.100.53"
+        },
+        {
+            "id": "ipv4-addr--89830c10-2e94-57fa-8ca6-e0537d2719d1",
+            "type": "ipv4-addr",
+            "value": "198.51.100.5"
+        },
+        {
+            "id": "ipv4-addr--45f4c6fb-2d7d-576a-a571-edc78d899a72",
+            "type": "ipv4-addr",
+            "value": "198.51.100.6"
+        },
+        {
+            "id": "mac-addr--65cfcf98-8a6e-5a1b-8f61-379ac4f92d00",
+            "type": "mac-addr",
+            "value": "d2:fb:49:24:37:18"
+        },
+        {
+            "dst_ref": "ipv4-addr--e42c19c8-f9fe-5ae9-9fc8-22c398f78fb7",
+            "id": "network-traffic--630d7bb1-0bbc-53a6-a6d4-f3c2d35c2734",
+            "ipfix": {
+                "maximumIpTotalLength": "2556",
+                "minimumIpTotalLength": "32"
+            },
+            "protocols": [
+                "ipv4",
+                "tcp"
+            ],
+            "src_byte_count": 147600,
+            "src_packets": 100,
+            "src_ref": "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+            "type": "network-traffic"
+        },
+        {
+            "dst_ref": "ipv4-addr--6da8dad3-4de3-5f8e-ab23-45d0b8f12f16",
+            "extensions": {
+                "http-request-ext": {
+                    "request_header": {
+                        "Accept-Encoding": "gzip,deflate",
+                        "Host": "www.example.com",
+                        "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113"
+                    },
+                    "request_method": "get",
+                    "request_value": "/download.html",
+                    "request_version": "http/1.1"
+                }
+            },
+            "id": "network-traffic--c8b5f360-032e-5745-8cda-c1d9b56f8ee4",
+            "protocols": [
+                "http",
+                "tcp"
+            ],
+            "type": "network-traffic"
+        },
+        {
+            "extensions": {
+                "socket-ext": {
+                    "address_family": "AF_INET",
+                    "is_listening": true,
+                    "socket_type": "SOCK_STREAM"
+                }
+            },
+            "id": "network-traffic--6db5a8c9-ab7e-5df8-ae56-5746b25f76a6",
+            "protocols": [
+                "ip",
+                "tcp"
+            ],
+            "src_port": 223,
+            "src_ref": "ipv4-addr--03b708d9-7761-5523-ab75-5ea096294a68",
+            "type": "network-traffic"
+        },
+        {
+            "dst_port": 80,
+            "dst_ref": "ipv4-addr--45f4c6fb-2d7d-576a-a571-edc78d899a72",
+            "extensions": {
+                "tcp-ext": {
+                    "src_flags_hex": "00000002"
+                }
+            },
+            "id": "network-traffic--09ca55c3-97e5-5966-bad0-1d41d557ae13",
+            "protocols": [
+                "tcp"
+            ],
+            "src_port": 3372,
+            "src_ref": "ipv4-addr--89830c10-2e94-57fa-8ca6-e0537d2719d1",
+            "type": "network-traffic"
+        },
+        {
+            "command_line": "./gedit-bin --new-window",
+            "id": "process--f52a906a-0dfc-40bd-92f1-e7778ead38a9",
+            "image_ref": "file--e04f22d1-be2c-59de-add8-10f61d15fe20",
+            "pid": 1221,
+            "type": "process"
+        },
+        {
+            "command_line": "C:\\\\Windows\\\\System32\\\\sirvizio.exe /s",
+            "extensions": {
+                "windows-service-ext": {
+                    "service_name": "Servizio",
+                    "service_status": "SERVICE_RUNNING",
+                    "service_type": "SERVICE_WIN32_OWN_PROCESS",
+                    "start_type": "SERVICE_AUTO_START"
+                }
+            },
+            "id": "process--99ab297d-4c39-48ea-9d64-052d596864df",
+            "image_ref": "file--3916128d-69af-5525-be7a-99fac2383a59",
+            "pid": 2217,
+            "type": "process"
+        },
+        {
+            "account_created": "2016-01-20T12:31:12Z",
+            "account_first_login": "2016-01-20T14:26:07Z",
+            "account_last_login": "2016-07-22T16:08:28Z",
+            "account_login": "jdoe",
+            "account_type": "unix",
+            "can_escalate_privs": true,
+            "display_name": "John Doe",
+            "id": "user-account--ceb82475-b9bd-43d5-9d1d-ae036e51edaf",
+            "is_privileged": false,
+            "is_service_account": false,
+            "password_last_changed": "2016-01-20T14:27:43Z",
+            "type": "user-account",
+            "user_id": "1001"
+        },
+        {
+            "account_login": "thegrugq_ebooks",
+            "account_type": "twitter",
+            "display_name": "the grugq",
+            "id": "user-account--9bd3afcf-deee-54f9-83e2-520653cb6bba",
+            "type": "user-account",
+            "user_id": "thegrugq_ebooks"
+        },
+        {
+            "account_login": "jdoe",
+            "account_type": "unix",
+            "can_escalate_privs": true,
+            "display_name": "John Doe",
+            "extensions": {
+                "unix-account-ext": {
+                    "gid": 1001,
+                    "groups": [
+                        "wheel"
+                    ],
+                    "home_dir": "/home/jdoe",
+                    "shell": "/bin/bash"
+                }
+            },
+            "id": "user-account--0d5b424b-93b8-5cd8-ac36-306e1789d63c",
+            "is_privileged": false,
+            "is_service_account": false,
+            "type": "user-account",
+            "user_id": "1001"
+        },
+        {
+            "id": "windows-registry-key--2ba37ae7-2745-5082-9dfd-9486dad41016",
+            "key": "hkey_local_machine\\\\system\\\\bar\\\\foo",
+            "type": "windows-registry-key",
+            "values": [
+                {
+                    "data": "qwerty",
+                    "data_type": "REG_SZ",
+                    "name": "Foo"
+                },
+                {
+                    "data": "42",
+                    "data_type": "REG_DWORD",
+                    "name": "Bar"
+                }
+            ]
+        },
+        {
+              "id": "x509-certificate--463d7b2a-8516-5a50-a3d7-6f801465d5de",
+              "issuer": "C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com",
+              "serial_number": "36:f7:d4:32:f4:ab:70:ea:d3:ce:98:6e:ea:99:93:49:32:0a:b7:06",
+              "spec_version": "2.1",
+              "subject": "C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org",
+              "type": "x509-certificate",
+              "validity_not_after": "2016-08-21T12:00:00Z",
+              "validity_not_before": "2016-03-12T12:00:00Z"
+        }
+
+    ],
+    "type": "bundle"
+}

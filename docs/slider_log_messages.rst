@@ -24,10 +24,10 @@ Message                                                                         
 ============================================================================================================== ====    =====
 No source object exists for *[id]*. Dropping the relationship *[relationship]*                                 301     Warn
 Unknown hash type *[hash_type]* used in *[id]*                                                                 302     Warn
-*[property]* is not a legal property in the pattern of *[id]*                                                  303     Warn
+NOT ASSIGNED                                                                                                   303
 Unknown address type *[type]* used in *[id]*                                                                   304     Warn
 ref type *[type]* in *[id]* is not known                                                                       305     Warn
-*[cyber_observable_id]* is not an index found in *[id]*                                                        306     Warn
+*[cyber_observable_id]* is not found. See *[id]*                                                               306     Warn
 No object *[id]* is found to add the reference to                                                              307     Warn
 *[id1]* is not in this bundle.  Referenced from *[id2]*                                                        308     Warn
 ``is_encrypted`` in *[id]* is true, but no ``encryption_algorithm`` is given                                   309     Info
@@ -39,6 +39,7 @@ Cannot convert *[id]* because it doesn't contain both a source_ref and a target_
 No *[ref_property]* object exists for *[id]* in relationship *[rel-id]*                                        315     Warn
 ref type *[type]* in *[id]* is not known                                                                       316     Warn
 *[id]* referenced in *[id]* is not found                                                                       317     Warn
+*[phase_name]* is not part of the Lockheed-Martin Kill Chain - see *[id]*                                      318     Warn
 ============================================================================================================== ====    =====
 
 Multiple values are not supported in STIX 1.x
@@ -80,12 +81,18 @@ The user_id property of *[id]* in STIX 2.x is only represented as a property in 
 The ``path`` property in *[id]* is the only directory property supportable in STIX 1.x. *[property]* is ignored              521     Warn
 Nested Archive Files in *[id]* not handled yet                                                                               522     Warn
 STIX 1.x can only store the body and headers of an email message in *[id]* independently                                     523     Warn
-``NO MESSAGE ASSIGNED``                                                                                                      524
+*[type]* pattern type in *[id]* cannot be represented in STIX 1.x                                                            524     Warn
 *[id]* is not explicitly a member of a STIX 1.x ``Report``                                                                   525     Warn
 *[id]* cannot be represented in STIX 1.x                                                                                     526     Warn
 Relationship between *[id]* and a location is not supported in STIX 1.x                                                      527     Warn
 Ignoring *[id]*, because a *[type]* object cannot be represented in STIX 1.x                                                 528     Warn
 Unable to populate sub-property *[property]* of *[id]*, therefore *[property]* cannot be represented in the STIX 1.x object  529     Warn
+Extensions in *[id]* not supported in STIX 1.x                                                                               530     Warn
+Custom extension *[extension name]* of STIX 2.1 in *[id]* are not supported                                                  531     Warn
+*[id]* does not support descriptions, so the external reference has been dropped                                             532     Warn
+Ignoring *[id]*, because only new-sco extensions are supported                                                               533     Warn
+Ignoring *[id]*, because (deprecated) custom objects are not supported                                                       534     Warn
+The user account type *[type]* can not be explicitly represented in a STIX 1.x Account. See *[id]*                           535     Warn
 ============================================================================================================================ ====   =====
 
 STIX Slider currently doesn't process this content
@@ -105,6 +112,8 @@ Source name *[name]* in external references of *[id]* not handled, yet          
 Operator for ``Artifact.Raw_Artifact`` in *[id]* not handled yet                                                    610     Warn
 Nested extensions and references in patterns are not handled, yet.  Found in pattern of *[id]*                      611     Warn
 *[ref_id]* in *[id]* cannot be represented in STIX 1.x                                                              612     Warn
+Multiple extensions in *[id]* are not handled, yet                                                                  613     Warn
+*[property]* is an illegal or custom property in the pattern of *[id]*, which is not handled, yet"                  614     Warn
 =================================================================================================================== ====    =====
 
 STIX Slider conversion based on assumptions
@@ -115,5 +124,5 @@ Message                                                                         
 =================================================================================================================== ====    =====
 Assuming imcp packet in *[id]* is v4                                                                                701     Info
 ``InformationSource`` descriptions order or content in may not correspond to the references in *[id]*               702     Info
-*[ref_id]* in *[id]* is not explicitly a member of a STIX 1.x report                                                703     Info
+*[ref_id]* in *[id]* cannot be represented explicitly as a member of a STIX 1.x report                              703     Info
 =================================================================================================================== ====    =====

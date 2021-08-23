@@ -314,8 +314,8 @@ USER_ACCOUNT_MAP = {
     # TODO: account_type -> Account.Domain??
     # TODO: display_name
     # TODO: is_service_account
-    # TODO: is_privileged -> UserAccount.Privilige_List?
-    # TODO: can_escalate_privs -> UserAccount.Privilige_List?
+    # TODO: is_privileged -> UserAccount.Privilege_List?
+    # TODO: can_escalate_privs -> UserAccount.Privilege_List?
     "is_disabled": UserAccount.disabled,
     "account_created": Account.creation_date,
     # TODO: account_expires

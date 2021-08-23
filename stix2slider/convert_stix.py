@@ -510,7 +510,7 @@ def add_missing_property_to_description(obj1x, property_name, obj2x):
         else:
             obj1x.description = property_name + ": " + str(obj2x[property_name])
     else:
-        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, property_name, obj2x["type"], obj2x["id"])
+        warn("%s not representable in a STIX 1.x %s.  Found in %s", 503, property_name, obj1x.__class__.__name__, obj2x["id"])
 
 
 def add_missing_list_property_to_description(obj1x, property_name, property_values):
@@ -530,35 +530,74 @@ def add_missing_properties_to_description(obj1x, obj2x, property_names):
                 add_missing_property_to_description(obj1x, prop_name, obj2x)
 
 
+# use defined LMCO kill chain for STIX 1.x from https://stix.mitre.org/language/version1.2/stix_v1.2_lmco_killchain.xml
+_STIX_1_LMCO_KILL_CHAIN = {
+    "kill_chain": KillChain(id_="stix:TTP-af3e707f-2fb9-49e5-8c37-14026ca0a5ff",
+                            name="LM Cyber Kill Chain"),
+    "phases": {
+        "Reconnaissance": KillChainPhase(name="Reconnaissance", phase_id="stix:TTP-af1016d6-a744-4ed7-ac91-00fe2272185a"),
+        "Weaponization": KillChainPhase(name="Weaponization", phase_id="stix:TTP-445b4827-3cca-42bd-8421-f2e947133c16"),
+        "Delivery": KillChainPhase(name="Delivery", phase_id="stix:TTP-79a0e041-9d5f-49bb-ada4-8322622b162d"),
+        "Exploitation": KillChainPhase(name="Exploitation", phase_id="stix:TTP-f706e4e7-53d8-44ef-967f-81535c9db7d0"),
+        "Installation": KillChainPhase(name="Installation", phase_id="stix:TTP-e1e4e3f7-be3b-4b39-b80a-a593cfd99a4f"),
+        "Command and Control": KillChainPhase(name="Command and Control", phase_id="stix:TTP-d6dc32b9-2538-4951-8733-3cb9ef1daae2"),
+        "Actions on Objectives": KillChainPhase(name="Actions on Objectives", phase_id="stix:TTP-786ca8f9-2d9a-4213-b38e-399af4a2e5d6")
+    }
+}
+
+_STIX_2_LMCO_KILL_CHAIN_PHASE_NAMES = {
+    "reconnaissance": "Reconnaissance",
+    "weaponization": "Weaponization",
+    "delivery": "Delivery",
+    "exploitation": "Exploitation",
+    "installation": "Installation",
+    "command-and-control": "Command and Control",
+    "actions-on-objectives": "Actions on Objectives"
+}
+
+
 _KILL_CHAINS = {}
 
 
 def process_kill_chain_phases(phases, obj1x):
     for phase in phases:
-        if phase["kill_chain_name"] in _KILL_CHAINS:
-            kill_chain_phases = _KILL_CHAINS[phase["kill_chain_name"]]["phases"]
-            if not phase["phase_name"] in kill_chain_phases:
-                kill_chain_phases.update({phase["phase_name"]: KillChainPhase(
-                    phase_id=create_id1x("TTP"),
-                    name=phase["phase_name"],
-                    ordinality=None)})
-                _KILL_CHAINS[phase["kill_chain_name"]]["kill_chain"].add_kill_chain_phase(kill_chain_phases[phase["phase_name"]])
-            kcp = kill_chain_phases[phase["phase_name"]]
-            if not obj1x.kill_chain_phases:
-                obj1x.kill_chain_phases = KillChainPhasesReference()
+        if phase["kill_chain_name"] == "lockheed-martin-cyber-kill-chain":
+            if phase["phase_name"] in _STIX_2_LMCO_KILL_CHAIN_PHASE_NAMES:
+                kcp = _STIX_1_LMCO_KILL_CHAIN["phases"][_STIX_2_LMCO_KILL_CHAIN_PHASE_NAMES[phase["phase_name"]]]
+                if not obj1x.kill_chain_phases:
+                    obj1x.kill_chain_phases = KillChainPhasesReference()
+                obj1x.add_kill_chain_phase(KillChainPhaseReference(phase_id=kcp.phase_id,
+                                                                   name=kcp.name,
+                                                                   ordinality=None,
+                                                                   kill_chain_id= _STIX_1_LMCO_KILL_CHAIN["kill_chain"].id_,
+                                                                   kill_chain_name= _STIX_1_LMCO_KILL_CHAIN["kill_chain"].name))
+            else:
+                warn("%s is not part of the Lockheed-Martin Kill Chain - see %s", 318, phase["phase_name"], obj1x.id_)
         else:
-            kc = KillChain(id_=create_id1x("TTP"), name=phase["kill_chain_name"])
-            _KILL_CHAINS[phase["kill_chain_name"]] = {"kill_chain": kc}
-            kcp = KillChainPhase(name=phase["phase_name"], phase_id=create_id1x("TTP"))
-            kc.add_kill_chain_phase(kcp)
-            _KILL_CHAINS[phase["kill_chain_name"]]["phases"] = {phase["phase_name"]: kcp}
-        obj1x.add_kill_chain_phase(KillChainPhaseReference(phase_id=kcp.phase_id,
-                                                           name=kcp.name,
-                                                           ordinality=None,
-                                                           kill_chain_id=_KILL_CHAINS[phase["kill_chain_name"]][
-                                                               "kill_chain"].id_,
-                                                           kill_chain_name=_KILL_CHAINS[phase["kill_chain_name"]][
-                                                               "kill_chain"].name))
+            if phase["kill_chain_name"] in _KILL_CHAINS:
+                kill_chain_phases = _KILL_CHAINS[phase["kill_chain_name"]]["phases"]
+                if not phase["phase_name"] in kill_chain_phases:
+                    kill_chain_phases.update({phase["phase_name"]: KillChainPhase(
+                        phase_id=create_id1x("TTP"),
+                        name=phase["phase_name"],
+                        ordinality=None)})
+                    _KILL_CHAINS[phase["kill_chain_name"]]["kill_chain"].add_kill_chain_phase(kill_chain_phases[phase["phase_name"]])
+                kcp = kill_chain_phases[phase["phase_name"]]
+                if not obj1x.kill_chain_phases:
+                    obj1x.kill_chain_phases = KillChainPhasesReference()
+            else:
+                kc = KillChain(id_=create_id1x("TTP"), name=phase["kill_chain_name"])
+                _KILL_CHAINS[phase["kill_chain_name"]] = {"kill_chain": kc}
+                kcp = KillChainPhase(name=phase["phase_name"], phase_id=create_id1x("TTP"))
+                kc.add_kill_chain_phase(kcp)
+                _KILL_CHAINS[phase["kill_chain_name"]]["phases"] = {phase["phase_name"]: kcp}
+            obj1x.add_kill_chain_phase(KillChainPhaseReference(phase_id=kcp.phase_id,
+                                                               name=kcp.name,
+                                                               ordinality=None,
+                                                               kill_chain_id=_KILL_CHAINS[phase["kill_chain_name"]][
+                                                                   "kill_chain"].id_,
+                                                               kill_chain_name=_KILL_CHAINS[phase["kill_chain_name"]][
+                                                                   "kill_chain"].name))
 
 
 def tlp_marking(m_id):
@@ -598,6 +637,8 @@ def process_markings(o1x, o2x):
 
 def convert_attack_pattern(ap2x):
     ap1x = AttackPattern()
+    if "extensions" in ap2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, ap2x["id"])
     if "name" in ap2x:
         ap1x.title = ap2x["name"]
     if "description" in ap2x:
@@ -624,6 +665,8 @@ def convert_attack_pattern(ap2x):
 def convert_campaign(c2x):
     c1x = Campaign(id_=convert_id2x(c2x["id"]),
                    timestamp=str(c2x["modified"]))
+    if "extensions" in c2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, c2x["id"])
     if "name" in c2x:
         c1x.title = c2x["name"]
     if "description" in c2x:
@@ -650,6 +693,8 @@ def convert_campaign(c2x):
 def convert_coa(coa2x):
     coa1x = CourseOfAction(id_=convert_id2x(coa2x["id"]),
                            timestamp=str(coa2x["modified"]))
+    if "extensions" in coa2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, coa2x["id"])
     if "name" in coa2x:
         coa1x.title = coa2x["name"]
     if "description" in coa2x:
@@ -674,6 +719,8 @@ def add_missing_property_to_free_text_lines(ident1x, property_name, property_val
 
 
 def convert_identity(ident2x):
+    if "extensions" in ident2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, ident2x["id"])
     if ("sectors" in ident2x or
             "contact_information" in ident2x or
             "labels" in ident2x or
@@ -736,6 +783,8 @@ def convert_identity(ident2x):
 def convert_indicator(indicator2x):
     indicator1x = Indicator(id_=convert_id2x(indicator2x["id"]),
                             timestamp=str(indicator2x["modified"]))
+    if "extensions" in indicator2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, indicator2x["id"])
     if "name" in indicator2x:
         indicator1x.title = indicator2x["name"]
     if "description" in indicator2x:
@@ -769,7 +818,7 @@ def convert_indicator(indicator2x):
             tm.version = indicator2x["pattern_version"]
     elif "pattern_type" in indicator2x:
         # not supported
-        warn("%s pattern type in %s cannot be represented in STIX 1.x", 0, indicator2x["pattern_type"], indicator2x["id"])
+        warn("%s pattern type in %s cannot be represented in STIX 1.x", 524, indicator2x["pattern_type"], indicator2x["id"])
     if "kill_chain_phases" in indicator2x:
         process_kill_chain_phases(indicator2x["kill_chain_phases"], indicator1x)
     process_markings(indicator1x, indicator2x)
@@ -779,6 +828,8 @@ def convert_indicator(indicator2x):
 
 def convert_infrastructure(infrastructure2x):
     infrastructure1x = Infrastructure()
+    if "extensions" in infrastructure2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, infrastructure2x["id"])
     if "name" in infrastructure2x:
         infrastructure1x.title = infrastructure2x["name"]
     if "description" in infrastructure2x:
@@ -809,6 +860,8 @@ def convert_infrastructure(infrastructure2x):
 
 def convert_malware(malware2x):
     malware1x = MalwareInstance()
+    if "extensions" in malware2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, malware2x["id"])
     if "name" in malware2x:
         malware1x.add_name(malware2x["name"])
     if "description" in malware2x:
@@ -842,6 +895,8 @@ def convert_malware(malware2x):
 
 def convert_observed_data(od2x):
     o1x = Observable(id_=convert_id2x(od2x["id"]))
+    if "extensions" in od2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, od2x["id"])
     if "object_marking_refs" in od2x:
         for m_id in od2x["object_marking_refs"]:
             ms = create_marking_specification(m_id)
@@ -859,6 +914,8 @@ def convert_report(r2x):
     if _STIX_1_VERSION == "1.2":
         r1x = Report(id_=convert_id2x(r2x["id"]),
                      timestamp=str(r2x["modified"]))
+        if "extensions" in r2x:
+            warn("Extensions in %s not supported in STIX 1.x", 530, r2x["id"])
         r1x.header = Header()
         if "name" in r2x:
             r1x.header.title = r2x["name"]
@@ -895,12 +952,13 @@ def convert_report(r2x):
             elif ref_type == "vulnerability":
                 r1x.add_exploit_target(ExploitTarget(idref=ref1x))
             elif ref_type == "identity" or ref_type == "relationship" or ref_type == "location":
-                warn("%s in %s is not explicitly a member of a STIX 1.x report", 703, ref, r2x["id"])
+                warn("%s in %s cannot be represented explicitly as a member of a STIX 1.x report", 703, ref, r2x["id"])
             elif ref_type == "intrusion-set" or ref_type == "opinion" or ref_type == "note":
                 warn("%s in %s cannot be represented in STIX 1.x", 612, ref, r2x["id"])
             else:
                 warn("ref type %s in %s is not known", 316, ref_type, r2x["id"])
         process_markings(r1x, r2x)
+        record_id_object_mapping(r2x["id"], r1x)
         return r1x
     else:
         return None
@@ -909,6 +967,8 @@ def convert_report(r2x):
 def convert_threat_actor(ta2x):
     ta1x = ThreatActor(id_=convert_id2x(ta2x["id"]),
                        timestamp=str(ta2x["modified"]))
+    if "extensions" in ta2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, ta2x["id"])
     ta1x.title = ta2x["name"]
     if get_option_value("version_of_stix2x") == "2.0":
         types = convert_open_vocabs_to_controlled_vocabs(ta2x["labels"], THREAT_ACTOR_LABEL_MAP)
@@ -948,6 +1008,8 @@ def convert_threat_actor(ta2x):
 
 def convert_tool(tool2x):
     tool1x = ToolInformation()
+    if "extensions" in tool2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, tool2x["id"])
     if "name" in tool2x:
         tool1x.title = tool2x["name"]
     if "description" in tool2x:
@@ -974,6 +1036,8 @@ def convert_tool(tool2x):
 
 def convert_vulnerability(v2x):
     v1x = Vulnerability()
+    if "extensions" in v2x:
+        warn("Extensions in %s not supported in STIX 1.x", 530, v2x["id"])
     if "name" in v2x:
         v1x.title = v2x["name"]
     if "description" in v2x:
@@ -1143,7 +1207,7 @@ def create_references(obj):
     if obj["id"] in _ID_OBJECT_MAPPING:
         ob1x = _ID_OBJECT_MAPPING[obj["id"]]
     else:
-        warn("No object %s is found to add the reference to", 307, obj["id"])
+        warn("No object has been created for %s to add to the external references", 307, obj["id"])
         return
     if id_of_type(obj["id"], "vulnerability"):
         er_for_info_source = create_references_for_vulnerability(ob1x, obj)
@@ -1170,10 +1234,13 @@ def create_references(obj):
             if "hashes" in er:
                 warn("hashes not representable in a STIX 1.x %s.  Found in %s", 503, "InformationSource", obj["id"])
             if "description" in er:
-                if _STIX_1_VERSION == "1.2":
-                    ob1x.add_description(er["description"])
+                if hasattr(ob1x, "description"):
+                    if _STIX_1_VERSION == "1.2":
+                        ob1x.add_description(er["description"])
+                    else:
+                        ob1x.description = ob1x.description + "\n" + er["description"]
                 else:
-                    ob1x.description = ob1x.description + "\n" + er["description"]
+                    warn("%s does not support descriptions, so the external reference has been dropped", 532, obj["id"])
         if ref_texts != []:
             for rt in ref_texts:
                 if _STIX_1_VERSION == "1.2":
@@ -1218,7 +1285,7 @@ def process_sighting(o):
             indicator_of_sighting.sightings.sightings_count = o["count"]
         if "where_sighted_refs" in o:
             for ref in o["where_sighted_refs"]:
-                s = Sighting(timestamp=str(o["modified"]))
+                s = Sighting(timestamp=str(o["modified"]), description=[])
                 if "description" in o:
                     if _STIX_1_VERSION == "1.2":
                         s.add_description(o["description"])
@@ -1309,6 +1376,19 @@ def create_marking_specification(id2x):
 _LOCATIONS = {}
 
 
+def is_extension_type(obj, type_):
+    if "extensions" in obj:
+        extensions = obj["extensions"].items()
+        if len(extensions) == 1:
+            k, v = list(extensions)[0]
+            if v["extension_type"] == type_:
+                return True
+        else:
+            warn("Multiple extensions in %s are not handled, yet", 613, obj["id"])
+    else:
+        return False
+
+
 def sco_type(type_name):
     return type_name in {"artifact", "autonomous-system", "directory", "domain-name", "email-addr",
                          "email-message", "file", "ipv4-addr", "ipv6-addr", "mac-addr", "mutex",
@@ -1379,6 +1459,8 @@ def convert_bundle(bundle_obj):
         elif o["type"] == "location":
             _LOCATIONS[o["id"]] = o
             # TODO: anything about the markings on the location that we should remember?
+        elif o["type"] == "language-content":
+            warn("Ignoring %s, because %ss cannot be represented in STIX 1.x", 528, o["id"], "language-content")
         elif o["type"] == "malware":
             pkg.add_ttp(convert_malware(o))
         elif o["type"] == "malware-analysis":
@@ -1403,7 +1485,14 @@ def convert_bundle(bundle_obj):
         elif o["type"] == "vulnerability":
             pkg.add_exploit_target(convert_vulnerability(o))
         elif sco_type(o["type"]):
+            pkg.add_observable(convert_sco(o))
+        elif is_extension_type(o, "new-sco"):
             convert_sco(o)
+        elif is_extension_type(o, "new-sdo") or is_extension_type(o, "new-sro"):
+            warn("Ignoring %s, because only new-sco extensions are supported", 533, o["id"])
+        elif o["id"].startswith("x-"):
+            warn("Ignoring %s, because (deprecated) custom objects are not supported", 534, o["id"])
+
 
     # second passes
     for o in bundle_obj["objects"]:
@@ -1421,13 +1510,13 @@ def convert_bundle(bundle_obj):
         for o in bundle_obj["objects"]:
             if sco_type(o["type"]):
                 # add STIX 1.x embedded properties
-                add_refs(o)
+                add_refs(o, pkg)
         objects_inline = dict()
         for o in bundle_obj["objects"]:
             if o["type"] == "observed-data":
                 # add related objects
-                add_object_refs(o, stix2x_objs, stix1x_obs_list, objects_inline)
-
+                add_object_refs(o, stix2x_objs, stix1x_obs_list, objects_inline, pkg)
+    # the LMCO Kill Chain is not included here.  It is defined outside of the STIX content.
     for k, v in _KILL_CHAINS.items():
         if not pkg.ttps:
             pkg.ttps = TTPs()

@@ -15,7 +15,7 @@
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
 	 id="example:STIXPackage-8fb48930-41e7-45d9-9ab7-171be0385f20" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:observable-8647e9be-c8df-44d5-af4a-9dd4ae43c641">
+        <cybox:Observable id="example:Observable-8647e9be-c8df-44d5-af4a-9dd4ae43c641">
             <cybox:Object id="example:NetworkConnection-97b0fa3e-bd8e-4573-ac7f-26c42b099b91">
                 <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
                     <NetworkConnectionObj:Source_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">

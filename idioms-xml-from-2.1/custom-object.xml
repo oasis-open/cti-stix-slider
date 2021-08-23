@@ -1,0 +1,52 @@
+<stix:STIX_Package
+	xmlns:CustomObj="http://cybox.mitre.org/objects#CustomObject-1"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:coa="http://stix.mitre.org/CourseOfAction-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-cad0c65f-3415-4ec6-84df-c01e427ec3b6" version="1.2">
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:observable-bd1f4059-d186-46e9-9eb4-d55c51f485d7">
+            <cybox:Object id="example:Custom-6fcd8459-e491-4281-a427-1706c2e8e3f3">
+                <cybox:Properties xsi:type="CustomObj:CustomObjectType" custom_name="fooz">
+                    <cyboxCommon:Custom_Properties>
+                        <cyboxCommon:Property name="ftp_command">fpuwe8bmsD56ns.bin</cyboxCommon:Property>
+                        <cyboxCommon:Property name="ftp_version">5.6</cyboxCommon:Property>
+                    </cyboxCommon:Custom_Properties>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-2cb76e88-2734-4a6c-a28c-52ae05f627be" timestamp="2015-07-31T11:24:39.090000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Type>ftp</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2015-07-31T11:24:39.090000+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-befbc2de-e40d-4298-ae46-dcc5c44a3316">
+                <cybox:Object id="example:Custom-08e70f42-019d-424f-80d7-1b0b395e723d">
+                    <cybox:Properties xsi:type="CustomObj:CustomObjectType" custom_name="fooz">
+                        <cyboxCommon:Custom_Properties>
+                            <cyboxCommon:Property pattern_type="Regex" condition="FitsPattern" name="ftp_command">fp[a-zA-Z0-9]{44}\\.bin</cyboxCommon:Property>
+                            <cyboxCommon:Property condition="Equals" name="ftp_version">2.3</cyboxCommon:Property>
+                        </cyboxCommon:Custom_Properties>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+        </stix:Indicator>
+    </stix:Indicators>
+    <stix:Courses_Of_Action>
+        <stix:Course_Of_Action id="example:course-of-action-3dbfccad-1fbb-4e9f-8307-f2d1a5c651cc" timestamp="2015-07-31T11:24:39.090000+00:00" xsi:type='coa:CourseOfActionType'>
+            <coa:Title>Block outbound traffic</coa:Title>
+            <coa:Type xsi:type="stixVocabs:CourseOfActionTypeVocab-1.0">Perimeter Blocking</coa:Type>
+        </stix:Course_Of_Action>
+    </stix:Courses_Of_Action>
+</stix:STIX_Package>

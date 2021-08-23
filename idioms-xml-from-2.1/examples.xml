@@ -1,0 +1,527 @@
+<stix:STIX_Package 
+	xmlns:UnixUserAccountObj="http://cybox.mitre.org/objects#UnixUserAccountObject-2"
+	xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
+	xmlns:PortObj="http://cybox.mitre.org/objects#PortObject-2"
+	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
+	xmlns:X509CertificateObj="http://cybox.mitre.org/objects#X509CertificateObject-2"
+	xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
+	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:AddressObj="http://cybox.mitre.org/objects#AddressObject-2"
+	xmlns:HTTPSessionObj="http://cybox.mitre.org/objects#HTTPSessionObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:ASObj="http://cybox.mitre.org/objects#ASObject-1"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+	xmlns:ArchiveFileObj="http://cybox.mitre.org/objects#ArchiveFileObject-1"
+	xmlns:URIObj="http://cybox.mitre.org/objects#URIObject-2"
+	xmlns:ArtifactObj="http://cybox.mitre.org/objects#ArtifactObject-2"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
+	xmlns:TOUMarking="http://data-marking.mitre.org/extensions/MarkingStructure#Terms_Of_Use-1"
+	xmlns:WinRegistryKeyObj="http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+	xmlns:WinFileObj="http://cybox.mitre.org/objects#WinFileObject-2"
+	xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
+	xmlns:NetworkSocketObj="http://cybox.mitre.org/objects#NetworkSocketObject-2"
+	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
+	xmlns:indicator="http://stix.mitre.org/Indicator-2"
+	xmlns:stixCommon="http://stix.mitre.org/common-1"
+	xmlns:stix="http://stix.mitre.org/stix-1"
+	xmlns:report="http://stix.mitre.org/Report-1"
+	xmlns:cybox="http://cybox.mitre.org/cybox-2"
+	xmlns:campaign="http://stix.mitre.org/Campaign-1"
+	xmlns:ttp="http://stix.mitre.org/TTP-1"
+	xmlns:marking="http://data-marking.mitre.org/Marking-1"
+	xmlns:coa="http://stix.mitre.org/CourseOfAction-1"
+	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 id="example:STIXPackage-fdd39a2e-b67c-41e3-bcc9-f01faf20d111" version="1.2">
+    <stix:STIX_Header>
+        <stix:Handling>
+            <marking:Marking>
+                <marking:Marking_Structure id="example:markingstructure-34098fce-860f-48ae-8e50-ebd3cc5e41da" xsi:type='TOUMarking:TermsOfUseMarkingStructureType'>
+                    <TOUMarking:Terms_Of_Use>Copyright 2016, Example Corp</TOUMarking:Terms_Of_Use>
+                </marking:Marking_Structure>
+            </marking:Marking>
+           <marking:Marking>
+                <marking:Controlled_Structure>../../../../stix:Observables[1]/cybox:Observable[6]/descendant-or-self::node() | ../../../../stix:Observables[1]/cybox:Observable[6]/descendant-or-self::node()/@*</marking:Controlled_Structure>
+                <marking:Marking_Structure idref="example:markingstructure-0ee0838b-d40a-4c01-bde5-d0e502691764"/>
+            </marking:Marking>
+        </stix:Handling>
+    </stix:STIX_Header>
+    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:Observable-5a4a928c-d10a-4066-94e0-8834e0ff42d4">
+            <cybox:Object id="example:File-70c88107-e29a-5151-b976-6ec9c405dd14">
+                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                    <FileObj:Full_Path>/usr/bin</FileObj:Full_Path>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-f6b3dd4f-37a8-45bf-a11a-de7db5a6ec78">
+            <cybox:Object id="example:WinExecutableFile-0ec1e323-5c1e-5e12-b03d-f900c4f2eebd">
+                <cybox:Properties xsi:type="WinExecutableFileObj:WindowsExecutableFileObjectType">
+                    <FileObj:File_Name>fred.exe</FileObj:File_Name>
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>66e2ea40dc71d5ba701574ea215a81f1</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                    <WinExecutableFileObj:Headers>
+                        <WinExecutableFileObj:File_Header>
+                            <WinExecutableFileObj:Machine>014c</WinExecutableFileObj:Machine>
+                            <WinExecutableFileObj:Time_Date_Stamp>56a26760</WinExecutableFileObj:Time_Date_Stamp>
+                            <WinExecutableFileObj:Pointer_To_Symbol_Table>74726144</WinExecutableFileObj:Pointer_To_Symbol_Table>
+                            <WinExecutableFileObj:Number_Of_Symbols>4542568</WinExecutableFileObj:Number_Of_Symbols>
+                            <WinExecutableFileObj:Size_Of_Optional_Header>e0</WinExecutableFileObj:Size_Of_Optional_Header>
+                            <WinExecutableFileObj:Characteristics>818f</WinExecutableFileObj:Characteristics>
+                        </WinExecutableFileObj:File_Header>
+                        <WinExecutableFileObj:Optional_Header>
+                            <WinExecutableFileObj:Magic>010b</WinExecutableFileObj:Magic>
+                            <WinExecutableFileObj:Major_Linker_Version>2</WinExecutableFileObj:Major_Linker_Version>
+                            <WinExecutableFileObj:Minor_Linker_Version>19</WinExecutableFileObj:Minor_Linker_Version>
+                            <WinExecutableFileObj:Size_Of_Initialized_Data>45400</WinExecutableFileObj:Size_Of_Initialized_Data>
+                            <WinExecutableFileObj:Size_Of_Uninitialized_Data>0</WinExecutableFileObj:Size_Of_Uninitialized_Data>
+                            <WinExecutableFileObj:Address_Of_Entry_Point>1000</WinExecutableFileObj:Address_Of_Entry_Point>
+                            <WinExecutableFileObj:Base_Of_Code>1000</WinExecutableFileObj:Base_Of_Code>
+                            <WinExecutableFileObj:Base_Of_Data>2000</WinExecutableFileObj:Base_Of_Data>
+                            <WinExecutableFileObj:Image_Base>de0000</WinExecutableFileObj:Image_Base>
+                            <WinExecutableFileObj:Section_Alignment>1000</WinExecutableFileObj:Section_Alignment>
+                            <WinExecutableFileObj:File_Alignment>1000</WinExecutableFileObj:File_Alignment>
+                            <WinExecutableFileObj:Major_OS_Version>1</WinExecutableFileObj:Major_OS_Version>
+                            <WinExecutableFileObj:Minor_OS_Version>0</WinExecutableFileObj:Minor_OS_Version>
+                            <WinExecutableFileObj:Major_Image_Version>0</WinExecutableFileObj:Major_Image_Version>
+                            <WinExecutableFileObj:Minor_Image_Version>0</WinExecutableFileObj:Minor_Image_Version>
+                            <WinExecutableFileObj:Major_Subsystem_Version>4</WinExecutableFileObj:Major_Subsystem_Version>
+                            <WinExecutableFileObj:Minor_Subsystem_Version>0</WinExecutableFileObj:Minor_Subsystem_Version>
+                            <WinExecutableFileObj:Win32_Version_Value>00</WinExecutableFileObj:Win32_Version_Value>
+                            <WinExecutableFileObj:Size_Of_Image>49000</WinExecutableFileObj:Size_Of_Image>
+                            <WinExecutableFileObj:Size_Of_Headers>1000</WinExecutableFileObj:Size_Of_Headers>
+                            <WinExecutableFileObj:Checksum>00</WinExecutableFileObj:Checksum>
+                            <WinExecutableFileObj:Subsystem>03</WinExecutableFileObj:Subsystem>
+                            <WinExecutableFileObj:DLL_Characteristics>00</WinExecutableFileObj:DLL_Characteristics>
+                            <WinExecutableFileObj:Size_Of_Stack_Reserve>186a0</WinExecutableFileObj:Size_Of_Stack_Reserve>
+                            <WinExecutableFileObj:Size_Of_Stack_Commit>2000</WinExecutableFileObj:Size_Of_Stack_Commit>
+                            <WinExecutableFileObj:Size_Of_Heap_Reserve>186a0</WinExecutableFileObj:Size_Of_Heap_Reserve>
+                            <WinExecutableFileObj:Size_Of_Heap_Commit>1000</WinExecutableFileObj:Size_Of_Heap_Commit>
+                            <WinExecutableFileObj:Loader_Flags>abdbffde</WinExecutableFileObj:Loader_Flags>
+                            <WinExecutableFileObj:Number_Of_Rva_And_Sizes>dfffddde</WinExecutableFileObj:Number_Of_Rva_And_Sizes>
+                        </WinExecutableFileObj:Optional_Header>
+                    </WinExecutableFileObj:Headers>
+                    <WinExecutableFileObj:Sections>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>CODE</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.061089</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>DATA</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>7.980693</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>NicolasB</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.607433</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                        <WinExecutableFileObj:Section>
+                            <WinExecutableFileObj:Section_Header>
+                                <WinExecutableFileObj:Name>.idata</WinExecutableFileObj:Name>
+                            </WinExecutableFileObj:Section_Header>
+                            <WinExecutableFileObj:Entropy>
+                                <WinExecutableFileObj:Value>0.607433</WinExecutableFileObj:Value>
+                            </WinExecutableFileObj:Entropy>
+                        </WinExecutableFileObj:Section>
+                    </WinExecutableFileObj:Sections>
+                    <WinExecutableFileObj:Type>Executable</WinExecutableFileObj:Type>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+	<cybox:Observable id="example:Observable-5192aa1b-4547-4428-a4f7-5ac3c61a862e">
+            <cybox:Object id="example:File-3916128d-69af-5525-be7a-99fac2383a59">
+                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                    <FileObj:File_Name>sirvizio.exe</FileObj:File_Name>
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>66e2ea40dc71d5ba701574ea215a81f1</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>bf07a7fbb825fc0aae7bf4a1177b2b31fcf8a3feeaf7092761e18c859ee52a9c</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-01626230-e296-4452-9f44-51c077b47b42">
+            <cybox:Object id="example:DomainName-3c10e93f-798e-5a26-a0c1-08156efab7f5">
+                <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
+                    <DomainNameObj:Value>example.com</DomainNameObj:Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+	<cybox:Observable id="example:observable-c8c32b6e-2ea8-41c4-a446-7f5218072f27">
+            <cybox:Object id="example:ArchiveFile-e198be9e-18e2-5988-94a5-81a6ed5c6d57">
+                <cybox:Properties xsi:type="ArchiveFileObj:ArchiveFileObjectType">
+                    <FileObj:File_Name>foo.zip</FileObj:File_Name>
+                    <ArchiveFileObj:Archived_File xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value>aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </ArchiveFileObj:Archived_File>
+                    <ArchiveFileObj:Archived_File xsi:type="FileObj:FileObjectType">
+                        <FileObj:File_Name>iprip32.dll</FileObj:File_Name>
+                        <FileObj:Full_Path>/usr/bin/iprip32.dll</FileObj:Full_Path>
+                    </ArchiveFileObj:Archived_File>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-d3e15e47-9aad-419d-b7ed-68881f456bbd">
+            <cybox:Object id="example:Artifact-ca17bcf8-9846-5ab4-8662-75c1bf6e63ee">
+                <cybox:Properties xsi:type="ArtifactObj:ArtifactObjectType" content_type="image/jpeg">
+                    <ArtifactObj:Packaging is_compressed="false" is_encrypted="false">
+                        <ArtifactObj:Encoding algorithm="Base64"/>
+                    </ArtifactObj:Packaging>
+                    <ArtifactObj:Raw_Artifact><![CDATA[UmljaGFyZCBQaWF6emEK]]></ArtifactObj:Raw_Artifact>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-00045426-78fe-4405-9c64-66cfa2c15d8c">
+            <cybox:Object id="example:NetworkConnection-630d7bb1-0bbc-53a6-a6d4-f3c2d35c2734">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Source_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>203.0.113.5</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Source_Socket_Address>
+                    <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>203.0.113.1</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Destination_Socket_Address>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-5471e77b-130e-4b3d-94f4-008a1fd92b26">
+            <cybox:Object id="example:NetworkConnection-c8b5f360-032e-5745-8cda-c1d9b56f8ee4">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.53</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                    </NetworkConnectionObj:Destination_Socket_Address>
+                    <NetworkConnectionObj:Layer7_Connections>
+                        <NetworkConnectionObj:HTTP_Session xsi:type="HTTPSessionObj:HTTPSessionObjectType">
+                            <HTTPSessionObj:HTTP_Request_Response>
+                                <HTTPSessionObj:HTTP_Client_Request>
+                                    <HTTPSessionObj:HTTP_Request_Line>
+                                        <HTTPSessionObj:HTTP_Method>get</HTTPSessionObj:HTTP_Method>
+                                        <HTTPSessionObj:Value>/download.html</HTTPSessionObj:Value>
+                                        <HTTPSessionObj:Version>http/1.1</HTTPSessionObj:Version>
+                                    </HTTPSessionObj:HTTP_Request_Line>
+                                    <HTTPSessionObj:HTTP_Request_Header>
+                                        <HTTPSessionObj:Parsed_Header>
+                                            <HTTPSessionObj:Accept_Encoding>gzip,deflate</HTTPSessionObj:Accept_Encoding>
+                                            <HTTPSessionObj:Host>
+                                                <HTTPSessionObj:Domain_Name xsi:type="URIObj:URIObjectType" type="Domain Name">
+                                                    <URIObj:Value>www.example.com</URIObj:Value>
+                                                </HTTPSessionObj:Domain_Name>
+                                            </HTTPSessionObj:Host>
+                                            <HTTPSessionObj:User_Agent>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6) Gecko/20040113</HTTPSessionObj:User_Agent>
+                                        </HTTPSessionObj:Parsed_Header>
+                                    </HTTPSessionObj:HTTP_Request_Header>
+                                </HTTPSessionObj:HTTP_Client_Request>
+                            </HTTPSessionObj:HTTP_Request_Response>
+                        </NetworkConnectionObj:HTTP_Session>
+                    </NetworkConnectionObj:Layer7_Connections>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-84bf469b-9e77-4f74-a654-44010875eb59">
+            <cybox:Object id="example:NetworkConnection-6db5a8c9-ab7e-5df8-ae56-5746b25f76a6">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Source_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>203.0.113.5</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                        <SocketAddressObj:Port xsi:type="PortObj:PortObjectType">
+                            <PortObj:Port_Value>223</PortObj:Port_Value>
+                        </SocketAddressObj:Port>
+                    </NetworkConnectionObj:Source_Socket_Address>
+                </cybox:Properties>
+                <cybox:Related_Objects>
+                    <cybox:Related_Object id="example:NetworkSocket-11af1ce3-452c-431e-812c-d8ecfb5a2ec5">
+                        <cybox:Properties xsi:type="NetworkSocketObj:NetworkSocketObjectType" is_listening="true">
+                            <NetworkSocketObj:Address_Family>AF_INET</NetworkSocketObj:Address_Family>
+                            <NetworkSocketObj:Type>SOCK_STREAM</NetworkSocketObj:Type>
+                        </cybox:Properties>
+                        <cybox:Relationship>Related_Socket</cybox:Relationship>
+                    </cybox:Related_Object>
+                </cybox:Related_Objects>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-86d66832-1d44-4fe4-b5dc-7b5cd6e998e6">
+            <cybox:Object id="example:NetworkConnection-09ca55c3-97e5-5966-bad0-1d41d557ae13">
+                <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
+                    <NetworkConnectionObj:Source_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.5</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                        <SocketAddressObj:Port xsi:type="PortObj:PortObjectType">
+                            <PortObj:Port_Value>3372</PortObj:Port_Value>
+                        </SocketAddressObj:Port>
+                    </NetworkConnectionObj:Source_Socket_Address>
+                    <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
+                        <SocketAddressObj:IP_Address xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                            <AddressObj:Address_Value>198.51.100.6</AddressObj:Address_Value>
+                        </SocketAddressObj:IP_Address>
+                        <SocketAddressObj:Port xsi:type="PortObj:PortObjectType">
+                            <PortObj:Port_Value>80</PortObj:Port_Value>
+                        </SocketAddressObj:Port>
+                    </NetworkConnectionObj:Destination_Socket_Address>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-889e8321-f38d-4810-a8b6-0dc657d0085f">
+            <cybox:Object id="example:Process-f52a906a-0dfc-40bd-92f1-e7778ead38a9">
+                <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                    <ProcessObj:PID>1221</ProcessObj:PID>
+                    <ProcessObj:Image_Info>
+                        <ProcessObj:Command_Line>./gedit-bin --new-window</ProcessObj:Command_Line>
+                    </ProcessObj:Image_Info>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-a55c019f-516e-443f-a432-4913ba290661">
+            <cybox:Object id="example:WinService-99ab297d-4c39-48ea-9d64-052d596864df">
+                <cybox:Properties xsi:type="WinServiceObj:WindowsServiceObjectType">
+                    <ProcessObj:PID>2217</ProcessObj:PID>
+                    <ProcessObj:Image_Info>
+                        <ProcessObj:File_Name>sirvizio.exe</ProcessObj:File_Name>
+                        <ProcessObj:Command_Line>C:\\Windows\\System32\\sirvizio.exe /s</ProcessObj:Command_Line>
+                    </ProcessObj:Image_Info>
+                    <WinServiceObj:Service_Name>Servizio</WinServiceObj:Service_Name>
+                    <WinServiceObj:Startup_Type>SERVICE_AUTO_START</WinServiceObj:Startup_Type>
+                    <WinServiceObj:Service_Status>SERVICE_RUNNING</WinServiceObj:Service_Status>
+                    <WinServiceObj:Service_Type>SERVICE_WIN32_OWN_PROCESS</WinServiceObj:Service_Type>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+	        <cybox:Observable id="example:Observable-e038a8f6-14fd-493c-9dea-38121227e284">
+            <cybox:Object id="example:AutonomousSystem-f720c34b-98ae-597f-ade5-27dc241e8c74">
+                <cybox:Properties xsi:type="ASObj:ASObjectType">
+                    <ASObj:Number>15139</ASObj:Number>
+                    <ASObj:Name>Slime Industries</ASObj:Name>
+                    <ASObj:Regional_Internet_Registry>ARIN</ASObj:Regional_Internet_Registry>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-f313104f-b402-4a7e-92a6-b51331e03c48">
+            <cybox:Object id="example:Address-5853f6a4-638f-5b4e-9b0f-ded361ae3812">
+                <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
+                    <AddressObj:Address_Value>198.51.100.0/24</AddressObj:Address_Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-672e7d18-d770-49e8-b88d-131eed87da29">
+            <cybox:Object id="example:Address-65cfcf98-8a6e-5a1b-8f61-379ac4f92d00">
+                <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="mac">
+                    <AddressObj:Address_Value>d2:fb:49:24:37:18</AddressObj:Address_Value>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-e4b9eee2-ba94-412c-84e7-2cda1f230953">
+            <cybox:Object id="example:UnixUserAccount-ceb82475-b9bd-43d5-9d1d-ae036e51edaf">
+                <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                    <AccountObj:Creation_Date>2016-01-20T12:31:12+00:00</AccountObj:Creation_Date>
+                    <UserAccountObj:Last_Login>2016-07-22T16:08:28+00:00</UserAccountObj:Last_Login>
+                    <UserAccountObj:Username>jdoe</UserAccountObj:Username>
+                    <UnixUserAccountObj:User_ID>1001</UnixUserAccountObj:User_ID>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-d5c32049-01ce-4c56-93b2-e1bc6d176a47">
+            <cybox:Object id="example:UserAccount-9bd3afcf-deee-54f9-83e2-520653cb6bba">
+                <cybox:Properties xsi:type="UserAccountObj:UserAccountObjectType">
+                    <UserAccountObj:Username>thegrugq_ebooks</UserAccountObj:Username>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-fe7c6f28-4b91-4948-b8e6-4c7f09ebe11a">
+            <cybox:Object id="example:UnixUserAccount-0d5b424b-93b8-5cd8-ac36-306e1789d63c">
+                <cybox:Properties xsi:type="UnixUserAccountObj:UnixUserAccountObjectType">
+                    <UserAccountObj:Home_Directory>/home/jdoe</UserAccountObj:Home_Directory>
+                    <UserAccountObj:Username>jdoe</UserAccountObj:Username>
+                    <UnixUserAccountObj:Group_ID>1001</UnixUserAccountObj:Group_ID>
+                    <UnixUserAccountObj:User_ID>1001</UnixUserAccountObj:User_ID>
+                    <UnixUserAccountObj:Login_Shell>/bin/bash</UnixUserAccountObj:Login_Shell>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-ab89cf0b-f237-455d-9f83-3e761bb90280">
+            <cybox:Object id="example:WinRegistryKey-2ba37ae7-2745-5082-9dfd-9486dad41016">
+                <cybox:Properties xsi:type="WinRegistryKeyObj:WindowsRegistryKeyObjectType">
+                    <WinRegistryKeyObj:Key>hkey_local_machine\\system\\bar\\foo</WinRegistryKeyObj:Key>
+                    <WinRegistryKeyObj:Values>
+                        <WinRegistryKeyObj:Value>
+                            <WinRegistryKeyObj:Name>Foo</WinRegistryKeyObj:Name>
+                            <WinRegistryKeyObj:Data>qwerty</WinRegistryKeyObj:Data>
+                            <WinRegistryKeyObj:Datatype>REG_SZ</WinRegistryKeyObj:Datatype>
+                        </WinRegistryKeyObj:Value>
+                        <WinRegistryKeyObj:Value>
+                            <WinRegistryKeyObj:Name>Bar</WinRegistryKeyObj:Name>
+                            <WinRegistryKeyObj:Data>42</WinRegistryKeyObj:Data>
+                            <WinRegistryKeyObj:Datatype>REG_DWORD</WinRegistryKeyObj:Datatype>
+                        </WinRegistryKeyObj:Value>
+                    </WinRegistryKeyObj:Values>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-c819340a-2007-4d92-895d-637063ace281">
+            <cybox:Object id="example:X509Certificate-463d7b2a-8516-5a50-a3d7-6f801465d5de">
+                <cybox:Properties xsi:type="X509CertificateObj:X509CertificateObjectType">
+                    <X509CertificateObj:Certificate>
+                        <X509CertificateObj:Serial_Number>36:f7:d4:32:f4:ab:70:ea:d3:ce:98:6e:ea:99:93:49:32:0a:b7:06</X509CertificateObj:Serial_Number>
+                        <X509CertificateObj:Issuer>C=ZA, ST=Western Cape, L=Cape Town, O=Thawte Consulting cc, OU=Certification Services Division, CN=Thawte Server CA/emailAddress=server-certs@thawte.com</X509CertificateObj:Issuer>
+                        <X509CertificateObj:Validity>
+                            <X509CertificateObj:Not_Before>2016-03-12T12:00:00+00:00</X509CertificateObj:Not_Before>
+                            <X509CertificateObj:Not_After>2016-08-21T12:00:00+00:00</X509CertificateObj:Not_After>
+                        </X509CertificateObj:Validity>
+                        <X509CertificateObj:Subject>C=US, ST=Maryland, L=Pasadena, O=Brent Baccala, OU=FreeSoft, CN=www.freesoft.org/emailAddress=baccala@freesoft.org</X509CertificateObj:Subject>
+                    </X509CertificateObj:Certificate>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+    </stix:Observables>
+    <stix:Indicators>
+        <stix:Indicator id="example:indicator-a932fcc6-e032-476c-b26f-ab970a5a1ade" timestamp="2016-11-01T14:26:28.455000+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>File hash for Poison Ivy variant</indicator:Title>
+            <indicator:Type>benign</indicator:Type>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2016-11-01T14:26:28.380460+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-2b17ed89-19f1-4470-ba5d-f25f747a57fa">
+                <cybox:Object id="example:File-cde57e5e-4aaa-4fe9-a4a0-1411c8425d91">
+                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value condition="Equals">ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+	    <indicator:Indicated_TTP>
+                <stixCommon:TTP idref="example:ttp-fdd60b30-b67c-11e3-b0b9-f01faf20d111" xsi:type='ttp:TTPType'/>
+            </indicator:Indicated_TTP>
+        </stix:Indicator>
+        <stix:Indicator id="example:indicator-de2e2d2b-17d4-4cbf-938f-98ee46b3cd3f" timestamp="2016-04-06T20:03:48+00:00" xsi:type='indicator:IndicatorType'>
+            <indicator:Title>Poison Ivy Malware</indicator:Title>
+            <indicator:Type>malicious-activity</indicator:Type>
+            <indicator:Description>This file is part of Poison Ivy</indicator:Description>
+            <indicator:Valid_Time_Position>
+                <indicator:Start_Time precision="second">2016-01-01T00:00:00+00:00</indicator:Start_Time>
+            </indicator:Valid_Time_Position>
+            <indicator:Observable id="example:Observable-bfc335ca-5a8b-41c7-a555-d386179cc2de">
+                <cybox:Object id="example:File-5902cb21-0671-4820-8aa2-2215e1ffb607">
+                    <cybox:Properties xsi:type="FileObj:FileObjectType">
+                        <FileObj:Hashes>
+                            <cyboxCommon:Hash>
+                                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                                <cyboxCommon:Simple_Hash_Value condition="Equals">3773a88f65a5e780c8dff9cdc3a056f3</cyboxCommon:Simple_Hash_Value>
+                            </cyboxCommon:Hash>
+                        </FileObj:Hashes>
+                    </cybox:Properties>
+                </cybox:Object>
+            </indicator:Observable>
+            <indicator:Kill_Chain_Phases>
+                <stixCommon:Kill_Chain_Phase name="Reconnaissance" phase_id="stix:TTP-af1016d6-a744-4ed7-ac91-00fe2272185a" kill_chain_name="LM Cyber Kill Chain" kill_chain_id="stix:TTP-af3e707f-2fb9-49e5-8c37-14026ca0a5ff"/>
+            </indicator:Kill_Chain_Phases>
+            <indicator:Sightings sightings_count="50">
+                <indicator:Sighting timestamp="2016-04-06T20:08:31+00:00">
+                    <indicator:Description ordinality="1">first_seen: 2015-12-21 19:00:00+00:00</indicator:Description>
+                    <indicator:Description ordinality="2">last_seen: 2015-12-22 19:00:00+00:00</indicator:Description>
+                </indicator:Sighting>
+            </indicator:Sightings>
+        </stix:Indicator>
+    </stix:Indicators>
+    <stix:TTPs>
+        <stix:TTP id="example:ttp-fdd60b30-b67c-11e3-b0b9-f01faf20d111" timestamp="2016-11-01T14:26:28.455000+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Behavior>
+                <ttp:Malware>
+                    <ttp:Malware_Instance>
+                        <ttp:Type>Poison Ivy</ttp:Type>
+                        <ttp:Description ordinality="1">labels: remote-access-trojan</ttp:Description>
+                        <ttp:Description ordinality="2">is_family: False</ttp:Description>
+                    </ttp:Malware_Instance>
+                </ttp:Malware>
+            </ttp:Behavior>
+        </stix:TTP>
+        <stix:TTP id="example:ttp-31b940d4-6f7f-459a-80ea-9c1f17b5891b" timestamp="2016-04-06T20:07:09+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Behavior>
+                <ttp:Malware>
+                    <ttp:Malware_Instance>
+                        <ttp:Type>trojan</ttp:Type>
+                        <ttp:Name>Poison Ivy</ttp:Name>
+                        <ttp:Description>is_family: False</ttp:Description>
+                    </ttp:Malware_Instance>
+                </ttp:Malware>
+            </ttp:Behavior>
+        </stix:TTP>
+        <stix:TTP id="example:ttp-0c7b5b88-8ff7-4a4d-aa9d-feb398cd0061" timestamp="2016-05-12T08:17:27+00:00" xsi:type='ttp:TTPType'>
+            <ttp:Behavior>
+                <ttp:Attack_Patterns>
+                    <ttp:Attack_Pattern capec_id="CAPEC-163">
+                        <ttp:Title>Spear Phishing</ttp:Title>
+                        <ttp:Description>aliases: fred</ttp:Description>
+                    </ttp:Attack_Pattern>
+                </ttp:Attack_Patterns>
+            </ttp:Behavior>
+        </stix:TTP>
+    </stix:TTPs>
+    <stix:Courses_Of_Action>
+        <stix:Course_Of_Action id="example:course-of-action-8e2e2d2b-17d4-4cbf-938f-98ee46b3cd3f" timestamp="2016-04-06T20:03:48+00:00" xsi:type='coa:CourseOfActionType'>
+            <coa:Title>Add TCP port 80 Filter Rule to the existing Block UDP 1434 Filter</coa:Title>
+            <coa:Description>This is how to add a filter rule to block inbound access to TCP port 80 to the existing UDP 1434 filter ...</coa:Description>
+        </stix:Course_Of_Action>
+    </stix:Courses_Of_Action>
+    <stix:Campaigns>
+        <stix:Campaign id="example:campaign-9a01a8c4-bb39-4433-9584-8617001fa351" timestamp="2016-04-06T20:03:00+00:00" xsi:type='campaign:CampaignType'>
+            <campaign:Title>Green Group Attacks Against Finance</campaign:Title>
+            <campaign:Description>Campaign by Green Group against a series of targets in the financial services sector.</campaign:Description>
+        </stix:Campaign>
+    </stix:Campaigns>
+    <stix:Reports>
+        <stix:Report timestamp="2015-12-21T19:59:11+00:00" id="example:report-84e4d88f-44ea-4bcd-bbf3-b2c1c320bcb3" xsi:type='report:ReportType' version="1.0">
+            <report:Header>
+                <report:Title>The Black Vine Cyberespionage Group</report:Title>
+                <report:Intent xsi:type="stixVocabs:ReportIntentVocab-1.0">Threat Report</report:Intent>
+                <report:Description>published: 2016-01-20 17:00:00+00:00</report:Description>
+            </report:Header>
+            <report:Indicators>
+                <report:Indicator idref="example:indicator-26ffb872-1dd9-446e-b6f5-d58527e5b5d2" xsi:type='indicator:IndicatorType'/>
+            </report:Indicators>
+            <report:Campaigns>
+                <report:Campaign idref="example:campaign-83422c77-904c-4dc1-aff5-5c38f3a2c55c" xsi:type='campaign:CampaignType'/>
+            </report:Campaigns>
+        </stix:Report>
+    </stix:Reports>
+</stix:STIX_Package>

@@ -28,6 +28,7 @@
                     <ProcessObj:PID>1700</ProcessObj:PID>
                     <ProcessObj:Name>VirusShare_5d8129be965fab8115eca34fc84bd7f0</ProcessObj:Name>
                     <ProcessObj:Creation_Time>2010-12-09T20:17:34.934295+00:00</ProcessObj:Creation_Time>
+		    <ProcessObj:Parent_PID>1616</ProcessObj:Parent_PID>
                     <ProcessObj:Child_PID_List>
                         <ProcessObj:Child_PID>4567</ProcessObj:Child_PID>
                     </ProcessObj:Child_PID_List>

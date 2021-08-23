@@ -38,7 +38,7 @@
             "account_first_login": "2016-01-20T14:26:07Z",
             "account_last_login": "2016-07-22T16:08:28Z",
             "account_login": "fred",
-            "account_type": "windows",
+            "account_type": "windows-local",
             "can_escalate_privs": true,
             "credential_last_changed": "2016-01-20T14:27:43Z",
             "display_name": "Fred Flintstone",

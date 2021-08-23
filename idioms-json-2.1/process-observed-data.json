@@ -9,7 +9,8 @@
             "modified": "2017-05-22T13:03:55.429Z",
             "number_observed": 1,
             "object_refs": [
-                "file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
+                "file--957a7c3b-2c14-5f47-a174-38661fc51c00",
+		"file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
                 "process--85ef7684-85b1-4bec-b60a-d367d00fd64d",
                 "user-account--ef9bb495-faeb-5390-9330-6fa4f73a8c9f"
             ],
@@ -31,11 +32,11 @@
             "image_ref": "file--ccc51dd1-9903-5577-8b6f-cdf95f67a997",
             "pid": 1221,
             "extensions": {
-            "windows-service-ext": {
-              "service_dll_refs": [
-                "file--957a7c3b-2c14-5f47-a174-38661fc51c00"
-              ]
-            }
+		"windows-service-ext": {
+		    "service_dll_refs": [
+			"file--957a7c3b-2c14-5f47-a174-38661fc51c00"
+		    ]
+		}
           },
             "type": "process"
         },

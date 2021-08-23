@@ -12,7 +12,7 @@
 	xmlns:ImageFileObj="http://cybox.mitre.org/objects#ImageFileObject-1"
 	 id="example:STIXPackage-f097bac3-e6b7-4af1-babc-a282eedab002" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:observable-ffeb1a1e-af39-446d-a775-6a4ce022a436">
+        <cybox:Observable id="example:Observable-ffeb1a1e-af39-446d-a775-6a4ce022a436">
             <cybox:Object id="example:ImageFile-b7e0f947-41cd-4699-991f-3699c60251aa">
                 <cybox:Properties xsi:type="ImageFileObj:ImageFileObjectType">
                     <FileObj:File_Name>picture.jpg</FileObj:File_Name>

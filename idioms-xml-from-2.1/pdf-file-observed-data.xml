@@ -11,7 +11,7 @@
 	xmlns:example="http://example.com"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	 id="example:STIXPackage-b8902913-6943-4954-a4e6-c6c5236ebb62" version="1.2">
-    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+  <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-ffeb1a1e-af39-446d-a775-6a4ce022a436">
             <cybox:Object id="example:PDFFile-e6026ac2-0acf-4989-ae92-efc7c3aaeb62">
                 <cybox:Properties xsi:type="PDFFileObj:PDFFileObjectType">

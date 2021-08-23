@@ -21,8 +21,8 @@
         </stix:Handling>
     </stix:STIX_Header>
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
-            <cybox:Object id="example:ArchiveFile-735e8cee-1c9e-4da2-a03f-1d59e6076688">
+        <cybox:Observable id="example:Observable-28c92b74-879a-43d3-ab74-f64db0f8fab9">
+            <cybox:Object id="example:ArchiveFile-2fe4cb95-bb7b-5d55-baeb-cf1cb62208de">
                 <cybox:Properties xsi:type="ArchiveFileObj:ArchiveFileObjectType">
                     <FileObj:File_Name>foo.zip</FileObj:File_Name>
                     <FileObj:Hashes>

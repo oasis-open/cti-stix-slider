@@ -1,6 +1,10 @@
-<stix:STIX_Package
-	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+<stix:STIX_Package 
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
 	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
+	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
 	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
@@ -22,6 +26,41 @@
                     </ProcessObj:Image_Info>
                     <ProcessObj:Username>fred</ProcessObj:Username>
                     <WinServiceObj:Service_DLL>iprip32.dll</WinServiceObj:Service_DLL>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-9eede02f-fa8f-4285-b871-7f72b592da3a">
+            <cybox:Object id="example:File-ccc51dd1-9903-5577-8b6f-cdf95f67a997">
+                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                    <FileObj:File_Name>some.file</FileObj:File_Name>
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-ae20b867-4bef-410d-af72-7740d46ebfe5">
+            <cybox:Object id="example:UserAccount-ef9bb495-faeb-5390-9330-6fa4f73a8c9f">
+                <cybox:Properties xsi:type="UserAccountObj:UserAccountObjectType">
+                    <AccountObj:Creation_Date>2016-01-20T12:31:12+00:00</AccountObj:Creation_Date>
+                    <UserAccountObj:Last_Login>2016-07-22T16:08:28+00:00</UserAccountObj:Last_Login>
+                    <UserAccountObj:Username>fred</UserAccountObj:Username>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-adf86d58-2b3d-4cb6-aed2-3b922040164c">
+            <cybox:Object id="example:File-957a7c3b-2c14-5f47-a174-38661fc51c00">
+                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                    <FileObj:File_Name>iprip32.dll</FileObj:File_Name>
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

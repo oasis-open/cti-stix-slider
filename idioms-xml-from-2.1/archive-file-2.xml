@@ -1,7 +1,7 @@
-<stix:STIX_Package
-	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+<stix:STIX_Package 
 	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
 	xmlns:ArchiveFileObj="http://cybox.mitre.org/objects#ArchiveFileObject-1"
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
 	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
@@ -12,7 +12,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:observable-c8c32b6e-2ea8-4678-8446-7f5218072f27">
+        <cybox:Observable id="example:Observable-ac3cb692-9d71-480a-9344-ddc06d7e107f">
             <cybox:Object id="example:File-4aa982e3-4aac-5d5b-a699-d08c8c11f5f3">
                 <cybox:Properties xsi:type="FileObj:FileObjectType">
                     <FileObj:Full_Path>/usr/local</FileObj:Full_Path>
@@ -47,4 +47,3 @@
         </cybox:Observable>
     </stix:Observables>
 </stix:STIX_Package>
-

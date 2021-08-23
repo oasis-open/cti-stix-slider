@@ -1,19 +1,21 @@
-<stix:STIX_Package
-	xmlns:xlink="http://www.w3.org/1999/xlink"
+<stix:STIX_Package 
+	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
 	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
+	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
 	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
+	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:cybox="http://cybox.mitre.org/cybox-2"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:example="http://example.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:WinServiceObj="http://cybox.mitre.org/objects#WinServiceObject-2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 id="example:STIXPackage-d613eac2-af0e-4348-92ed-81f2431132da" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-e0715a08-b679-4bf8-b626-0b50991952a2">
-            <cybox:Object id="example:WinService-186c3b1e-9c91-4fc1-961d-2cd786ef2d6e">
+            <cybox:Object id="example:WinService-7997ac7b-34e2-42af-b1d5-62810698de6e">
                 <cybox:Properties xsi:type="WinServiceObj:WindowsServiceObjectType">
                     <ProcessObj:PID>2217</ProcessObj:PID>
                     <ProcessObj:Image_Info>
@@ -28,6 +30,19 @@
                     <WinServiceObj:Startup_Type>SERVICE_AUTO_START</WinServiceObj:Startup_Type>
                     <WinServiceObj:Service_Status>SERVICE_RUNNING</WinServiceObj:Service_Status>
                     <WinServiceObj:Service_Type>SERVICE_WIN32_OWN_PROCESS</WinServiceObj:Service_Type>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-a9c63cee-d1af-4d9b-97b1-bf38aef82873">
+            <cybox:Object id="example:File-4af5b606-9668-5e76-8b5e-5ce716240b56">
+                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                    <FileObj:File_Name>sirvizio.exe</FileObj:File_Name>
+                    <FileObj:Hashes>
+                        <cyboxCommon:Hash>
+                            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA256</cyboxCommon:Type>
+                            <cyboxCommon:Simple_Hash_Value>35a01331e9ad96f751278b891b6ea09699806faedfa237d40513d92ad1b7100f</cyboxCommon:Simple_Hash_Value>
+                        </cyboxCommon:Hash>
+                    </FileObj:Hashes>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

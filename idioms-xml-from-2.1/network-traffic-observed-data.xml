@@ -15,7 +15,7 @@
 	xmlns:SocketAddressObj="http://cybox.mitre.org/objects#SocketAddressObject-1"
 	 id="example:STIXPackage-abfc063c-7f43-40d1-8969-647dc6d5077f" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:observable-973b8552-3b78-4122-9b1e-61d69133607c">
+        <cybox:Observable id="example:Observable--973b8552-3b78-4122-9b1e-61d69133607c">
             <cybox:Object id="example:NetworkConnection-872d352e-2711-4816-bc50-53f6d14169f5">
                 <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">
                     <NetworkConnectionObj:Destination_Socket_Address xsi:type="SocketAddressObj:SocketAddressObjectType">
