@@ -12,11 +12,11 @@ from cybox.objects.address_object import Address
 from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact
 from cybox.objects.as_object import AutonomousSystem
+from cybox.objects.custom_object import Custom
 from cybox.objects.domain_name_object import DomainName
 from cybox.objects.email_message_object import (
     Attachments, EmailAddress, EmailHeader, EmailMessage, EmailRecipients
 )
-from cybox.objects.custom_object import Custom
 from cybox.objects.file_object import File
 from cybox.objects.http_session_object import (
     HTTPClientRequest, HTTPMessage, HTTPRequestHeader, HTTPRequestHeaderFields,

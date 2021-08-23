@@ -7,11 +7,9 @@ import time
 from cybox.common.environment_variable import (
     EnvironmentVariable, EnvironmentVariableList
 )
-
 from cybox.common.hashes import HashList
 from cybox.common.object_properties import CustomProperties, Property
 from cybox.common.vocabs import VocabString
-
 from cybox.core import Object, Observable, RelatedObject
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
