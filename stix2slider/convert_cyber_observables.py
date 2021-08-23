@@ -10,7 +10,7 @@ from cybox.common.environment_variable import (
 from cybox.common.hashes import HashList
 from cybox.common.object_properties import CustomProperties, Property
 from cybox.common.vocabs import VocabString
-from cybox.core import Object, Observable, RelatedObject
+from cybox.core import Observable, RelatedObject
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact, Encoding, Packaging
@@ -134,7 +134,7 @@ def determine_1x_object_type(c_o_object):
         if "extensions" in c_o_object:
             spec_extensions = []
             for ex in list(c_o_object["extensions"].keys()):
-                if ex in [ "archive-ext", "ntfs-ext", "pdf-ext", "raster-image-ext", "windows-pebinary-ext"]:
+                if ex in ["archive-ext", "ntfs-ext", "pdf-ext", "raster-image-ext", "windows-pebinary-ext"]:
                     spec_extensions.append(ex)
                 else:
                     warn("Custom extension %s of STIX 2.1 in %s are not supported", 531, ex, c_o_object["id"])
@@ -978,7 +978,7 @@ def convert_custom_c_o(c_o_object, obj1x, obs2x_id):
     obj1x.custom_name = c_o_object["type"]
     custom_properties = CustomProperties()
     obj1x.custom_properties = custom_properties
-    for k,v in c_o_object.items():
+    for k, v in c_o_object.items():
         if k != "extensions" and k != "type" and k != "id":
             new_prop = Property()
             new_prop.name = k
@@ -1352,7 +1352,7 @@ def add_object_refs(o, stix2x_objs, stix1x_obs_list, objects_inline, pkg):
     # remove any observables not created for orphaned SCOs
     remove_false_roots = []
     for pkg_o in pkg.observables:
-        if pkg_o.object_ and same_uuid(pkg_o.object_.id_,root_id) and pkg_o.id_ != obs.id_:
+        if pkg_o.object_ and same_uuid(pkg_o.object_.id_, root_id) and pkg_o.id_ != obs.id_:
             remove_false_roots.append(pkg_o)
     for false_o in remove_false_roots:
         pkg.observables.remove(false_o)

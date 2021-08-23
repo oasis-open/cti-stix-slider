@@ -569,8 +569,8 @@ def process_kill_chain_phases(phases, obj1x):
                 obj1x.add_kill_chain_phase(KillChainPhaseReference(phase_id=kcp.phase_id,
                                                                    name=kcp.name,
                                                                    ordinality=None,
-                                                                   kill_chain_id= _STIX_1_LMCO_KILL_CHAIN["kill_chain"].id_,
-                                                                   kill_chain_name= _STIX_1_LMCO_KILL_CHAIN["kill_chain"].name))
+                                                                   kill_chain_id=_STIX_1_LMCO_KILL_CHAIN["kill_chain"].id_,
+                                                                   kill_chain_name=_STIX_1_LMCO_KILL_CHAIN["kill_chain"].name))
             else:
                 warn("%s is not part of the Lockheed-Martin Kill Chain - see %s", 318, phase["phase_name"], obj1x.id_)
         else:
@@ -1492,7 +1492,6 @@ def convert_bundle(bundle_obj):
             warn("Ignoring %s, because only new-sco extensions are supported", 533, o["id"])
         elif o["id"].startswith("x-"):
             warn("Ignoring %s, because (deprecated) custom objects are not supported", 534, o["id"])
-
 
     # second passes
     for o in bundle_obj["objects"]:
