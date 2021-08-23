@@ -16,7 +16,9 @@ TESTED_JSON_FILES = []
 JSON_FILENAMES = []
 MASTER_XML_FILES = []
 
-IGNORE = (u"id", u"idref", u"timestamp", u"object_reference", u"phase_id", u"kill_chain_id", u"time_date_stamp")
+IGNORE = (u"id", u"idref", u"timestamp", u"object_reference", u"phase_id", u"kill_chain_id")
+
+IGNORE_ELEMENT_NAME = ["Time_Date_Stamp"]
 
 
 def text_compare(t1, t2):
@@ -28,7 +30,8 @@ def text_compare(t1, t2):
 
 
 def xml_compare(x1, x2, reporter=None):
-    if x1.tag in IGNORE:
+    split_tag_name = x1.tag.split("}")
+    if split_tag_name[1] in IGNORE_ELEMENT_NAME:
         return True
     if x1.tag != x2.tag:
         if reporter:
