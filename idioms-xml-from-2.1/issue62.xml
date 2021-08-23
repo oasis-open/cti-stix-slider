@@ -3,6 +3,7 @@
 	xmlns:WinExecutableFileObj="http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 	xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
 	xmlns:NetworkConnectionObj="http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+	xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
 	xmlns:ProcessObj="http://cybox.mitre.org/objects#ProcessObject-2"
 	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
 	xmlns:WinProcessObj="http://cybox.mitre.org/objects#WinProcessObject-2"
@@ -21,7 +22,14 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 id="example:STIXPackage-6116aed6-a7e9-11e3-a82f-000c29b241af" version="1.2">
-    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+  <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+    <cybox:Observable id="example:Observable-b1d64e95-c023-45bb-b5fa-d0afee25c563">
+            <cybox:Object id="example:UserAccount-74591c17-1215-5a14-b5ac-e3d6058c4125">
+                <cybox:Properties xsi:type="UserAccountObj:UserAccountObjectType">
+                    <UserAccountObj:Username>admin</UserAccountObj:Username>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
         <cybox:Observable id="example:observable-65492fbc-5d48-49bf-83b8-33c965e36066">
             <cybox:Object id="example:WinProcess-f832d8cf-919c-4c77-b96f-9a03fc7cc7b6">
                 <cybox:Properties xsi:type="WinProcessObj:WindowsProcessObjectType">

@@ -47,6 +47,7 @@
                             <AccountObj:Creation_Date>2016-01-20T12:31:12+00:00</AccountObj:Creation_Date>
                             <UserAccountObj:Last_Login>2016-07-22T16:08:28+00:00</UserAccountObj:Last_Login>
                             <UserAccountObj:Username>jdoe</UserAccountObj:Username>
+			    <UnixUserAccountObj:User_ID>1001</UnixUserAccountObj:User_ID>
                         </cybox:Properties>
                         <cybox:Relationship xsi:type="cyboxVocabs:ObjectRelationshipVocab-1.1">Related_To</cybox:Relationship>
                     </cybox:Related_Object>

@@ -13,7 +13,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
 	 id="example:STIXPackage-1d38c0ef-da4f-4670-9ba1-11317314c90b" version="1.2">
-    <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+  <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:observable-e98d85ac-f848-4d1a-b344-bf3b81dbc91b">
             <cybox:Object id="example:NetworkConnection-6bc9cea6-c36f-4c5a-b3e4-8030b043e91f">
                 <cybox:Properties xsi:type="NetworkConnectionObj:NetworkConnectionObjectType">

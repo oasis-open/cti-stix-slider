@@ -26,10 +26,10 @@
                 <ttp:Identity id="example:identity-ddfe7140-2ba4-48e4-b19a-df069432103b" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
                     <stixCommon:Name>Branistan Peoples Party</stixCommon:Name>
                     <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
-  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
-    <xpil:FreeTextLine>identity_class: organisation</xpil:FreeTextLine>
-  </xpil:FreeTextLines>
-</stix-ciqidentity:Specification>
+		        <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+			    <xpil:FreeTextLine>identity_class: organisation</xpil:FreeTextLine>
+			</xpil:FreeTextLines>
+		    </stix-ciqidentity:Specification>
                 </ttp:Identity>
             </ttp:Victim_Targeting>
             <ttp:Information_Source>
@@ -52,14 +52,9 @@
                 </ttp:Exploit_Target>
             </ttp:Exploit_Targets>
             <ttp:Kill_Chain_Phases>
-                <stixCommon:Kill_Chain_Phase name="reconnaissance" phase_id="example:TTP-c2f8f073-177f-48fe-9b4c-a86cd1337e45" kill_chain_name="lockheed-martin-cyber-kill-chain" kill_chain_id="example:TTP-39b2baa9-07a0-4e1f-8f3b-a5b1faeb7a6c"/>
+                <stixCommon:Kill_Chain_Phase name="Reconnaissance" phase_id="stix:TTP-af1016d6-a744-4ed7-ac91-00fe2272185a" kill_chain_name="LM Cyber Kill Chain" kill_chain_id="stix:TTP-af3e707f-2fb9-49e5-8c37-14026ca0a5ff"/>
             </ttp:Kill_Chain_Phases>
         </stix:TTP>
-        <stix:Kill_Chains>
-            <stixCommon:Kill_Chain id="example:TTP-39b2baa9-07a0-4e1f-8f3b-a5b1faeb7a6c" name="lockheed-martin-cyber-kill-chain">
-                <stixCommon:Kill_Chain_Phase name="reconnaissance" phase_id="example:TTP-c2f8f073-177f-48fe-9b4c-a86cd1337e45"/>
-            </stixCommon:Kill_Chain>
-        </stix:Kill_Chains>
     </stix:TTPs>
     <stix:Exploit_Targets>
         <stixCommon:Exploit_Target id="example:et-45920fe2-fca7-4209-b1f6-9abb40432d13" timestamp="2017-01-27T13:49:41.345000+00:00" xsi:type='et:ExploitTargetType'>
@@ -114,10 +109,10 @@
             <ta:Identity id="example:identity-8c6af861-7b20-41ef-9b59-6344fd872a8f" xsi:type="stix-ciqidentity:CIQIdentity3.0InstanceType">
                 <stixCommon:Name>Franistan Intelligence</stixCommon:Name>
                 <stix-ciqidentity:Specification xmlns:stix-ciqidentity="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1">
-  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
-    <xpil:FreeTextLine>identity_class: organisation</xpil:FreeTextLine>
-  </xpil:FreeTextLines>
-</stix-ciqidentity:Specification>
+		  <xpil:FreeTextLines xmlns:xpil="urn:oasis:names:tc:ciq:xpil:3">
+		    <xpil:FreeTextLine>identity_class: organisation</xpil:FreeTextLine>
+		  </xpil:FreeTextLines>
+		</stix-ciqidentity:Specification>
             </ta:Identity>
             <ta:Type timestamp="2018-05-09T00:05:17.372836+00:00">
                 <stixCommon:Value>State Actor / Agency</stixCommon:Value>

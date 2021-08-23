@@ -1,5 +1,7 @@
 <stix:STIX_Package
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:UserAccountObj="http://cybox.mitre.org/objects#UserAccountObject-2"
+    	xmlns:AccountObj="http://cybox.mitre.org/objects#AccountObject-2"
 	xmlns:cyboxCommon="http://cybox.mitre.org/common-2"
 	xmlns:stix="http://stix.mitre.org/stix-1"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -27,6 +29,15 @@
                         </WinRegistryKeyObj:Value>
                     </WinRegistryKeyObj:Values>
                     <WinRegistryKeyObj:Creator_Username>fred</WinRegistryKeyObj:Creator_Username>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+	<cybox:Observable id="example:Observable-587a2f65-6444-4bfb-9144-bde4ab6363f8">
+            <cybox:Object id="example:WinUser-ef9bb495-faeb-5390-9330-6fa4f73a8c9f">
+                <cybox:Properties xsi:type="WinUserAccountObj:WindowsUserAccountObjectType">
+                    <AccountObj:Creation_Date>2016-01-20T12:31:12+00:00</AccountObj:Creation_Date>
+                    <UserAccountObj:Last_Login>2016-07-22T16:08:28+00:00</UserAccountObj:Last_Login>
+                    <UserAccountObj:Username>fred</UserAccountObj:Username>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>

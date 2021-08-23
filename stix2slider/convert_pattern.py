@@ -3,6 +3,7 @@ from cybox.common.environment_variable import (
     EnvironmentVariable, EnvironmentVariableList
 )
 from cybox.common.hashes import Hash, HashList
+from cybox.common.object_properties import CustomProperties, Property
 from cybox.common.vocabs import VocabString
 from cybox.core import Observable
 from cybox.core.observable import ObservableComposition
@@ -11,6 +12,7 @@ from cybox.objects.address_object import Address
 from cybox.objects.archive_file_object import ArchiveFile
 from cybox.objects.artifact_object import Artifact
 from cybox.objects.as_object import AutonomousSystem
+from cybox.objects.custom_object import Custom
 from cybox.objects.domain_name_object import DomainName
 from cybox.objects.email_message_object import (
     Attachments, EmailAddress, EmailHeader, EmailMessage, EmailRecipients
@@ -178,6 +180,8 @@ class ComparisonExpressionForSlider(_ComparisonExpression):
             convert_registry_key_pattern(self, existing_obj, id2x)
         elif isinstance(existing_obj, X509Certificate):
             convert_x509_certificate_pattern(self, existing_obj, id2x)
+        elif isinstance(existing_obj, Custom):
+            convert_custom_pattern(self, existing_obj, id2x)
         return Observable(existing_obj)
 
     def determine_expression_type(self):
@@ -302,7 +306,10 @@ class ParentheticalExpressionForSlider(stix2.ParentheticalExpression):
 def map_extensions_to_cybox_class(types):
     if len(types) == 1:
         stix2_type_name = types.pop()
-        return _CYBOX_OBJECT_MAP[stix2_type_name]
+        if stix2_type_name in _CYBOX_OBJECT_MAP:
+            return _CYBOX_OBJECT_MAP[stix2_type_name]
+        else:
+            return Custom
     elif len(types) == 2:
         if "file" in types:
             types = types - set(["file"])
@@ -386,7 +393,7 @@ def add_scalar_artifact_property_pattern(obj, properties, rhs, op, id2x):
     elif get_option_value("version_of_stix2x") == "2.1" and (prop_name == "encryption_algorithm" or prop_name == "decryption_key"):
         warn("%s property in %s not handled yet", 606, prop_name, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def convert_artifact_pattern(exp2x, obj1x, id2x):
@@ -408,7 +415,7 @@ def convert_autonomous_system_pattern(exp2x, obj1x, id2x):
                            exp2x.operator,
                            AUTONOMOUS_SYSTEM_MAP,
                            id2x):
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def convert_addr_pattern(exp2x, obj1x, id2x):
@@ -489,7 +496,7 @@ def add_scalar_email_message_property_pattern(obj, properties, rhs, op, id2x):
         obj.subject = rhs.value
         convert_operator(op, obj.header.subject, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def add_list_email_message_property_pattern(obj, properties, rhs, op, id2x):
@@ -539,7 +546,7 @@ def add_list_email_message_property_pattern(obj, properties, rhs, op, id2x):
         if not convert_pattern(obj, prop_name1, rhs, op, OTHER_EMAIL_HEADERS_MAP, id2x):
             warn("%s property is not representable in a STIX 1.x %s. Found in the pattern of %s", 504, prop_name1, "EmailMessage", id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def convert_email_message_pattern(exp2x, obj1x, id2x):
@@ -573,7 +580,7 @@ def add_scalar_file_property_pattern(file_obj, properties, rhs, op, id2x):
             (prop_name == "is_encrypted" or prop_name == "encryption_algorithm" or prop_name == "decryption_key")):
         warn("%s property in %s not handled yet", 606, prop_name, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def add_list_file_property_pattern(file_obj, properties, rhs, op, id2x):
@@ -581,7 +588,7 @@ def add_list_file_property_pattern(file_obj, properties, rhs, op, id2x):
     if prop_name == 'contains_refs':
         warn("The %s property in %s can refer to any object, so it is not handled yet.", 601, prop_name, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 _HASH_NAME_MAP = {
@@ -628,7 +635,7 @@ def add_file_archive_extension_pattern(file_obj, properties, rhs, op, id2x):
             else:
                 warn("number indicies in %s not handled, yet", 602, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name1, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name1, id2x)
 
 
 def add_file_ntfs_extension_pattern(file_obj, properties, rhs, op, id2x):
@@ -684,7 +691,7 @@ def add_file_pdf_extension_pattern(file_obj, properties, rhs, op, id2x):
         if prop_name1 == "pdfid1":
             trailer.id_.id_string.append(rhs.value)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name1, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name1, id2x)
 
 
 def add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, id2x):
@@ -760,7 +767,7 @@ def add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, i
         else:
             warn("number indicies in %s not handled, yet", 601, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name1, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name1, id2x)
 
 
 def add_file_extension_pattern(file_obj, properties, rhs, op, id2x):
@@ -781,7 +788,7 @@ def add_file_extension_pattern(file_obj, properties, rhs, op, id2x):
     elif prop_name0 == "windows-pebinary-ext":
         add_file_windows_pebinary_extension_pattern(file_obj, properties, rhs, op, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name0, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name0, id2x)
 
 
 def convert_file_pattern(exp2x, obj1x, id2x):
@@ -805,7 +812,7 @@ def convert_url_pattern(exp2x, obj1x, id2x):
         obj1x.value = exp2x.rhs.value
         convert_operator(exp2x.operator, obj1x.value, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def convert_mutex_pattern(exp2x, obj1x, id2x):
@@ -815,7 +822,7 @@ def convert_mutex_pattern(exp2x, obj1x, id2x):
         convert_operator(exp2x.operator, obj1x.name, id2x)
         obj1x.named = True
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def convert_http_session_extension_pattern(nc, properties, rhs, op, id2x):
@@ -1059,7 +1066,7 @@ def add_list_process_property_pattern(process_obj, exp2x, id2x):
         else:
             warn("number indicies in %s not handled, yet", 601, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def add_process_extension_pattern(process_obj, properties, rhs, op, id2x):
@@ -1111,7 +1118,7 @@ def add_list_software_property_pattern(software_obj, properties, rhs, op, id2x):
                 # warn: current value will be overridden
             software_obj.language = rhs.value
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def add_scalar_software_property_pattern(software_obj, properties, rhs, op, id2x):
@@ -1130,7 +1137,7 @@ def add_scalar_software_property_pattern(software_obj, properties, rhs, op, id2x
              prop_name,
              id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def convert_software_pattern(exp2x, obj1x, id2x):
@@ -1198,7 +1205,7 @@ def convert_user_account_pattern(exp2x, obj1x, id2x):
     elif prop_name == "extensions":
         convert_unix_account_extensions_pattern(obj1x, properties, rhs_value, op, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def add_list_registry_key_property_pattern(registry_key_obj, properties, rhs, op, id2x):
@@ -1213,7 +1220,7 @@ def add_list_registry_key_property_pattern(registry_key_obj, properties, rhs, op
         else:
             warn("number indicies in %s not handled, yet", 601, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def add_scalar_registry_key_property_pattern(registry_key_obj, properties, rhs, op, id2x):
@@ -1235,7 +1242,7 @@ def add_scalar_registry_key_property_pattern(registry_key_obj, properties, rhs, 
         registry_key_obj.number_subkeys = rhs.value
         convert_operator(op, registry_key_obj.number_subkeys, id2x)
     else:
-        warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+        warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
 
 
 def convert_registry_key_pattern(exp2x, obj1x, id2x):
@@ -1284,6 +1291,19 @@ def convert_x509_certificate_pattern(exp2x, obj1x, id2x):
                                    op,
                                    X509_V3_EXTENSIONS_TYPE_MAP,
                                    id2x):
-                warn("%s is not a legal property in the pattern of %s", 303, prop_name1, id2x)
+                warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name1, id2x)
         else:
-            warn("%s is not a legal property in the pattern of %s", 303, prop_name, id2x)
+            warn("%s is an illegal or custom property in the pattern of %s, which is not handled, yet", 614, prop_name, id2x)
+
+
+def convert_custom_pattern(exp2x, obj1x, id2x):
+    if not obj1x.custom_properties:
+        obj1x.custom_properties = CustomProperties()
+        obj1x.custom_name = exp2x.lhs.object_type_name
+    property_name = exp2x.lhs.property_path[0].property_name
+    if property_name != "extensions" and property_name != "type" and property_name != "id":
+        new_prop = Property()
+        new_prop.name = property_name
+        new_prop.value = exp2x.rhs.value
+        convert_operator(exp2x.operator, new_prop, id2x)
+        obj1x.custom_properties.append(new_prop)

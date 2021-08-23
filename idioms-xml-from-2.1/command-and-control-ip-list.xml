@@ -11,7 +11,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	 id="example:STIXPackage-cc0ca596-70e6-4dac-9bef-603166d17db8" version="1.2">
     <stix:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
-        <cybox:Observable id="example:observable-c8c32b6e-2ea8-51c4-a446-7f5218072f27">
+        <cybox:Observable id="example:Observable--c8c32b6e-2ea8-41c4-a446-7f5218072f27">
             <cybox:Object id="example:Address-8dc12efa-7408-44d9-b615-d28927ffb802">
                 <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
                     <AddressObj:Address_Value>198.51.100.2</AddressObj:Address_Value>
@@ -26,14 +26,14 @@
                 </cybox:Related_Objects>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:observable-b57aa65f-9598-44fb-a9d1-5094c36d5dc4">
-            <cybox:Object id="example:Address-9433d8f1-db16-4730-868f-9ae6b71ad8d1">
+	<cybox:Observable id="example:observable-b57aa65f-9598-44fb-a9d1-5094c36d5dc4">
+            <cybox:Object id="example:Address-aa3e1cc2-0c65-5358-82ae-9a7e508e939f">
                 <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
                     <AddressObj:Address_Value>198.51.100.17</AddressObj:Address_Value>
                 </cybox:Properties>
             </cybox:Object>
         </cybox:Observable>
-        <cybox:Observable id="example:observable-19c16346-0eb4-49e2-b0bb-4ec3ed174cac">
+        <cybox:Observable id="example:Observable-1048fea5-f16f-48b6-a128-3f5640ade09f">
             <cybox:Object id="example:Address-a65e378b-df31-4e1e-8d5a-d0897b23ee89">
                 <cybox:Properties xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
                     <AddressObj:Address_Value>203.0.113.19</AddressObj:Address_Value>
