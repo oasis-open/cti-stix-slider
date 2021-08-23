@@ -1,6 +1,20 @@
 CHANGELOG
 =========
 
+4.0.0 - 2021-08-23
+
+    **The slider is compliant with the STIX 2.1 OASIS Standard (CS03)**
+
+    - Handle new extensions for new-sco object types only
+    - Handle new extensions properties for SCOs only
+    - Convert type mismatched properties
+    - Improved warning messages for properties that cannot be converted
+    - Handle different user account types correctly
+    - Include Observables for referenced SCOs when the are not fully represented where they are referenced
+        - Example: In STIX 1x Process object, only the account_id is represented, so other 2.x user-account properties would not be available.
+    - Use LMCO kill chain as described in https://stix.mitre.org/language/version1.2/stix_v1.2_lmco_killchain.xml
+
+
 3.0.0 - 2020-07-08
 
     **The slider is compliant with STIX 2.1 CS01**
