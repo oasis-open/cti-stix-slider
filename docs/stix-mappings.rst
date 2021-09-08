@@ -542,6 +542,14 @@ STIX 1.x in XML
         </ttp:Resources>
     </stix:TTP>
 
+Kill Chains
+-----------
+
+    STIX 1.x defined kill_chain objects for the Lockheed Martin Cyber Kill Chain.  These are used by the elevator.  Because they are
+    defined outside of any partiicular content, the objects themselves will only be referred to using Kill_Chain_Phase_Reference object.
+    Other kill chains found in the STIX 2.x will be converted as fully as possible, because all phases of a kill chain may not be present.
+
+
 Location
 ------------------
 
