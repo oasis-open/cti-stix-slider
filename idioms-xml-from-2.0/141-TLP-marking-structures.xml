@@ -27,7 +27,7 @@
             </indicator:Valid_Time_Position>
             <indicator:Observable id="example:Observable-5d62a5b7-d532-44e8-ab7e-e4ae4f63bb00">
                 <cybox:Object id="example:URI-092d0753-2cb1-4370-852f-c3152612ee72">
-                    <cybox:Properties xsi:type="URIObj:URIObjectType">
+                    <cybox:Properties xsi:type="URIObj:URIObjectType" type="URL" >
                         <URIObj:Value condition="Equals">http://x4z9arb.cn/4712</URIObj:Value>
                     </cybox:Properties>
                 </cybox:Object>
