@@ -35,7 +35,7 @@ ReadTheDocs.
 Requirements
 ------------
 
-- Python 3.6+
+- Python 3.7+
 - `python-stix <https://stix.readthedocs.io/en/stable/>`_ and its dependencies
 
   .. note::
@@ -271,10 +271,8 @@ repositories/maintainers-guide#additionalMaintainers>`__.
 
 **Current Maintainers of this TC Open Repository**
 
--  `Jason Keirstead <mailto:Jason.Keirstead@ca.ibm.com>`__; GitHub ID:
-   https://github.com/JasonKeirstead; WWW: `IBM <http://www.ibm.com/>`__
--  `Duncan Sparrell <mailto:duncan@sfractal.com>`__; GitHub ID:
-   https://github.com/sparrell; WWW: `sFractal <http://sfractal.com/>`__
+-  `Jason Keirstead <mailto:Jason.keirstead@cyware.com>`__; GitHub ID:
+   https://github.com/JasonKeirstead; WWW: `Cyware Labs <http://www.cyware.com/>`__
 
 About OASIS TC Open Repositories
 --------------------------------
