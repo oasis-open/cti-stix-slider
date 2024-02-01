@@ -29,7 +29,7 @@ def get_long_description():
 setup(
     name='stix2-slider',
     version=get_version(),
-    description='Utilities to downgrade STIX and CybOX content to 1.X',
+    description='Utilities to downgrade STIX 2.1 content to STIX 1.X and CyBOX 2.1',
     long_description=get_long_description(),
     long_description_content_type='text/x-rst',
     url='https://oasis-open.github.io/cti-documentation/',
@@ -52,10 +52,11 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12'
     ],
     keywords='stix stix2 json xml cti cyber threat intelligence',
     project_urls={

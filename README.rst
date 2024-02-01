@@ -35,7 +35,7 @@ ReadTheDocs.
 Requirements
 ------------
 
-- Python 3.7+
+- Python 3.8+
 - `python-stix <https://stix.readthedocs.io/en/stable/>`_ and its dependencies
 
   .. note::
@@ -45,8 +45,8 @@ Requirements
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 2.0.0
--  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.7
+-  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 3.0.0
+-  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.8
 -  `stix-validator <https://pypi.org/project/stix-validator>`_ >= 2.5.0
 
 Installation
