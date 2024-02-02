@@ -35,8 +35,11 @@ Kill Chains
 
 Kill chains and their phases in STIX 2.x are referred to by their names.  There is no ``id`` associated with a kill chain phase.
 Additionally, kill chains are not defined within STIX 2.x content.  The assumption is that if a kill chain is known among those
-sharing content, the names will be sufficient to identify them consistently.  According to the STIX 2.x specification,
+sharing content, the names will be sufficient to identify them consistently.
+
+According to the STIX 2.x specification,
 if the Lockheed Martin Cyber Kill Chain™ is used the ``kill_chain_name`` will be ``lockheed-martin-cyber-kill-chain``.
+The phases will be converted based to STIX 1.x ids defined in https://stix.mitre.org/language/version1.2/stix_v1.2_lmco_killchain.xml
 
 Because kill chains need to be explicitly defined within the STIX 1.x content, each kill chain phase found in the STIX 2.x content will
 be used to partially construct a kill chain definition.  For this reason, the resultant kill chain will only contain the kill chain phases used.

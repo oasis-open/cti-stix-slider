@@ -35,7 +35,7 @@ ReadTheDocs.
 Requirements
 ------------
 
-- Python 3.6+
+- Python 3.8+
 - `python-stix <https://stix.readthedocs.io/en/stable/>`_ and its dependencies
 
   .. note::
@@ -45,8 +45,8 @@ Requirements
       1.2.0.x, depending on whether you want to support STIX 1.1.1 or
       STIX 1.2.
 
--  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 2.0.0
--  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.7
+-  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 3.0.0
+-  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.8
 -  `stix-validator <https://pypi.org/project/stix-validator>`_ >= 2.5.0
 
 Installation
@@ -208,7 +208,7 @@ when the TC Open Repository was created.
 
 As documented in `"Public Participation
 Invited <https://github.com/oasis-open/cti-stix-
-elevator/blob/master/CONTRIBUTING.md#public-participation-
+slider/blob/master/CONTRIBUTING.md#public-participation-
 invited>`__",
 contributions to this OASIS TC Open Repository are invited from all
 parties, whether affiliated with OASIS or not. Participants must have
@@ -220,7 +220,7 @@ Procedures <https://www.oasis-open.org/policies-guidelines/open-
 repositories>`__,
 the open source
 `LICENSE <https://github.com/oasis-open/cti-stix-
-elevator/blob/master/LICENSE>`__
+slider/blob/master/LICENSE>`__
 designated for this particular repository, and the requirement for an
 `Individual Contributor License
 Agreement <https://www.oasis-open.org/resources/open-
@@ -252,7 +252,7 @@ repositories/maintainers-guide>`__
 are responsible for oversight of this project's community development
 activities, including evaluation of GitHub `pull
 requests <https://github.com/oasis-open/cti-stix-
-elevator/blob/master/CONTRIBUTING.md#fork-and-pull-collaboration-
+slider/blob/master/CONTRIBUTING.md#fork-and-pull-collaboration-
 model>`__
 and
 `preserving <https://www.oasis-open.org/policies-guidelines/open-
@@ -271,13 +271,8 @@ repositories/maintainers-guide#additionalMaintainers>`__.
 
 **Current Maintainers of this TC Open Repository**
 
--  `Chris Lenk <mailto:clenk@mitre.org>`__; GitHub ID:
-   https://github.com/clenk/; WWW: `MITRE <https://www.mitre.org/>`__
--  `Rich Piazza <mailto:rpiazza@mitre.org>`__; GitHub ID:
-   https://github.com/rpiazza/; WWW: `MITRE
-   <https://www.mitre.org/>`__
--  `Jason Keirstead <mailto:Jason.Keirstead@ca.ibm.com>`__; GitHub ID:
-   https://github.com/JasonKeirstead; WWW: `IBM <http://www.ibm.com/>`__
+-  `Jason Keirstead <mailto:Jason.keirstead@cyware.com>`__; GitHub ID:
+   https://github.com/JasonKeirstead; WWW: `Cyware Labs <http://www.cyware.com/>`__
 
 About OASIS TC Open Repositories
 --------------------------------

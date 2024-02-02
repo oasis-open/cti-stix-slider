@@ -55,8 +55,7 @@ from cybox.objects.win_registry_key_object import (
 from cybox.objects.win_service_object import ServiceDescriptionList, WinService
 from cybox.objects.win_user_account_object import WinUser
 from cybox.objects.x509_certificate_object import (
-    RSAPublicKey, SubjectPublicKey, X509Cert, X509Certificate,
-    X509V3Extensions
+    RSAPublicKey, SubjectPublicKey, X509Cert, X509Certificate, X509V3Extensions
 )
 import stix2
 from stix2.patterns import (
