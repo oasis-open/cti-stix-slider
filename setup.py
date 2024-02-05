@@ -37,6 +37,7 @@ setup(
     author_email='cti-users@lists.oasis-open.org',
     packages=find_packages(exclude=['*.test', '*.test.*']),
     install_requires=[
+        'setuptools',
         'stix>=1.1.1.9,<=1.2.1.0',
         'stix-validator>=2.5.0',
         'stixmarx>=1.0.8',
