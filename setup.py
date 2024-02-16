@@ -39,7 +39,7 @@ setup(
     install_requires=[
         'setuptools',
         'stix>=1.1.1.9,<=1.2.1.0',
-        'stix-validator>=2.5.0',
+        'stix-validator>=3.0.0',
         'stixmarx>=1.0.8',
         'stix2>=3.0.0',
     ],
