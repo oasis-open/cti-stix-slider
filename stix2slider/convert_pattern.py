@@ -815,6 +815,7 @@ def convert_url_pattern(exp2x, obj1x, id2x):
     # add a type property in cybox field
     obj1x.type_ = "URL"
 
+
 def convert_mutex_pattern(exp2x, obj1x, id2x):
     prop_name = exp2x.lhs.property_path[0].property_name
     if prop_name == "name":
