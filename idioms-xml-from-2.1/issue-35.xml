@@ -23,7 +23,7 @@
             </indicator:Valid_Time_Position>
             <indicator:Observable id="example:Observable-2715bd96-3b1f-417e-9992-e0196f014a03">
                 <cybox:Object id="example:URI-92ddbea5-12e7-487c-b3a5-18cd1a7442b4">
-                    <cybox:Properties xsi:type="URIObj:URIObjectType">
+                    <cybox:Properties xsi:type="URIObj:URIObjectType" type="URL">
                         <URIObj:Value condition="Equals">http://writerbliss.com/Payments/</URIObj:Value>
                     </cybox:Properties>
                 </cybox:Object>
