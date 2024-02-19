@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+4.0.1 - 2024-02-19
+
+    - Minor change to handle URL observables better
+
 4.0.0 - 2021-08-23
 
     **The slider is compliant with the STIX 2.1 OASIS Standard (CS03)**

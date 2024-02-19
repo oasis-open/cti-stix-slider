@@ -47,7 +47,7 @@ Requirements
 
 -  `python-stix2 <https://pypi.org/project/python-stix2>`_ >= 3.0.0
 -  `stixmarx <https://pypi.org/project/stixmarx>`_ >= 1.0.8
--  `stix-validator <https://pypi.org/project/stix-validator>`_ >= 2.5.0
+-  `stix-validator <https://pypi.org/project/stix-validator>`_ >= 3.0.0
 
 Installation
 ------------
@@ -91,7 +91,7 @@ STIX 2.x content to STIX 1.x content::
                             [--use-namespace USE_NAMESPACE]
                             file
 
-        stix2-slider v3.0.0
+        stix2-slider v4.0.1
 
         The stix2-slider is a work-in-progress. It should be used to explore how
         existing STIX 2.x would potentially be represented in STIX 1.x. Using the
