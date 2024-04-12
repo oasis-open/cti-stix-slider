@@ -27,8 +27,8 @@ jobs:
       run: |
         tox
     - name: Upload coverage information to Codecov
-      uses: codecov/codecov-action@v4.3.0
+      uses: codecov/codecov-action@v4.2.0
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        fail_ci_if_error: true # optional (default = false)
+        fail_ci_if_error: false # optional (default = false)
         verbose: true # optional (default = false)
